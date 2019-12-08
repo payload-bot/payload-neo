@@ -1,0 +1,19 @@
+.btn-discord {
+    color: blue;
+    background: blue;
+    border-color: blue;
+    z-index: 1;
+}
+
+.btn-doc {
+    color: white;
+    background: white;
+    border-color: none;
+    z-index: 1;
+}
+
+.header {
+    text-align: right;
+    padding-right: 200px;
+    z-index: 1;
+}

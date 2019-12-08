@@ -3,4 +3,4 @@ import config from "./config";
 import { listen } from "./api"
 
 client.login(config.TOKEN);
-listen(8880, client);
+listen(80, client);

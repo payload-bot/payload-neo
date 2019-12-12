@@ -49,3 +49,10 @@
 * Removed timestamp on !profile
 * Working hard on the restrict command, please use permissions for limiting bot functionality for now. This update is expected to release around Christmas. 
 
+### 3.4.3
+* Guild specific prefixes for global testing
+    * !config prefix set prefix OR "your prefix with space"
+    * !config prefix delete to delete
+        * needs admin permissions for both adding and deleting
+* Happy prefixing! 
+

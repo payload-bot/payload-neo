@@ -47,7 +47,7 @@ export default class EightBall extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const question = this.getArgs(msg).join(" ");
+        const question = (await this.getArgs(msg)).join(" ");
 
         if (!question) {
             await this.respond(msg, "You must ask the 8ball a question.");

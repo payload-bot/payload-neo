@@ -59,7 +59,7 @@ export default class Help extends Command {
             }
         }
 
-        usage = command.getUsage();
+        usage = await command.getUsage(msg);
         permissionsNeeded = {
             user: command.canBeExecutedBy,
             client: command.permissions
@@ -73,7 +73,7 @@ export default class Help extends Command {
             if (command.getSubcommandArray().length > 0) {
                 helpEmbed.addField("Subcommands", command.getSubcommandArray().join(", "));
             }
-            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. All commands can be seen by the command !commands`);
+            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. Need help? !commands`);
             helpEmbed.setColor(16098851);
 
         await msg.channel.send(helpEmbed);

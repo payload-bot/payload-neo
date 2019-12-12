@@ -9,15 +9,40 @@ import config from "./config";
 import UserManager from "./lib/manager/UserManager";
 import { getChangelog } from "./util/get-changelog";
 import { pushNotification } from "./util/push-notification";
-import Version, { saveVersion } from "./lib/model/Version";
+import Version, { saveVersion } from "./lib/external/Version";
 import ServerManager from "./lib/manager/ServerManager";
+import { initPrefixCache } from "./util/prefix";
+import { ScheduledScript } from "./lib/types/ScheduledScripts";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
 client.commands = new Discord.Collection();
+client.scheduled = [];
 
 client.userManager = new UserManager(client);
 client.serverManager = new ServerManager(client);
+
+client.cache = {
+    prefix: {}
+}
+/**
+ * Load schedules scripts.
+ */
+readdir(__dirname + "/scheduled", (err, files) => {
+    if (err) {
+        throw new Error("Error reading schedule directory: " + err);
+    }
+
+    console.log("Loading scheduled scripts...");
+
+    files.forEach(file => {
+        let script: ScheduledScript = require(__dirname + "/scheduled/" + file);
+
+        client.scheduled.push(script);
+
+        console.log("\tLoaded " + file);
+    });
+});
 
 /**
  * Load commands.
@@ -66,43 +91,57 @@ client.on("message", async msg => {
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);
     client.user.setActivity(`!invite | v${config.info.version}`);
+    initPrefixCache();
+    console.log("Done initial cacheing prefixes.");
 
-    let guilds = client.guilds.array();
+    let waitingInterval: NodeJS.Timeout;
+    waitingInterval = setInterval(async () => {
+        clearInterval(waitingInterval);
 
-    let changelog = getChangelog(config.info.version);
+        // Run scheduled scripts
+        for (let i = 0; i < client.scheduled.length; i++) {
+            let script = client.scheduled[i];
 
-    if (!changelog) return console.warn("Error fetching changelog!");
-
-    let startUpVersion = await Version();
-
-    if (startUpVersion != undefined && startUpVersion == config.info.version) console.log("No new version.");
-    else {
-        try {
-            const channel = await client.channels.get(config.info.logChannel) as Discord.TextChannel;
-            if (channel) channel.send("```md\n" + changelog + "\n```");
-        } catch (error) {
-            console.log("Could not find channel.");
+            if (script.every < 0) script.run(client);
+            else setInterval(() => script.run(client), script.every);
         }
-        
-        for (let i = 0; i < guilds.length; i++) {
-            let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
-                title: `TFBot updated to v${config.info.version}!`,
-                description: `A new update has been released to TFBot!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
-                fields: [
-                    {
-                        name: "Changelog",
-                        value: `\`\`\`\n${changelog}\n\`\`\``
+
+        let guilds = client.guilds.array();
+
+        let changelog = getChangelog(config.info.version);
+
+        if (!changelog) return console.warn("Error fetching changelog!");
+
+        let startUpVersion = await Version();
+
+        if (startUpVersion != undefined && startUpVersion == config.info.version) console.log("No new version.");
+        else {
+            try {
+                const channel = await client.channels.get(config.info.logChannel) as Discord.TextChannel;
+                if (channel) channel.send("```md\n" + changelog + "\n```");
+            } catch (error) {
+                console.log("Could not find channel.");
+            }
+
+            for (let i = 0; i < guilds.length; i++) {
+                let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
+                    title: `TFBot updated to v${config.info.version}!`,
+                    description: `A new update has been released to TFBot!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
+                    fields: [
+                        {
+                            name: "Changelog",
+                            value: `\`\`\`\n${changelog}\n\`\`\``
+                        }
+                    ],
+                    footer: {
+                        text: `To find out more on how to opt out of these notifications, type ${config.PREFIX}help config notifications.`
                     }
-                ],
-                footer: {
-                    text: `To find out more on how to opt out of these notifications, type ${config.PREFIX}help config notifications.`
-                }
-            }), config.info.version);
-            console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
+                }), config.info.version);
+                console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
+            }
         }
         await saveVersion(config.info.version);
-    }
-    console.log("Listening for commands...");
+    }, 500);
 });
 
 client.on("error", console.warn);

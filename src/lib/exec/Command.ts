@@ -3,6 +3,7 @@ import config from "../../config";
 import { Client } from "../types/Client";
 import { Message } from "discord.js";
 import { getArgs } from "../../util/parse";
+import getGuildPrefix from "../external/prefix";
 
 
 declare interface NumberArgument {
@@ -98,22 +99,22 @@ export abstract class Command {
         return this.name;
     }
 
-    getArgs(message: Message, commandLevel?: number): Array<string> {
+    async getArgs(message: Message, commandLevel?: number): Promise<Array<string>> {
         return getArgs(
             message.content.slice(
-                config.PREFIX.length + this.name.length
+                (await this.getPrefix(message.guild.id)).length + this.name.length
             ).trim()
         ).slice(commandLevel || 0);
     }
 
     async parseArgs(message: Message, commandLevel?: number): Promise<Array<number | string | boolean> | false> {
-        const args = this.getArgs(message, commandLevel);
+        const args = await this.getArgs(message, commandLevel);
         let parsedArgs: Array<number | string | boolean> = [];
 
         for (let i = 0; i < this.args.length; i++) {
             if (!args[i]) {
                 if (this.args[i].required) {
-                    return await this.fail(message, `Missing \`${this.args[i].name}\` argument. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `Missing \`${this.args[i].name}\` argument. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 break;
@@ -124,19 +125,19 @@ export abstract class Command {
                 let arg: String | number = args[i];
 
                 if (Number(arg) === NaN || Number(arg) === null || Number(arg) === Infinity) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be a number. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be a number. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 arg = Math.round(Number(arg));
 
                 if (argCheck.max != undefined && argCheck.max < arg) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be less than ${argCheck.max + 1}. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be less than ${argCheck.max + 1}. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 } else if (argCheck.min != undefined && argCheck.min > arg) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be greater than ${argCheck.min - 1}. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be greater than ${argCheck.min - 1}. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 if (argCheck.options && !argCheck.options.includes(arg)) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 parsedArgs.push(arg);
@@ -145,13 +146,13 @@ export abstract class Command {
                 let arg: any = args[i];
 
                 if (argCheck.maxLength != undefined && argCheck.maxLength < arg.length) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must have less than ${argCheck.maxLength + 1} characters. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must have less than ${argCheck.maxLength + 1} characters. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 } else if (argCheck.minLength != undefined && argCheck.minLength > arg.length) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must have more than ${argCheck.minLength - 1} characters. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must have more than ${argCheck.minLength - 1} characters. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 if (argCheck.options && !argCheck.options.includes(arg)) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 parsedArgs.push(arg);
@@ -160,7 +161,7 @@ export abstract class Command {
                 let arg: String | boolean = args[i];
 
                 if (!["true", "false"]) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be either "true" or "false". Type \`${config.PREFIX}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, `\`${argCheck.name}\` argument must be either "true" or "false". Type \`${await this.getPrefix(message.guild.id)}help ${this.getFullCommandName()}\` to learn more.`);
                 }
 
                 arg = arg == "true" ? true : false;
@@ -172,8 +173,8 @@ export abstract class Command {
         return parsedArgs;
     }
 
-    getUsage(): string {
-        return `${config.PREFIX}${this.getFullCommandName()} ${this.convertArgsToUsageString()}`;
+    async getUsage(message: Message): Promise<string> {
+        return `${await this.getPrefix(message.guild.id)}${this.getFullCommandName()} ${this.convertArgsToUsageString()}`;
     }
 
     getSubcommandArray(): string[] {
@@ -205,6 +206,11 @@ export abstract class Command {
 
     async runSub(subCommandName: string, client: Client, msg: Message): Promise<boolean> {
         return await this.subCommands[subCommandName].run(client, msg);
+    }
+
+    async getPrefix(id: string) {
+        const prefix = await getGuildPrefix(id);
+        return prefix;
     }
 
     abstract async run(client: Client, msg: Message): Promise<boolean>;

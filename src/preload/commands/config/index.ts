@@ -2,6 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import NotificationsCommand from "./notifications";
+import PrefixCommand from "./prefix";
 
 export default class Config extends Command {
     constructor() {
@@ -24,25 +25,26 @@ export default class Config extends Command {
             ],
             undefined,
             undefined,
-            ["dm"],
+            undefined,
             undefined,
             {
-                "notifications": new NotificationsCommand()
+                "notifications": new NotificationsCommand(),
+                "prefix": new PrefixCommand()
             }
         );
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args = this.getArgs(msg);
+        const args = await this.getArgs(msg);
 
         if (!args) {
-            await this.respond(msg, "Invalid syntax. Type `!help config` to learn more.");
+            await this.respond(msg, `Invalid syntax. Type \`${await this.getPrefix(msg.guild.id)}config\` to learn more.`);
 
             return false;
         }
 
         if (!this.subCommands[args[0]]) {
-            await this.respond(msg, "Invalid config field. Type `!help config` to learn more.");
+            await this.respond(msg, `Invalid syntax. Type \`${await this.getPrefix(msg.guild.id)}config\` to learn more.`);
 
             return false;
         }

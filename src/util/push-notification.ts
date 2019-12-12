@@ -1,6 +1,5 @@
 import { RichEmbed } from "discord.js";
 import { Client } from "../lib/types";
-import sleep from "./sleep";
 
 export async function pushNotification(client: Client, id: string, level: number, embed: RichEmbed, version?: string): Promise<boolean> {
     const userDBEntry = await client.userManager.getUserLevel(id);
@@ -15,7 +14,5 @@ export async function pushNotification(client: Client, id: string, level: number
     } catch (err) {
         console.warn(err);
     }
-    
-    await await sleep(5);
     return true;
 }

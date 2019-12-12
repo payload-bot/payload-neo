@@ -21,7 +21,7 @@ export default class Changelog extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args = this.getArgs(msg);
+        const args = await this.getArgs(msg);
 
         const version = args[0] as string || config.info.version;
 

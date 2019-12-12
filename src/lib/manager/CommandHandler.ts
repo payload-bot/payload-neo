@@ -2,14 +2,17 @@ import { Client } from "../types/Client";
 import { Message, PermissionResolvable, TextChannel, Permissions } from "discord.js";
 import config from "../../config";
 import { Command } from "../exec/Command";
+import getGuildPrefix from "../external/prefix";
+import { getPrefixFromCache } from "../../util/prefix";
 
 export default async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
+    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : "!"
 
     if (msg.author.bot) return false;
 
-    if (!msg.content.toLowerCase().startsWith(config.PREFIX)) return false;
+    if (!msg.content.toLowerCase().startsWith(prefix)) return false;
 
-    let command = msg.content.slice(config.PREFIX.length).trim().split(" ")[0];
+    let command = msg.content.slice(prefix.length).trim().split(" ")[0];
 
     if (!client.commands.has(command)) return false;
 
@@ -20,16 +23,6 @@ export default async function handleCommand(client: Client, msg: Message): Promi
     if (!executableCommand.zones.includes(msg.channel.type)) return false;
 
     if (msg.channel.type == "text") {
-        const guild = msg.guild.id;
-
-        let serverManager = client.serverManager;
-        //let channels = await serverManager.getChannel(guild);
-
-        //await serverManager.addCommandRestrictions(msg.guild.id, ["649767467719196672","649767410282266665"], ["profile", "log", "commands", "test"]);
-        
-
-        //if ((commandRestrictions as Array<string>).includes(executableCommand.name)) return false;
-
         let canBeExecutedBy = executableCommand.canBeExecutedBy as PermissionResolvable;
         let permissionsNeeded = executableCommand.permissions as PermissionResolvable;
 

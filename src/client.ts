@@ -141,7 +141,7 @@ client.on("ready", async () => {
             }
         }
         await saveVersion(config.info.version);
-    }, 500);
+    }, 1000);
 });
 
 client.on("error", console.warn);

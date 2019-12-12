@@ -139,8 +139,8 @@ client.on("ready", async () => {
                 }), config.info.version);
                 console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
             }
-        }
-        await saveVersion(config.info.version);
+            await saveVersion(config.info.version);
+        } 
     }, 1000);
 });
 

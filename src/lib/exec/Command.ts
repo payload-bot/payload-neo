@@ -102,7 +102,7 @@ export abstract class Command {
     async getArgs(message: Message, commandLevel?: number): Promise<Array<string>> {
         return getArgs(
             message.content.slice(
-                (await this.getPrefix(message.guild.id)).length + this.name.length
+                ((message.channel.type === "text") ? (await this.getPrefix(message.guild.id)) : "!").length + this.name.length
             ).trim()
         ).slice(commandLevel || 0);
     }

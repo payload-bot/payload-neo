@@ -2,7 +2,7 @@ import { Client } from "../lib/types";
 import client from "../client";
 import { initPrefixCache } from "../util/prefix";
 
-export const every = 1000 * 60 * 5; // 5 mins
+export const every = 1000 * 60 * 15; // 5 mins
 
 export async function run(client: Client) {
     console.log("Caching prefixes...");

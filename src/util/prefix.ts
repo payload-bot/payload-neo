@@ -1,7 +1,8 @@
-import { query } from "./database";
+import { query, close } from "./database";
 import client from "../client";
 export async function initPrefixCache() {
     let prefixArray: Array<any> = await query(`SELECT * FROM prefix`);
+    await close();
 
     for (let i in prefixArray) {
         let spacePrefix: string = prefixArray[i].prefix;

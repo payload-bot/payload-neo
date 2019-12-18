@@ -5,7 +5,6 @@ const config = {
 
     info: {
         version: "",
-        startUpVersion: ""
     },
 
     files: {

@@ -5,6 +5,7 @@ const config = {
 
     info: {
         version: "",
+        logChannel: ""
     },
 
     files: {
@@ -19,4 +20,5 @@ const config = {
         database: "",
     }
 }
+
 export default config;

@@ -32,7 +32,7 @@
   "scripts": {
     "copy-files": "ts-node buildscripts/copy-html.ts && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
     "run": "node ./dist/index.js",
-    "build-lite": "tsc --build tsconfig.json",
+    "build-lite": "tsc --build tsconfig.json --watch",
     "build-website": "tsc --build tsconfig.json && ts-node buildscripts/copy-html.ts && ts-node buildscripts/copy-website.ts"
   },
   "repository": {

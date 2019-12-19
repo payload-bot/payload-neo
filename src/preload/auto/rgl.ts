@@ -13,19 +13,19 @@ export async function run(client: Client, msg: Message) {
 
     let screenshotBuffer = await capture("http://" + url, {
         top: {
-            selector: "div.col-xs-12.col-lg-4",
+            selector: "div.col-md-12.col-lg-5",
             edge: "top"
         },
         right: {
-            selector: "div.col-xs-12.col-lg-4",
+            selector: "div.col-md-12.col-lg-5",
             edge: "right"
         },
         bottom: {
-            selector: "div.col-xs-12.col-lg-4",
+            selector: "div.col-md-12.col-lg-5",
             edge: "bottom"
         },
         left: {
-            selector: "div.col-xs-12.col-lg-4",
+            selector: "div.col-md-12.col-lg-5",
             edge: "left"
         }
     });

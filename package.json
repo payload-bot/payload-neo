@@ -34,10 +34,9 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "copy-files": "ts-node buildscripts/copy-html.ts && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
+    "copy-files": "ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
     "run": "node ./dist/index.js",
-    "build-lite": "tsc --build tsconfig.json",
-    "build-website": "tsc --build tsconfig.json && ts-node buildscripts/copy-html.ts && ts-node buildscripts/copy-website.ts"
+    "build-lite": "tsc --build tsconfig.json"
   },
   "repository": {
     "type": "git",

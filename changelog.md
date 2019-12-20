@@ -56,3 +56,21 @@
         * needs admin permissions for both adding and deleting
 * Happy prefixing! 
 
+### 3.5.0
+* Commands:
+    * Restrict, unrestrict, snipe, findping, prefix, config logs-api-key, combine, choose, gibus, purge, pushcart, sans, translate, focus
+* Pushcart
+    * Same old from Payload
+* Prefix
+    * Changes:
+        * Seperated from !config, now is own command
+* Config
+    * Removed Commands: prefix
+    * Added Commands: logs-api-key
+        * For use in !combine
+* Snipe
+    * For users with "MANAGE_MESSAGES" permissions to avoid filter workarounds
+    * findping uses snipe cache for finding pings lost to message delete
+* Restrict
+    * Works as it used to with Payload
+

@@ -18,7 +18,7 @@ export default class Snipe extends Command {
                 }
             ],
             ["SEND_MESSAGES", "ATTACH_FILES"],
-            undefined,
+            ["MANAGE_MESSAGES"],
             ["text"]
         );
     }

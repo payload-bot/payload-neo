@@ -4,8 +4,6 @@ import config from "../config"
 
 export async function listen(port: number, client: Client): Promise<void> {
     const server = express();
-    server.set('view-engine', 'ejs');
-    server.set('views', __dirname + '/views');
 
     server.get("/commands", (req, res) => {
         res.json({
@@ -49,7 +47,6 @@ export async function listen(port: number, client: Client): Promise<void> {
     });
 
     server.get("/", (req, res) => {
-        //res.render('index.ejs', { data: [{ users: client.users.size }, { version: config.info.version }] });
         res.redirect('/all-data');
     });
     

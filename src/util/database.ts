@@ -12,7 +12,7 @@ export function setUpMysql() {
 
     con.connect();
 
-    con.on('error', error => console.warn("fucking error"));
+    con.on('error', error => console.warn("error"));
 
     return con as mysql.Connection;
 }

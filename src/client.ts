@@ -1,4 +1,5 @@
 import * as Discord from "discord.js";
+import mongoose from "mongoose";
 import { Client } from "./lib/types/Client"
 import { readdir } from "fs";
 import { CommandConstructor } from "./lib/exec/Command";
@@ -28,6 +29,16 @@ client.cache = {
     snipe: {},
     pings: {},
 };
+
+mongoose.connect(config.MONGODB_URI, {
+    useNewUrlParser: true
+}).then(() => {
+    console.log("Successfully connected to MongoDB.");
+}).catch(() => {
+    console.error("Error connecting to MongoDB. Make sure you used the correct password.");
+    process.exit(1);
+});
+
 
 /**
  * Load schedules scripts.

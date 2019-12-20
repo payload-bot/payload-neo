@@ -23,6 +23,12 @@ export default async function handleCommand(client: Client, msg: Message): Promi
     if (!executableCommand.zones.includes(msg.channel.type)) return false;
 
     if (msg.channel.type == "text") {
+        let serverManager = client.serverManager;
+        let server = await serverManager.getServer(msg.guild.id);
+        let commandRestrictions = server.getCommandRestrictions(msg.channel.id);
+
+        if ((commandRestrictions as Array<string>).includes(executableCommand.name)) return false;
+        
         let canBeExecutedBy = executableCommand.canBeExecutedBy as PermissionResolvable;
         let permissionsNeeded = executableCommand.permissions as PermissionResolvable;
 

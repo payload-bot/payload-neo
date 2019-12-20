@@ -1,4 +1,4 @@
-import { Server, ServerModel } from "./";
+import { Server, ServerModel } from "./Server";
 import * as Discord from "discord.js";
 
 export default class UserManager {

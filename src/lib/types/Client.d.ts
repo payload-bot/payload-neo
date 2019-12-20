@@ -15,11 +15,16 @@ export interface Client extends Client {
     userManager: UserManager,
     serverManager: ServerManager,
 
+    leaderboard: {
+        users: Array<{ id: string, pushed: number }>,
+        updated: Date
+    },
+
     cache: {
         prefix: {
             [guild: string]
         }
-        
+
         snipe: {
             [guild: string]: {
                 [channel: string]: Collection<string, Message>

@@ -3,6 +3,8 @@ const config = {
     PREFIX: "",
     allowedID: "",
 
+    MONGODB_URI: "",
+
     info: {
         version: "",
         logChannel: ""
@@ -18,7 +20,12 @@ const config = {
         port: "",
         password: "",
         database: "",
-    }
+    },
+
+    LOGSTF_API_KEY: "",
+    GOOGLE_API_KEY: "",
+    GOOGLE_CREDENTIALS_PATH: "",
+    GCP_ID: ""
 }
 
 export default config;

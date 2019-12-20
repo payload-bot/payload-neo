@@ -18,6 +18,18 @@ export default class UserManager {
         msg.channel.stopTyping(true);
     }
 
+    async getUserLogs(id: string) {
+        let rows = await query(`SELECT * FROM logskey WHERE id='${id}'`);
+        if (!rows.length) return undefined;
+        return rows[0].logskey
+    }
+
+    async setLogsKey(id: string, key: string) {
+        let rows = await query(`SELECT * FROM logskey WHERE id='${id}'`);
+        if (!rows.length) await query(`INSERT INTO logskey (id, logskey) VALUES ('${id}', '${key}')`);
+        else await query(`UPDATE logskey SET logskey = '${key}' WHERE id = '${id}'`);
+    }
+
     async findUser(msg: Discord.Message): Promise<string | boolean> {
         let targetUser = msg.mentions.users.first() || msg.author;
         let rows = await query(`SELECT * FROM steamID WHERE id = '${targetUser.id}'`);

@@ -13,6 +13,7 @@ import Version, { saveVersion } from "./lib/external/Version";
 import ServerManager from "./lib/manager/ServerManager";
 import { initPrefixCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
+import { handleMessageDelete, cleanCache } from "./util/snipe-cache"
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -23,8 +24,11 @@ client.userManager = new UserManager(client);
 client.serverManager = new ServerManager(client);
 
 client.cache = {
-    prefix: {}
-}
+    prefix: {},
+    snipe: {},
+    pings: {},
+};
+
 /**
  * Load schedules scripts.
  */
@@ -83,6 +87,17 @@ readdir(__dirname + "/preload/auto", (err, files) => {
     });
 });
 
+client.on("messageDelete", msg => {
+    handleMessageDelete(client, msg);
+    cleanCache(client, msg);
+});
+
+client.on("messageUpdate", (oldMsg, newMsg) => {
+    handleMessageDelete(client, oldMsg);
+    cleanCache(client, oldMsg);
+});
+
+
 client.on("message", async msg => {
     let didhandleCommand = await handleCommand(client, msg);
     if (!didhandleCommand) await handleAutoCommand(client, msg);
@@ -140,7 +155,7 @@ client.on("ready", async () => {
                 console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
             }
             await saveVersion(config.info.version);
-        } 
+        }
     }, 1000);
 });
 

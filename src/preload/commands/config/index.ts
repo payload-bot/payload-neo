@@ -2,14 +2,14 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import NotificationsCommand from "./notifications";
-import PrefixCommand from "./prefix";
+import LogsApiKeyCommand from "./logs-api-key";
 import config from "../../../config";
 
 export default class Config extends Command {
     constructor() {
         super(
             "config",
-            "config stuff.",
+            "**USING THESE COMMANDS IN A PUBLIC SERVER PUTS YOUR ACCOUNT AT RISK OF BEING HIJACKED! MAKE SURE TO USE THESE COMMANDS ONLY IN BOT DMS!**",
             [
                 {
                     name: "subcommand",
@@ -25,18 +25,19 @@ export default class Config extends Command {
                 }
             ],
             undefined,
-            ["ADMINISTRATOR"],
             undefined,
+            ["dm"],
             undefined,
             {
-                "notifications": new NotificationsCommand(),
-                "prefix": new PrefixCommand()
+                "logs-api-key": new LogsApiKeyCommand(),
+                "notifications": new NotificationsCommand()
             }
         );
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
+        
         let prefix;
         try {
             prefix = await this.getPrefix(msg.guild.id)

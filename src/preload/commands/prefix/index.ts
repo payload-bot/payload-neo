@@ -1,9 +1,9 @@
-import { Command } from "../../../../lib/exec/Command";
-import { Client } from "../../../../lib/types";
+import { Command } from "../../../lib/exec/Command";
+import { Client } from "../../../lib/types";
 import { Message, RichEmbed } from "discord.js";
-import { query } from "../../../../util/database";
-import colors from "../../../../lib/misc/colors"
-import { clearPrefix, addPrefix } from "../../../../util/prefix";
+import { query } from "../../../util/database";
+import colors from "../../../lib/misc/colors"
+import { clearPrefix, addPrefix } from "../../../util/prefix";
 
 export default class Prefix extends Command {
     constructor() {
@@ -26,15 +26,12 @@ export default class Prefix extends Command {
             ],
             undefined,
             ["ADMINISTRATOR"],
-            ["text"],
-            undefined,
-            undefined,
-            ["config"]
+            ["text"]
         );
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        let args: any = await this.parseArgs(msg, 1);
+        let args: any = await this.parseArgs(msg);
         let embed = new RichEmbed();
         let string: string;
 

@@ -11,7 +11,7 @@ export const zones = ["text", "dm"];
 export async function run(client: Client, msg: Message) {
     const url = matchMsg(msg);
 
-    let screenshotBuffer = await captureSelector("https://" + url, "#content > div > div > table.pls");
+    let screenshotBuffer = await captureSelector("http://" + url, "#content > div > div > table.pls");
 
     msg.channel.send({
         files: [screenshotBuffer]

@@ -46,7 +46,7 @@ export default class PushCart extends Command {
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {
-                await this.respond(msg, `Invalid subcommand. Type \`${prefix}pushcart\` to learn more.`);
+                await this.respond(msg, `Invalid subcommand. Type \`${prefix}help pushcart\` to learn more.`);
 
                 return false;
             }

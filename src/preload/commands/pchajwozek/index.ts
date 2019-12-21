@@ -1,7 +1,7 @@
-import { Command } from "../../../lib/Executables/Command";
-import { Bot } from "../../../types/Bot";
+import { Command } from "../../../lib/exec/Command";
+import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
-import { weightedRandom } from "../../../utils/random";
+import { weightedRandom } from "../../../util/random";
 
 export default class PushCart extends Command {
     constructor() {
@@ -15,9 +15,9 @@ export default class PushCart extends Command {
         );
     }
 
-    async run(bot: Bot, msg: Message): Promise<boolean> {
-        const user = await bot.userManager.getUser(msg.author.id);
-        const server = await bot.serverManager.getServer(msg.guild.id);
+    async run(client: Client, msg: Message): Promise<boolean> {
+        const user = await client.userManager.getUser(msg.author.id);
+        const server = await client.serverManager.getServer(msg.guild.id);
 
         const feetPushed = weightedRandom([
             { number: 3, weight: 1 },
@@ -48,10 +48,10 @@ export default class PushCart extends Command {
                 / 1000
             );
 
-	   return await this.fail(msg, `Musisz poczekać 30 sekund zanim będziesz mógł popchać wózek ponownie (pozostało ${secondsRemaining} sekund).`) 
+            return await this.fail(msg, `Musisz poczekać 30 sekund zanim będziesz mógł popchać wózek ponownie (pozostało ${secondsRemaining} sekund).`);
         } else if (pushResult == "CAP") {
-        return await this.fail(msg, "Dopchałeś już najdalej ile możesz dzisiaj. Wróć jutro, by dopchać wózek dalej.");
-	}
+            return await this.fail(msg, "Dopchałeś już najdalej ile możesz dzisiaj. Wróć jutro, by dopchać wózek dalej.");
+        }
 
         server.addCartFeet(feetPushed);
 
@@ -60,7 +60,8 @@ export default class PushCart extends Command {
             server.save()
         ]);
 
-	await this.respond(msg, `<:payload:656955124098269186> Dopchałeś wózek o **${feetPushed}** stóp (${server.server.fun!.payloadFeetPushed} łącznie).`);
+        await this.respond(msg, `<:payload:656955124098269186> Dopchałeś wózek o **${feetPushed}** stóp (${server.server.fun!.payloadFeetPushed} łącznie).`);
+
         return true;
     }
 }

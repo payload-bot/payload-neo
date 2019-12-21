@@ -37,22 +37,16 @@ export default class Config extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
-        
-        let prefix;
-        try {
-            prefix = await this.getPrefix(msg.guild.id)
-        } catch (e) {
-            prefix = config.PREFIX;
-        }
+    
 
         if (!args) {
-            await this.respond(msg, `Invalid syntax. Type \`${prefix}help config\` to learn more.`);
+            await this.respond(msg, `Invalid syntax. Type \`${config.PREFIX}help config\` to learn more.`);
 
             return false;
         }
 
         if (!this.subCommands[args[0]]) {
-            await this.respond(msg, `Invalid syntax. Type \`${prefix}help config\` to learn more.`);
+            await this.respond(msg, `Invalid syntax. Type \`${config.PREFIX}help config\` to learn more.`);
 
             return false;
         }

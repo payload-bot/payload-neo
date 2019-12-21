@@ -94,7 +94,7 @@ export default class Combine extends Command {
          */
 
         const requestBody = {
-            token: user.user.logsTfApiKey,
+            token: user,
             title,
             map,
             ids: logIds

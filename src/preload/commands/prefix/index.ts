@@ -36,7 +36,7 @@ export default class Prefix extends Command {
         let string: string;
 
         if (!args[1] && args[0] === "set") return await this.fail(msg, "I need to know your prefix that you want to set!");
-        let newPrefix = (await this.getArgs(msg, 2)).join(" ").replace(/ +/, ".");
+        let newPrefix = (await this.getArgs(msg)).join(" ").replace(/ +/, ".");
 
         const rows = await query(`SELECT * FROM prefix WHERE guild='${msg.guild.id}'`);
 

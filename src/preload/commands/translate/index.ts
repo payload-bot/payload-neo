@@ -15,7 +15,7 @@ export default class Translate extends Command {
                     description: "The phrase to translate.",
                     required: true,
                     type: "string",
-                    minLength: 10,
+                    minLength: 3,
                     maxLength: 100
                 }
             ]
@@ -31,7 +31,12 @@ export default class Translate extends Command {
 
         const phrase = msg.toString().substr(13);
 
-        const translator = new GTranslate({ projectId: config.GCP_ID });
+        const translator = new GTranslate(
+            { 
+                projectId: config.GCP_ID,
+                keyFilename: config.GOOGLE_CREDENTIALS_PATH
+            }
+        );
 
         try {
             const [botchedPhrase] = await translator.translate(phrase, "en");

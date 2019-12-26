@@ -4,6 +4,7 @@ import { Message, RichEmbed } from "discord.js";
 import { query } from "../../../util/database";
 import colors from "../../../lib/misc/colors"
 import { clearPrefix, addPrefix } from "../../../util/prefix";
+import config from "../../../config";
 
 export default class Prefix extends Command {
     constructor() {
@@ -12,10 +13,11 @@ export default class Prefix extends Command {
             "Sets the guild-specific prefix.",
             [
                 {
-                    name: "Set, delete, or show",
-                    description: "Sets a prefix or deletes a prefix. Options: Set, delete, show.",
+                    name: "command",
+                    description: "Command of prefix to execute",
                     required: true,
                     type: "string",
+                    options: ["set", "delete", "show"]
                 },
                 {
                     name: "new prefix",
@@ -42,7 +44,7 @@ export default class Prefix extends Command {
 
         if (args[0] === "show") {
             const prefix = rows[0].prefix;
-            (rows.length) ? this.respond(msg, `This guild's prefix is: \"${prefix.replace(".", " ")}\"`) : this.respond(msg, "This guild's prefix is: \"!\"");
+            (rows.length) ? this.respond(msg, `This guild's prefix is: \"${prefix.replace(".", " ")}\"`) : this.respond(msg, `This guild's prefix is: \"${config.PREFIX}\"`);
             return true;
         }
 

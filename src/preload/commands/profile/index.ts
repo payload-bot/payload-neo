@@ -24,13 +24,18 @@ export default class Profile extends Command {
         let profile = msg.mentions.users.first() || msg.author;
         let steamid = await client.userManager.findUser(msg)
         if (!steamid) steamid = "N/A" as string
+
+        const user = await client.userManager.ensureUser(profile.id)
+
         const embed = new RichEmbed();
         embed.setAuthor(`${profile.tag}`, profile.displayAvatarURL);
         embed.addField("Bot: ", `${profile.bot}`);
         embed.addField('ID: ', profile.id);
         embed.addField('SteamID: ', steamid);
+        embed.addField('Points: ', user.getFeetPushed());
         embed.setColor(colors.blue);
         await msg.channel.send(embed);
+
         return true;
     }
 }

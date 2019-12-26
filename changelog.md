@@ -74,7 +74,3 @@
 * Restrict
     * Works as it used to with Payload
 
-### 3.5.1
-* Fixed issue with DMs and prefixes
-* Added more to profile
-* Added options to !prefix

@@ -14,7 +14,8 @@ import Version, { saveVersion } from "./lib/external/Version";
 import ServerManager from "./lib/manager/ServerManager";
 import { initPrefixCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
-import { handleMessageDelete, cleanCache } from "./util/snipe-cache"
+import { handleMessageDelete, cleanCache } from "./util/snipe-cache";
+import getStartElement from "./util/startup";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -116,7 +117,7 @@ client.on("message", async msg => {
 
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);
-    client.user.setActivity(`!invite | v${config.info.version}`);
+    client.user.setActivity(`${getStartElement} | v${config.info.version}`);
     initPrefixCache();
     console.log("Done initial cacheing prefixes.");
 

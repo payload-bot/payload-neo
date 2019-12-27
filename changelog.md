@@ -78,3 +78,8 @@
 * Fixed issue with DMs and prefixes
 * Added more to profile
 * Added options to !prefix
+
+### 3.5.2
+* Added UGC team previews, finally.
+* Backend prefix brushup for non-text channels
+* Cleaned code

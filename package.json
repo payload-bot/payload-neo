@@ -39,7 +39,7 @@
     "copy-files": "ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
     "run": "node ./dist/index.js",
     "build-lite": "tsc --build tsconfig.json",
-    "update": "npm run copy-files && npm run build-lite"
+    "update": "npm run build-lite && npm run copy-files"
   },
   "repository": {
     "type": "git",

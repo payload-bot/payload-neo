@@ -103,7 +103,7 @@ export async function captureSelector(url: string, selector: string, viewport = 
         encoding: "binary"
     });
 
-    await browser.close();
+    browser.close();
 
     return screenshotBuffer;
 }

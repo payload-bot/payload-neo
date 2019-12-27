@@ -22,7 +22,7 @@ export default class RTD extends Command {
                     required: false,
                     type: "number",
                     min: 1,
-                    max: 5
+                    max: 6
                 }
             ]
         );

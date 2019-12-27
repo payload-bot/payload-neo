@@ -31,8 +31,7 @@ export default class Translate extends Command {
 
         const phrase = msg.toString().substr(13);
 
-        const translator = new GTranslate(
-            { 
+        const translator = new GTranslate({ 
                 projectId: config.GCP_ID,
                 keyFilename: config.GOOGLE_CREDENTIALS_PATH
             }

@@ -6,7 +6,7 @@ import getGuildPrefix from "../external/prefix";
 import { getPrefixFromCache } from "../../util/prefix";
 
 export default async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
-    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : "!";
+    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : `${config.PREFIX}`;
 
     if (msg.author.bot) return false;
 

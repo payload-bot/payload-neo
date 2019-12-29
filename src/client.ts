@@ -1,11 +1,9 @@
 import * as Discord from "discord.js";
 import mongoose from "mongoose";
-import { Client } from "./lib/types/Client"
 import { readdir } from "fs";
 import { CommandConstructor } from "./lib/exec/Command";
-import { AutoResponse } from "./lib/types/AutoCommand";
-import handleCommand from "./lib/manager/CommandHandler";
-import handleAutoCommand from "./lib/manager/AutoHandler";
+import { AutoResponse, Client } from "./lib/types";
+import { handleCommand, handleAutoCommand } from "./lib/manager";
 import config from "./config";
 import UserManager from "./lib/manager/UserManager";
 import { getChangelog } from "./util/get-changelog";
@@ -15,6 +13,7 @@ import ServerManager from "./lib/manager/ServerManager";
 import { initPrefixCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { handleMessageDelete, cleanCache } from "./util/snipe-cache";
+import { version } from "./util/version_control";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -106,6 +105,7 @@ client.on("messageDelete", msg => {
 client.on("messageUpdate", (oldMsg, newMsg) => {
     handleMessageDelete(client, oldMsg);
     cleanCache(client, oldMsg);
+    client.emit("message", (newMsg));
 });
 
 
@@ -116,7 +116,7 @@ client.on("message", async msg => {
 
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);
-    client.user.setActivity(`!invite | v${config.info.version}`);
+    client.user.setActivity(`!invite | v${version}`);
     initPrefixCache();
     console.log("Done initial cacheing prefixes.");
 
@@ -134,13 +134,13 @@ client.on("ready", async () => {
 
         let guilds = client.guilds.array();
 
-        let changelog = getChangelog(config.info.version);
+        let changelog = getChangelog(version);
 
         if (!changelog) return console.warn("Error fetching changelog!");
 
         let startUpVersion = await Version();
 
-        if (startUpVersion != undefined && startUpVersion == config.info.version) console.log("No new version.");
+        if (startUpVersion != undefined && startUpVersion == version) console.log("No new version.");
         else {
             try {
                 const channel = await client.channels.get(config.info.logChannel) as Discord.TextChannel;
@@ -151,7 +151,7 @@ client.on("ready", async () => {
 
             for (let i = 0; i < guilds.length; i++) {
                 let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
-                    title: `TFBot updated to v${config.info.version}!`,
+                    title: `${client.user.username} updated to v${version}!`,
                     description: `A new update has been released to TFBot!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
                     fields: [
                         {
@@ -162,10 +162,10 @@ client.on("ready", async () => {
                     footer: {
                         text: `To find out more on how to opt out of these notifications, type ${config.PREFIX}help config notifications.`
                     }
-                }), config.info.version);
+                }), version);
                 console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
             }
-            await saveVersion(config.info.version);
+            await saveVersion(version);
         }
     }, 1000);
 });

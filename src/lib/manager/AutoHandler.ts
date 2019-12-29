@@ -2,7 +2,7 @@ import { Message, TextChannel, Permissions, PermissionResolvable } from "discord
 import { Client } from "../types/Client";
 import { AutoResponse } from "../types/AutoCommand"
 
-export default async function handleAutoCommand(client: Client, msg: Message): Promise<Boolean> {
+export async function handleAutoCommand(client: Client, msg: Message): Promise<Boolean> {
     if (msg.author.bot) return false;
 
     let match = "";

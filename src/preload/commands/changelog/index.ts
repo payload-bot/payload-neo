@@ -1,7 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
-import config from "../../../config";
+import { version as ImportVersion} from "../../../util/version_control"
 import { getChangelog } from "../../../util/get-changelog";
 
 export default class Changelog extends Command {
@@ -23,7 +23,7 @@ export default class Changelog extends Command {
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
 
-        const version = args[0] as string || config.info.version;
+        const version = args[0] as string || ImportVersion;
 
         const changelog = getChangelog(version);
 
@@ -35,6 +35,6 @@ export default class Changelog extends Command {
 
         await this.respond(msg, "```md\n" + changelog + "\n```");
         msg.channel.stopTyping(true);
-        return true;   
+        return true;
     }
 }

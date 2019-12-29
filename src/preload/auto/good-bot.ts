@@ -17,7 +17,7 @@ export async function run(client: Client, msg: Message) {
 
     if (Math.random() < 0.9) return;
 
-    msg.channel.send("<:SmilingWithHearts:566326252055560212>");
+    msg.channel.send("<:heart_eyes:>");
 }
 
 function matchMsg(msg: Message) {

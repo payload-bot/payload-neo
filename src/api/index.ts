@@ -1,6 +1,7 @@
 import express from "express";
 import { Client } from "../lib/types";
 import config from "../config"
+import { version } from "../util/version_control";
 
 export async function listen(port: number, client: Client): Promise<void> {
     const server = express();
@@ -41,7 +42,7 @@ export async function listen(port: number, client: Client): Promise<void> {
                 users: client.users.size,
                 servers: client.guilds.size,
                 uptime: client.uptime,
-                version: config.info.version
+                version: version
             }
         });
     });

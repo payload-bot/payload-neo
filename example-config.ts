@@ -6,7 +6,6 @@ const config = {
     MONGODB_URI: "",
 
     info: {
-        version: "",
         logChannel: ""
     },
 

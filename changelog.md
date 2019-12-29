@@ -7,9 +7,6 @@
 * Changelog notes will be posted on TFTV thread and in the new Discord.
 * Fixed issues with TFBot typing in channel when command failed.
 
-### 3.2.1
-* Fixed issues with TFBot typing with !invite command.
-
 ### 3.2.2
 * Added hl.tf thread previews 
 
@@ -83,3 +80,9 @@
 * Added UGC team previews, finally.
 * Backend prefix brushup for non-text channels
 * Cleaned code
+
+### 3.5.3
+* Tweaked UGC team previews
+* Backend support for bad server names
+* Edited message command support
+* Moved version control outside config

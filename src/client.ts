@@ -10,7 +10,7 @@ import { getChangelog } from "./util/get-changelog";
 import { pushNotification } from "./util/push-notification";
 import Version, { saveVersion } from "./lib/external/Version";
 import ServerManager from "./lib/manager/ServerManager";
-import { initPrefixCache } from "./util/prefix";
+import { initPrefixCache, getPrefixFromCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { handleMessageDelete, cleanCache } from "./util/snipe-cache";
 import { version } from "./util/version_control";
@@ -105,7 +105,7 @@ client.on("messageDelete", msg => {
 client.on("messageUpdate", (oldMsg, newMsg) => {
     handleMessageDelete(client, oldMsg);
     cleanCache(client, oldMsg);
-    client.emit("message", (newMsg));
+    if (oldMsg.content.startsWith(getPrefixFromCache(oldMsg.guild.id))) client.emit("message", (newMsg));
 });
 
 
@@ -152,7 +152,7 @@ client.on("ready", async () => {
             for (let i = 0; i < guilds.length; i++) {
                 let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
                     title: `${client.user.username} updated to v${version}!`,
-                    description: `A new update has been released to TFBot!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
+                    description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
                     fields: [
                         {
                             name: "Changelog",

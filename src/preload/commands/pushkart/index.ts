@@ -48,9 +48,9 @@ export default class PushCart extends Command {
                 / 1000
             );
 
-            return await this.fail(msg, `Вы должны подождать 30 секунд, прежде чем снова нажать тележку (${secondsRemaining} осталось).`);
+            return await this.fail(msg, `Вы должны подождать 30 секунд, прежде чем снова толкать тележку (${secondsRemaining} осталось).`);
         } else if (pushResult == "CAP") {
-            return await this.fail(msg, "Вы набрали максимальное количество баллов за сегодня. Вернуться завтра!");
+            return await this.fail(msg, "Вы набрали максимальное количество баллов за сегодня. Возвращайтесь завтра!");
         }
 
         server.addCartFeet(feetPushed);

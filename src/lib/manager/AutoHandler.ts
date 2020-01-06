@@ -31,11 +31,13 @@ export async function handleAutoCommand(client: Client, msg: Message): Promise<B
     try {
         await autoResponse.run(client, msg);
         console.log(`${autoResponse.name} was initiated sent by ${msg.author.tag}/${msg.author.id}.`);
+        client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${autoResponse.name} in ${(msg.guild) ? `guild ${msg.guild.id}` : "dms"}.`));
         msg.channel.stopTyping(true);
     } catch (err) {
         console.warn("Error while executing autoresponse " + autoResponse.name, err);
+        client.emit("warn", err, autoResponse.name);
     }
-    
+
     msg.channel.stopTyping(true);
     return true;
 }

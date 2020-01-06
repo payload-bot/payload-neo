@@ -85,8 +85,7 @@ export default class PushCart extends Command {
                 )
                 / 1000
             );
-
-            return await this.fail(msg, `You must wait 30 seconds before pushing the cart again (${secondsRemaining} left).`)
+            return await this.fail(msg, `You must wait 30 seconds before pushing the cart again (${(secondsRemaining) ? secondsRemaining : 1} left).`)
         } else if (pushResult == "CAP") {
             return await this.fail(msg, "You have reached the max number of points for today. Come back tomorrow!");
         }

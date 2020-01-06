@@ -14,6 +14,7 @@ import { initPrefixCache, getPrefixFromCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { handleMessageDelete, cleanCache } from "./util/snipe-cache";
 import { version } from "./util/version_control";
+import colors from "./lib/misc/colors";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -113,6 +114,42 @@ client.on("message", async msg => {
     let didhandleCommand = await handleCommand(client, msg);
     if (!didhandleCommand) await handleAutoCommand(client, msg);
 });
+
+client.on("error", error => {
+    const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
+    channel.send(null, {
+        embed: {
+            color: colors.red,
+            timestamp: new Date(),
+            title: 'Error',
+            description: error.stack ? `\`\`\`x86asm\n${error.stack}\n\`\`\`` : `\`${error.toString()}\``
+        }
+    });
+});
+
+client.on("warn", (error, name) => {
+    const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
+    channel.send(null, {
+        embed: {
+            color: colors.red,
+            timestamp: new Date(),
+            title: `Warning: ${name}`,
+            description: `\`\`\`${error}\`\`\``
+        }
+    });
+});
+
+client.on("log", item => {
+    const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
+    channel.send(null, {
+        embed: {
+            color: colors.green,
+            timestamp: new Date(),
+            title: `Event logger`,
+            description: `\`\`\`${item}\`\`\``
+        }
+    });
+})
 
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);

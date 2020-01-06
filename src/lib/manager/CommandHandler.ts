@@ -6,7 +6,7 @@ import getGuildPrefix from "../external/prefix";
 import { getPrefixFromCache } from "../../util/prefix";
 
 export async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
-    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : `${config.PREFIX}`;
+    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : config.PREFIX;
 
     if (msg.author.bot) return false;
 
@@ -28,7 +28,7 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
         let commandRestrictions = server.getCommandRestrictions(msg.channel.id);
 
         if ((commandRestrictions as Array<string>).includes(executableCommand.name)) return false;
-        
+
         let canBeExecutedBy = executableCommand.canBeExecutedBy as PermissionResolvable;
         let permissionsNeeded = executableCommand.permissions as PermissionResolvable;
 
@@ -40,8 +40,10 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
     try {
         await executableCommand.run(client, msg);
         console.log(`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name}.`);
+        client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name} in ${(msg.guild) ? `guild ${msg.guild.id}` : "dms"}.`));
     } catch (err) {
         console.warn("Error while executing command " + command, err);
+        client.emit("warn", err, executableCommand.name);
     }
 
     msg.channel.stopTyping(true);

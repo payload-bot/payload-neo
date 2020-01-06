@@ -59,7 +59,7 @@ export default class Prefix extends Command {
             clearPrefix(msg.guild.id);
         }
 
-        embed.setAuthor("TFBot", client.user.displayAvatarURL);
+        embed.setAuthor(`${client.user.tag}`, client.user.displayAvatarURL);
         embed.setColor(colors.red);
         embed.setDescription(`${string}`);
         embed.setTitle(`Guild prefix updated by ${msg.author.tag}`);

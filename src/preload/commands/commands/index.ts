@@ -13,7 +13,7 @@ export default class Commands extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let embed = new RichEmbed();
-        embed.setAuthor("TFBot", client.user.avatarURL);
+        embed.setAuthor(`${client.user.tag}`, client.user.avatarURL);
         embed.setTitle(`List of all commands`);
         embed.addField("Commands",(client.commands.filter(cmds => !cmds.requiresRoot && !cmds.name.includes("pugscrim")).map(cmd => cmd.name).join(', ')));
         embed.addField("Automatic Commands", client.autoResponses.map(cmd => cmd.name).join(', '));

@@ -8,13 +8,11 @@ import config from "./config";
 import UserManager from "./lib/manager/UserManager";
 import { getChangelog } from "./util/get-changelog";
 import { pushNotification } from "./util/push-notification";
-import Version, { saveVersion } from "./lib/external/Version";
 import ServerManager from "./lib/manager/ServerManager";
-import { initPrefixCache, getPrefixFromCache } from "./util/prefix";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { handleMessageDelete, cleanCache } from "./util/snipe-cache";
 import { version } from "./util/version_control";
-import colors from "./lib/misc/colors";
+import { Client as ClientDocument, ClientModel } from "./lib/model/Client";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -25,13 +23,13 @@ client.userManager = new UserManager(client);
 client.serverManager = new ServerManager(client);
 
 client.cache = {
-    prefix: {},
     snipe: {},
     pings: {},
 };
 
 mongoose.connect(config.MONGODB_URI, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 }).then(() => {
     console.log("Successfully connected to MongoDB.");
 }).catch(() => {
@@ -41,7 +39,7 @@ mongoose.connect(config.MONGODB_URI, {
 
 
 /**
- * Load schedules scripts.
+ * Load scheduled scripts.
  */
 readdir(__dirname + "/scheduled", (err, files) => {
     if (err) {
@@ -103,10 +101,17 @@ client.on("messageDelete", msg => {
     cleanCache(client, msg);
 });
 
-client.on("messageUpdate", (oldMsg, newMsg) => {
+client.on("messageUpdate", async (oldMsg, newMsg) => {
     handleMessageDelete(client, oldMsg);
     cleanCache(client, oldMsg);
-    if (oldMsg.content.startsWith(getPrefixFromCache(oldMsg.guild.id))) client.emit("message", (newMsg));
+
+    if (oldMsg.guild) {
+        const server = await client.serverManager.getServer(oldMsg.guild.id);
+        const prefix = server.getPrefixFromGuild(oldMsg.guild.id);
+        if (oldMsg.content.startsWith(prefix)) client.emit("message", (newMsg));
+    } else {
+        if (oldMsg.content.startsWith(config.PREFIX)) client.emit("message", (newMsg));
+    }
 });
 
 
@@ -117,9 +122,9 @@ client.on("message", async msg => {
 
 client.on("error", error => {
     const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
-    channel.send(null, {
+    channel.send({
         embed: {
-            color: colors.red,
+            color: 15158332,
             timestamp: new Date(),
             title: 'Error',
             description: error.stack ? `\`\`\`x86asm\n${error.stack}\n\`\`\`` : `\`${error.toString()}\``
@@ -129,9 +134,9 @@ client.on("error", error => {
 
 client.on("warn", (error, name) => {
     const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
-    channel.send(null, {
+    channel.send({
         embed: {
-            color: colors.red,
+            color: 15105570,
             timestamp: new Date(),
             title: `Warning: ${name}`,
             description: `\`\`\`${error}\`\`\``
@@ -139,46 +144,48 @@ client.on("warn", (error, name) => {
     });
 });
 
-client.on("log", item => {
+client.on("log", async item => {
     const channel = client.channels.get(config.info.errorChannel) as Discord.TextChannel;
-    channel.send(null, {
+    channel.send({
         embed: {
-            color: colors.green,
+            color: 3066993,
             timestamp: new Date(),
             title: `Event logger`,
             description: `\`\`\`${item}\`\`\``
         }
     });
-})
+});
 
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);
     client.user.setActivity(`!invite | v${version}`);
-    initPrefixCache();
-    console.log("Done initial cacheing prefixes.");
 
     let waitingInterval: NodeJS.Timeout;
     waitingInterval = setInterval(async () => {
-        clearInterval(waitingInterval);
+        if (mongoose.connection.readyState === 1) {
+            clearInterval(waitingInterval);
 
-        // Run scheduled scripts
-        for (let i = 0; i < client.scheduled.length; i++) {
-            let script = client.scheduled[i];
+            // Run scheduled scripts
+            for (let i = 0; i < client.scheduled.length; i++) {
+                let script = client.scheduled[i];
 
-            if (script.every < 0) script.run(client);
-            else setInterval(() => script.run(client), script.every);
-        }
+                if (script.every < 0) script.run(client);
+                else setInterval(() => script.run(client), script.every);
+            }
 
-        let guilds = client.guilds.array();
+            let guilds = client.guilds.array();
 
-        let changelog = getChangelog(version);
+            let changelog = getChangelog(version);
 
-        if (!changelog) return console.warn("Error fetching changelog!");
+            if (!changelog) {
+                client.emit("warn", "Error fetching changelog.");
+                return console.warn("Error fetching changelog!");
+            }
 
-        let startUpVersion = await Version();
+            let botDoc: ClientModel = await ClientDocument.findOne({ id: 0 });
 
-        if (startUpVersion != undefined && startUpVersion == version) console.log("No new version.");
-        else {
+            if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
+
             try {
                 const channel = await client.channels.get(config.info.logChannel) as Discord.TextChannel;
                 if (channel) channel.send("```md\n" + changelog + "\n```");
@@ -189,7 +196,7 @@ client.on("ready", async () => {
             for (let i = 0; i < guilds.length; i++) {
                 let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
                     title: `${client.user.username} updated to v${version}!`,
-                    description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type ${config.PREFIX}config notifications 1 in DM's.`,
+                    description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications 1\` in DM's.`,
                     fields: [
                         {
                             name: "Changelog",
@@ -197,16 +204,20 @@ client.on("ready", async () => {
                         }
                     ],
                     footer: {
-                        text: `To find out more on how to opt out of these notifications, type ${config.PREFIX}help config notifications.`
+                        text: `To find out more on how to opt out of these notifications, type \`${config.PREFIX}help config notifications.\``
                     }
                 }), version);
                 console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
             }
-            await saveVersion(version);
+            if (!botDoc) return console.log("No bot db entry!");
+
+            botDoc.startupVersion = version;
+
+            await botDoc.save();
+        } else {
+            console.log("Waiting for MongoDB connection...");
         }
     }, 1000);
 });
-
-client.on("error", console.warn);
 
 export default client;

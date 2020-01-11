@@ -1,7 +1,8 @@
-import { Server, ServerModel } from "./";
+import { Server, ServerModel } from "../model/Server";
 import * as Discord from "discord.js";
+import config from "../../config";
 
-export default class UserManager {
+export default class ServerManager {
     discordClient: Discord.Client;
     servers: Map<string, ServerEditable>;
 
@@ -83,6 +84,14 @@ export class ServerEditable {
         }
 
         return this.server.commandRestrictions;
+    }
+
+    getPrefixFromGuild(guild: string) {
+        return this.server.prefix || config.PREFIX;
+    }
+
+    getLanguageFromGuild(guild: string) {
+        return this.server.language;
     }
 
     addCartFeet(miles: number) {

@@ -1,7 +1,6 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message } from "discord.js";
-import { query } from "../../../../util/database";
 
 export default class logsApiKey extends Command {
     constructor() {
@@ -26,13 +25,15 @@ export default class logsApiKey extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args: any = await this.parseArgs(msg, 1);
+        const args = await this.parseArgs(msg, 1);
 
         if (args === false) {
             return false;
         }
 
-        await client.userManager.setLogsKey(msg.author.id, args[0]);
+        const user = await client.userManager.getUser(msg.author.id);
+        user.user.logsTfApiKey = args[0] as string;
+        await user.save();
 
         await this.respond(msg, `Set logs-api-key to \`${args[0]}\``);
 

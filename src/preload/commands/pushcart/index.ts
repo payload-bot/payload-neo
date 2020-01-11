@@ -35,14 +35,9 @@ export default class PushCart extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args = await this.getArgs(msg);
+        const args: any = await this.getArgs(msg);
 
-        let prefix;
-        try {
-            prefix = await this.getPrefix(msg.guild.id)
-        } catch (e) {
-            prefix = config.PREFIX;
-        }
+        const prefix = await this.getPrefix(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {

@@ -22,16 +22,13 @@ export default class Profile extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let profile = msg.mentions.users.first() || msg.author;
-        let steamid = await client.userManager.findUser(msg)
-        if (!steamid) steamid = "N/A" as string
-
-        const user = await client.userManager.ensureUser(profile.id)
+        const user = await client.userManager.getUser(profile.id);
 
         const embed = new RichEmbed();
-        embed.setAuthor(`${profile.tag}`, profile.displayAvatarURL);
-        embed.addField("Bot: ", `${profile.bot}`);
+        embed.setAuthor(`${profile.username}`, profile.displayAvatarURL);
+        embed.addField("Bot: ", `${(profile.bot) ? "Yes" : "No"}`);
         embed.addField('ID: ', profile.id);
-        embed.addField('SteamID: ', steamid);
+        embed.addField('SteamID: ', user.user.steamID || "NOT SET");
         embed.addField('Points: ', user.getFeetPushed());
         embed.setColor(colors.blue);
         await msg.channel.send(embed);

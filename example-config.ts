@@ -1,24 +1,17 @@
 const config = {
     TOKEN: "",
-    PREFIX: "",
+    PREFIX: "!",
     allowedID: "",
 
     MONGODB_URI: "",
 
     info: {
-        logChannel: ""
+        logChannel: "",
+        errorChannel: ""
     },
 
     files: {
         LOGS_CSS: __dirname + "/assets/dark-logs.css",
-    },
-
-    sql: {
-        host: "",
-        user: "",
-        port: "",
-        password: "",
-        database: "",
     },
 
     LOGSTF_API_KEY: "",
@@ -26,5 +19,4 @@ const config = {
     GOOGLE_CREDENTIALS_PATH: "",
     GCP_ID: ""
 }
-
 export default config;

@@ -53,17 +53,11 @@ export default class Combine extends Command {
         const logs = args.slice(2);
 
         if (!map || map.match(/logs\.tf\/\d+/)) {
-            await this.respond(msg, "Invalid syntax. Make sure to specify the map and title before the log URLs. Type `pls help combine` to learn more.");
-
-            return false;
+            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
         } else if (!title || title.match(/logs\.tf\/\d+/)) {
-            await this.respond(msg, "Invalid syntax. Make sure to specify the map and title before the log URLs. Type `pls help combine` to learn more.");
-
-            return false;
+            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
         } else if (logs.length < 2) {
-            await this.respond(msg, "Invalid syntax. Make sure to specify the map and title before the log URLs. Type `pls help combine` to learn more.");
-
-            return false;
+            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
         }
 
         let logIds: Array<string> = [];
@@ -71,9 +65,7 @@ export default class Combine extends Command {
             const logId = logs[i].match(/\d+/);
 
             if (!logId) {
-                await this.respond(msg, `\`${logs[i]}\` is not a valid log.`);
-
-                return false;
+               return await this.fail(msg, `\`${logs[i]}\` is not a valid log.`);
             }
 
             logIds.push(logId![0]);
@@ -81,12 +73,10 @@ export default class Combine extends Command {
 
         msg.channel.startTyping();
 
-        const user = await client.userManager.getUserLogs(msg.author.id);
+        const user = await client.userManager.getUser(msg.author.id);
 
-        if (!user) {
-            await this.respond(msg, "You have not set a logs.tf API key. Type `!help config` to find out more.");
-
-            return false;
+        if (!user.user.logsTfApiKey) {
+            return await this.fail(msg, `You have not set a logs.tf API key. Type \`${await this.getPrefix(msg)}help config\` to find out more.`);
         }
 
         /**
@@ -111,9 +101,7 @@ export default class Combine extends Command {
         });
 
         if (!res.body.success) {
-            await this.respond(msg, "Error combining logs.");
-
-            return false;
+            return await this.fail(msg, "Error combining logs.");
         }
 
         await this.respond(msg, "**Done!** https://logs.tf/" + res.body.log_id);

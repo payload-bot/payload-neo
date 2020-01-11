@@ -86,3 +86,13 @@
 * Backend support for bad server names
 * Edited message command support
 * Moved version control outside config
+
+### 3.6.0
+* Migrated to MongoDB
+* Added better support for guild prefixes
+* Added base for guild languages
+* Started localization processes
+* Logging support for errors in discord channels
+* Better logging for guilds / dms
+* Fixed issue with RegEx on fetching changelog
+* Fixed prefixes interfering with DM's

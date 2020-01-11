@@ -15,9 +15,9 @@ export default class Info extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const embed = new RichEmbed();
-            embed.setAuthor("TFBot", client.user.avatarURL);
+            embed.setAuthor(`${client.user.username}`, client.user.avatarURL);
             embed.setTitle(`Currently serving **${client.users.size}** users in **${client.guilds.size}** servers!`);
-            embed.setDescription(`Join the official TFBot server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite TFBot to your server with ${config.PREFIX}invite!`);
+            embed.setDescription(`Join the official ${client.user.username} discord server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite ${client.user.username} to your server with \`${await this.getPrefix(msg)}invite\`!`);
             embed.setFooter(`Created by ${(client.users.get(config.allowedID)!).tag} | Version ${version}`, (client.users.get(config.allowedID)!).avatarURL);
             embed.setColor(colors.yellow);
         await msg.channel.send(embed);

@@ -2,11 +2,13 @@ import { Client } from "../types/Client";
 import { Message, PermissionResolvable, TextChannel, Permissions } from "discord.js";
 import config from "../../config";
 import { Command } from "../exec/Command";
-import getGuildPrefix from "../external/prefix";
-import { getPrefixFromCache } from "../../util/prefix";
 
 export async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
-    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : config.PREFIX;
+    let prefix: string;
+    if (msg.guild) {
+        const guild = await client.serverManager.getServer(msg.guild.id);
+        prefix = guild.getPrefixFromGuild(msg.guild.id);
+    } else prefix = config.PREFIX;
 
     if (msg.author.bot) return false;
 
@@ -43,7 +45,7 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
         client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name} in ${(msg.guild) ? `guild ${msg.guild.id}` : "dms"}.`));
     } catch (err) {
         console.warn("Error while executing command " + command, err);
-        client.emit("warn", err, executableCommand.name);
+        client.emit("error", err, executableCommand.name);
     }
 
     msg.channel.stopTyping(true);

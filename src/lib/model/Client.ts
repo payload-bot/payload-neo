@@ -1,7 +1,6 @@
+import mongoose from "mongoose";
 
-import mongoose from "mongoose"
-
-export type BotModel = mongoose.Document & {
+export type ClientModel = mongoose.Document & {
     id?: 0,
 
     leaderboard?: {
@@ -10,9 +9,11 @@ export type BotModel = mongoose.Document & {
             updated: Date
         }
     },
+
+    startupVersion?: string
 };
 
-const botSchema = new mongoose.Schema({
+const ClientSchema = new mongoose.Schema({
     id: Number,
 
     leaderboard: {
@@ -25,6 +26,7 @@ const botSchema = new mongoose.Schema({
         }
     },
 
+    startupVersion: String
 });
 
-export const Bot = mongoose.model("Bot", botSchema);
+export const Client = mongoose.model("Client", ClientSchema);

@@ -1,7 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, RichEmbed } from "discord.js";
-import { Server, ServerModel } from "../../../../lib/manager";
+import { Server, ServerModel } from "../../../../lib/model/Server";
 import { qSort } from "../../../../util/sort";
 
 export default class Servers extends Command {

@@ -10,7 +10,7 @@ export function getChangelog(version: string) {
 
     if (!availableVersions.includes(version)) return false;
 
-    let versionRegExp = new RegExp(`### ${version.replace(/\./g, "\\.")}(\\n[^#]+)+`);
+    let versionRegExp = new RegExp(`### ${version.replace(/\./g, "\\.")}([^\#+])+`);
 
     let changelog = (changelogText.match(versionRegExp) as RegExpMatchArray)[0];
 

@@ -35,7 +35,7 @@ export async function handleAutoCommand(client: Client, msg: Message): Promise<B
         msg.channel.stopTyping(true);
     } catch (err) {
         console.warn("Error while executing autoresponse " + autoResponse.name, err);
-        client.emit("warn", err, autoResponse.name);
+        client.emit("error", err, autoResponse.name);
     }
 
     msg.channel.stopTyping(true);

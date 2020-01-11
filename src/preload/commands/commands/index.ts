@@ -17,7 +17,7 @@ export default class Commands extends Command {
         embed.setTitle(`List of all commands`);
         embed.addField("Commands",(client.commands.filter(cmds => !cmds.requiresRoot && !cmds.name.includes("pugscrim")).map(cmd => cmd.name).join(', ')));
         embed.addField("Automatic Commands", client.autoResponses.map(cmd => cmd.name).join(', '));
-        embed.setFooter(`\nYou can say ${await this.getPrefix(msg.guild.id)}help [command name] to get info on a specific command!`);
+        embed.setFooter(`\nNeed help? \`${await this.getPrefix(msg)}help [command name]\` to get full info on a certain command.`);
         embed.setColor(16098851);
         msg.channel.send(embed);
         return true;

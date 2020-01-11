@@ -1,14 +1,13 @@
 import { Command } from "../../../lib/exec/Command";
-import { Client } from "../../../lib/types/Client";
+import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import { ensureSteamID } from "../../../util/steam-id";
 
-export default class link extends Command {
-
+export default class Link extends Command {
     constructor() {
         super(
             "link",
-            "Links steam id to your discord id.",
+            "Links your steam account to your Discord account.",
             [
                 {
                     name: "Steam ID",
@@ -22,15 +21,25 @@ export default class link extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
-        if (args === false) return false;
+
+        if (args === false) {
+            return false;
+        }
 
         const steamIDTestResult = await ensureSteamID(args[0] as string);
 
-        if (!steamIDTestResult) return await this.fail(msg, "Invalid `<Steam ID>` argument.");
-        else client.userManager.setSteamID(msg, steamIDTestResult);
+        if (!steamIDTestResult) {
+            return await this.fail(msg, "Invalid `<Steam ID>` argument.");
+        }
 
-        await this.respond(msg, `Updated steam id with ${steamIDTestResult} for ${msg.author.tag}`);
+        const user = await client.userManager.getUser(msg.author.id);
+
+        user.user.steamID = steamIDTestResult;
+
+        await user.save();
+
+        await this.respond(msg, `Successfully overrode old Steam ID with \`${steamIDTestResult}\` for \`${msg.author.tag}\`.`);
+
         return true;
     }
-
 }

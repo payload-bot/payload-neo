@@ -96,3 +96,4 @@
 * Better logging for guilds / dms
 * Fixed issue with RegEx on fetching changelog
 * Fixed prefixes interfering with DM's
+* For issues with prefixes, changelog configuration, or other: Please reset them as it may have been lost in data migration. We're sorry for the inconvenience. 

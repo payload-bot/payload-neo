@@ -24,13 +24,10 @@ export default class Delete extends Command {
         let string: string;
 
         const server = await client.serverManager.getServer(msg.guild.id);
-        let prefix = server.getPrefixFromGuild(msg.guild.id);
-        if (!prefix) string == `Your prefix is already at default.`;
-        else string == `Prefix deleted! Default prefix: \`${config.PREFIX}\``;
         
         embed.setAuthor(`${client.user.tag}`, client.user.displayAvatarURL);
         embed.setColor(colors.red);
-        embed.setDescription(`${string}`);
+        embed.setDescription(`Prefix deleted! Default prefix: \`${config.PREFIX}\``);
         embed.setTitle(`Guild prefix updated by ${msg.author.tag}`);
         embed.setTimestamp();
 

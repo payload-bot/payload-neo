@@ -7,9 +7,6 @@
 * Changelog notes will be posted on TFTV thread and in the new Discord.
 * Fixed issues with TFBot typing in channel when command failed.
 
-### 3.2.1
-* Fixed issues with TFBot typing with !invite command.
-
 ### 3.2.2
 * Added hl.tf thread previews 
 
@@ -74,3 +71,29 @@
 * Restrict
     * Works as it used to with Payload
 
+### 3.5.1
+* Fixed issue with DMs and prefixes
+* Added more to profile
+* Added options to !prefix
+
+### 3.5.2
+* Added UGC team previews, finally.
+* Backend prefix brushup for non-text channels
+* Cleaned code
+
+### 3.5.3
+* Tweaked UGC team previews
+* Backend support for bad server names
+* Edited message command support
+* Moved version control outside config
+
+### 3.6.0
+* Migrated to MongoDB
+* Added better support for guild prefixes
+* Added base for guild languages
+* Started localization processes
+* Logging support for errors in discord channels
+* Better logging for guilds / dms
+* Fixed issue with RegEx on fetching changelog
+* Fixed prefixes interfering with DM's
+* For issues with prefixes, changelog configuration, or other: Please reset them as it may have been lost in data migration. We're sorry for the inconvenience. 

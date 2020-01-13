@@ -1,6 +1,8 @@
 dist/
 node_modules/
 
+screenlog.0
+
 src/config
 
 .env

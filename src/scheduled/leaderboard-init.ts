@@ -1,11 +1,11 @@
 import { Client } from "../lib/types"
-import { Bot as BotDoc, BotModel } from "../lib/types/Bot";
+import { Client as BotDoc, ClientModel } from "../lib/model/Client";
 import { run as runLeaderboardUpdate } from "./leaderboard";
 
 export const every = -1;
 
 export async function run(client: Client) {
-    let botDoc: BotModel | null = await BotDoc.findOne({
+    let botDoc: ClientModel | null = await BotDoc.findOne({
         id: 0
     });
 

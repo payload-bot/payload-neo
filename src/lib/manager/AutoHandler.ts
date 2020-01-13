@@ -2,7 +2,7 @@ import { Message, TextChannel, Permissions, PermissionResolvable } from "discord
 import { Client } from "../types/Client";
 import { AutoResponse } from "../types/AutoCommand"
 
-export default async function handleAutoCommand(client: Client, msg: Message): Promise<Boolean> {
+export async function handleAutoCommand(client: Client, msg: Message): Promise<Boolean> {
     if (msg.author.bot) return false;
 
     let match = "";
@@ -31,11 +31,13 @@ export default async function handleAutoCommand(client: Client, msg: Message): P
     try {
         await autoResponse.run(client, msg);
         console.log(`${autoResponse.name} was initiated sent by ${msg.author.tag}/${msg.author.id}.`);
+        client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${autoResponse.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`));
         msg.channel.stopTyping(true);
     } catch (err) {
         console.warn("Error while executing autoresponse " + autoResponse.name, err);
+        client.emit("error", err, autoResponse.name);
     }
-    
+
     msg.channel.stopTyping(true);
     return true;
 }

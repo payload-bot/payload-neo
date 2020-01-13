@@ -1,7 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, RichEmbed } from "discord.js";
-import { Server, ServerModel } from "../../../../lib/manager";
+import { Server, ServerModel } from "../../../../lib/model/Server";
 import { qSort } from "../../../../util/sort";
 
 export default class Servers extends Command {
@@ -27,7 +27,7 @@ export default class Servers extends Command {
                 $exists: true
             }
         });
-    
+
         let leaderboard = qSort(servers.map(server => {
             return {
                 id: server.id,
@@ -42,13 +42,11 @@ export default class Servers extends Command {
         let leaderboardString = "```md\n";
 
         for (let i = 0; i < top5.length; i++) {
-            let identifier = (client.guilds.get(top5[i].id) || { name: top5[i].id }).name;
+            let identifier = (client.guilds.get(top5[i].id).name);
+            
+            identifier = (identifier as String).replace(/\`\`\`/g, "");
 
-            if (top5[i].id == msg.author.id) {
-                leaderboardString += `> ${i + 1}: ${identifier} (${top5[i].pushed})\n`;
-            } else {
-                leaderboardString += `${i + 1}: ${identifier} (${top5[i].pushed})\n`;
-            }
+            leaderboardString += `${i + 1}: ${identifier} (${top5[i].pushed})\n`;
         }
 
         leaderboardString += "```";

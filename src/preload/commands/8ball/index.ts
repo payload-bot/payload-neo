@@ -50,9 +50,7 @@ export default class EightBall extends Command {
         const question = (await this.getArgs(msg)).join(" ");
 
         if (!question) {
-            await this.respond(msg, "You must ask the 8ball a question.");
-
-            return false;
+            return await this.fail(msg, "You must ask the 8ball a question.");
         }
 
         await this.respond(msg, `🎱 **${this.responses[random(0, this.responses.length - 1)]}**`);

@@ -69,11 +69,11 @@ export default class Help extends Command {
             helpEmbed.setTitle(command.name);
             helpEmbed.setDescription(`${command.description}`);
             helpEmbed.addField("Usage", usage);
-            helpEmbed.addField("Permissions Needed", `\`\`\`md\n# For User #\n${permissionsNeeded.user.join("\n")}\n\n# For Bot #\n${permissionsNeeded.client.join("\n")}\n\`\`\``);
+            helpEmbed.addField("Permissions Needed", `\`\`\`md\n# For User #\n${permissionsNeeded.user.join("\n")}\n\n# For ${client.user.username} #\n${permissionsNeeded.client.join("\n")}\n\`\`\``);
             if (command.getSubcommandArray().length > 0) {
                 helpEmbed.addField("Subcommands", command.getSubcommandArray().join(", "));
             }
-            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. Need help? !commands`);
+            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. For a full list of commands: \`${await this.getPrefix(msg)}commands\``);
             helpEmbed.setColor(16098851);
 
         await msg.channel.send(helpEmbed);

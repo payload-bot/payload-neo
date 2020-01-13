@@ -21,10 +21,6 @@ export interface Client extends Client {
     },
 
     cache: {
-        prefix: {
-            [guild: string]
-        }
-
         snipe: {
             [guild: string]: {
                 [channel: string]: Collection<string, Message>

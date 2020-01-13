@@ -2,11 +2,13 @@ import { Client } from "../types/Client";
 import { Message, PermissionResolvable, TextChannel, Permissions } from "discord.js";
 import config from "../../config";
 import { Command } from "../exec/Command";
-import getGuildPrefix from "../external/prefix";
-import { getPrefixFromCache } from "../../util/prefix";
 
-export default async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
-    const prefix = (msg.channel.type === "text") ? (getPrefixFromCache(msg.guild.id) || await getGuildPrefix(msg.guild.id)) : "!";
+export async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
+    let prefix: string;
+    if (msg.guild) {
+        const guild = await client.serverManager.getServer(msg.guild.id);
+        prefix = guild.getPrefixFromGuild(msg.guild.id);
+    } else prefix = config.PREFIX;
 
     if (msg.author.bot) return false;
 
@@ -28,7 +30,7 @@ export default async function handleCommand(client: Client, msg: Message): Promi
         let commandRestrictions = server.getCommandRestrictions(msg.channel.id);
 
         if ((commandRestrictions as Array<string>).includes(executableCommand.name)) return false;
-        
+
         let canBeExecutedBy = executableCommand.canBeExecutedBy as PermissionResolvable;
         let permissionsNeeded = executableCommand.permissions as PermissionResolvable;
 
@@ -40,8 +42,10 @@ export default async function handleCommand(client: Client, msg: Message): Promi
     try {
         await executableCommand.run(client, msg);
         console.log(`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name}.`);
+        client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`));
     } catch (err) {
         console.warn("Error while executing command " + command, err);
+        client.emit("error", err, executableCommand.name);
     }
 
     msg.channel.stopTyping(true);

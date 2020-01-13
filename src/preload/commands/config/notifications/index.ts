@@ -2,11 +2,12 @@ import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message } from "discord.js";
 
-export default class Notifications extends Command {
+
+export default class logsApiKey extends Command {
     constructor() {
         super(
             "notifications",
-            "Sets your TFBot notifications level. 2 = all, 1 = major, 0 = none.",
+            "**USING THESE COMMANDS IN A PUBLIC SERVER PUTS YOUR ACCOUNT AT RISK OF BEING HIJACKED! MAKE SURE TO USE THESE COMMANDS ONLY IN BOT DMS!**\n\nSets your Payload notifications level. 2 = all, 1 = major, 0 = none.",
             [
                 {
                     name: "level",
@@ -26,14 +27,16 @@ export default class Notifications extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args: any = await this.parseArgs(msg, 1);
+        const args = await this.parseArgs(msg, 1);
 
         if (args === false) {
             return false;
         }
 
-        await client.userManager.setNotifLevel(msg.author, args[0]);
-        
+        const user = await client.userManager.getUser(msg.author.id);
+        user.user.notificationsLevel = args[0] as number;
+        await user.save();
+
         await this.respond(msg, `Set notifications to \`${args[0]}\``);
 
         return true;

@@ -35,14 +35,9 @@ export default class PushCart extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args = await this.getArgs(msg);
+        const args: any = await this.getArgs(msg);
 
-        let prefix;
-        try {
-            prefix = await this.getPrefix(msg.guild.id)
-        } catch (e) {
-            prefix = config.PREFIX;
-        }
+        const prefix = await this.getPrefix(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {
@@ -85,8 +80,7 @@ export default class PushCart extends Command {
                 )
                 / 1000
             );
-
-            return await this.fail(msg, `You must wait 30 seconds before pushing the cart again (${secondsRemaining} left).`)
+            return await this.fail(msg, `You must wait 30 seconds before pushing the cart again (${(secondsRemaining) ? secondsRemaining : 1} left).`)
         } else if (pushResult == "CAP") {
             return await this.fail(msg, "You have reached the max number of points for today. Come back tomorrow!");
         }

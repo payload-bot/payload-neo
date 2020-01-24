@@ -39,7 +39,7 @@ export default class Snipe extends Command {
         msg.channel.startTyping();
 
         const cache = getCache(client, msg);
-
+        
         const max = cache.size;
 
         if (number > max) {

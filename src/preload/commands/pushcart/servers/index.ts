@@ -43,10 +43,14 @@ export default class Servers extends Command {
 
         for (let i = 0; i < top5.length; i++) {
             let identifier = (client.guilds.get(top5[i].id).name);
-            
+
             identifier = (identifier as String).replace(/\`\`\`/g, "");
 
-            leaderboardString += `${i + 1}: ${identifier} (${top5[i].pushed})\n`;
+            if (identifier == msg.guild.name) {
+                leaderboardString += `> ${i + 1}: ${identifier} (${top5[i].pushed})\n`;
+            } else {
+                leaderboardString += `${i + 1}: ${identifier} (${top5[i].pushed})\n`;
+            }
         }
 
         leaderboardString += "```";

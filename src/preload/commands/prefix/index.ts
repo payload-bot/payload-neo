@@ -2,8 +2,8 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import Set from "./set";
-import Delete from "./delete";
-import Show from "./show";
+import Delete from "./delete";;
+import config from "../../../config";
 
 export default class Prefix extends Command {
     constructor() {
@@ -14,9 +14,9 @@ export default class Prefix extends Command {
                 {
                     name: "command",
                     description: "Command of prefix to execute",
-                    required: true,
+                    required: false,
                     type: "string",
-                    options: ["set", "delete", "show"]
+                    options: ["set", "delete"]
                 },
                 {
                     name: "new prefix",
@@ -31,7 +31,6 @@ export default class Prefix extends Command {
             undefined,
             {
                 set: new Set(),
-                show: new Show(),
                 delete: new Delete()
             }
         );
@@ -46,7 +45,13 @@ export default class Prefix extends Command {
             }
 
             return await this.runSub(args[0], client, msg);
+        } else {
+            const server = await client.serverManager.getServer(msg.guild.id);
+            let prefix = server.getPrefixFromGuild(msg.guild.id);
+            if (!prefix) prefix = config.PREFIX;
+
+            await this.respond(msg, `The guild prefix is: \`${prefix}\``)
+            return true;
         }
-        return true;
     }
 }

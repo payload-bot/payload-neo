@@ -6,13 +6,13 @@ import LeaderboardCommand from "./leaderboard";
 import RankCommand from "./rank";
 import GiftCommand from "./gift";
 import ServersCommand from "./servers";
-import config from "../../../config";
+
 
 export default class PushCart extends Command {
     constructor() {
         super(
             "pushcart",
-            "Pushes the cart 3-17 feet.",
+            "Pushes the cart 3-17 feet. Based on local machine time.",
             [
                 {
                     name: "subcommand",
@@ -53,9 +53,9 @@ export default class PushCart extends Command {
         const server = await client.serverManager.getServer(msg.guild.id);
 
         const feetPushed = weightedRandom([
-            { number: 3, weight: 1 },
-            { number: 4, weight: 2 },
-            { number: 5, weight: 4 },
+            { number: 3, weight: 2 },
+            { number: 4, weight: 3 },
+            { number: 5, weight: 5 },
             { number: 6, weight: 8 },
             { number: 7, weight: 16 },
             { number: 8, weight: 16 },
@@ -65,9 +65,9 @@ export default class PushCart extends Command {
             { number: 12, weight: 18 },
             { number: 13, weight: 16 },
             { number: 14, weight: 8 },
-            { number: 15, weight: 4 },
-            { number: 16, weight: 2 },
-            { number: 17, weight: 1 },
+            { number: 15, weight: 5 },
+            { number: 16, weight: 3 },
+            { number: 17, weight: 2 },
         ]);
 
         const pushResult = user.addCartFeet(feetPushed);

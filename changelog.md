@@ -97,3 +97,14 @@
 * Fixed issue with RegEx on fetching changelog
 * Fixed prefixes interfering with DM's
 * For issues with prefixes, changelog configuration, or other: Please reset them as it may have been lost in data migration. We're sorry for the inconvenience. 
+
+### 3.6.1
+* Updated code
+* Commands now reflects restricted commands, and only shows commands that are not restricted.
+* !restrict, !unrestrict now works with as many commands as you want, and with as many channels at once as you'd like
+* !restrict, !unrestrict no longer restrict non-commands.
+* Updated pushcart, pushcart servers, pushcart gift (Points *should* reset correctly)
+* Pushcart push weights adjusted slightly
+* rgl team previews fixed
+* !prefix show removed, in favor of !prefix showing prefix when no arguments specified
+* Spelling changes

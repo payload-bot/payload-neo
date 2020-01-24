@@ -73,7 +73,7 @@ export default class Help extends Command {
             if (command.getSubcommandArray().length > 0) {
                 helpEmbed.addField("Subcommands", command.getSubcommandArray().join(", "));
             }
-            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. For a full list of commands: \`${await this.getPrefix(msg)}commands\``);
+            helpEmbed.setFooter(`Requested by: ${msg.author.tag}. For a full list of commands: ${await this.getPrefix(msg)}commands`);
             helpEmbed.setColor(16098851);
 
         await msg.channel.send(helpEmbed);

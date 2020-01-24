@@ -42,7 +42,7 @@ export default class Gift extends Command {
         const targetUser = msg.mentions.users.first();
 
         if (!targetUser) {
-            return await this.fail(msg, `Invalid \`<user mention>\` argument. Type \`pls help ${this.getFullCommandName()}\` to learn more.`);
+            return await this.fail(msg, `Invalid \`<user mention>\` argument. Type \`${this.getPrefix(msg)}help ${this.getFullCommandName()}\` to learn more.`);
         }
 
         const from = await client.userManager.getUser(msg.author.id);

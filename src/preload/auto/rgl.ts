@@ -11,7 +11,7 @@ export const zones = ["text", "dm"];
 export async function run(client: Client, msg: Message) {
     const url = matchMsg(msg);
 
-    let screenshotBuffer = await capture("http://" + url, {
+    let screenshotBuffer = await capture("https://" + url, {
         top: {
             selector: "div.col-md-12.col-lg-5",
             edge: "top"

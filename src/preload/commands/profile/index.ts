@@ -1,7 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message, RichEmbed } from "discord.js";
-import config from "../../../config";
 import colors from "../../../lib/misc/colors"
 
 export default class Profile extends Command {

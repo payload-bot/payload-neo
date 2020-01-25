@@ -15,7 +15,7 @@ export default class Unrestrict extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args = await this.parseArgs(msg) as string[] | false;
+        const args: any = await this.getArgs(msg)
 
         if (args === false) {
             return false;
@@ -38,17 +38,18 @@ export default class Unrestrict extends Command {
             }
             else {
                 if (!client.commands.map(cmds => cmds.name).includes(args[i])) continue;
-                commands.push(args[i]);
+                if (args[i] === "8ball") commands.push(args[i]);
+                commands.push(args[i]); 
             }
         }
-    
+
         if (channels.length == 0) {
-            channels = [ msg.channel.id ];
+            channels = [msg.channel.id];
         }
-    
+        
         const serverManager = client.serverManager;
         const server = await serverManager.ensureServer(msg.guild.id);
-    
+
         server.removeCommandRestrictions(
             channels.map(channelID => {
                 return {
@@ -57,10 +58,10 @@ export default class Unrestrict extends Command {
                 };
             })
         );
-    
+
         await server.save();
-    
-        await this.respond(msg, `Unrestricted in ${allChannels ? "ALL CHANNELS" : channels.map(channelID => `<#${channelID}>`).join(", ")}: \`\`\`${(commands.length > 0) ? (allCommands ? "ALL COMMANDS" : commands.join("\n")) : "None"}\`\`\``);
+
+        await this.respond(msg, `Restricted in ${allChannels ? "ALL CHANNELS" : channels.map(channelID => `<#${channelID}>`).join(", ")}: \`\`\`${(commands.length > 0) ? (allCommands ? "ALL COMMANDS" : commands.join("\n")) : "None"}\`\`\``);
 
         return true;
     }

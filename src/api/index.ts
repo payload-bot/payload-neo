@@ -1,6 +1,5 @@
 import express from "express";
 import { Client } from "../lib/types";
-import config from "../config"
 import { version } from "../util/version_control";
 
 export async function listen(port: number, client: Client): Promise<void> {
@@ -51,7 +50,6 @@ export async function listen(port: number, client: Client): Promise<void> {
         res.redirect('/all-data');
     });
     
-
     return new Promise(resolve => {
         server.listen(port, resolve);
     });

@@ -27,6 +27,7 @@ export async function run(client: Client, msg: Message) {
     sq.open(ipNoPort, Number(port));
     sq.getInfo((err, info) => {
         if (err) {
+            client.emit("error", err);
             embed.setColor(colors.red);
             embed.setDescription("Server is offline.");
         } else {

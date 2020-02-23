@@ -1,3 +1,4 @@
+
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
@@ -65,7 +66,7 @@ export default class Combine extends Command {
             const logId = logs[i].match(/\d+/);
 
             if (!logId) {
-               return await this.fail(msg, `\`${logs[i]}\` is not a valid log.`);
+                return await this.fail(msg, `\`${logs[i]}\` is not a valid log.`);
             }
 
             logIds.push(logId![0]);
@@ -75,8 +76,11 @@ export default class Combine extends Command {
 
         const user = await client.userManager.getUser(msg.author.id);
 
+        let apiKey;
         if (!user.user.logsTfApiKey) {
             return await this.fail(msg, `You have not set a logs.tf API key. Type \`${await this.getPrefix(msg)}help config\` to find out more.`);
+        } else {
+            apiKey = user.user.logsTfApiKey;
         }
 
         /**
@@ -84,13 +88,13 @@ export default class Combine extends Command {
          */
 
         const requestBody = {
-            token: user,
-            title,
-            map,
+            token: apiKey,
+            title: title,
+            map: map,
             ids: logIds
         };
 
-        const res = await got("https://log.supra.tf/", {
+        const res = await got("https://sharky.cool/api/logify/combine/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -101,6 +105,7 @@ export default class Combine extends Command {
         });
 
         if (!res.body.success) {
+            client.emit("error", res.body);
             return await this.fail(msg, "Error combining logs.");
         }
 

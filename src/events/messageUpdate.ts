@@ -6,6 +6,8 @@ module.exports = {
         handleMessageDelete(client, oldMsg);
         cleanCache(client, oldMsg);
 
+        if (oldMsg.content === newMsg.content) return;
+
         if (oldMsg.guild) {
             const server = await client.serverManager.getServer(oldMsg.guild.id);
             const prefix = server.getPrefixFromGuild(oldMsg.guild.id);

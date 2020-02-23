@@ -49,7 +49,7 @@ export async function listen(port: number, client: Client): Promise<void> {
     server.get("/", (req, res) => {
         res.redirect('/all-data');
     });
-    
+
     return new Promise(resolve => {
         server.listen(port, resolve);
     });

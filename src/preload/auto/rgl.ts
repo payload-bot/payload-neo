@@ -1,34 +1,17 @@
 import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
-import { capture } from "../../util/screenshot";
+import { capture, captureSelector } from "../../util/screenshot";
 
 export const name = "rgl";
 export const description = "Generates RGL team previews.";
-export const pattern = /rgl.gg\/Public\/Team.aspx\?t=\d+\&r=\d+/;
+export const pattern = /rgl\.gg\/Public\/Team\.aspx\?t=\d+\&r=\d+/;
 export const permissions = ["SEND_MESSAGES", "ATTACH_FILES"];
 export const zones = ["text", "dm"];
 
 export async function run(client: Client, msg: Message) {
     const url = matchMsg(msg);
 
-    let screenshotBuffer = await capture("https://" + url, {
-        top: {
-            selector: "div.col-md-12.col-lg-5",
-            edge: "top"
-        },
-        right: {
-            selector: "div.col-md-12.col-lg-5",
-            edge: "right"
-        },
-        bottom: {
-            selector: "div.col-md-12.col-lg-5",
-            edge: "bottom"
-        },
-        left: {
-            selector: "div.col-md-12.col-lg-5",
-            edge: "left"
-        }
-    });
+    let screenshotBuffer = await captureSelector(`https://${url}`, "div.col-md-12.col-lg-5")
 
     msg.channel.send({
         files: [screenshotBuffer]

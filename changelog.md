@@ -108,3 +108,11 @@
 * rgl team previews fixed
 * !prefix show removed, in favor of !prefix showing prefix when no arguments specified
 * Spelling changes
+
+### 3.6.2
+* !combine uses new parser (Logify 4). Works now!
+* RGL previews fixed on all machines. Have fun!
+* Removed many unneeded dependencies.
+* Renamed logs-api-key to just api-key. Type !help config for more.
+* Fixed duplicate API requests for !combine
+* Complier changes using ES2020

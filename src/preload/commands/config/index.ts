@@ -28,7 +28,7 @@ export default class Config extends Command {
             ["dm"],
             undefined,
             {
-                "logs-api-key": new LogsApiKeyCommand(),
+                "api-key": new LogsApiKeyCommand(),
                 "notifications": new NotificationsCommand()
             }
         );

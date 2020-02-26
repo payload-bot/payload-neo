@@ -12,13 +12,13 @@ export default class Combine extends Command {
             "Combines 2 or more logs into a bigger log.",
             [
                 {
-                    name: "map",
+                    name: "title",
                     description: "The map name for the combined logs.",
                     required: true,
                     type: "string"
                 },
                 {
-                    name: "title",
+                    name: "map",
                     description: "The log title for the combined logs.",
                     required: true,
                     type: "string"
@@ -49,8 +49,8 @@ export default class Combine extends Command {
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
 
-        const map = args[0];
-        const title = args[1];
+        const title = args[0];
+        const map = args[1];
         const logs = args.slice(2);
 
         if (!map || map.match(/logs\.tf\/\d+/)) {

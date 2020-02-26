@@ -11,7 +11,7 @@ export default class Invite extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        await this.respond(msg, "https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=201452545&scope=bot");
+        await this.respond(msg, "<https://discordapp.com/oauth2/authorize?client_id=644333502870978564&permissions=201452545&scope=bot>");
         return true;
     }
 }

@@ -2,7 +2,7 @@
   "name": "payload-neo",
   "version": "1.0.0",
   "description": "A bot that does it all.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "@google-cloud/translate": "^5.1.3",
     "@types/cheerio": "^0.22.14",

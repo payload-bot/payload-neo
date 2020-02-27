@@ -105,7 +105,7 @@ export default class Combine extends Command {
         });
 
         if (!res.body.success) {
-            client.emit("error", res.body);
+            client.emit("error", await res.body);
             return await this.fail(msg, "Error combining logs.");
         }
 

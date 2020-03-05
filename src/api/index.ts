@@ -1,6 +1,7 @@
 import express from "express";
 import { Client } from "../lib/types";
 import { version } from "../util/version_control";
+import rglApi from "../api/player"
 
 export async function listen(port: number, client: Client): Promise<void> {
     const server = express();
@@ -26,6 +27,10 @@ export async function listen(port: number, client: Client): Promise<void> {
             uptime: client.uptime
         });
     });
+
+    server.get('/api/rgl/:id', (req, res) => {
+        rglApi(req, res)
+    }); 
 
     server.get("/all-data", (req, res) => {
         res.json({

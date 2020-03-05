@@ -19,7 +19,7 @@ export default class Bruh extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        if (msg.mentions.users.size > 0) await this.respond(msg, "bruh " + msg.mentions.users.first().toString());
+        if (msg.mentions.users.size > 0) await this.respond(msg, "bruh " + msg.mentions.users.first());
         else await this.respond(msg, "bruh");
 
         return true;

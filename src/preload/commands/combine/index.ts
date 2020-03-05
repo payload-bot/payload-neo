@@ -78,7 +78,7 @@ export default class Combine extends Command {
 
         let apiKey;
         if (!user.user.logsTfApiKey) {
-            return await this.fail(msg, `You have not set a logs.tf API key. Type \`${await this.getPrefix(msg)}help config\` to find out more.`);
+            return await this.fail(msg, `You have not set a logs.tf API key. Type \`${await this.getPrefix(msg)}help config\` to find out more.\nGet your API key here: http://logs.tf/uploader`);
         } else {
             apiKey = user.user.logsTfApiKey;
         }

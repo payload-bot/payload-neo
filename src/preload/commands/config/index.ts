@@ -1,7 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
-import LogsApiKeyCommand from "./logs-api-key";
+import api_key from "./api-key";
 import NotificationsCommand from "./notifications";
 
 export default class Config extends Command {
@@ -28,7 +28,7 @@ export default class Config extends Command {
             ["dm"],
             undefined,
             {
-                "api-key": new LogsApiKeyCommand(),
+                "api-key": new api_key(),
                 "notifications": new NotificationsCommand()
             }
         );

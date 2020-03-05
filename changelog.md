@@ -116,3 +116,8 @@
 * Renamed logs-api-key to just api-key. Type !help config for more.
 * Fixed duplicate API requests for !combine
 * Complier changes using ES2020
+
+### 3.6.3
+* !profile will link to RGL profile, if there is one
+* !rgl [mention, steamid] will fetch RGL profile with information such as bans, probations, name, and more. In works for getting experience
+* !config api-key will link you to the logs.tf page to aquire one

@@ -2,7 +2,7 @@ import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message } from "discord.js";
 
-export default class logsApiKey extends Command {
+export default class api_key extends Command {
     constructor() {
         super(
             "api-key",
@@ -28,7 +28,7 @@ export default class logsApiKey extends Command {
         const args = await this.parseArgs(msg, 1);
 
         if (args === false) {
-            return false;
+            return await this.fail(msg, "Visit http://logs.tf/uploader to get your API key.");
         }
 
         const user = await client.userManager.getUser(msg.author.id);

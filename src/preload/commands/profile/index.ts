@@ -40,7 +40,7 @@ export default class Profile extends Command {
                 `Bot: ${(profile.bot) ? "Yes" : "No"}
                  ID: ${profile.id}
                  Steam ID: ${steamid || "NOT SET"}
-                ${res.body.success ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${res.body.steamid})` : {/* nothing */ }}
+                ${res.body.success ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${res.body.steamid})` : "\u200b"}
                 Points: ${user.getFeetPushed()}
                 `,
             color: 3447003,

@@ -28,7 +28,7 @@ export async function listen(port: number, client: Client): Promise<void> {
         });
     });
 
-    server.get('/api/rgl/:id', (req, res) => {
+    server.get('/rgl/:id', (req, res) => {
         rglApi(req, res)
     }); 
 

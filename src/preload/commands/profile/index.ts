@@ -20,7 +20,7 @@ export default class Profile extends Command {
             ]
         );
 
-        this.apiAddress = "";
+        this.apiAddress = "payload.tf";
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {

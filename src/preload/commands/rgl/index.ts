@@ -21,7 +21,7 @@ export default class RGL extends Command {
                 }
             ],
         );
-        this.apiAddress = "";
+        this.apiAddress = "payload.tf";
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
@@ -77,7 +77,7 @@ export default class RGL extends Command {
                 url: body.avatar
             },
             footer: {
-                text: `RGL Profile: http://rgl.gg/Public/PlayerProfile.aspx?p=${body.steamid}`
+                text: `http://rgl.gg/Public/PlayerProfile.aspx?p=${body.steamid}`
             }
         });
 

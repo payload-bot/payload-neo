@@ -18,7 +18,7 @@ export default class Info extends Command {
         const embed = new MessageEmbed();
         embed.setAuthor(`${client.user.username}`, client.user.avatarURL());
         embed.setTitle(lang.info_embedtitle.replace('%users', client.users.cache.size).replace('%servers', client.guilds.cache.size));
-        embed.setDescription(lang.info_embedbody.replace('%name', client.user.username).replace('%prefix', await this.getPrefix(msg)));
+        embed.setDescription(lang.info_embedbody.replace('%user', client.user.username).replace('%prefix', await this.getPrefix(msg)));
         embed.setFooter(lang.info_embedfooter.replace('%creator', client.users.cache.get(config.allowedID).tag).replace('%version', version), client.users.cache.get(config.allowedID).avatarURL())
         embed.setColor(colors.yellow);
         await msg.channel.send(embed);

@@ -48,12 +48,13 @@ export default class EightBall extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const question = (await this.getArgs(msg)).join(" ");
+        const lang = await this.getLanguage(msg) as any
 
         if (!question) {
-            return await this.fail(msg, "You must ask the 8ball a question.");
+            return await this.fail(msg, lang.eighttball_noquestion);
         }
 
-        await this.respond(msg, `🎱 **${this.responses[random(0, this.responses.length - 1)]}**`);
+        await this.respond(msg, lang.eightball_answer.replace('%answer', this.responses[random(0, this.responses.length - 1)]));
 
         return true;
     }

@@ -9,11 +9,11 @@ export async function handleAutoCommand(client: Client, msg: Message): Promise<B
     let autoResponseKeys = client.autoResponses.keyArray();
 
     for (let i = 0; i < autoResponseKeys.length; i++) {
-        let autoReponse = client.autoResponses.get(autoResponseKeys[i]) as AutoResponse;
-        let pattern = autoReponse.pattern;
+        let autoResponse = client.autoResponses.get(autoResponseKeys[i]) as AutoResponse;
+        let pattern = autoResponse.pattern;
 
         if (msg.content.match(pattern)) {
-            match = autoReponse.name;
+            match = autoResponse.name;
             break;
         }
     }

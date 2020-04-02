@@ -19,8 +19,9 @@ export default class Bruh extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        if (msg.mentions.users.size > 0) await this.respond(msg, "bruh " + msg.mentions.users.first());
-        else await this.respond(msg, "bruh");
+        const lang = await this.getLanguage(msg)
+        if (msg.mentions.users.size > 0) await this.respond(msg, lang.bruh_user.replace('%mention', msg.mentions.users.first().toString()));
+        else await this.respond(msg, lang.bruh_nouser);
 
         return true;
     }

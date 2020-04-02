@@ -1,6 +1,6 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import { Server, ServerModel } from "../../../../lib/model/Server";
 import { qSort } from "../../../../util/sort";
 
@@ -20,6 +20,7 @@ export default class Servers extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
         msg.channel.startTyping();
 
         let servers: ServerModel[] = await Server.find({
@@ -42,7 +43,7 @@ export default class Servers extends Command {
         let leaderboardString = "```md\n";
 
         for (let i = 0; i < top5.length; i++) {
-            let identifier = (client.guilds.get(top5[i].id).name);
+            let identifier = (client.guilds.cache.get(top5[i].id).name);
 
             identifier = (identifier as String).replace(/\`\`\`/g, "");
 
@@ -55,8 +56,8 @@ export default class Servers extends Command {
 
         leaderboardString += "```";
 
-        await msg.channel.send(new RichEmbed({
-            title: "Pushcart Server Leaderboard",
+        await msg.channel.send(new MessageEmbed({
+            title: lang.pushcart_serverembedtitle,
             description: leaderboardString
         }));
 

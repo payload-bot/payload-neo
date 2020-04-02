@@ -36,15 +36,16 @@ export default class Config extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.getArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (!args) {
-            await this.respond(msg, `Invalid syntax. Type \`${await this.getPrefix(msg)}help config\` to learn more.`);
+            await this.respond(msg, lang.config_error_invalidsyntax.replace('%prefix', await this.getPrefix(msg)));
 
             return false;
         }
 
         if (!this.subCommands[args[0]]) {
-            await this.respond(msg, `Invalid subcommand. Type \`${await this.getPrefix(msg)}help config\` to learn more.`);
+            await this.respond(msg, lang.config_error_invalidsubcommand.replace('%prefix', await this.getPrefix(msg)));
 
             return false;
         }

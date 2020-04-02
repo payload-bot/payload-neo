@@ -9,8 +9,8 @@ export default class PugScrim extends Command {
             "pugscrim",
             "Starts a pugscrim. First 5 people to type !pug will be drafted into the pugscrim. Sends info automatically when recieved.",
             undefined,
-            ["READ_MESSAGE_HISTORY", "SEND_MESSAGES", "READ_MESSAGES"],
-            ["MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS"],
+            ["MANAGE_GUILD"],
+            ["MANAGE_GUILD"],
             ["text"]
         );
     }

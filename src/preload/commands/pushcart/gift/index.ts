@@ -33,6 +33,7 @@ export default class Gift extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 2);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -42,14 +43,14 @@ export default class Gift extends Command {
         const targetUser = msg.mentions.users.first();
 
         if (!targetUser) {
-            return await this.fail(msg, `Invalid \`<user mention>\` argument. Type \`${this.getPrefix(msg)}help ${this.getFullCommandName()}\` to learn more.`);
+            return await this.fail(msg, lang.pushcart_fail_notarget.replace('%prefix', await this.getPrefix(msg)).replace('%cmd', this.getFullCommandName()));
         }
 
         const from = await client.userManager.getUser(msg.author.id);
         const to = await client.userManager.getUser(targetUser.id);
 
         if (from.getFeetPushed() < amount) {
-            return await this.fail(msg, `Too many points specified. The most you can gift is ${from.getFeetPushed()}.`);
+            return await this.fail(msg, lang.pushcart_fail_toomanypoints.replace('%points', from.getFeetPushed()));
         }
 
         from.feetPushedTransaction(-1 * amount);
@@ -60,7 +61,7 @@ export default class Gift extends Command {
             to.save()
         ]);
 
-        await this.respond(msg, `🎁 ${msg.author.tag} has gifted **${amount}** points to ${targetUser.tag}!`);
+        await this.respond(msg, lang.pushcart_giftsuccess.replace('%tag', msg.author.tag).replace('%amt', amount).replace('%totag', targetUser));
 
         return true;
     }

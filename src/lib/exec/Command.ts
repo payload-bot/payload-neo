@@ -112,14 +112,28 @@ export abstract class Command {
         return server.getPrefixFromGuild(msg.guild.id);
     }
 
+    async getLanguage(msg: Discord.Message): Promise<any> {
+        const client: any = msg.client;
+        let lang: any;
+        if (msg.guild) {
+            const server = await client.serverManager.getServer(msg.guild.id);
+            const guildLang = server.getLanguageFromGuild(msg.guild.id);
+            lang = require(`../../../languages/${guildLang}`)
+        } else {
+            lang = require(`../../../languages/en-US`)
+        }
+        return lang
+    }
+
     async parseArgs(message: Message, commandLevel?: number): Promise<Array<number | string | boolean> | false> {
         const args = await this.getArgs(message, commandLevel);
         let parsedArgs: Array<number | string | boolean> = [];
+        const lang = await this.getLanguage(message)
 
         for (let i = 0; i < this.args.length; i++) {
             if (!args[i]) {
                 if (this.args[i].required) {
-                    return await this.fail(message, `Missing \`${this.args[i].name}\` argument. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_argsmissing.replace('%argsname', this.args[i].name).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 break;
@@ -130,19 +144,19 @@ export abstract class Command {
                 let arg: String | number = args[i];
 
                 if (Number(arg) === NaN || Number(arg) === null || Number(arg) === Infinity) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be a number. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_numberarg.replace('%argsname', argCheck.name).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 arg = Math.round(Number(arg));
 
                 if (argCheck.max != undefined && argCheck.max < arg) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be less than ${argCheck.max + 1}. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_lessthan.replace('%argsname', argCheck.name).replace('%argsnumber', argCheck.max + 1).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 } else if (argCheck.min != undefined && argCheck.min > arg) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be greater than ${argCheck.min - 1}. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_greaterthan.replace('%argsname', argCheck.name).replace('%argsnumber', argCheck.min - 1).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 if (argCheck.options && !argCheck.options.includes(arg)) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_notaccepted.replace('%argsname', argCheck.name).replace('%argoptions', argCheck.options.join(", ")).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 parsedArgs.push(arg);
@@ -151,13 +165,13 @@ export abstract class Command {
                 let arg: any = args[i];
 
                 if (argCheck.maxLength != undefined && argCheck.maxLength < arg.length) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must have less than ${argCheck.maxLength + 1} characters. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_argless.replace('%argsname', argCheck.name).replace('%argnum', argCheck.maxLength + 1).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 } else if (argCheck.minLength != undefined && argCheck.minLength > arg.length) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must have more than ${argCheck.minLength - 1} characters. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_argmore.replace('%argsname', argCheck.name).replace('%argnum', argCheck.minLength - 1).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 if (argCheck.options && !argCheck.options.includes(arg)) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be one of the following: ${argCheck.options.join(", ")}. Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_notaccepted.replace('%argsname', argCheck.name).replace('%argoptions', argCheck.options.join(", ")).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 parsedArgs.push(arg);
@@ -166,7 +180,7 @@ export abstract class Command {
                 let arg: String | boolean = args[i];
 
                 if (!["true", "false"]) {
-                    return await this.fail(message, `\`${argCheck.name}\` argument must be either "true" or "false". Type \`${await this.getPrefix(message)}help ${this.getFullCommandName()}\` to learn more.`);
+                    return await this.fail(message, lang.parseargs_fail_boolean.replace('%argsname', argCheck.name).replace("%prefix", await this.getPrefix(message)).replace("%fullcommandname", this.getFullCommandName()));
                 }
 
                 arg = arg == "true" ? true : false;

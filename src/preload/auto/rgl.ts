@@ -1,25 +1,26 @@
 import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
-import { capture, captureSelector } from "../../util/screenshot";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
+import { captureSelector } from "../../util/screenshot";
 
-export const name = "rgl";
-export const description = "Generates RGL team previews.";
-export const pattern = /rgl\.gg\/Public\/Team\.aspx\?t=\d+\&r=\d+/;
-export const permissions = ["SEND_MESSAGES", "ATTACH_FILES"];
-export const zones = ["text", "dm"];
+export default class RGL extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    const url = matchMsg(msg);
+    constructor() {
+        super(
+            "rgl",
+            "Generates RGL team previews.",
+            /rgl\.gg\/Public\/Team\.aspx\?t=\d+\&r=\d+/,
+            ["SEND_MESSAGES", "ATTACH_FILES"]
+        )
+    }
 
-    let screenshotBuffer = await captureSelector(`https://${url}`, "div.col-md-12.col-lg-5")
+    async run(client: Client, msg: Message): Promise<void> {
+        const url = this.matchMsg(msg);
 
-    msg.channel.send({
-        files: [screenshotBuffer]
-    });
-}
+        let screenshotBuffer = await captureSelector(`https://${url}`, "div.col-md-12.col-lg-5")
 
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
-
-    return match[0];
+        msg.channel.send({
+            files: [screenshotBuffer]
+        });
+    }
 }

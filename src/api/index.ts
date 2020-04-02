@@ -1,38 +1,50 @@
-import express from "express";
-import { Client } from "../lib/types";
-import { version } from "../util/version_control";
-import rglApi from "../api/player"
+import express from "express"
+import { Client } from "../lib/types"
+import { version } from "../util/version_control"
+import rglApi from "./routes/rgl"
+import etf2lApi from "./routes/etf2l"
+import steamid from "../util/steamid"
 
 export async function listen(port: number, client: Client): Promise<void> {
     const server = express();
-
-    server.get("/commands", (req, res) => {
+    server.set('json spaces', 1)
+    
+    server.get("/commands", (req: any, res: any) => {
         res.json({
             count: client.commands.filter(command => !command.requiresRoot).size,
             data: client.commands.filter(command => !command.requiresRoot).array()
         });
     });
 
-    server.get("/autoresponses", (req, res) => {
+    server.get("/autoresponses", (req: any, res: any) => {
         res.json({
             count: client.autoResponses.size,
             data: client.autoResponses.array()
         });
     });
 
-    server.get("/stats", (req, res) => {
+    server.get("/stats", (req: any, res: any) => {
         res.json({
-            users: client.users.size,
-            servers: client.guilds.size,
+            users: client.users.cache.size,
+            servers: client.guilds.cache.size,
             uptime: client.uptime
         });
     });
 
-    server.get('/rgl/:id', (req, res) => {
+    server.get('/rgl/:id', (req: any, res: any) => {
         rglApi(req, res)
-    }); 
+    });
 
-    server.get("/all-data", (req, res) => {
+    server.get('/etf2l/:id', (req: any, res: any) => {
+        etf2lApi(req, resizeBy)
+    })
+
+    server.get('/steam/:id', (req: any, res: any) => {
+        const id = steamid(req.params.id)
+        if (typeof id === 'string') res.json({ id })
+    })
+
+    server.get("/all-data", (req: any, res: any) => {
         res.json({
             commands: {
                 count: client.commands.filter(command => !command.requiresRoot).size,
@@ -43,16 +55,12 @@ export async function listen(port: number, client: Client): Promise<void> {
                 data: client.autoResponses.array()
             },
             stats: {
-                users: client.users.size,
-                servers: client.guilds.size,
+                users: client.users.cache.size,
+                servers: client.guilds.cache.size,
                 uptime: client.uptime,
                 version: version
             }
         });
-    });
-
-    server.get("/", (req, res) => {
-        res.redirect('/all-data');
     });
 
     return new Promise(resolve => {

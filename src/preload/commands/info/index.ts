@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import config from "../../../config";
 import colors from "../../../lib/misc/colors"
 import { version } from "../../../util/version_control";
@@ -14,12 +14,13 @@ export default class Info extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const embed = new RichEmbed();
-            embed.setAuthor(`${client.user.username}`, client.user.avatarURL);
-            embed.setTitle(`Currently serving **${client.users.size}** users in **${client.guilds.size}** servers!`);
-            embed.setDescription(`Join the official ${client.user.username} discord server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite ${client.user.username} to your server with \`${await this.getPrefix(msg)}invite\`!`);
-            embed.setFooter(`Created by ${(client.users.get(config.allowedID)!).tag} | Version ${version}`, (client.users.get(config.allowedID)!).avatarURL);
-            embed.setColor(colors.yellow);
+        const lang = await this.getLanguage(msg);
+        const embed = new MessageEmbed();
+        embed.setAuthor(`${client.user.username}`, client.user.avatarURL());
+        embed.setTitle(lang.info_embedtitle.replace('%users', client.users.cache.size).replace('%servers', client.guilds.cache.size));
+        embed.setDescription(lang.info_embedbody.replace('%name', client.user.username).replace('%prefix', await this.getPrefix(msg)));
+        embed.setFooter(lang.info_embedfooter.replace('%creator', client.users.cache.get(config.allowedID).tag).replace('%version', version), client.users.cache.get(config.allowedID).avatarURL())
+        embed.setColor(colors.yellow);
         await msg.channel.send(embed);
 
         return true;

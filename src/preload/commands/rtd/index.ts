@@ -30,6 +30,7 @@ export default class RTD extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -44,7 +45,7 @@ export default class RTD extends Command {
             dice.push(random(1, Math.round(Number(sides))));
         }
 
-        await this.respond(msg, dice.map(roll => `🎲 **${roll}**`).join(" | "));
+        await this.respond(msg, dice.map(roll => lang.rtd_roll.replace('%roll', roll)).join(" | "));
 
         return true;
     }

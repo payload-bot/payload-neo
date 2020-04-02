@@ -5,8 +5,11 @@ screenlog.0
 
 src/config
 
-.env
+*.env
 config.ts
 
-test.rest
+*.rest
 
+src/api/public/
+src/api/views
+src/api/newindex.ts

@@ -17,12 +17,6 @@ export default class Prefix extends Command {
                     required: false,
                     type: "string",
                     options: ["set", "delete"]
-                },
-                {
-                    name: "new prefix",
-                    description: "Your new prefix",
-                    required: false,
-                    type: "string",
                 }
             ],
             undefined,
@@ -38,10 +32,11 @@ export default class Prefix extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let args: any = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {
-                return await this.fail(msg, `Invalid subcommand. Type \`${await this.getPrefix(msg)}help prefix\` to learn more.`);
+                return await this.fail(msg, lang.prefix_fail_invalidsub.replace('%prefix', await this.getPrefix(msg)));
             }
 
             return await this.runSub(args[0], client, msg);
@@ -50,7 +45,7 @@ export default class Prefix extends Command {
             let prefix = server.getPrefixFromGuild(msg.guild.id);
             if (!prefix) prefix = config.PREFIX;
 
-            await this.respond(msg, `The guild prefix is: \`${prefix}\``)
+            await this.respond(msg, lang.prefix_default.replace('%prefix', await this.getPrefix(msg)))
             return true;
         }
     }

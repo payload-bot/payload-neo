@@ -31,6 +31,7 @@ export interface Client extends Client {
             [guild: string]: {
                 [channel: string]: Collection<string, Message>
             }
-        },
+        }
+        
     }
 }

@@ -8,8 +8,8 @@ import { Client as ClientDocument, ClientModel } from "../lib/model/Client";
 
 module.exports = {
     run: async (client) => {
-        console.log(`Logged in as ${client.user.tag}, on ${client.guilds.size} guilds, serving ${client.users.size} users`);
-        client.user.setActivity(`!invite | v${version}`);
+        console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
+        client.user.setActivity(`payload.tf/invite | v${version}`);
 
         let waitingInterval: NodeJS.Timeout;
         waitingInterval = setInterval(async () => {
@@ -24,7 +24,7 @@ module.exports = {
                     else setInterval(() => script.run(client), script.every);
                 }
 
-                let guilds = client.guilds.array();
+                let guilds = client.guilds.cache.array();
 
                 let changelog = getChangelog(version);
 
@@ -38,14 +38,14 @@ module.exports = {
                 if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
 
                 try {
-                    const channel = await client.channels.get(config.info.logChannel) as Discord.TextChannel;
+                    const channel = await client.channels.cache.get(config.info.logChannel) as Discord.TextChannel;
                     if (channel) channel.send("```md\n" + changelog + "\n```");
                 } catch (error) {
                     console.log("Could not find channel.");
                 }
 
                 for (let i = 0; i < guilds.length; i++) {
-                    let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.RichEmbed({
+                    let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.MessageEmbed({
                         title: `${client.user.username} updated to v${version}!`,
                         description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications 1\` in DM's.`,
                         fields: [

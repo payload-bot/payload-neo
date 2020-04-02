@@ -17,13 +17,14 @@ export default class Focus extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
         return new Promise(async resolve => {
-            let messages = await msg.channel.fetchMessages({ limit: 5 });
+            let messages = await msg.channel.messages.fetch({ limit: 5 });
     
             let img = messages.find(message => message.author.id == msg.author.id && message.attachments.size > 0);
     
             if (!img) {
-                return resolve(await this.fail(msg, "No image found."));
+                return resolve(await this.fail(msg, lang.face_fail_noimg));
             }
     
             let attachment = img.attachments.first();
@@ -45,11 +46,11 @@ export default class Focus extends Command {
             }, async (err, data) => {
                 if (err) {
                     console.log(err);
-                    return resolve(await this.fail(msg, "An error occured while trying to detect faces."));
+                    return resolve(await this.fail(msg, lang.face_error));
                 }
 
                 if (!data.FaceDetails) {
-                    return resolve(await this.fail(msg, "An error occured while trying to detect faces."));
+                    return resolve(await this.fail(msg, lang.face_error));
                 }
     
                 let canvas = createCanvas(attachment.width, attachment.height);
@@ -82,7 +83,7 @@ export default class Focus extends Command {
                 });
     
                 if (!pairsFound) {
-                    return resolve(await this.fail(msg, "No valid face found."));
+                    return resolve(await this.fail(msg, lang.face_fail_novalidface));
                 }
     
                 await msg.channel.send({

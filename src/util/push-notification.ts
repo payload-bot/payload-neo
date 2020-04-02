@@ -1,7 +1,7 @@
-import { RichEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Client } from "../lib/types";
 
-export async function pushNotification(client: Client, id: string, level: number, embed: RichEmbed, version?: string): Promise<boolean> {
+export async function pushNotification(client: Client, id: string, level: number, embed: MessageEmbed, version?: string): Promise<boolean> {
     const userDBEntry = await client.userManager.getUser(id);
 
     if (userDBEntry.user.notificationsLevel == undefined) {
@@ -21,9 +21,9 @@ export async function pushNotification(client: Client, id: string, level: number
         return false;
     }
 
-    let discordUser = client.users.get(id);
+    let discordUser = client.users.cache.get(id);
     if (!discordUser) {
-        discordUser = await client.fetchUser(id);
+        discordUser = await client.users.fetch(id);
     }
 
     try {

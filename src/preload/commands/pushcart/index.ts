@@ -36,12 +36,11 @@ export default class PushCart extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.getArgs(msg);
-
-        const prefix = await this.getPrefix(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {
-                await this.respond(msg, `Invalid subcommand. Type \`${prefix}help pushcart\` to learn more.`);
+                await this.respond(msg, lang.pushcart_fail_nosubcmd.replace('%prefix', await this.getPrefix(msg)));
 
                 return false;
             }
@@ -80,9 +79,9 @@ export default class PushCart extends Command {
                 )
                 / 1000
             );
-            return await this.fail(msg, `You must wait 30 seconds before pushing the cart again (${(secondsRemaining) ? secondsRemaining : 1} left).`)
+            return await this.fail(msg, lang.pushcart_fail_cooldown.replace('%time', secondsRemaining))
         } else if (pushResult == "CAP") {
-            return await this.fail(msg, "You have reached the max number of points for today. Come back tomorrow!");
+            return await this.fail(msg, lang.pushcart_fail_maxpoints);
         }
 
         server.addCartFeet(feetPushed);
@@ -92,7 +91,7 @@ export default class PushCart extends Command {
             server.save()
         ]);
 
-        await this.respond(msg, `<:payload:656955124098269186> Pushed the cart forward **${feetPushed}** feet (${server.server.fun!.payloadFeetPushed} total).`);
+        await this.respond(msg, lang.pushcart_success.replace('%units', feetPushed).replace('%total', server.server.fun!.payloadFeetPushed));
 
         return true;
     }

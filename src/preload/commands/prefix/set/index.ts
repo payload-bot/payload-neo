@@ -1,15 +1,21 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import colors from "../../../../lib/misc/colors";
-import config from "../../../../config";
 
 export default class Set extends Command {
     constructor() {
         super(
             "set",
             "Sets guild prefix",
-            undefined,
+            [
+                {
+                    name: "prefix",
+                    description: "Your new guild prefix",
+                    required: true,
+                    type: "string",
+                }
+            ],
             undefined,
             undefined,
             undefined,
@@ -20,19 +26,23 @@ export default class Set extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        let embed = new RichEmbed();
-        let newPrefix = (await this.getArgs(msg, 2)).join(" ");
+        const args: any = await this.parseArgs(msg, 2);
+        const lang = await this.getLanguage(msg);
+
+        if (args === false) return false
+        const newPrefix = args && args[0];
+        if (!newPrefix) return await this.fail(msg, lang.prefix_set_fail_nonew);
 
         const server = await client.serverManager.getServer(msg.guild.id);
         let oldPrefix = server.getPrefixFromGuild(msg.guild.id);
 
-        if (oldPrefix === newPrefix) return await this.fail(msg, "Your old prefix is the same as your new one!");
-        if (!newPrefix) return await this.fail(msg, "You didn't specify a new prefix!");
+        if (oldPrefix === newPrefix) return await this.fail(msg, lang.prefix_set_fail_oldnew);
         
-        embed.setAuthor(`${client.user.tag}`, client.user.displayAvatarURL);
+        let embed = new MessageEmbed();
+        embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL());
         embed.setColor(colors.red);
-        embed.setDescription(`Guild prefix set to: \`${newPrefix}\``);
-        embed.setTitle(`Guild prefix updated by ${msg.author.tag}`);
+        embed.setDescription(lang.prefix_set_success_embeddesc.replace('%prefix', newPrefix));
+        embed.setTitle(lang.prefix_set_success_embedtitle.replace('%author', msg.author.tag));
         embed.setTimestamp();
 
         server.server.prefix = newPrefix;

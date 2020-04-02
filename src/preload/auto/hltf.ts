@@ -1,38 +1,39 @@
-import { Client } from "../../lib/types";
-import { Message, RichEmbed } from "discord.js";
-import got from "got";
+import { Client } from "../../lib/types/Client";
+import { Message, MessageEmbed } from "discord.js";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
 import htmlToText from "html-to-text";
 import cheerio from "cheerio";
+import got from "got";
 
-export const name = "hltf";
-export const description = "Creates thread previews for highlander.tf threads.";
-export const pattern = /forums\.highlander.tf\/thread\-\d+/;
-export const permissions = ["SEND_MESSAGES", "EMBED_LINKS"];
-export const zones = ["text", "dm"];
+export default class HLTF extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    const url = "https://" + matchMsg(msg) + ".html";
-    const resp = await got(url);
-    const $ = cheerio.load(resp.body);
+    constructor() {
+        super(
+            "hltf",
+            "Creates thread previews for highlander.tf threads.",
+            /forums\.highlander.tf\/thread\-\d+/,
+            ["SEND_MESSAGES", "EMBED_LINKS"]
+        )
+    }
 
-    const title = $("#content > div > table > tbody > tr:nth-child(1) > td > div:nth-child(2) > strong").text().trim();
-    const $post = $("#posts_container > #posts > .post:first-of-type");
-    const author = $post.find(".post_author > .author_information > strong > .largetext > a > span").text().trim();
-    const body = htmlToText.fromString($post.find(".post_content > .post_body").html() as string, {
-        ignoreImage: true
-    });
+    async run(client: Client, msg: Message): Promise<void> {
+        const url = "https://" + this.matchMsg(msg) + ".html";
+        const resp = await got(url);
+        const $ = cheerio.load(resp.body);
 
-    let embed = new RichEmbed();
+        const title = $("#content > div > table > tbody > tr:nth-child(1) > td > div:nth-child(2) > strong").text().trim();
+        const $post = $("#posts_container > #posts > .post:first-of-type");
+        const author = $post.find(".post_author > .author_information > strong > .largetext > a > span").text().trim();
+        const body = htmlToText.fromString($post.find(".post_content > .post_body").html() as string, {
+            ignoreImage: true
+        });
+
+        let embed = new MessageEmbed();
         embed.setTitle(title);
         embed.setDescription(author);
-        embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url+ ")");
+        embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url + ")");
         embed.setColor("#e29455");
 
-    msg.channel.send(embed);
-}
-
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
-
-    return match[0];
+        msg.channel.send(embed);
+    }
 }

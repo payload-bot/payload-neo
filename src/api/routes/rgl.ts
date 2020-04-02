@@ -1,37 +1,17 @@
 import got from "got";
 import cheerio from "cheerio";
-import SteamID from "steamid";
-import s from "../api/helpers/selectors";
+import s from "../helpers/selectors";
+
+import getSteam64 from "../../util/steamid"
 
 /**
- * GET /api/rgl/player/:id
+ * GET /api/rgl/:id
  * -> http://rgl.gg/Public/PlayerProfile.aspx?p=:id
  */
 export default async (req, res) => {
-    const idParam = req.params.id;
+    const id64 = getSteam64(req.params.id)
 
-    let steamId;
-    try {
-        steamId = new SteamID(idParam);
-    } catch (err) {
-        res.json({
-            steamid: "INVALID",
-            success: false
-        });
-
-        return;
-    }
-
-    if (!steamId.isValid()) {
-        res.json({
-            steamid: "INVALID",
-            success: false
-        });
-
-        return;
-    }
-
-    const id64 = steamId.getSteamID64();
+    if (id64 === "INVALID" || id64 === "ERROR") return res.json({ "error": 400, message: "Could not get SteamID" })
 
     const rglUrl = `http://rgl.gg/Public/PlayerProfile.aspx?p=${id64}`;
 
@@ -54,7 +34,7 @@ export default async (req, res) => {
     const probation = $(s.player.probation).length === 1;
     const banned = $(s.player.banned).length === 1;
     const avatar = $(s.player.avatar).attr().src
-    
+
     const totalEarnings = $(s.player.totalEarnings).text() || "$0";
     const trophies = {
         gold: trophiesRaw[0] || 0,
@@ -78,7 +58,7 @@ export default async (req, res) => {
 
         const seasons = $t.find(s.player.leagueTable.season).map((i, elem) => $(elem).text().trim()) as unknown as string;
         const divs = $t.find(s.player.leagueTable.div).map((i, elem) => $(elem).text().trim()) as unknown as string;
-        const teams = $t.find(s.player.leagueTable.team).map((i, elem) => $(elem).text().trim()) ;
+        const teams = $t.find(s.player.leagueTable.team).map((i, elem) => $(elem).text().trim());
         const endRanks = $t.find(s.player.leagueTable.endRank).map((i, elem) => $(elem).text().trim());
         const recordsWith = $t.find(s.player.leagueTable.recordWith).map((i, elem) => $(elem).text().trim());
         const recordsWithout = $t.find(s.player.leagueTable.recordWithout).map((i, elem) => $(elem).text().trim());
@@ -116,6 +96,7 @@ export default async (req, res) => {
         verified,
         totalEarnings,
         trophies,
-        experience
+        experience,
+        code: 200
     });
 };

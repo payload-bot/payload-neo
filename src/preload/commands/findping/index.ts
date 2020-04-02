@@ -16,15 +16,16 @@ export default class FindPing extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
         if (!pingChannelCacheExists(client, msg) || getPingCache(client, msg).size == 0) {
-            return await this.fail(msg, "You haven't been pinged in any deleted messages.");
+            return await this.fail(msg, lang.findping_fail_noping);
         }
     
         msg.channel.startTyping();
     
         const targetMessages = getPingCache(client, msg).filter(message => !!message.mentions.members.find(member => member.id == msg.author.id));
     
-        if (targetMessages.size < 1) return await this.fail(msg, "You haven't been pinged in any deleted messages.");
+        if (targetMessages.size < 1) return await this.fail(msg, lang.findping_fail_noping);
     
         const targetMessage = targetMessages.last();
     

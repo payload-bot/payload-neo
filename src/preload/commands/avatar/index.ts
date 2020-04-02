@@ -21,7 +21,7 @@ export default class Avatar extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let targetUser = msg.mentions.users.first() || msg.author;
-        await this.respond(msg, targetUser.displayAvatarURL);
+        await this.respond(msg, targetUser.displayAvatarURL());
         return true;
     }
     

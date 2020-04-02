@@ -28,6 +28,7 @@ export default class logsApiKey extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 1);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -37,7 +38,7 @@ export default class logsApiKey extends Command {
         user.user.notificationsLevel = args[0] as number;
         await user.save();
 
-        await this.respond(msg, `Set notifications to \`${args[0]}\``);
+        await this.respond(msg, lang.config_success_setnotif.replace('%level', args[0]));
 
         return true;
     }

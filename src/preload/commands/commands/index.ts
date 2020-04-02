@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 export default class Commands extends Command {
 
@@ -12,7 +12,8 @@ export default class Commands extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        let embed = new RichEmbed();
+        const lang = await this.getLanguage(msg);
+        let embed = new MessageEmbed();
         let commandsToDisplay: string;
         const allCommands = client.commands.filter(cmds => !cmds.requiresRoot && !cmds.name.includes("pugscrim")).map(cmd => cmd.name);
 
@@ -28,11 +29,11 @@ export default class Commands extends Command {
         }
 
 
-        embed.setAuthor(`${client.user.tag}`, client.user.avatarURL);
-        embed.setTitle(`List of all non-restricted commands`);
-        embed.addField("Commands", commandsToDisplay);
-        embed.addField("Automatic Commands", client.autoResponses.map(cmd => cmd.name).join(', '));
-        embed.setFooter(`\nNeed help? ${await this.getPrefix(msg)}help [command name] to get full info on a certain command.`);
+        embed.setAuthor(`${client.user.tag}`, client.user.avatarURL());
+        embed.setTitle(lang.commands_embedtitle);
+        embed.addField(lang.commands_commands, commandsToDisplay);
+        embed.addField(lang.commands_autoresponses, client.autoResponses.map(cmd => cmd.name).join(', '));
+        embed.setFooter(lang.commands_embedfooter.replace('%prefix', await this.getPrefix(msg)));
         embed.setColor(16098851);
         msg.channel.send(embed);
         return true;

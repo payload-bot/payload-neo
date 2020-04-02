@@ -16,6 +16,7 @@ export default class Restrict extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.getArgs(msg)
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -30,7 +31,7 @@ export default class Restrict extends Command {
             if (args[i].match(/\<\#\d+\>/g)) channels.push(args[i].slice(2, -1));
             else if (args[i].toLowerCase() == "#{all}") {
                 allChannels = true;
-                channels.push(...msg.guild.channels.filter(channel => channel.type == "text").map(channel => channel.id));
+                channels.push(...msg.guild.channels.cache.filter(channel => channel.type == "text").map(channel => channel.id));
             }
             else if (args[i].toLowerCase() == "{all}") {
                 allCommands = true;
@@ -47,7 +48,7 @@ export default class Restrict extends Command {
             channels = [msg.channel.id];
         }
 
-        if (commands.includes("restrict") || commands.includes("unrestrict")) return await this.fail(msg, "Restricting the restriction commands from being used is probably not what you want to do...");
+        if (commands.includes("restrict") || commands.includes("unrestrict")) return await this.fail(msg, lang.restrict_fail_deny);
 
         const serverManager = client.serverManager;
         const server = await serverManager.ensureServer(msg.guild.id);
@@ -63,7 +64,7 @@ export default class Restrict extends Command {
 
         await server.save();
 
-        await this.respond(msg, `Restricted in ${allChannels ? "ALL CHANNELS" : channels.map(channelID => `<#${channelID}>`).join(", ")}: \`\`\`${(commands.length > 0) ? (allCommands ? "ALL COMMANDS" : commands.join("\n")) : "None"}\`\`\``);
+        await this.respond(msg, lang.restrict_success.replace('%channels', (allChannels ? lang.restrict_allcmnds : channels.map(channelID => `<#${channelID}>`).join(", "))).replace('%cmds', (commands.length > 0) ? (allCommands ? lang.restrict_allchns : commands.join("\n")) : lang.restrict_none));
 
         return true;
     }

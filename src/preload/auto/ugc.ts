@@ -1,25 +1,26 @@
 import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
-import { captureSelector, capture } from "../../util/screenshot";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
+import { captureSelector } from "../../util/screenshot";
 
-export const name = "ugc";
-export const description = "UGC Team Previews";
-export const pattern = /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/;
-export const permissions = ["SEND_MESSAGES", "ATTACH_FILES"];
-export const zones = ["text", "dm"];
+export default class UGC extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    const url = matchMsg(msg);
+    constructor() {
+        super(
+            "ugc",
+            "UGC Team Previews.",
+            /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
+            ["SEND_MESSAGES", "ATTACH_FILES"]
+        )
+    }
 
-    let screenshotBuffer = await captureSelector("http://" + url, "div.col-md-8");
+    async run(client: Client, msg: Message): Promise<void> {
+        const url =this.matchMsg(msg);
 
-    msg.channel.send({
-        files: [screenshotBuffer]
-    });
-}
+        let screenshotBuffer = await captureSelector("http://" + url, "div.col-md-8");
 
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
-
-    return match[0];
+        msg.channel.send({
+            files: [screenshotBuffer]
+        });
+    }
 }

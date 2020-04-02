@@ -1,25 +1,26 @@
 import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
 import { render } from "../../util/render-log";
 
-export const name = "logs";
-export const description = "Automatically renders logs whenever a logs link is posted.";
-export const pattern = /http(s|):\/\/(www\.|)logs\.tf\/\d+/;
-export const permissions = ["SEND_MESSAGES", "ATTACH_FILES"];
-export const zones = ["text", "dm"];
+export default class Logs extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    let link = matchMsg(msg);
+    constructor() {
+        super(
+            "logs",
+            "Automatically renders logs whenever a logs link is posted.",
+            /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
+            ["SEND_MESSAGES", "ATTACH_FILES"]
+        )
+    }
 
-    let screenshotBuffer = await render(link);
-    
-    msg.channel.send({
-        files: [screenshotBuffer]
-    });
-}
+    async run(client: Client, msg: Message): Promise<void> {
+        let link = this.matchMsg(msg);
 
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
+        let screenshotBuffer = await render(link);
 
-    return match[0];
+        msg.channel.send({
+            files: [screenshotBuffer]
+        });
+    }
 }

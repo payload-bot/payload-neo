@@ -26,16 +26,17 @@ export default class api_key extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 1);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
-            return await this.fail(msg, "Visit http://logs.tf/uploader to get your API key.");
+            return await this.fail(msg, lang.config_error_noargs);
         }
 
         const user = await client.userManager.getUser(msg.author.id);
         user.user.logsTfApiKey = args[0] as string;
         await user.save();
 
-        await this.respond(msg, `Set logs.tf api key to \`${args[0]}\``);
+        await this.respond(msg, lang.config_success_setkey.replace('%key', args[0]));
 
         return true;
     }

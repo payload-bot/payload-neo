@@ -3,7 +3,7 @@ import config from "../config";
 
 module.exports = {
     run: async (client, error) => {
-        const channel = client.channels.get(config.info.errorChannel) as TextChannel;
+        const channel = client.channels.cache.get(config.info.errorChannel) as TextChannel;
         channel.send({
             embed: {
                 color: 15158332,

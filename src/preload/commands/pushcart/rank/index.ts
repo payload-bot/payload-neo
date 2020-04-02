@@ -25,8 +25,9 @@ export default class Rank extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
         if (!client.leaderboard) {
-            return await this.fail(msg, "Leaderboard has not yet been generated. Try again in a couple minutes.");
+            return await this.fail(msg, lang.pushcart_fail_noleaderboard);
         }
 
         const targetUser = msg.mentions.users.first() || msg.author;

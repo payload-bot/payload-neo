@@ -1,6 +1,6 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 export default class Leaderboard extends Command {
     constructor() {
@@ -18,8 +18,10 @@ export default class Leaderboard extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
+
         if (!client.leaderboard) {
-            return await this.fail(msg, "Leaderboard has not yet been generated. Try again in a couple minutes.");
+            return await this.fail(msg, lang.pushcart_fail_noleaderboard);
         }
 
         const top10 = client.leaderboard.users.slice(0, 10);
@@ -28,7 +30,7 @@ export default class Leaderboard extends Command {
         let leaderboardString = "```md\n";
 
         for (let i = 0; i < top10.length; i++) {
-            let tag = (client.users.get(top10[i].id) || await client.fetchUser(top10[i].id)).tag;
+            let tag = (client.users.cache.get(top10[i].id) || await client.users.fetch(top10[i].id)).tag;
 
             if (top10[i].id == msg.author.id) {
                 leaderboardString += `> ${i + 1}: ${tag} (${top10[i].pushed})\n`;
@@ -42,11 +44,11 @@ export default class Leaderboard extends Command {
 
         leaderboardString += "```";
 
-        await msg.channel.send(new RichEmbed({
-            title: "Pushcart Leaderboard",
+        await msg.channel.send(new MessageEmbed({
+            title: lang.pushcart_userembedtitle,
             description: leaderboardString,
             footer: {
-                text: `Last updated: ${client.leaderboard.updated.toLocaleString()}`
+                text: lang.pushcart_userembedfooter.replace('%updated', client.leaderboard.updated.toLocaleString())
             }
         }));
 

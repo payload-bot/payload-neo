@@ -2,12 +2,13 @@ import * as Discord from "discord.js"
 import { readdir } from "fs";
 import config from "./config";
 import { CommandConstructor } from "./lib/exec/Command";
-import { AutoResponse, Client } from "./lib/types";
+import { Client } from "./lib/types";
 import mongoose from "mongoose";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { listen } from "./api"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
+import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -19,7 +20,7 @@ client.serverManager = new ServerManager(client);
 
 client.cache = {
     snipe: {},
-    pings: {},
+    pings: {}
 };
 
 /* 
@@ -104,13 +105,14 @@ readdir(__dirname + "/preload/auto", (err, files) => {
     console.log("Loading autoresponses...");
 
     files.forEach(file => {
-        let autoResponse: AutoResponse = require(__dirname + "/preload/auto/" + file);
+        const autoInit: AutoResponseConstructor = require(__dirname + "/preload/auto/" + file).default;
+        let autoresponse = new autoInit();
 
-        if (!autoResponse.name) return console.warn("\tFile " + file + " is not a valid autoresponse module.");
+        if (!autoresponse.name) return console.warn("\tFile " + file + " is not a valid autoresponse module.");
 
-        client.autoResponses.set(autoResponse.name, autoResponse);
+        client.autoResponses.set(autoresponse.name, autoresponse);
 
-        console.log("\tLoaded " + autoResponse.name);
+        console.log("\tLoaded " + autoresponse.name);
     });
 });
 

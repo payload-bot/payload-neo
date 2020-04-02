@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import got from "got";
 
 export default class Profile extends Command {
@@ -24,6 +24,7 @@ export default class Profile extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        const lang = await this.getLanguage(msg);
         let profile = msg.mentions.users.first() || msg.author;
         const user = await client.userManager.getUser(profile.id);
         const steamid = user.user.steamID;
@@ -34,18 +35,18 @@ export default class Profile extends Command {
             json: true
         });
 
-        const embed = new RichEmbed({
+        const embed = new MessageEmbed({
             title: profile.tag,
             description:
                 `Bot: ${(profile.bot) ? "Yes" : "No"}
                  ID: ${profile.id}
                  Steam ID: ${steamid || "NOT SET"}
                 ${res.body.success ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${res.body.steamid})` : "\u200b"}
-                Points: ${user.getFeetPushed()}
+                ${lang.profile_points}: ${user.getFeetPushed()}
                 `,
             color: 3447003,
             thumbnail: {
-                url: profile.displayAvatarURL
+                url: profile.displayAvatarURL()
             }
         });
 

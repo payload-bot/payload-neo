@@ -1,6 +1,6 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import colors from "../../../../lib/misc/colors";
 import config from "../../../../config";
 
@@ -20,15 +20,15 @@ export default class Delete extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        let embed = new RichEmbed();
-        let string: string;
+        let embed = new MessageEmbed();
+        const lang = await this.getLanguage(msg);
 
         const server = await client.serverManager.getServer(msg.guild.id);
         
-        embed.setAuthor(`${client.user.tag}`, client.user.displayAvatarURL);
+        embed.setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL());
         embed.setColor(colors.red);
-        embed.setDescription(`Prefix deleted! Default prefix: \`${config.PREFIX}\``);
-        embed.setTitle(`Guild prefix updated by ${msg.author.tag}`);
+        embed.setDescription(lang.prefix_delete_success.replace('%prefix', config.PREFIX));
+        embed.setTitle(lang.prefix_delete_embedfooter.replace('%author', msg.author.tag));
         embed.setTimestamp();
 
         server.server.prefix = config.PREFIX;

@@ -8,5 +8,5 @@ export interface AutoResponse {
     permissions: Array<string>;
     zones: Array<Channel["type"]>;
 
-    run: (client: Client, msg: Message) => void;
+    run: (client: Client, msg: Message) => Promise<void>;
 }

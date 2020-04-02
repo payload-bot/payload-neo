@@ -22,19 +22,15 @@ export default class Changelog extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         const version = args[0] as string || ImportVersion;
 
         const changelog = getChangelog(version);
 
-        if (!changelog) {
-            await this.respond(msg, "Invalid version format.");
+        if (!changelog) await this.fail(msg, lang.changelog_invalid);
 
-            return false;
-        }
-
-        await this.respond(msg, "```md\n" + changelog + "\n```");
-        msg.channel.stopTyping(true);
+        await this.respond(msg, lang.changelog_reply.replace('%changelog', changelog));
         return true;
     }
 }

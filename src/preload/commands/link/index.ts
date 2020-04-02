@@ -21,6 +21,7 @@ export default class Link extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -29,7 +30,7 @@ export default class Link extends Command {
         const steamIDTestResult = await ensureSteamID(args[0] as string);
 
         if (!steamIDTestResult) {
-            return await this.fail(msg, "Invalid `<Steam ID>` argument.");
+            return await this.fail(msg, lang.link_fail_invalidid);
         }
 
         const user = await client.userManager.getUser(msg.author.id);
@@ -38,7 +39,7 @@ export default class Link extends Command {
 
         await user.save();
 
-        await this.respond(msg, `Successfully overrode old Steam ID with \`${steamIDTestResult}\` for \`${msg.author.tag}\`.`);
+        await this.respond(msg, lang.link_success.replace('%steamid', steamIDTestResult).replace('%tag', msg.author.tag));
 
         return true;
     }

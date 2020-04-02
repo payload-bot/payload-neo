@@ -31,6 +31,7 @@ export default class Purge extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -45,7 +46,7 @@ export default class Purge extends Command {
 
         const startTime = Date.now();
 
-        let channelMessages = await msg.channel.fetchMessages({
+        let channelMessages = await msg.channel.messages.fetch({
             limit: 100
         });
 
@@ -61,7 +62,7 @@ export default class Purge extends Command {
 
         const deletedMessages = await msg.channel.bulkDelete(channelMessages.map(channelMessage => channelMessage.id).slice(0, amount as number));
 
-        await this.respond(msg, `🗑 Deleted **${deletedMessages.size}** messages in **${(Date.now() - startTime) / 1000}** seconds.`);
+        await this.respond(msg, lang.purge_success.replace('%size', deletedMessages.size).replace('%sec', (Date.now() - startTime) / 1000));
 
         return true;
     }

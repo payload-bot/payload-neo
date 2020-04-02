@@ -1,27 +1,27 @@
+import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
-import { Client } from "../../lib/types";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
 
-export const name = "good bot";
-export const description = "Responds to your appreciation sometimes :).";
-export const pattern = /^good bot$/i;
-export const permissions = ["SEND_MESSAGES"];
-export const zones = ["text", "dm"];
+export default class GoodBot extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    let lastMessages = await msg.channel.fetchMessages({ limit: 5 });
-    let lastBotMessage = lastMessages.find((message => message.author.id == client.user.id));
-    
-    if (!lastBotMessage) return;
+    constructor() {
+        super(
+            "good bot",
+            "Responds to your appreciation sometimes :).",
+            /^good bot$/
+        )
+    }
 
-    if (Date.now() - lastBotMessage.createdTimestamp > 1000 * 60) return;
+    async run(client: Client, msg: Message): Promise<void> {
+        let lastMessages = await msg.channel.messages.fetch({ limit: 5 });
+        let lastBotMessage = lastMessages.find((message => message.author.id == client.user.id));
 
-    if (Math.random() < 0.9) return;
+        if (!lastBotMessage) return;
 
-    msg.channel.send("<:heart_eyes:>");
-}
+        if (Date.now() - lastBotMessage.createdTimestamp > 1000 * 60) return;
 
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
+        if (Math.random() < 0.8751) return;
 
-    return match[0];
+        msg.channel.send("<:heart_eyes:>");
+    }
 }

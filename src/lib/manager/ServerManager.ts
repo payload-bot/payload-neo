@@ -53,7 +53,7 @@ export class ServerEditable {
         return this.server.commandRestrictions;
     }
 
-    addCommandRestrictions(restrictions: Array<{channelID: string, commands: Array<string>}>): Array<{channelID: string, commands: Array<string>}> {
+    addCommandRestrictions(restrictions: Array<{ channelID: string, commands: Array<string> }>): Array<{ channelID: string, commands: Array<string> }> {
         this.server.commandRestrictions = this.server.commandRestrictions || [];
 
         // Loop through each channel to match them up.
@@ -71,7 +71,7 @@ export class ServerEditable {
         return this.server.commandRestrictions;
     }
 
-    removeCommandRestrictions(restrictions: Array<{channelID: string, commands: Array<string>}>): Array<{channelID: string, commands: Array<string>}> {
+    removeCommandRestrictions(restrictions: Array<{ channelID: string, commands: Array<string> }>): Array<{ channelID: string, commands: Array<string> }> {
         if (!this.server.commandRestrictions) return [];
 
         // Loop through each channel to match them up.
@@ -91,7 +91,8 @@ export class ServerEditable {
     }
 
     getLanguageFromGuild(guild: string) {
-        return this.server.language;
+        if (!this.server.language) return "en-US"
+        else return this.server.language;
     }
 
     addCartFeet(miles: number) {

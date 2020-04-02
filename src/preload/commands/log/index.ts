@@ -24,13 +24,14 @@ export default class Log extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const targetUser = msg.mentions.users.first() || msg.author;
+        const lang = await this.getLanguage(msg);
 
         msg.channel.startTyping();
 
         const dbUser = await client.userManager.getUser(targetUser.id);
 
         if (!dbUser.user.steamID) {
-            return await this.fail(msg, `User does not have their Steam ID linked. Steam IDs can be linked to your account using \`${await this.getPrefix(msg)}link <Steam ID\`.`);
+            return await this.fail(msg, lang.log_fail_noid.replace('%prefix', await this.getPrefix(msg)));
         }
 
         const res = await got(`http://logs.tf/api/v1/log?limit=1&player=` + dbUser.user.steamID, {
@@ -39,7 +40,7 @@ export default class Log extends Command {
         const data = res.body;
 
         if (data.logs.length < 1) {
-            return await this.fail(msg, "User does not have a log history.");
+            return await this.fail(msg, lang.log_fail_nologhistory);
         }
 
         const logID = data.logs[data.logs.length - 1].id;

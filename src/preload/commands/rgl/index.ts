@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import got from "got";
 import { ensureSteamID } from "../../../util/steam-id";
 import { isUndefined } from "util";
@@ -26,6 +26,7 @@ export default class RGL extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
         const targetUser = msg.mentions.users.first() || msg.author;
 
         msg.channel.startTyping();
@@ -41,7 +42,7 @@ export default class RGL extends Command {
         const steamIdToTest = steamIDTestResultFromArgs || steamid as string
 
         if (!steamIdToTest) {
-            return await this.fail(msg, "No steamid detected. Either link one if using mentions, or provide one as your arguments.");
+            return await this.fail(msg, lang.rgl_fail_noid);
         }
 
         const res = await got(`${this.apiAddress}/api/rgl/${steamIdToTest}`, {
@@ -50,11 +51,11 @@ export default class RGL extends Command {
         const body = res.body
 
         if (body.success !== true) {
-            const embed = new RichEmbed({
-                title: "RGL Profile lookup",
+            const embed = new MessageEmbed({
+                title: lang.rgl_embedtitle,
                 description:
-                    `Steam ID: ${body.steamid}
-                     Error: ${body.error}
+                    `${lang.rgl_embeddesc_steamid}: ${body.steamid}
+                     ${lang.rgl_embeddesc_error}: ${body.error}
                 `,
                 color: 3447003,
             });
@@ -62,15 +63,15 @@ export default class RGL extends Command {
             return true;
         }
 
-        const embed = new RichEmbed({
-            title: "RGL Profile lookup",
+        const embed = new MessageEmbed({
+            title: lang.rgl_embedtitle,
             description:
-                `Steam ID: ${body.steamid}
-                 RGL Name: ${body.name}
-                 ${body.banned ? ":no_entry: Banned" : "\u200b"}
-                 ${body.probation ? ":exclamation: Probation" : "\u200b"}
-                 ${body.verified ? ":white_check_mark: Verified" : "\u200b"}
-                 Total Earnings: ${body.totalEarnings}
+                `${lang.rgl_embeddesc_steamid}: ${body.steamid}
+                 ${lang.rgl_embeddesc_name}: ${body.name}
+                 ${body.banned ? lang.rgl_embeddesc_banned : "\u200b"}
+                 ${body.probation ? lang.rgl_embeddesc_probation : "\u200b"}
+                 ${body.verified ? lang.rgl_embeddesc_verified : "\u200b"}
+                 ${lang.rgl_embeddesc_earnings}: ${body.totalEarnings}
                 `,
             color: 3447003,
             thumbnail: {

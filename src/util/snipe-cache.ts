@@ -33,7 +33,7 @@ export async function renderMessage(message: Message): Promise<{buffer: Buffer, 
 
     let username = message.member.displayName;
     let color = message.member.displayHexColor != "#000000" ? message.member.displayHexColor : "#ffffff";
-    let avatarURL = message.author.displayAvatarURL.replace(/\.gif|\.jpg|\.jpeg/, ".png") + "?size=128";
+    let avatarURL = message.author.displayAvatarURL().replace(/\.gif|\.jpg|\.jpeg/, ".png") + "?size=128";
     let date = message.editedAt || message.createdAt;
     let timestamp = moment(date).format("MM/DD/YYYY");
 

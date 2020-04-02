@@ -121,3 +121,18 @@
 * !profile will link to RGL profile, if there is one
 * !rgl [mention, steamid] will fetch RGL profile with information such as bans, probations, name, and more. In works for getting experience
 * !config api-key will link you to the logs.tf page to aquire one
+
+### 3.6.4
+* Update package.json: discord.js -> 12.1.1
+* Deleted commands: !pchajwozek, !pushkart (localization process)
+* Guild language support (!language)
+* New command: !language (sets guild language)
+* New autoresponse constructors (framework)
+* Moved all responses to localization files
+* Moved RGL and ETF2L api routes to functions
+* Moved SteamID api to local function, api route still works
+* Updated !prefix set
+* Updated !unrestrict spelling
+* Updated API
+* Fixed all SourceQuery timeouts (so far)
+* Fixed !translate

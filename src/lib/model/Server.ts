@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { Message } from "discord.js";
 
 export type ServerModel = mongoose.Document & {
     id?: string,

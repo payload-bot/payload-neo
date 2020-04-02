@@ -1,25 +1,26 @@
 import { Client } from "../../lib/types/Client";
 import { Message } from "discord.js";
 import { captureSelector } from "../../util/screenshot";
+import { AutoResponse } from "../../lib/exec/Autoresponse";
 
-export const name = "etf2l";
-export const description = "Generates ETF2L team previews.";
-export const pattern = /etf2l\.org\/teams\/\d+/;
-export const permissions = ["SEND_MESSAGES"];
-export const zones = ["text", "dm"];
+export default class ETF2L extends AutoResponse {
 
-export async function run(client: Client, msg: Message) {
-    const url = matchMsg(msg);
+    constructor() {
+        super(
+            "etf2l",
+            "Runs ETF2L team previews",
+            /etf2l.org\/teams\/\d+/,
+            ["SEND_MESSAGES", "EMBED_LINKS"]
+        )
+    }
 
-    let screenshotBuffer = await captureSelector("http://" + url, "#content > div > div > table.pls");
+    async run(client: Client, msg: Message): Promise<void> {
+        const url = this.matchMsg(msg);
 
-    msg.channel.send({
-        files: [screenshotBuffer]
-    });
-}
+        let screenshotBuffer = await captureSelector("http://" + url, "#content > div > div > table.pls");
 
-function matchMsg(msg: Message) {
-    let match = msg.content.match(pattern) as RegExpMatchArray;
-
-    return match[0];
+        msg.channel.send({
+            files: [screenshotBuffer]
+        });
+    }
 }

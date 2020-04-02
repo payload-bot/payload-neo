@@ -25,6 +25,7 @@ export default class Snipe extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -33,7 +34,7 @@ export default class Snipe extends Command {
         const number = args[0] as number || 1;
 
         if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
-            return await this.fail(msg, "No messages to snipe!");
+            return await this.fail(msg, lang.snipe_fail_nomsg);
         }
 
         msg.channel.startTyping();
@@ -43,7 +44,7 @@ export default class Snipe extends Command {
         const max = cache.size;
 
         if (number > max) {
-            return await this.fail(msg, "Snipe cache doesn't go that far!");
+            return await this.fail(msg, lang.snipe_fail_max);
         }
 
         const ids = cache.keyArray();

@@ -40,6 +40,7 @@ export default class Choose extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -56,7 +57,7 @@ export default class Choose extends Command {
             chosen.push(list.splice(chosenIndex, 1));
         }
 
-        await this.respond(msg, chosen.join(", "));
+        await this.respond(msg, lang.choose_reply.replace('%chosen', chosen.join(", ")));
 
         return true;
     }

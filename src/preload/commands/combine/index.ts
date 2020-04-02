@@ -48,17 +48,18 @@ export default class Combine extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
+        const lang = await this.getLanguage(msg);
 
         const title = args[0];
         const map = args[1];
         const logs = args.slice(2);
 
         if (!map || map.match(/logs\.tf\/\d+/)) {
-            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
+            return await this.fail(msg, lang.combine_fail_invalid.replace('%prefix', await this.getPrefix(msg)));
         } else if (!title || title.match(/logs\.tf\/\d+/)) {
-            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
+            return await this.fail(msg, lang.combine_fail_invalid.replace('%prefix', await this.getPrefix(msg)));
         } else if (logs.length < 2) {
-            return await this.fail(msg, `Invalid syntax. Make sure to specify the map and title before the log URLs. Type \`${await this.getPrefix(msg)}help combine\` to learn more.`);
+            return await this.fail(msg, lang.combine_fail_invalid.replace('%prefix', await this.getPrefix(msg)));
         }
 
         let logIds: Array<string> = [];
@@ -66,7 +67,7 @@ export default class Combine extends Command {
             const logId = logs[i].match(/\d+/);
 
             if (!logId) {
-                return await this.fail(msg, `\`${logs[i]}\` is not a valid log.`);
+                return await this.fail(msg, lang.combine_fail_invalidlog.replace('%log', logs[i]));
             }
 
             logIds.push(logId![0]);
@@ -78,7 +79,7 @@ export default class Combine extends Command {
 
         let apiKey;
         if (!user.user.logsTfApiKey) {
-            return await this.fail(msg, `You have not set a logs.tf API key. Type \`${await this.getPrefix(msg)}help config\` to find out more.\nGet your API key here: http://logs.tf/uploader`);
+            return await this.fail(msg, lang.combine_fail_noapikey.replace('%prefix', await this.getPrefix(msg)));
         } else {
             apiKey = user.user.logsTfApiKey;
         }
@@ -106,10 +107,10 @@ export default class Combine extends Command {
 
         if (!res.body.success) {
             client.emit("error", `${res.body.error}`);
-            return await this.fail(msg, `Error combining logs.\nError: ${res.body.error}`);
+            return await this.fail(msg, lang.combine_fail_error);
         }
 
-        await this.respond(msg, "**Done!** https://logs.tf/" + res.body.log_id);
+        await this.respond(msg, lang.combine_success.replace('%logpath', `https://logs.tf/${res.body.log_id}`));
 
         const screenshotBuffer = await render("https://logs.tf/" + res.body.log_id);
         await msg.channel.send({

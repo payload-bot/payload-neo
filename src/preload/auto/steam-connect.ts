@@ -10,7 +10,7 @@ export default class SteamConnectLink extends AutoResponse {
         super(
             "steam connect info",
             "Automatically sends steam connect links when raw connect info is posted.",
-            /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+/,
+            /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+/,
             ["SEND_MESSAGES", "EMBED_LINKS"]
         )
     }

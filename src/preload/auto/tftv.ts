@@ -1,6 +1,7 @@
 import { Client } from "../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
+import cheerio from "cheerio"
 import got from "got";
 
 export default class TFTV extends AutoResponse {

@@ -12,7 +12,7 @@ export default class Prefix extends Command {
             [
                 {
                     name: "command",
-                    description: "Command of prefix to execute",
+                    description: "Command of language to execute",
                     required: false,
                     type: "string",
                     options: ["set", "delete"]

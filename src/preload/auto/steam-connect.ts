@@ -30,7 +30,7 @@ export default class SteamConnectLink extends AutoResponse {
 
         let connectInfoEmbed = await msg.channel.send(embed) as Message;
 
-        let sq = new SourceQuery(1000);
+        let sq = new SourceQuery(5000);
         sq.open(ipNoPort, Number(port));
         sq.getInfo((err, info) => {
             if (err) {

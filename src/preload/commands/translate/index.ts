@@ -41,7 +41,6 @@ export default class Translate extends Command {
 
         try {
             const [botchedPhrase] = await translator.translate(phrase, "en");
-            await this.respond(msg, botchedPhrase);
 
             let embed = new MessageEmbed()
             embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL());

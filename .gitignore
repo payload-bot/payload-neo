@@ -10,6 +10,6 @@ config.ts
 
 *.rest
 
-src/api/public/
-src/api/views
+public/
+views
 src/api/newindex.ts

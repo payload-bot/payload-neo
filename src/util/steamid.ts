@@ -1,9 +1,7 @@
 import SteamID from "steamid";
 
 /**
- * @param ID
- * @type String
- * @returns SteamID64
+ * @param {string} ID
  */
 export default (ID: string): string => {
     if (ID.startsWith("U")) ID = `[${ID}]`

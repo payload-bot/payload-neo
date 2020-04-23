@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import config from "../../config";
-import { Message } from "discord.js";
+import { Message, BitFieldResolvable, PermissionString } from "discord.js";
 import { getArgs } from "../../util/parse";
 import { Client } from "../types"
 
@@ -128,8 +128,9 @@ export abstract class Command {
     async checkPermissions(msg: Discord.Message): Promise<boolean> {
         const client: Client = msg.client as unknown as Client;
         const server = await client.serverManager.getServer(msg.guild.id);
-        const permissions = server.server.settings.snipePerms || ["MANAGE_MESSAGES"];
-        if (msg.member.permissions.has(permissions)) return true;
+        const array = server.server.settings.snipePerms;
+        const perms: BitFieldResolvable<PermissionString> = (!Array.isArray(array) || !array.length) ? ["MANAGE_MESSAGES"] : array;
+        if (msg.member.permissions.has(perms)) return true;
         else return false;
     }
 

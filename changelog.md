@@ -140,3 +140,4 @@
 ### 3.6.5
 * Updated localisation files
 * New command: !settings. Controls settings for !snipe, and dashboard permissions access.
+* Pushed some website updates. Final dashboard still in work, however.

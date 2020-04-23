@@ -18,7 +18,7 @@ export default class Snipe extends Command {
                 }
             ],
             ["SEND_MESSAGES", "ATTACH_FILES"],
-            ["MANAGE_MESSAGES"],
+            undefined,
             ["text"]
         );
     }
@@ -26,6 +26,9 @@ export default class Snipe extends Command {
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
         const lang = await this.getLanguage(msg);
+
+        const checker = await this.checkPermissions(msg)
+        if (!checker) return false;
 
         if (args === false) {
             return false;
@@ -40,7 +43,7 @@ export default class Snipe extends Command {
         msg.channel.startTyping();
 
         const cache = getCache(client, msg);
-        
+
         const max = cache.size;
 
         if (number > max) {

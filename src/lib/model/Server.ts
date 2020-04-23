@@ -16,7 +16,18 @@ export type ServerModel = mongoose.Document & {
 
     settings?: {
         dashboardPermRoles: Array<PermissionString>,
-        pushcartLanguage: string
+        pushcartLanguage: string,
+        snipePerms: Array<PermissionString>
+    }
+
+    dashboard?: {
+        logs: Array<{
+            action: string,
+            username: string,
+            date: number,
+            showeddate: string,
+            executor: string
+        }>
     }
 };
 
@@ -38,7 +49,18 @@ const serverSchema = new mongoose.Schema({
 
     settings: {
         dashboardPermRoles: [String],
-        pushcartLanguage: String
+        pushcartLanguage: String,
+        snipePerms: [String]
+    },
+
+    dashboard: {
+        logs: [{
+            action: String,
+            username: String,
+            date: Number,
+            showeddate: String,
+            executor: String
+        }]
     }
 });
 

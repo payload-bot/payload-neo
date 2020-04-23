@@ -125,6 +125,14 @@ export abstract class Command {
         return lang
     }
 
+    async checkPermissions(msg: Discord.Message): Promise<boolean> {
+        const client: Client = msg.client as unknown as Client;
+        const server = await client.serverManager.getServer(msg.guild.id);
+        const permissions = server.server.settings.snipePerms || ["MANAGE_MESSAGES"];
+        if (msg.member.permissions.has(permissions)) return true;
+        else return false;
+    }
+
     async parseArgs(message: Message, commandLevel?: number): Promise<Array<number | string | boolean> | false> {
         const args = await this.getArgs(message, commandLevel);
         let parsedArgs: Array<number | string | boolean> = [];

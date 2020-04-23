@@ -29,7 +29,6 @@ module.exports = {
                 let changelog = getChangelog(version);
 
                 if (!changelog) {
-                    client.emit("warn", "Error fetching changelog.");
                     return console.warn("Error fetching changelog!");
                 }
 

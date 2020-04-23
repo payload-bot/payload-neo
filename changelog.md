@@ -136,3 +136,7 @@
 * Updated API
 * Fixed all SourceQuery timeouts (so far)
 * Fixed !translate
+
+### 3.6.5
+* Updated localisation files
+* New command: !settings. Controls settings for !snipe, and dashboard permissions access.

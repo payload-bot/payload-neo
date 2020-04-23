@@ -84,7 +84,7 @@
 	"purge_success": "🗑 Deleted **%size** messages in **%sec** seconds.",	
 	
 	"pushcart_fail_nosubcmd": "Invalid subcommand. Type `%prefixhelp pushcart` to learn more.",
-	"pushcart_fail_cooldown": "You must wait 30 seconds before pushing the cart again %time left).",
+	"pushcart_fail_cooldown": "You must wait 30 seconds before pushing the cart again (%time left).",
 	"pushcart_fail_maxpoints": "You have reached the max number of points for today. Come back tomorrow!",
 	"pushcart_fail_notarget": "Invalid `<user mention>` argument. Type `%prefixhelp %cmd` to learn more.",
 	"pushcart_fail_toomanypoints": "Too many points specified. The most you can gift is: %points.",
@@ -114,6 +114,13 @@
 	"rgl_embeddesc_earnings": "Total Earnings",
 	
 	"rtd_roll": "🎲 **%roll**",
+	
+	"settings_fail_nosubcmd": "Invalid subcommand. Type `%prefixhelp settings` to learn more.",
+	"settings_all": "Successfully set Snipe permissions to: `ALL USERS`",
+	"settings_admin": "Successfully set Snipe permissions to: `MANAGE MESSAGES`",
+	
+	"dashboard_admin": "Succsessfully set Dashboard Permissions to: `ADMIN`",
+	"dashboard_mod": "Succsessfully set Dashboard Permissions to: `MODERATORS`",
 	
 	"snipe_fail_nomsg": "No messages to snipe!",
 	"snipe_fail_max": "Snipe cache doesn't go that far!",

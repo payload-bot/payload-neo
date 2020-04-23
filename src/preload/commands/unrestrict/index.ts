@@ -62,7 +62,7 @@ export default class Unrestrict extends Command {
 
         await server.save();
 
-        await this.respond(msg, lang.unrestrict_success.replace('%channels', (allChannels ? lang.restrict_allcmnds : channels.map(channelID => `<#${channelID}>`).join(", "))).replace('%cmds', (commands.length > 0) ? (allCommands ? lang.restrict_allchns : commands.join("\n")) : lang.restrict_none));
+        await this.respond(msg, lang.unrestrict_success.replace('%channels', (allChannels ? lang.restrict_allchns : channels.map(channelID => `<#${channelID}>`).join(", "))).replace('%cmds', (commands.length > 0) ? (allCommands ? lang.restrict_allcmds : commands.join("\n")) : lang.restrict_none));
 
         return true;
     }

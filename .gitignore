@@ -10,6 +10,6 @@ config.ts
 
 *.rest
 
-public/
-views
+secret.*
+views/secret
 src/api/newindex.ts

@@ -1,0 +1,66 @@
+.nav-container {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: "nav content";
+  color: white;
+}
+
+.nav-sidebar {
+  margin: 1rem;
+  grid-area: nav;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-sidebar-header {
+  text-align: center;
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav {
+  text-align: center;
+  cursor: pointer;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+
+.nav i {
+  font-size: 2rem;
+}
+
+.overview,
+.panel {
+  margin-top: 1rem;
+  color: white;
+}
+
+.server-name {
+  font-size: 1.5rem;
+}
+
+.guild-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #AAA;
+}
+
+.header-settings {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: white;
+}

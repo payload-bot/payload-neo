@@ -5,7 +5,7 @@ import { CommandConstructor } from "./lib/exec/Command";
 import { Client } from "./lib/types";
 import mongoose from "mongoose";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
-import { listen } from "./api"
+import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
 import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
@@ -40,7 +40,7 @@ mongoose.connect(config.MONGODB_URI, {
     Event loader.
 */
 readdir(__dirname + '/events/', (err, files) => {
-    if (err) return console.error(err);
+    if (err) throw new Error("No events found; cannot continue without an event!");
 
     console.log("Loading events...");
 
@@ -63,7 +63,7 @@ readdir(__dirname + '/events/', (err, files) => {
 * Load scheduled scripts.
 */
 readdir(__dirname + "/scheduled", (err, files) => {
-    if (err) throw new Error("Error reading schedule directory: " + err);
+    if (err) throw new Error("Error reading schedule directory:\n" + err);
 
     console.log("Loading scheduled scripts...");
 
@@ -80,7 +80,7 @@ readdir(__dirname + "/scheduled", (err, files) => {
  * Load commands.
  */
 readdir(__dirname + "/preload/commands", (err, files) => {
-    if (err) throw new Error("Error reading commands directory: " + err);
+    if (err) throw new Error("Error reading commands directory:\n" + err);
 
     console.log("Loading commands...");
 
@@ -100,7 +100,7 @@ readdir(__dirname + "/preload/commands", (err, files) => {
  * Load auto commands.
  */
 readdir(__dirname + "/preload/auto", (err, files) => {
-    if (err) throw new Error("Error reading automatic responses directory: " + err);
+    if (err) throw new Error("Error reading automatic responses directory:\n" + err);
 
     console.log("Loading autoresponses...");
 

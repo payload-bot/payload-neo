@@ -3,7 +3,6 @@ import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import got from "got";
 import { ensureSteamID } from "../../../util/steam-id";
-import { isUndefined } from "util";
 
 export default class RGL extends Command {
     apiAddress: string;
@@ -32,14 +31,14 @@ export default class RGL extends Command {
         msg.channel.startTyping();
 
         let steamIDTestResultFromArgs: string;
-        if (args !== false && args.length > 0) {
+        if (args && args.length > 0) {
             steamIDTestResultFromArgs = await ensureSteamID(args[0] as string);
-            if (isUndefined(steamIDTestResultFromArgs)) steamIDTestResultFromArgs = args[0];
+            if (typeof steamIDTestResultFromArgs !== "string") steamIDTestResultFromArgs = args[0];
         }
 
         const user = await client.userManager.getUser(targetUser.id);
         const steamid = user.user.steamID;
-        const steamIdToTest = steamIDTestResultFromArgs || steamid as string
+        const steamIdToTest = steamid ? steamid : steamIDTestResultFromArgs
 
         if (!steamIdToTest) {
             return await this.fail(msg, lang.rgl_fail_noid);

@@ -36,10 +36,10 @@ export default class Unrestrict extends Command {
             else if (args[i].toLowerCase() == "{all}") {
                 allCommands = true;
                 commands.push(...client.commands.filter(command => !["restrict", "unrestrict"].includes(command.name)).map(command => command.name));
+                commands.push(...client.autoResponses.map(command => command.name));
             }
             else {
-                if (!client.commands.map(cmds => cmds.name).includes(args[i])) continue;
-                if (args[i] === "8ball") commands.push(args[i]);
+                if (!(client.commands.map(cmds => cmds.name).concat(client.autoResponses.map(auto => auto.name))).includes(args[i])) continue;
                 commands.push(args[i]); 
             }
         }
@@ -62,7 +62,12 @@ export default class Unrestrict extends Command {
 
         await server.save();
 
-        await this.respond(msg, lang.unrestrict_success.replace('%channels', (allChannels ? lang.restrict_allchns : channels.map(channelID => `<#${channelID}>`).join(", "))).replace('%cmds', (commands.length > 0) ? (allCommands ? lang.restrict_allcmds : commands.join("\n")) : lang.restrict_none));
+        let commandReplace;
+        if (commands.length <= 0) commandReplace = lang.restrict_none;
+
+        commandReplace = allCommands ? lang.restrict_allcmnds : commands.join(", ");
+        const channelReplace = (allChannels ? lang.restrict_allchns : channels.map(channelID => `<#${channelID}>`).join(", "))
+        await this.respond(msg, lang.unrestrict_success.replace('%channels', channelReplace).replace('%cmds', commandReplace));
 
         return true;
     }

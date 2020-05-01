@@ -44,17 +44,17 @@
 	
 	"help_embedusage": "Usage",
 	"help_embedpermissionshead": "Permissions Needed",
-	"help_embedpermissionsbody": "```md\n # For User #\n%permsuser\n For Bot #\n%permsbot```",
+	"help_embedpermissionsbody": "```md\n # For User #\n%permsuser\n # For Bot #\n%permsbot```",
 	"help_embedsubcmds": "Subcommands",
 	"help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
 	
 	"info_embedtitle": "Currently serving **%users** users in **%servers** servers!",
-	"info_embedbody": "Join the official %user discord server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite %user to your server with `%prefixinvite`!",
-	"info_embedfooter": "Created by %creator | Version %version",
+	"info_embedbody": "Join the official %user discord server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, 24 for helping with translations!",
+	"info_embedfooter": "Created and maintained by %creator | Version %version",
 	
 	"language_fail_invalidsub": "Invalid subcommand. Type `%prefixhelp language` to learn more.",
 	"language_default": "The guild language is: `%language`",
-	"language_delete_success": "Language deleted! Default language: `en-US`",
+	"language_delete_success": "Language deleted! Default language: `english`",
 	"language_delete_embedfooter": "Guild language updated by %author",
 	"language_set_fail_oldnew": "Your old language is the same as your new one!",
 	"language_set_fail_nonew": "You didn't specify a new language!",
@@ -62,7 +62,7 @@
 	"language_set_success_embedtitle": "Guild language updated by %author",
 	
 	"link_fail_invalidid": "Invalid `<Steam ID>` argument.",
-	"link_success": "Successfully overrode old Steam ID with `steamid` for `%tag`.",
+	"link_success": "Successfully set new SteamID.",
 	
 	"log_fail_noid": "User does not have their Steam ID linked. Steam IDs can be linked to your account using `%prefixlink <Steam ID>`.",
 	"log_fail_nologhistory": "User does not have a log history.",

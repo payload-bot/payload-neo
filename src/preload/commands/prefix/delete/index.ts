@@ -20,6 +20,7 @@ export default class Delete extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        if (!msg.member.permissions.has(["ADMINISTRATOR"])) return false;
         let embed = new MessageEmbed();
         const lang = await this.getLanguage(msg);
 

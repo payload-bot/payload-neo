@@ -138,6 +138,18 @@
 * Fixed !translate
 
 ### 3.6.5
-* Updated localisation files
+* Updated localization files
 * New command: !settings. Controls settings for !snipe, and dashboard permissions access.
 * Pushed some website updates. Final dashboard still in work, however.
+
+### 3.6.6
+* Updated localization files
+* Updated command: prefix, language, info
+* !info properly thanks our translators
+* Language command changes: added new languages (finnish, polish, spanish)
+* !language, !prefix now don't need admin to see current prefix/language (However to set/delete you do)
+* Updating a message with a command now deletes the old response and replaces it with the new output
+* TFTV preview embeds now show the desired comment on the thread
+* You may now restrict auto responses from channels
+* Fixed !rgl
+* Fixed !8ball not sending invalid response notification

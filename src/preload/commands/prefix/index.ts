@@ -20,7 +20,7 @@ export default class Prefix extends Command {
                 }
             ],
             undefined,
-            ["ADMINISTRATOR"],
+            undefined,
             ["text"],
             undefined,
             {

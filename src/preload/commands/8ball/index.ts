@@ -50,10 +50,8 @@ export default class EightBall extends Command {
         const question = (await this.getArgs(msg)).join(" ");
         const lang = await this.getLanguage(msg) as any
 
-        if (!question) {
-            return await this.fail(msg, lang.eighttball_noquestion);
-        }
-
+        if (!question) return await this.fail(msg, lang.eightball_noquestion);
+        
         await this.respond(msg, lang.eightball_answer.replace('%answer', this.responses[random(0, this.responses.length - 1)]));
 
         return true;

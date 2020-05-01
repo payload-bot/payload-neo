@@ -26,6 +26,7 @@ export default class Set extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        if (!msg.member.permissions.has(["ADMINISTRATOR"])) return false;
         const args: any = await this.parseArgs(msg, 2);
         const lang = await this.getLanguage(msg);
 

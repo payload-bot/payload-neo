@@ -4,7 +4,7 @@ import { Message } from "discord.js";
 import Set from "./set";
 import Delete from "./delete";;
 
-export default class Prefix extends Command {
+export default class Language extends Command {
     constructor() {
         super(
             "language",
@@ -19,7 +19,7 @@ export default class Prefix extends Command {
                 }
             ],
             undefined,
-            ["ADMINISTRATOR"],
+            undefined,
             ["text"],
             undefined,
             {
@@ -43,7 +43,29 @@ export default class Prefix extends Command {
             const server = await client.serverManager.getServer(msg.guild.id);
             let language = server.getLanguageFromGuild(msg.guild.id);
 
-            await this.respond(msg, lang.language_default.replace('%language', language))
+            let languageSwitch: string;
+            switch (language) {
+                case "en-US":
+                    languageSwitch = 'english'
+                    break;
+                case "es-ES":
+                    languageSwitch = 'spanish'
+                    break;
+                case "pl-PL":
+                    languageSwitch = 'polish'
+                    break;
+                case "fi-FI":
+                    languageSwitch = 'finnish'
+                    break;
+                case "fr-FR":
+                    languageSwitch = 'french'
+                    break;
+                case "ru-RU":
+                    languageSwitch = 'russian'
+                    break;
+            }
+
+            await this.respond(msg, lang.language_default.replace('%language', languageSwitch))
             return true;
         }
     }

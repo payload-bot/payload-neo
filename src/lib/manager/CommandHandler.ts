@@ -4,13 +4,14 @@ import config from "../../config";
 import { Command } from "../exec/Command";
 
 export async function handleCommand(client: Client, msg: Message): Promise<Boolean> {
-    let prefix: string;
-    if (msg.guild) {
-        const guild = await client.serverManager.getServer(msg.guild.id);
-        prefix = guild.getPrefixFromGuild(msg.guild.id);
-    } else prefix = config.PREFIX;
-
     if (msg.author.bot) return false;
+
+    let prefix: string;
+    if (!msg.guild) prefix = config.PREFIX;
+    else {
+        const server = await client.serverManager.getServer(msg.guild.id)
+        prefix = server.server.prefix;
+    }
 
     if (!msg.content.toLowerCase().startsWith(prefix)) return false;
 

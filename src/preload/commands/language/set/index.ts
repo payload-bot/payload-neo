@@ -3,7 +3,7 @@ import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
 import colors from "../../../../lib/misc/colors";
 
-export default class Set extends Command {
+export default class LanguageSet extends Command {
     constructor() {
         super(
             "set",
@@ -14,7 +14,7 @@ export default class Set extends Command {
                     description: "Your new guild language",
                     required: true,
                     type: "string",
-                    options: ['en-US']
+                    options: ['english', 'spanish', 'polish', 'finnish']
                 }
             ],
             undefined,
@@ -27,13 +27,14 @@ export default class Set extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
+        if (!msg.member.permissions.has(["ADMINISTRATOR"])) return false;
         let embed = new MessageEmbed();
-        const args: any = await this.parseArgs(msg, 2);
-        const lang = await this.getLanguage(msg);
+        const args = await this.parseArgs(msg, 2);
+        let lang = await this.getLanguage(msg);
 
         if (args === false) return false
-        
-        const newlang = args && args[0];
+
+        const newlang = args[0];
         if (!newlang) return await this.fail(msg, lang.language_set_fail_nonew);
 
         const server = await client.serverManager.getServer(msg.guild.id);
@@ -41,15 +42,39 @@ export default class Set extends Command {
 
         if (oldlang === newlang) return await this.fail(msg, lang.language_set_fail_oldnew);
 
-        embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL());
-        embed.setColor(colors.red);
-        embed.setDescription(lang.language_set_success_embeddesc.replace('%langauge', newlang));
-        embed.setTitle(lang.language_set_success_embedtitle.replace('%author', msg.author.id));
-        embed.setTimestamp();
+        let languageSwitch: string;
+        switch (newlang) {
+            case "english":
+                languageSwitch = 'en-US'
+                break;
+            case "spanish":
+                languageSwitch = 'es-ES'
+                break;
+            case "polish":
+                languageSwitch = 'pl-PL'
+                break;
+            case "finnish":
+                languageSwitch = 'fi-FI'
+                break;
+            case "french":
+                languageSwitch = 'fr-FR'
+                break;
+            case "russian":
+                languageSwitch = 'ru-RU'
+                break;
+        }
 
-        server.server.language = newlang;
+        server.server.language = languageSwitch;
 
         await server.save();
+
+        let lang1 = await this.getLanguage(msg);
+
+        embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL());
+        embed.setColor(colors.red);
+        embed.setDescription(lang1.language_set_success_embeddesc.replace('%language', newlang));
+        embed.setTitle(lang1.language_set_success_embedtitle.replace('%author', msg.author.tag));
+        embed.setTimestamp();
 
         await msg.channel.send(embed);
         return true;

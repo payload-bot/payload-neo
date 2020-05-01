@@ -17,23 +17,26 @@ export default class TFTV extends AutoResponse {
     }
 
     async run(client: Client, msg: Message): Promise<void> {
+        const specificPost = msg.content.match(/#\d+/) as RegExpMatchArray;
         const url = "https://" + this.matchMsg(msg);
         const resp = await got(url);
         const $ = cheerio.load(resp.body);
 
         const frags = $("#thread-frag-count").text().trim();
         const title = $(".thread-header-title").text().trim();
-        const $post = $("#thread-container > .post:first-child");
+        const $post = $(`#thread-container > .post:nth-child(${specificPost ? specificPost[0].slice(1) : "1"})`);
         const author = $post.find(".post-header .post-author").text().trim();
         const body = htmlToText.fromString($post.find(".post-body").html() as string, {
             ignoreImage: true
         });
-        const date = $post.find(".post-footer .js-date-toggle").attr("title").replace(/at (\d+:\d+).+$/, "$1");
+
+        const dateSelector = $post.find(".post-footer .js-date-toggle").attr("title")
+        const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
         let embed = new MessageEmbed();
         embed.setTitle(title);
         embed.setDescription(author);
-        embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url + ")");
+        embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url + specificPost + ")");
         embed.setFooter(`${frags} frags`);
         embed.setTimestamp(new Date(date));
         embed.setColor("#50759D");

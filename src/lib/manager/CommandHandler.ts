@@ -10,7 +10,7 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
     if (!msg.guild) prefix = config.PREFIX;
     else {
         const server = await client.serverManager.getServer(msg.guild.id)
-        prefix = server.server.prefix;
+        prefix = server.getPrefixFromGuild(msg.guild.id);
     }
 
     if (!msg.content.toLowerCase().startsWith(prefix)) return false;

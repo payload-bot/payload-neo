@@ -29,7 +29,7 @@ export async function pushNotification(client: Client, id: string, level: number
     try {
         await discordUser.send(embed);
     } catch (err) {
-        console.warn(err);
+        return false;
     }
 
     if (version) {

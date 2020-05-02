@@ -101,7 +101,7 @@
     "translate_error": "Ongelma kääntäessä.",
     "translate_embedtitle": "Käännä",
     "translate_embeddesc": "%translated",
-    "translate_embedfooter": "Tehnyt mahdolliseksi Google Kääntäjä.",
+    "translate_embedfooter": "Käännöksen tehnyt mahdolliseksi Google Kääntäjä.",
     "servers_offline": "Serveri on offline.",
     "servers_players": "pelaajat"
 }

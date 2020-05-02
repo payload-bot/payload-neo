@@ -81,7 +81,7 @@
     "restrict_allcmnds": "KAIKKI KOMENNOT",
     "restrict_allchns": "KAIKKI KANAVAT",
     "restrict_none": "Ei mitään",
-    "rgl_fail_noid": "Steam ID:ta ei havaittu. Joko linkitä sellainen, jos käytät mainintoja, tai anna sellainen yhtenä argumenttinasi.",
+    "rgl_fail_noid": "Steam ID:ta ei havaittu. Joko linkitä sellainen komennon jälkeen tai mainitse jokin käyttäjä.",
     "rgl_embedtitle": "RGL Profiili Löytäjä",
     "rgl_embeddesc_steamid": "Steam ID",
     "rgl_embeddesc_error": "Virhe",

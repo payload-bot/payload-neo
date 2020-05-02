@@ -70,7 +70,7 @@
     "pushcart_fail_notarget": "Väärä `<user mention>` argumentti. Kirjoita `%prefixhelp %cmd` oppiaksesi lisää.",
     "pushcart_fail_toomanypoints": "Liian monta pistettä ilmoitettu. Suurin määrä pisteitä, joita voit lahjoittaa on: %points.",
     "pushcart_fail_noleaderboard": "Tulostaulua ei ole vielä luotu. Yritä uudelleen muutaman minuutin jälkeen.",
-    "pushcart_userembedtitle": "Työnnäkärry Tulostaulu",
+    "pushcart_userembedtitle": "Pushcart Tulostaulu",
     "pushcart_userembedfooter": "Viimeksi päivitetty: %updated",
     "pushcart_serverembedtitle": "Pushcart Serveri Tulostaulu",
     "pushcart_giftsuccess": "🎁 %tag lahjoitti **%amt** pistettä käyttäjälle %totag!",

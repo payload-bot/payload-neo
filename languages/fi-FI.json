@@ -33,7 +33,7 @@
     "face_fail_novalidface": "Pätevää naamaa ei löydy.",
     "face_error": "Virhe sattui yrittäessä havaita kasvoja.",
     "help_embedusage": "Käyttö",
-    "help_embedpermissionshead": "Oikeudet Tarvitaan",
+    "help_embedpermissionshead": "Nämä oikeudet tarvitaan:",
     "help_embedpermissionsbody": "```md\n # For User #\n%permsuser\n # For Bot #\n%permsbot```",
     "help_embedsubcmds": "Alikomennot",
     "help_embedfooter": "Apua pyysi %requester. Lista komennoista: %prefixcommands",

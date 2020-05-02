@@ -34,7 +34,6 @@ export default class SteamConnectLink extends AutoResponse {
         sq.open(ipNoPort, Number(port));
         sq.getInfo((err, info) => {
             if (err) {
-                client.emit("error", err);
                 embed.setColor(colors.red);
                 embed.setDescription(lang.servers_offline);
             } else {

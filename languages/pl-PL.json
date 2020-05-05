@@ -34,7 +34,7 @@
     "face_error": "An error occured while trying to detect faces.",
     "help_embedusage": "Wykorzystanie",
     "help_embedpermissionshead": "Wymagane uprawnienia",
-    "help_embedpermissionsbody": "```md\n # For User #\n%permsuser\n # For Bot #\n%permsbot```",
+    "help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n# For Bot #\n%permsbot```",
     "help_embedsubcmds": "Subcommands",
     "help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
     "info_embedtitle": "Currently serving **%users** users in **%servers** servers!",

@@ -34,7 +34,7 @@
     "face_error": "Ocurrió un error mientras de detectar caras.",
     "help_embedusage": "Uso",
     "help_embedpermissionshead": "Permisos necesarios",
-    "help_embedpermissionsbody": "```md\n # For User #\n%permsuser\n # For Bot #\n%permsbot```",
+    "help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n# For Bot #\n%permsbot```",
     "help_embedsubcmds": "Subcomandos",
     "help_embedfooter": "Solicitado por %requester. Para la lista de comandos: %prefixcommands",
     "info_embedtitle": "¡Tenemos **%users** usarios en **%servers** servidores!",

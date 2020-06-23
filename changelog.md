@@ -153,3 +153,8 @@
 * You may now restrict auto responses from channels
 * Fixed !rgl
 * Fixed !8ball not sending invalid response notification
+
+### 3.6.7
+* Updated API
+* Server rcon in discord
+* Updated localization files thanks to our translators!

@@ -13,7 +13,7 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
         prefix = server.getPrefixFromGuild(msg.guild.id);
     }
 
-    if (!msg.content.toLowerCase().startsWith(prefix)) return false;
+    if (!msg.content.startsWith(prefix)) return false;
 
     let command = msg.content.slice(prefix.length).trim().split(" ")[0];
 

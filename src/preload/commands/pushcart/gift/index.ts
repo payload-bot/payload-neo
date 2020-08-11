@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class Gift extends Command {
     constructor() {
@@ -33,7 +34,7 @@ export default class Gift extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 2);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -50,7 +51,7 @@ export default class Gift extends Command {
         const to = await client.userManager.getUser(targetUser.id);
 
         if (from.getFeetPushed() < amount) {
-            return await this.fail(msg, lang.pushcart_fail_toomanypoints.replace('%points', from.getFeetPushed()));
+            return await this.fail(msg, lang.pushcart_fail_toomanypoints.replace('%points', from.getFeetPushed().toString()));
         }
 
         from.feetPushedTransaction(-1 * amount);
@@ -61,7 +62,7 @@ export default class Gift extends Command {
             to.save()
         ]);
 
-        await this.respond(msg, lang.pushcart_giftsuccess.replace('%tag', msg.author.tag).replace('%amt', amount).replace('%totag', targetUser));
+        await this.respond(msg, lang.pushcart_giftsuccess.replace('%tag', msg.author.tag).replace('%amt', amount.toString()).replace('%totag', targetUser.toString()));
 
         return true;
     }

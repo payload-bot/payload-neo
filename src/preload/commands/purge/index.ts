@@ -1,6 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
+import Language from "../../../lib/types/Language";
 
 export default class Purge extends Command {
     constructor() {
@@ -31,7 +32,7 @@ export default class Purge extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -62,7 +63,7 @@ export default class Purge extends Command {
 
         const deletedMessages = await msg.channel.bulkDelete(channelMessages.map(channelMessage => channelMessage.id).slice(0, amount as number));
 
-        await this.respond(msg, lang.purge_success.replace('%size', deletedMessages.size).replace('%sec', (Date.now() - startTime) / 1000));
+        await this.respond(msg, lang.purge_success.replace('%size', deletedMessages.size.toString()).replace('%sec', String((Date.now() - startTime) / 1000)));
 
         return true;
     }

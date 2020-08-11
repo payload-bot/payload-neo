@@ -2,6 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client} from "../../../lib/types";
 import { Message } from "discord.js";
 import { random } from "../../../util/random";
+import Language from "../../../lib/types/Language";
 
 export default class EightBall extends Command {
     responses: Array<string>;
@@ -48,7 +49,7 @@ export default class EightBall extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const question = (await this.getArgs(msg)).join(" ");
-        const lang = await this.getLanguage(msg) as any
+        const lang: Language = await this.getLanguage(msg) as any
 
         if (!question) return await this.fail(msg, lang.eightball_noquestion);
         

@@ -5,9 +5,10 @@ import { getChangelog } from "../util/get-changelog";
 import { version } from "../util/version_control";
 import config from "../config";
 import { Client as ClientDocument, ClientModel } from "../lib/model/Client";
+import { Client } from "../lib/types";
 
 module.exports = {
-    run: async (client) => {
+    run: async (client: Client) => {
         console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
         client.user.setActivity(`payload.tf/invite | v${version}`);
 
@@ -59,9 +60,14 @@ module.exports = {
                     }), version);
                     console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
                 }
-                if (!botDoc) return console.log("No bot db entry!");
-
-                botDoc.startupVersion = version;
+                if (!botDoc) {
+                    botDoc = new ClientDocument({
+                        id: 0,
+                        startupVersion: version
+                    })
+                } else {
+                    botDoc.startupVersion = version;
+                }
 
                 await botDoc.save();
             } else {

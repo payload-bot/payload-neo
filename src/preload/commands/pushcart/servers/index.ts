@@ -3,6 +3,7 @@ import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
 import { Server, ServerModel } from "../../../../lib/model/Server";
 import { qSort } from "../../../../util/sort";
+import Language from "../../../../lib/types/Language";
 
 export default class Servers extends Command {
     constructor() {
@@ -20,7 +21,7 @@ export default class Servers extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         msg.channel.startTyping();
 
         let servers: ServerModel[] = await Server.find({

@@ -3,6 +3,7 @@ import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
 import got from "got";
 import { render } from "../../../util/render-log";
+import Language from "../../../lib/types/Language";
 
 export default class Log extends Command {
 
@@ -24,7 +25,7 @@ export default class Log extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const targetUser = msg.mentions.users.first() || msg.author;
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         msg.channel.startTyping();
 

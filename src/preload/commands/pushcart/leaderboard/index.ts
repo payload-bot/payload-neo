@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class Leaderboard extends Command {
     constructor() {
@@ -18,7 +19,7 @@ export default class Leaderboard extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (!client.leaderboard) {
             return await this.fail(msg, lang.pushcart_fail_noleaderboard);

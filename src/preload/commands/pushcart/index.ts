@@ -6,6 +6,7 @@ import LeaderboardCommand from "./leaderboard";
 import RankCommand from "./rank";
 import GiftCommand from "./gift";
 import ServersCommand from "./servers";
+import Language from "../../../lib/types/Language";
 
 
 export default class PushCart extends Command {
@@ -36,7 +37,7 @@ export default class PushCart extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.getArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {
@@ -79,7 +80,7 @@ export default class PushCart extends Command {
                 )
                 / 1000
             );
-            return await this.fail(msg, lang.pushcart_fail_cooldown.replace('%time', secondsRemaining))
+            return await this.fail(msg, lang.pushcart_fail_cooldown.replace('%time', secondsRemaining.toString()))
         } else if (pushResult == "CAP") {
             return await this.fail(msg, lang.pushcart_fail_maxpoints);
         }
@@ -91,7 +92,7 @@ export default class PushCart extends Command {
             server.save()
         ]);
 
-        await this.respond(msg, lang.pushcart_success.replace('%units', feetPushed).replace('%total', server.server.fun!.payloadFeetPushed));
+        await this.respond(msg, lang.pushcart_success.replace('%units', feetPushed.toString()).replace('%total', server.server.fun!.payloadFeetPushed.toString()));
 
         return true;
     }

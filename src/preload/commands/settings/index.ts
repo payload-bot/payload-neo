@@ -4,6 +4,7 @@ import { Message } from "discord.js";
 
 import PermissionCommand from "./permissions"
 import DashboardCommand from "./dashboard"
+import Language from "../../../lib/types/Language";
 
 
 export default class Settings extends Command {
@@ -39,7 +40,7 @@ export default class Settings extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg)
-        const lang = await this.getLanguage(msg)
+        const lang: Language = await this.getLanguage(msg)
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {

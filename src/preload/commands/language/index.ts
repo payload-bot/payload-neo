@@ -3,6 +3,7 @@ import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import Set from "./set";
 import Delete from "./delete";;
+import { Language as Lang } from "../../../lib/types/Language"
 
 export default class Language extends Command {
     constructor() {
@@ -31,7 +32,7 @@ export default class Language extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let args: any = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Lang = await this.getLanguage(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {

@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types/Client";
 import { Message } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class Exec extends Command {
     constructor() {
@@ -19,7 +20,7 @@ export default class Exec extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const user = await client.userManager.getUser(msg.author.id);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (!user.user.servers || user.user.servers.length === 0) {
             return await this.fail(msg, lang.server_noservers.replace("%prefix", await this.getPrefix(msg)));

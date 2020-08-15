@@ -3,6 +3,7 @@ import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
 import colors from "../../../../lib/misc/colors";
 import config from "../../../../config";
+import Language from "../../../../lib/types/Language";
 
 export default class Delete extends Command {
     constructor() {
@@ -22,7 +23,7 @@ export default class Delete extends Command {
     async run(client: Client, msg: Message): Promise<boolean> {
         if (!msg.member.permissions.has(["ADMINISTRATOR"])) return false;
         let embed = new MessageEmbed();
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         const server = await client.serverManager.getServer(msg.guild.id);
         

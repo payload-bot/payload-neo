@@ -3,6 +3,7 @@ import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import got from "got";
 import { ensureSteamID } from "../../../util/steam-id";
+import Language from "../../../lib/types/Language";
 
 export default class RGL extends Command {
     apiAddress: string;
@@ -25,7 +26,7 @@ export default class RGL extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         const targetUser = msg.mentions.users.first() || msg.author;
 
         msg.channel.startTyping();

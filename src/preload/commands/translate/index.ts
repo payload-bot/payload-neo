@@ -4,6 +4,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { Translate as GTranslate } from "@google-cloud/translate/build/src/v2/index"
 import config from "../../../config";
 import colors from "../../../lib/misc/colors";
+import Language from "../../../lib/types/Language";
 
 export default class Translate extends Command {
     constructor() {
@@ -25,7 +26,7 @@ export default class Translate extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;

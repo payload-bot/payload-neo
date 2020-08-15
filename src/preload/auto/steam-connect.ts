@@ -3,6 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
 import SourceQuery from "sourcequery"
 import colors from "../../lib/misc/colors";
+import Language from "../../lib/types/Language";
 
 export default class SteamConnectLink extends AutoResponse {
 
@@ -18,7 +19,7 @@ export default class SteamConnectLink extends AutoResponse {
     async run(client: Client, msg: Message): Promise<void> {
         let connectInfo = msg.content.match(this.pattern) as RegExpExecArray;
         let parts = connectInfo[0].split(";");
-        const lang = await this.getLanguage(msg)
+        const lang: Language = await this.getLanguage(msg)
 
         let ip = parts[0].replace(/^connect (https?:\/\/)?/, "");
         let ipNoPort = ip.split(":")[0];

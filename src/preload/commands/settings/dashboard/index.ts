@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class DashboardPermissions extends Command {
     constructor() {
@@ -26,7 +27,7 @@ export default class DashboardPermissions extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         const args = await this.parseArgs(msg, 1)
 
         const server = await client.serverManager.getServer(msg.guild.id)

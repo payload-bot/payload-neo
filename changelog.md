@@ -158,3 +158,7 @@
 * Updated API
 * Server rcon in discord
 * Updated localization files thanks to our translators!
+
+### 3.6.71
+* Moved completely to Docker
+* Updated types

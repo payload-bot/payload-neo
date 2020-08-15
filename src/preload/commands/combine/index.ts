@@ -4,6 +4,7 @@ import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import got from "got";
 import { render } from "../../../util/render-log";
+import Language from "../../../lib/types/Language";
 
 export default class Combine extends Command {
     constructor() {
@@ -48,7 +49,7 @@ export default class Combine extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         const title = args[0];
         const map = args[1];
@@ -106,7 +107,7 @@ export default class Combine extends Command {
         });
 
         if (!res.body.success) {
-            client.emit("error", `${res.body.error}`);
+            client.emit("error", res.body.error as Error);
             return await this.fail(msg, lang.combine_fail_error);
         }
 

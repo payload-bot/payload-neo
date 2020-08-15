@@ -40,7 +40,7 @@ export async function handleAutoCommand(client: Client, msg: Message): Promise<B
         client.emit("log", (`User ${msg.author.id}/${msg.author.tag} initiaited autoresponse ${autoResponse.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`));
     } catch (err) {
         console.warn("Error while executing autoresponse " + autoResponse.name, err);
-        client.emit("error", err, autoResponse.name);
+        client.emit("error", err);
     }
 
     msg.channel.stopTyping(true);

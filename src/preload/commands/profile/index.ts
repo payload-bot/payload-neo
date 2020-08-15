@@ -2,6 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import got from "got";
+import Language from "../../../lib/types/Language";
 
 export default class Profile extends Command {
     apiAddress: string;
@@ -24,7 +25,7 @@ export default class Profile extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         let profile = msg.mentions.users.first() || msg.author;
         const user = await client.userManager.getUser(profile.id);
         const steamid = user.user.steamID;

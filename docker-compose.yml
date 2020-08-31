@@ -2,13 +2,11 @@ version: '3.5'
 
 services: 
     bot:
-        image: "node:12"
-        command: "npm run start"
-        working_dir: /home/payload
+        build: .
         container_name: "payload"
-        volumes: 
-            - .:/home/payload
         restart: always
+        env_file: 
+            - ./config.env
         ports: 
             - 3000:3000
         depends_on: 
@@ -26,18 +24,3 @@ services:
             - ./mongo:/data/db
         env_file: 
             - ./config.env
-
-    mongo-express:
-        image: mongo-express
-        container_name: "mongoexpress"
-        restart: always
-        ports:
-            - 8081:8081
-        env_file: 
-            - ./config.env
-        depends_on: 
-            - mongo
-        links: 
-            - mongo
-volumes:
-  mongo: ~

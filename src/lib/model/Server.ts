@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import { PermissionString } from "discord.js"
+import { ICommandRestrictions } from "../manager/ServerManager";
 
 export type ServerModel = mongoose.Document & {
     id?: string,
     prefix?: string,
     language?: string,
 
-    commandRestrictions?: Array<{ channelID: string, commands: Array<string> }>,
+    commandRestrictions?: ICommandRestrictions[],
 
     fun?: {
         payloadFeetPushed: number,

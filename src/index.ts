@@ -9,6 +9,7 @@ import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
 import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
+require("dotenv").config();
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -26,7 +27,7 @@ client.cache = {
 /* 
     Connect to MongoDB. Will exit if no database was found.
 */
-mongoose.connect(config.MONGODB_URI, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -116,5 +117,5 @@ readdir(__dirname + "/preload/auto", (err, files) => {
     });
 });
 
-client.login(config.TOKEN);
+client.login(process.env.TOKEN);
 listen(4201, client);

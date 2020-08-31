@@ -38,7 +38,7 @@ module.exports = {
                 if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
 
                 try {
-                    const channel = await client.channels.cache.get(config.info.logChannel) as Discord.TextChannel;
+                    const channel = client.channels.cache.get(config.info.logChannel) as Discord.TextChannel;
                     if (channel) channel.send("```md\n" + changelog + "\n```");
                 } catch (error) {
                     console.log("Could not find channel.");

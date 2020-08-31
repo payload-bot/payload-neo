@@ -1,5 +1,6 @@
 import { Client } from "../types";
 import { Message, Channel, PermissionString } from "discord.js";
+import Language from "../types/Language";
 
 export abstract class AutoResponse {
     name: string;
@@ -29,8 +30,8 @@ export abstract class AutoResponse {
     }
 
     async getLanguage(msg: Message): Promise<any> {
-        const client: any = msg.client;
-        let lang: any;
+        const client: Client = msg.client as Client;
+        let lang: Language;
         if (msg.guild) {
             const server = await client.serverManager.getServer(msg.guild.id);
             const guildLang = server.getLanguageFromGuild(msg.guild.id);

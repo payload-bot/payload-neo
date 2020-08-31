@@ -20,7 +20,11 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
         defaultViewport: {
             width: 1920,
             height: 1080
-        }
+        },
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
     });
     const page = await browser.newPage();
     await page.goto(url);
@@ -91,7 +95,11 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
  */
 export async function captureSelector(url: string, selector: string, viewport = {width: 1920, height: 1080}): Promise<Buffer> {
     const browser = await puppeteer.launch({
-        defaultViewport: viewport
+        defaultViewport: viewport,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
     });
 
     const page = await browser.newPage();

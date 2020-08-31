@@ -21,7 +21,7 @@ export default class Commands extends Command {
         if (msg.guild) {
             let serverManager = client.serverManager;
             let server = await serverManager.getServer(msg.guild.id);
-            let commandRestrictions: any = server.getCommandRestrictions(msg.channel.id);
+            let commandRestrictions = server.getCommandRestrictions(msg.channel.id) as string[];
 
             const commandsConcat = [...new Set(commandRestrictions.concat(allCommands))];
             commandsToDisplay = commandsConcat.slice(commandRestrictions.length).join(", ")

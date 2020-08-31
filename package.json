@@ -25,6 +25,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "discord.js": "^12.1.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "got": "^9.6.0",
@@ -54,7 +55,7 @@
     "run": "node ./dist/index.js",
     "start": "npm run build && npm run assets && npm run run",
     "build": "tsc --build tsconfig.json",
-    "update": "git pull && yarn build && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
+    "update": "npm run build && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
     "assets": "ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts"
   },
   "repository": {

@@ -1,8 +1,7 @@
-import express from "express"
+import express, { Request, Response } from "express"
 import { Client } from "../lib/types"
 import { version } from "../util/version_control"
 import rglApi from "./routes/rgl"
-import etf2lApi from "./routes/etf2l"
 import steamid from "../util/steamid"
 import rcon from "./routes/rcon"
 import bodyParser from "body-parser"
@@ -15,21 +14,21 @@ export async function listen(port: number, client: Client): Promise<void> {
     server.set('json spaces', 1)
     server.use(cors())
 
-    server.get("/commands", (req: any, res: any) => {
+    server.get("/commands", (req: Request, res: Response) => {
         res.json({
             count: client.commands.filter(command => !command.requiresRoot).size,
             data: client.commands.filter(command => !command.requiresRoot).array()
         });
     });
 
-    server.get("/autoresponses", (req: any, res: any) => {
+    server.get("/autoresponses", (req: Request, res: Response) => {
         res.json({
             count: client.autoResponses.size,
             data: client.autoResponses.array()
         });
     });
 
-    server.get("/stats", (req: any, res: any) => {
+    server.get("/stats", (req: Request, res: Response) => {
         res.json({
             users: client.users.cache.size,
             servers: client.guilds.cache.size,
@@ -37,7 +36,7 @@ export async function listen(port: number, client: Client): Promise<void> {
         });
     });
 
-    server.get('/rgl/:id', (req: any, res: any) => {
+    server.get('/rgl/:id', (req: Request, res: Response) => {
         rglApi(req, res)
     });
 
@@ -46,16 +45,12 @@ export async function listen(port: number, client: Client): Promise<void> {
         res.json(rconRes)
     })
 
-    // server.get('/etf2l/:id', (req: any, res: any) => {
-    //     etf2lApi(req, res)
-    // })
-
-    server.get('/steam/:id', (req: any, res: any) => {
+    server.get('/steam/:id', (req: Request, res: Response) => {
         const id = steamid(req.params.id)
         if (typeof id === 'string') res.json({ id })
     })
 
-    server.get("/all-data", (req: any, res: any) => {
+    server.get("/all-data", (req: Request, res: Response) => {
         res.json({
             commands: {
                 count: client.commands.filter(command => !command.requiresRoot).size,

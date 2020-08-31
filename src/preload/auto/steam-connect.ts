@@ -11,14 +11,14 @@ export default class SteamConnectLink extends AutoResponse {
         super(
             "steam connect info",
             "Automatically sends steam connect links when raw connect info is posted.",
-            /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+/,
+            /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])([\"\s$])/,
             ["SEND_MESSAGES", "EMBED_LINKS"]
         )
     }
 
     async run(client: Client, msg: Message): Promise<void> {
         let connectInfo = msg.content.match(this.pattern) as RegExpExecArray;
-        let parts = connectInfo[0].split(";");
+        let parts = connectInfo[0].trim().split(";");
         const lang: Language = await this.getLanguage(msg)
 
         let ip = parts[0].replace(/^connect (https?:\/\/)?/, "");

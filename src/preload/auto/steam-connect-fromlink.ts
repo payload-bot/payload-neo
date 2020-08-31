@@ -12,14 +12,14 @@ export default class SteamConnectLink extends AutoResponse {
         super(
             "steam connect link",
             "Automatically sends steam connect links when a detected clickable link is posted.",
-            /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+/,
+            /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])([\"\s$])/,
             ["SEND_MESSAGES", "EMBED_LINKS"]
         )
     }
 
     async run(client: Client, msg: Message): Promise<void> {
         let connectLink = msg.content.match(this.pattern) as RegExpExecArray;
-        let parts = connectLink[0].replace("steam://connect/", "").split("/");
+        let parts = connectLink[0].trim().replace("steam://connect/", "").split("/");
         const lang: Language = await this.getLanguage(msg)
 
         let ip = parts[0];

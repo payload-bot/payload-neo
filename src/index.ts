@@ -1,6 +1,5 @@
 import * as Discord from "discord.js"
 import { readdir } from "fs";
-import config from "./config";
 import { CommandConstructor } from "./lib/exec/Command";
 import { Client } from "./lib/types";
 import mongoose from "mongoose";
@@ -117,5 +116,7 @@ readdir(__dirname + "/preload/auto", (err, files) => {
     });
 });
 
+const apiPort = Number(process.env.API_PORT) || 3001
+
 client.login(process.env.TOKEN);
-listen(4201, client);
+listen(apiPort, client);

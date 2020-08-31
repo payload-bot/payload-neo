@@ -1,11 +1,11 @@
 import { Client } from "./Client";
-import { Message, Channel } from "discord.js";
+import { Message, Channel, PermissionString } from "discord.js";
 
 export interface AutoResponse {
     name: string;
     description: string;
     pattern: RegExp;
-    permissions: Array<string>;
+    permissions: Array<PermissionString>;
     zones: Array<Channel["type"]>;
 
     run: (client: Client, msg: Message) => Promise<void>;

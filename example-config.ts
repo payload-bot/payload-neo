@@ -1,9 +1,6 @@
 const config = {
-    TOKEN: "",
     PREFIX: "!",
     allowedID: "",
-
-    MONGODB_URI: "",
 
     info: {
         logChannel: "",
@@ -12,12 +9,6 @@ const config = {
 
     files: {
         LOGS_CSS: __dirname + "/assets/dark-logs.css",
-    },
-
-    website: {
-        client_secret: "",
-        client_id: "",
-        redirect: ""
     },
 
     LOGSTF_API_KEY: "",

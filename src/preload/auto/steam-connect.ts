@@ -4,7 +4,7 @@ import { AutoResponse } from "../../lib/exec/Autoresponse";
 import SourceQuery from "sourcequery"
 import colors from "../../lib/misc/colors";
 import Language from "../../lib/types/Language";
-
+import { SourceQuery as SourceQueryTypes } from "../../lib/types/sourcequery";
 export default class SteamConnectLink extends AutoResponse {
 
     constructor() {
@@ -31,7 +31,7 @@ export default class SteamConnectLink extends AutoResponse {
 
         let connectInfoEmbed = await msg.channel.send(embed) as Message;
 
-        let sq = new SourceQuery(5000);
+        let sq = new SourceQuery(5000) as SourceQueryTypes;
         sq.open(ipNoPort, Number(port));
         sq.getInfo((err, info) => {
             if (err) {

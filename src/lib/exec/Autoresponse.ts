@@ -6,7 +6,7 @@ export abstract class AutoResponse {
     name: string;
     description: string;
     pattern: RegExp;
-    permissions: Array<string>;
+    permissions: Array<PermissionString>;
     zones: Array<Channel["type"]>;
 
     constructor(

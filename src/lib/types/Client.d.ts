@@ -6,7 +6,8 @@ import ServerManager from "../manager/ServerManager";
 import { ScheduledScript } from "./ScheduledScripts";
 
 export interface IClientEmitter extends ClientEvents {
-    "log": string
+    "log": string,
+    "warn": string
 }
 
 export interface Client extends Client {

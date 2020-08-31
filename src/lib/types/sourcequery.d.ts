@@ -18,8 +18,7 @@ declare interface ServerInfo {
     keywords: string;
     gameID: number;
 }
-
-declare class SourceQuery {
+export interface SourceQuery {
     constructor(timeoutMS: number);
 
     open(ip: string, port: number): void;

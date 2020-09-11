@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <title>Payload</title>
+</head>
+
+<body class="night">
+
+    <div class="main-panel">
+        <div id="stars"></div>
+        <div class="main-panel-floor">
+            <div class="sand"></div>
+        </div>
+        <img id="pl-logo" src="assets/img/logo.svg" alt="Payload Logo">
+        <div class="header">
+            <h1>Payload</h1>
+            <button type="button" class="btn btn-discord btn-lg mr-3" onclick="location.href='/invite'">Invite to
+                Discord</button>
+            <button type="button" class="btn btn-outline-light btn-lg" onclick="location.href='/payload-docs'">Bot
+                Manual</button>
+            <button type="button" class="btn btn-discord btn-lg mr-3"
+                onclick="location.href='https://discord.gg/F5kt68K'">Official Payload's Discord</button>
+        </div>
+    </div>
+
+    <div class="container-fluid p-5">
+        <div class="text-center mb-5">
+            <h3>Supported Services</h3>
+        </div>
+        <div class="league-list">
+            <a class="league-logo" href="http://etf2l.org"><img src="assets/img/etf2l.png" alt="ETF2L"></a>
+            <a class="league-logo" href="http://rgl.gg"><img src="assets/img/rgl.png" alt="RGL"></a>
+            <a class="league-logo" href="https://www.ugcleague.com"><img src="assets/img/ugc.png" alt="UGC"></a>
+            <a class="league-logo" href="https://logs.tf"><img src="assets/img/logstf.png" alt="Logs.tf"></a>
+            <a class="league-logo-shrink" href="https://eu.hlpugs.tf"><img src="assets/img/hlpugs.png"
+                    alt="HL Pugs"></a>
+            <a class="league-logo" href="https://pug.champ.gg"><img src="assets/img/pugchamp.svg" alt="Pugchamp"></a>
+            <a class="league-logo" href="https://tf2pickup.pl"><img src="assets/img/tf2pickuppl.png"
+                    alt="TF2pickup.pl"></a>
+        </div>
+    </div>
+
+    <div class="footer container-fluid px-5 py-3 bg-darkergray text-center">
+        <span class="small">Website and bot created by <a href="https://sharky.cool">sharky</a>, maintained by <a
+                href="https://steamcommunity.com/id/chab133">24</a>. Get in contact: <a
+                href="mailto:24@elo.associates">24@elo.associates</a></span>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer>
+        particlesJS.load("stars", "/assets/data/particles.json", () => {
+            console.log("Loaded stars!");
+        });
+    </script>
+</body>
+
+</html>

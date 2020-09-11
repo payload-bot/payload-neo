@@ -107,7 +107,7 @@ export default class Combine extends Command {
         });
 
         if (!res.body.success) {
-            client.emit("error", res.body.error as Error);
+            client.emit("error", res.body.error);
             return await this.fail(msg, lang.combine_fail_error);
         }
 

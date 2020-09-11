@@ -7,7 +7,7 @@ import { ScheduledScript } from "./ScheduledScripts";
 
 export interface IClientEmitter extends ClientEvents {
     "log": string,
-    "warn": string
+    "error": string
 }
 
 export interface Client extends Client {

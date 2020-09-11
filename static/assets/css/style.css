@@ -1,0 +1,127 @@
+:root {
+    --darkburple: #5d70b4;
+    --burple: #7289DA;
+    --white: #FFFFFF;
+    --gray: #99AAB5;
+    --darkgray: #2C2F33;
+    --darkergray: #23272A;
+    --nightblack: #111111;
+    --skyblue: #78B1DE;
+}
+
+html, body {
+    background-color: var(--darkgray);
+}
+
+h1, h2, h3, h4, h5, p, span, li {
+    color: var(--white);
+}
+
+.blend {
+    background: linear-gradient(180deg, #c6b790 0%, var(--darkgray) 100%);
+    height: 1000px;
+}
+
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.text {
+    font-family: "Whitney", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.night .main-panel {
+    background-color: var(--nightblack);
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.day .main-panel {
+    background-color: var(--skyblue);
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.header {
+    color: var(--white);
+    text-align: right;
+    padding-right: 200px;
+    z-index: 1;
+}
+
+.header h1 {
+    font-size: 10em;
+}
+
+.btn-discord {
+    color: var(--white);
+    background: var(--burple);
+    border-color: var(--burple);
+    z-index: 1;
+}
+
+.btn-discord:hover {
+    color: var(--white);
+    background: var(--darkburple);
+}
+
+.main-panel-floor {
+    background: #d3c39c;
+    background: linear-gradient(180deg, #d3c39c 0%, #a39777 100%);
+    height: 20%;
+    z-index: 1;
+}
+
+.sand {
+    opacity: 0.2;
+    background: url("../img/sand.jpg");
+    background-size: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+#pl-logo {
+    width: 200px;
+    margin-left: 50px;
+    z-index: 1;
+}
+
+button.btn.btn-discord.btn-lg.mr-3 {
+	margin-right: 0!important;
+}
+
+.league-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.league-logo, .league-logo-shrink {
+    display: inline-block;
+    margin: 0 1.8vw;
+}
+
+.league-logo-shrink > img {
+    height: 70px;
+    width: auto;
+}
+
+.league-logo > img {
+    width: 150px;
+    height: auto;
+}
+
+.pl-bg-light {
+    background: var(--darkgray);
+}
+
+.footer {
+    background: var(--darkergray);
+}

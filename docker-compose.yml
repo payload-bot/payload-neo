@@ -6,7 +6,7 @@ services:
         container_name: "payload"
         restart: always
         env_file: 
-            - ./config.env
+            - ./.env
         ports: 
             - 3000:3000
         depends_on: 
@@ -21,6 +21,23 @@ services:
         ports: 
             - 27017-27019:27017-27019
         volumes: 
-            - ./mongo:/data/db
+            - mongo:/data/db
         env_file: 
-            - ./config.env
+            - ./.env
+
+    nginx:
+        container_name: "nginx"
+        image: nginx
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./static/:/usr/share/nginx/html/
+        env_file:
+            - ./.env
+        depends_on:
+            - bot
+
+volumes:
+    mongo: ~

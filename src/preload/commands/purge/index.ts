@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import Language from "../../../lib/types/Language";
 
 export default class Purge extends Command {
@@ -61,7 +61,7 @@ export default class Purge extends Command {
             return Date.now() - channelMessage.createdTimestamp < 1000 * 60 * 60 * 24 * 14;
         });
 
-        const deletedMessages = await msg.channel.bulkDelete(channelMessages.map(channelMessage => channelMessage.id).slice(0, amount as number));
+        const deletedMessages = await (msg.channel as TextChannel).bulkDelete(channelMessages.map(channelMessage => channelMessage.id).slice(0, amount as number));
 
         await this.respond(msg, lang.purge_success.replace('%size', deletedMessages.size.toString()).replace('%sec', String((Date.now() - startTime) / 1000)));
 

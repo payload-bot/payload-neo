@@ -1,7 +1,5 @@
 dist/
 node_modules/
 
-yarn.*
-
 *.env
 config.ts

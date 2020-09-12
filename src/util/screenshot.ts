@@ -15,7 +15,7 @@ interface CaptureOptions {
     cssPath?: string;
 };
 
-export async function capture(url: string, options: CaptureOptions = {left: 0, top: 0}): Promise<Buffer> {
+export async function capture(url: string, options: CaptureOptions = { left: 0, top: 0 }): Promise<Buffer> {
     const browser = await puppeteer.launch({
         defaultViewport: {
             width: 1920,
@@ -44,7 +44,7 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
         width?: number,
         height?: number
     } = await page.evaluate((options: CaptureOptions) => {
-        let bounds: {[k: string]: number | undefined} = {
+        let bounds: { [k: string]: number | undefined } = {
             x: 0,
             y: 0,
             width: document.body.clientWidth,
@@ -61,7 +61,7 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
                 if (edge == "right") bounds.width = currentOption - (bounds.x as number);
             } else if (typeof currentOption == "object") {
                 if (!document.querySelector((currentOption as ElementBasedBound).selector)) throw new Error("Top element not found.");
-    
+
                 let element = document.querySelector((currentOption as ElementBasedBound).selector) as HTMLElement;
                 let boundingClientRect = element.getBoundingClientRect();
 
@@ -83,7 +83,7 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
         clip: (clipBounds as ScreenshotOptions["clip"]),
         encoding: "binary"
     });
-    browser.close();
+    await browser.close();
     return screenshotBuffer;
 }
 
@@ -93,7 +93,7 @@ export async function capture(url: string, options: CaptureOptions = {left: 0, t
  * @param selector The element selector.
  * @param viewport The default viewport dimensions.
  */
-export async function captureSelector(url: string, selector: string, viewport = {width: 1920, height: 1080}): Promise<Buffer> {
+export async function captureSelector(url: string, selector: string, viewport = { width: 1920, height: 1080 }): Promise<Buffer> {
     const browser = await puppeteer.launch({
         defaultViewport: viewport,
         args: [
@@ -111,7 +111,7 @@ export async function captureSelector(url: string, selector: string, viewport = 
         encoding: "binary"
     });
 
-    browser.close();
+    await browser.close();
 
     return screenshotBuffer;
 }

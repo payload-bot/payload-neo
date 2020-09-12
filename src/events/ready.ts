@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import mongoose from "mongoose";
-import { pushNotification } from "../util/push-notification";
+import { NotificationLevel, pushNotification } from "../util/push-notification";
 import { getChangelog } from "../util/get-changelog";
 import { version } from "../util/version_control";
 import config from "../config";
@@ -45,9 +45,9 @@ module.exports = {
                 }
 
                 for (let i = 0; i < guilds.length; i++) {
-                    let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.MessageEmbed({
+                    let notif = await pushNotification(client, guilds[i].ownerID, NotificationLevel.ALL, new Discord.MessageEmbed({
                         title: `${client.user.username} updated to v${version}!`,
-                        description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications 1\` in DM's.`,
+                        description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications ${NotificationLevel.NONE}\` in DM's.`,
                         fields: [
                             {
                                 name: "Changelog",

@@ -2,10 +2,9 @@ import { Client } from "../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
 import SourceQuery from "sourcequery"
-import colors from "../../lib/misc/colors";
 import Language from "../../lib/types/Language";
 import { SourceQuery as SourceQueryTypes } from "../../lib/types/sourcequery";
-
+import { EmbedColors } from "../../lib/misc/colors";
 export default class SteamConnectLink extends AutoResponse {
 
     constructor() {
@@ -36,10 +35,10 @@ export default class SteamConnectLink extends AutoResponse {
         sq.open(ipNoPort, Number(port));
         sq.getInfo((err, info) => {
             if (err) {
-                embed.setColor(colors.red);
+                embed.setColor(EmbedColors.RED);
                 embed.setDescription(lang.servers_offline);
             } else {
-                embed.setColor(colors.green);
+                embed.setColor(EmbedColors.GREEN);
                 embed.setDescription(`${info.name}\n${info.players}/${info.maxplayers} ${lang.servers_players}`);
             }
 

@@ -1,7 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
-import colors from "../../../../lib/misc/colors";
+import PayloadColors from "../../../../lib/misc/colors";
 
 export default class LanguageSet extends Command {
     constructor() {
@@ -71,7 +71,7 @@ export default class LanguageSet extends Command {
         let lang1 = await this.getLanguage(msg);
 
         embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL());
-        embed.setColor(colors.red);
+        embed.setColor(PayloadColors.ADMIN);
         embed.setDescription(lang1.language_set_success_embeddesc.replace('%language', newlang));
         embed.setTitle(lang1.language_set_success_embedtitle.replace('%author', msg.author.tag));
         embed.setTimestamp();

@@ -44,7 +44,7 @@
 	
 	"help_embedusage": "Usage",
 	"help_embedpermissionshead": "Permissions Needed",
-	"help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n# For Bot #\n%permsbot```",
+	"help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n\n# For Bot #\n%permsbot```",
 	"help_embedsubcmds": "Subcommands",
 	"help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
 	

@@ -120,3 +120,5 @@ const apiPort = Number(process.env.API_PORT) || 3001
 
 client.login(process.env.TOKEN);
 listen(apiPort, client);
+
+export default client;

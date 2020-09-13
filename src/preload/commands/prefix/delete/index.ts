@@ -1,7 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
-import colors from "../../../../lib/misc/colors";
+import PayloadColors from "../../../../lib/misc/colors";
 import config from "../../../../config";
 import Language from "../../../../lib/types/Language";
 
@@ -28,7 +28,7 @@ export default class Delete extends Command {
         const server = await client.serverManager.getServer(msg.guild.id);
         
         embed.setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL());
-        embed.setColor(colors.red);
+        embed.setColor(PayloadColors.ADMIN);
         embed.setDescription(lang.prefix_delete_success.replace('%prefix', config.PREFIX));
         embed.setTitle(lang.prefix_delete_embedfooter.replace('%author', msg.author.tag));
         embed.setTimestamp();

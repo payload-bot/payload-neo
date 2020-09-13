@@ -2,7 +2,7 @@ version: '3.5'
 
 services: 
     bot:
-        image: c43721/payload
+        build: .
         container_name: "payload"
         restart: always
         env_file: 

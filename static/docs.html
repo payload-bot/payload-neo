@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <title>Payload Docs</title>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #2C2F33;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: unset;
+        }
+
+        a.underline {
+            text-decoration: underline;
+        }
+
+        .command-block {
+            padding: 10px;
+            transition: all 0.1s;
+        }
+
+        .subcommand-link:hover {
+            font-weight: bold;
+        }
+
+        .command-block:hover {
+            background: #23272A;
+        }
+
+        .command-block.focused {
+            background: #23272A;
+        }
+
+        .wrapper {
+            width: 100%;
+            text-align: center;
+        }
+
+        #docs {
+            display: inline-block;
+            text-align: left;
+            max-width: 80vw;
+        }
+
+        #docs>.header {
+            padding: 0 10px;
+        }
+
+        code {
+            display: block;
+        }
+
+        #commands {
+            margin-bottom: 100px;
+        }
+
+        #footer {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+        }
+
+        .invisible {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <code id="loading">Loading...</code>
+        <div id="docs" class="invisible">
+            <code class="header">
+                Payload Docs
+                <br>
+                v%VERSION%
+                <br>
+                <br>
+
+                <div>
+                    <a style="color: #7289DA;" href="https://payload.tf/invite">
+                        Invite payload to your discord
+                    </a>
+                </div>
+                <div>
+                    <a style="color: #7289DA;" href="https://discord.gg/gYnnMYz">
+                        Official payload discord
+                    </a>
+                </div>
+                <br>
+                <br>
+                <br>
+                <code>
+                    <strong>commandname</strong>: <span class="syntax-highlight">Command description.</span><br>
+                    |&nbsp;&nbsp;&nbsp;<br>
+                    |&nbsp;&nbsp;&nbsp;Usage:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-highlight">command usage <span style="color: #7289DA;">&lt;required_argument&gt;</span> <span style="color: #99AAB5;">[optional_argument]</span></span><br>
+                    |&nbsp;&nbsp;&nbsp;<br>
+                    |&nbsp;&nbsp;&nbsp;Arguments:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-highlight"><span style="color: #7289DA;">&lt;argument&gt;</span></span>: <span class="syntax-highlight">Argument description.</span><br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-highlight"><span style="color: #99AAB5;">[argument]</span></span>: <span class="syntax-highlight">Argument description.</span><br>| &nbsp;&nbsp;&nbsp;<br>
+                    |&nbsp;&nbsp;&nbsp;Permissions:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Payload:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;permissions payload needs to have<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For User:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;permissions user needs to have<br>
+                    |&nbsp;&nbsp;&nbsp;<br>
+                    |&nbsp;&nbsp;&nbsp;Zones:<br>
+                    |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;channel types where command is allowed<br>
+                </code>
+            <br>
+            <br>
+            <code>
+                    The command blocks below follow the format of the template command block above.
+                    Clicking on a command block will set your address bar to a URL that will automatically send you users to the command clicked.
+                </code>
+            <hr style="margin: 20px 0;">
+            </code>
+            <div id="commands"></div>
+            <code id="footer">
+                Payload bot created by <a class="underline" href="https://steamcommunity.com/id/sharkyra">Sharky</a>, maintained by <a class="underline" href="https://steamcommunity.com/id/chab133">24</a>
+                <br>
+                <br>
+                <a style="color: #7289DA;" href="https://payload.tf/invite">
+                    [ INVITE PAYLOAD TO YOUR SERVER ]
+                    <br>
+                </a>
+                <br>
+                <br>
+                Payload is open source and can be viewed/downloaded at <a class="underline" href="https://github.com/c43721/payload-neo">https://github.com/c43721/payload-neo</a>.
+                <br>
+                <br>
+                <a class="underline" href="https://discord.gg/gYnnMYz">Official Discord Server</a>
+                <br>
+                <a class="underline" href="https://payload.tf">Official Website</a>
+                <br>
+            </code>
+        </div>
+    </div>
+
+    <script src="assets/js/docs.js"></script>
+</body>
+
+</html>

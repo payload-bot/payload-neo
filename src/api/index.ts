@@ -32,7 +32,8 @@ export async function listen(port: number, client: Client): Promise<void> {
         res.json({
             users: client.users.cache.size,
             servers: client.guilds.cache.size,
-            uptime: client.uptime
+            uptime: client.uptime,
+            version: version
         });
     });
 

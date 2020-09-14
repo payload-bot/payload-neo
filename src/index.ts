@@ -23,6 +23,8 @@ client.cache = {
     pings: {}
 };
 
+const restrictedCommands = process.env.DISABLED_COMMANDS.split(", ")
+
 /* 
     Connect to MongoDB. Will exit if no database was found.
 */
@@ -90,6 +92,8 @@ readdir(__dirname + "/preload/commands", (err, files) => {
 
         if (!command.name) return console.warn("\t" + folder + " is not a valid command module.");
 
+        if (restrictedCommands.includes(command.name)) return console.warn("\t" + folder + " was not loaded due to command restriction.");
+
         client.commands.set(command.name, command);
 
         console.log("\tLoaded " + command.name);
@@ -109,6 +113,8 @@ readdir(__dirname + "/preload/auto", (err, files) => {
         let autoresponse = new autoInit();
 
         if (!autoresponse.name) return console.warn("\tFile " + file + " is not a valid autoresponse module.");
+
+        if (restrictedCommands.includes(autoresponse.name)) return console.warn("\t" + file + " was not loaded due to command restriction.");
 
         client.autoResponses.set(autoresponse.name, autoresponse);
 

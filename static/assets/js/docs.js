@@ -6,7 +6,6 @@ const HTML_INDENT = HTML_SPACE.repeat(4);
     const data = await resp.json();
 
     const mainHeader = document.querySelector("#docs > .header");
-    console.log(data.stats.version);
     mainHeader.innerHTML = mainHeader.innerHTML.replace("%VERSION%", data.stats.version);
 
     //const commandsHeader = document.querySelector("#commands > .header");

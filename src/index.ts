@@ -23,7 +23,7 @@ client.cache = {
     pings: {}
 };
 
-const restrictedCommands = process.env.DISABLED_COMMANDS.split(", ")
+const restrictedCommands = process.env.DISABLED_COMMANDS ? process.env.DISABLED_COMMANDS.split(", ") : []
 
 /* 
     Connect to MongoDB. Will exit if no database was found.

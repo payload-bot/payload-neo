@@ -1,4 +1,4 @@
-import * as Discord from "discord.js";
+import { TextChannel, MessageEmbed } from "discord.js";
 import mongoose from "mongoose";
 import { NotificationLevel, pushNotification } from "../util/push-notification";
 import { getChangelog } from "../util/get-changelog";
@@ -12,8 +12,7 @@ module.exports = {
         console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
         client.user.setActivity(`payload.tf/invite | v${version}`);
 
-        let waitingInterval: NodeJS.Timeout;
-        waitingInterval = setInterval(async () => {
+        const waitingInterval: NodeJS.Timeout = setInterval(async () => {
             if (mongoose.connection.readyState === 1) {
                 clearInterval(waitingInterval);
 
@@ -37,15 +36,11 @@ module.exports = {
 
                 if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
 
-                try {
-                    const channel = client.channels.cache.get(config.info.logChannel) as Discord.TextChannel;
-                    if (channel) channel.send("```md\n" + changelog + "\n```");
-                } catch (error) {
-                    console.log("Could not find channel.");
-                }
+                const channel = client.channels.cache.get(config.info.logChannel) as TextChannel;
+                if (channel) channel.send("```md\n" + changelog + "\n```");
 
                 for (let i = 0; i < guilds.length; i++) {
-                    let notif = await pushNotification(client, guilds[i].ownerID, NotificationLevel.ALL, new Discord.MessageEmbed({
+                    let notif = await pushNotification(client, guilds[i].ownerID, NotificationLevel.ALL, new MessageEmbed({
                         title: `${client.user.username} updated to v${version}!`,
                         description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications ${NotificationLevel.NONE}\` in DM's.`,
                         fields: [

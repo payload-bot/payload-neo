@@ -7,6 +7,7 @@
     --darkergray: #23272A;
     --nightblack: #111111;
     --skyblue: #78B1DE;
+    --link-color: #0edef3;
 }
 
 html, body {
@@ -17,11 +18,21 @@ h1, h2, h3, h4, h5, p, span, li {
     color: var(--white);
 }
 
-a {
+.link {
     color: var(--white);
+    transition: 150ms;
 }
 
-a:hover {
+.link.no-underline {
+    text-decoration: none;
+}
+
+.link.no-underline:hover {
+    color: var(--link-color);
+}
+
+.link:hover {
+    transition: 150ms;
     text-decoration: none;
 }
 
@@ -151,10 +162,10 @@ button.btn.btn-discord.btn-lg.mr-3 {
 }
 
 .faq>div:last-child {
-    margin-bottom: none;
+    margin-bottom: 0px;
 }
 
 .break {
-    height: 2px;
+    height: 3px;
     background-color: var(--darkergray);
 }

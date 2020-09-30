@@ -13,19 +13,26 @@
     <meta property="og:image" content="https://staging.payload.tf/assets/img/logo.png">
     <meta name="description"
         content="Payload is a discord bot to help integrate vital services of TF2 into discord. Features include embeds of logs, a payload leaderboard, and more!">
-    <meta name="keywords" content="payload, tf2 payload, payload discord, payload.tf, ">
+    <meta name="keywords"
+        content="payload, tf2 payload, payload discord, payload.tf, payload discord bot, payload tf2 discord, tf2 discord bot">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
     <meta name="author" content="24">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+        integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
 
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        particlesJS.load("stars", "assets/data/particles.json", () => {
+            console.log("Loaded stars!");
+        });
+    </script>
 
     <title>Payload</title>
 </head>
@@ -69,7 +76,8 @@
             <h2 class="mb-5">FAQ</h2>
             <div class="faq">
                 <div>How do I invite this bot to my discord?</div>
-                <div>You can go to <a href="/invite">this link</a>, and while logged into the browser, select a server
+                <div>You may <a class="link no-underline" href="/invite">invite the bot here</a>, and while logged into
+                    the browser, select a server
                     and it will be all set up!</div>
 
                 <div>Why is the bot not responding to any commands?</div>
@@ -81,7 +89,7 @@
                     command!</div>
 
                 <div>Do you have an offical discord?</div>
-                <div>Of course! Join us <a href="/discord">here</a>!</div>
+                <div>Of course! Join us at <a class="link no-underline" href="/discord">our discord</a>!</div>
 
                 <div>Payload is offline! What do I do?</div>
                 <div>That's not good! We strive to make sure it's on 100% of the time. Being offline could mean that
@@ -89,33 +97,23 @@
                     within ~10 minutes of being down, contact us on discord!</div>
 
                 <div>How do I view all of Payloads' commands?</div>
-                <div>You may view all commands <a href="/docs">here</a> or use "pls commands" in any channel.</div>
+                <div>You may <a class="link no-underline" href="/docs">view all commands</a> or use "pls commands"
+                    in any channel.</div>
             </div>
         </div>
 
     </div>
 
     <div class="footer container-fluid px-5 py-3 bg-darkergray text-center">
-        <span class="small">Orignally created by <a href="https://sharky.cool">sharky</a>, now maintained by <a
-                href="https://steamcommunity.com/id/chab133">24</a>. Get in contact: <a
-                href="mailto:24@elo.associates">24@elo.associates</a></span>
+        <span class="small">Orignally created by <a class="link no-underline" href="https://sharky.cool">sharky</a>, now
+            maintained by <a class="link no-underline" href="https://steamcommunity.com/id/chab133">24</a>. Get in
+            contact: <a class="link no-underline" href="mailto:24@elo.associates">24@elo.associates</a></span>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"
+        integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD"
         crossorigin="anonymous"></script>
 
-    <script defer>
-        particlesJS.load("stars", "/assets/data/particles.json", () => {
-            console.log("Loaded stars!");
-        });
-    </script>
 </body>
 
 </html>

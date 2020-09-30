@@ -17,6 +17,14 @@ h1, h2, h3, h4, h5, p, span, li {
     color: var(--white);
 }
 
+a {
+    color: var(--white);
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .blend {
     background: linear-gradient(180deg, #c6b790 0%, var(--darkgray) 100%);
     height: 1000px;
@@ -95,7 +103,7 @@ h1, h2, h3, h4, h5, p, span, li {
 }
 
 button.btn.btn-discord.btn-lg.mr-3 {
-	margin-right: 0!important;
+    margin-right: 0!important;
 }
 
 .league-list {
@@ -109,12 +117,12 @@ button.btn.btn-discord.btn-lg.mr-3 {
     margin: 0 1.8vw;
 }
 
-.league-logo-shrink > img {
+.league-logo-shrink>img {
     height: 70px;
     width: auto;
 }
 
-.league-logo > img {
+.league-logo>img {
     width: 150px;
     height: auto;
 }
@@ -133,16 +141,16 @@ button.btn.btn-discord.btn-lg.mr-3 {
     color: #fff;
 }
 
-.faq > div:nth-child(2n) {
+.faq>div:nth-child(even) {
     margin-bottom: 3rem;
 }
 
-.faq > div:nth-child(n):not(:nth-child(2n)) {
+.faq>div:nth-child(odd) {
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
-.faq > div:last-child {
+.faq>div:last-child {
     margin-bottom: none;
 }
 

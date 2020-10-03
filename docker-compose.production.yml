@@ -8,7 +8,7 @@ services:
         env_file: 
             - ./.env
         ports: 
-            - 3000:3000
+            - 4000:4000
         depends_on: 
             - mongo
         links: 
@@ -19,7 +19,7 @@ services:
         image: mongo
         restart: always
         ports: 
-            - 27017-27019:27017-27019
+            - 27080:27080
         volumes: 
             - /opt/production/mongo:/data/db
         env_file: 

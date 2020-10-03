@@ -1,11 +1,18 @@
-import { Client, Collection } from "discord.js";
+import { Client, Collection, ClientEvents, BaseClient } from "discord.js";
 import { Command } from "../exec/Command";
 import { AutoResponse } from "../types/AutoCommand";
 import UserManager from "../manager/UserManager";
 import ServerManager from "../manager/ServerManager";
 import { ScheduledScript } from "./ScheduledScripts";
 
+export interface IClientEmitter extends ClientEvents {
+    "log": string,
+    "error": string
+}
+
 export interface Client extends Client {
+    emit<K extends keyof IClientEmitter>(event: K, ...args: ClientEvents[K]): boolean;
+
     isReady: boolean,
     commands: Collection<string, Command>,
     autoResponses: Collection<string, AutoResponse>,

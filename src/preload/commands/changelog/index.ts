@@ -1,8 +1,9 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
-import { version as ImportVersion} from "../../../util/version_control"
+import { version as ImportVersion } from "../../../util/version_control"
 import { getChangelog } from "../../../util/get-changelog";
+import Language from "../../../lib/types/Language";
 
 export default class Changelog extends Command {
     constructor() {
@@ -22,15 +23,16 @@ export default class Changelog extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         const version = args[0] as string || ImportVersion;
 
         const changelog = getChangelog(version);
 
         if (!changelog) await this.fail(msg, lang.changelog_invalid);
-
-        await this.respond(msg, lang.changelog_reply.replace('%changelog', changelog));
-        return true;
+        else {
+            await this.respond(msg, lang.changelog_reply.replace('%changelog', changelog));
+            return true;
+        }
     }
 }

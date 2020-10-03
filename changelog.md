@@ -158,3 +158,18 @@
 * Updated API
 * Server rcon in discord
 * Updated localization files thanks to our translators!
+
+### 3.6.71
+* Moved completely to Docker
+* Updated types
+
+### 3.6.72
+* Fix docker stuff
+* Threw the website on docker with nginx, nginx controls bot api as well
+* More type updates
+* Added owner-only command to help pinpoint memory errors during production
+
+### 3.6.73
+* Docs page, main page styling changes
+* /api/stats has version
+* nginx updates

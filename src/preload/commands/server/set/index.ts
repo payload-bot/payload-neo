@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types/Client";
 import { Message } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class Exec extends Command {
     constructor() {
@@ -38,7 +39,7 @@ export default class Exec extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 2);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;

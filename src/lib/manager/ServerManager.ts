@@ -2,6 +2,11 @@ import { Server, ServerModel } from "../model/Server";
 import * as Discord from "discord.js";
 import config from "../../config";
 
+export interface ICommandRestrictions {
+    channelID: string,
+    commands: Array<string>
+}
+
 export default class ServerManager {
     discordClient: Discord.Client;
     servers: Map<string, ServerEditable>;
@@ -39,7 +44,7 @@ export class ServerEditable {
         this.server = model;
     }
 
-    getCommandRestrictions(channelID?: string) {
+    getCommandRestrictions(channelID?: string): string[] | ICommandRestrictions[] {
         this.server.commandRestrictions = this.server.commandRestrictions || [];
 
         if (channelID) {
@@ -53,7 +58,7 @@ export class ServerEditable {
         return this.server.commandRestrictions;
     }
 
-    addCommandRestrictions(restrictions: Array<{ channelID: string, commands: Array<string> }>): Array<{ channelID: string, commands: Array<string> }> {
+    addCommandRestrictions(restrictions: ICommandRestrictions[]): ICommandRestrictions[] {
         this.server.commandRestrictions = this.server.commandRestrictions || [];
 
         // Loop through each channel to match them up.
@@ -71,7 +76,7 @@ export class ServerEditable {
         return this.server.commandRestrictions;
     }
 
-    removeCommandRestrictions(restrictions: Array<{ channelID: string, commands: Array<string> }>): Array<{ channelID: string, commands: Array<string> }> {
+    removeCommandRestrictions(restrictions: ICommandRestrictions[]): ICommandRestrictions[] {
         if (!this.server.commandRestrictions) return [];
 
         // Loop through each channel to match them up.

@@ -1,10 +1,17 @@
+import { Request, Response } from "express"
 import Rcon from 'srcds-rcon';
+
+interface IBodyResponse {
+    command: string,
+    ip: string,
+    password: string
+}
 
 /**
  * POST /api/rcon
  */
-export default async (req, res) => {
-    const { command, ip, password } = req.body
+export default async (req: Request, res: Response) => {
+    const { command, ip, password } = req.body as IBodyResponse
 
     return new Promise(resolve => {
         if (!command) resolve({ success: false, message: "No command found." })

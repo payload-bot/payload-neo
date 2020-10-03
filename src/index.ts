@@ -1,6 +1,5 @@
 import * as Discord from "discord.js"
 import { readdir } from "fs";
-import config from "./config";
 import { CommandConstructor } from "./lib/exec/Command";
 import { Client } from "./lib/types";
 import mongoose from "mongoose";
@@ -9,6 +8,7 @@ import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
 import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
+require("dotenv").config();
 
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
@@ -23,10 +23,12 @@ client.cache = {
     pings: {}
 };
 
+const restrictedCommands = process.env.DISABLED_COMMANDS ? process.env.DISABLED_COMMANDS.split(", ") : []
+
 /* 
     Connect to MongoDB. Will exit if no database was found.
 */
-mongoose.connect(config.MONGODB_URI, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -90,6 +92,8 @@ readdir(__dirname + "/preload/commands", (err, files) => {
 
         if (!command.name) return console.warn("\t" + folder + " is not a valid command module.");
 
+        if (restrictedCommands.includes(command.name)) return console.warn("\t" + folder + " was not loaded due to command restriction.");
+
         client.commands.set(command.name, command);
 
         console.log("\tLoaded " + command.name);
@@ -110,11 +114,17 @@ readdir(__dirname + "/preload/auto", (err, files) => {
 
         if (!autoresponse.name) return console.warn("\tFile " + file + " is not a valid autoresponse module.");
 
+        if (restrictedCommands.includes(autoresponse.name)) return console.warn("\t" + file + " was not loaded due to command restriction.");
+
         client.autoResponses.set(autoresponse.name, autoresponse);
 
         console.log("\tLoaded " + autoresponse.name);
     });
 });
 
-client.login(config.TOKEN);
-listen(4201, client);
+const apiPort = Number(process.env.API_PORT) || 3001
+
+client.login(process.env.TOKEN);
+listen(apiPort, client);
+
+export default client;

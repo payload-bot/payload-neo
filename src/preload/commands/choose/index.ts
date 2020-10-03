@@ -2,6 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import { random } from "../../../util/random";
+import Language from "../../../lib/types/Language";
 
 export default class Choose extends Command {
     constructor() {
@@ -40,7 +41,7 @@ export default class Choose extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;

@@ -44,12 +44,12 @@
 	
 	"help_embedusage": "Usage",
 	"help_embedpermissionshead": "Permissions Needed",
-	"help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n# For Bot #\n%permsbot```",
+	"help_embedpermissionsbody": "```md\n# For User #\n%permsuser\n\n# For Bot #\n%permsbot```",
 	"help_embedsubcmds": "Subcommands",
 	"help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
 	
 	"info_embedtitle": "Currently serving **%users** users in **%servers** servers!",
-	"info_embedbody": "Join the official %user discord server for help and suggestions: https://discord.gg/gYnnMYz\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
+	"info_embedbody": "Join the official %user discord server for help and suggestions: https:\/\/discord.gg\/gYnnMYz\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
 	"info_embedfooter": "Created and maintained by %creator | Version %version",
 	
 	"language_fail_invalidsub": "Invalid subcommand. Type `%prefixhelp language` to learn more.",
@@ -66,9 +66,6 @@
 	
 	"log_fail_noid": "User does not have their Steam ID linked. Steam IDs can be linked to your account using `%prefixlink <Steam ID>`.",
 	"log_fail_nologhistory": "User does not have a log history.",
-	
-	"music_fail_isplaying": "Another user is already playing music!",
-	"music_error": "Error: %err",
 	
 	"prefix_fail_invalidsub": "Invalid subcommand. Type `%prefixhelp prefix` to learn more.",
 	"prefix_default": "The guild prefix is: `%prefix`",

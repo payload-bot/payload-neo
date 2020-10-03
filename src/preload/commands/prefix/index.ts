@@ -4,6 +4,7 @@ import { Message } from "discord.js";
 import Set from "./set";
 import Delete from "./delete";;
 import config from "../../../config";
+import Language from "../../../lib/types/Language";
 
 export default class Prefix extends Command {
     constructor() {
@@ -32,7 +33,7 @@ export default class Prefix extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         let args: any = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args[0]) {
             if (!this.subCommands[args[0]]) {

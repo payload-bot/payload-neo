@@ -1,0 +1,43 @@
+version: '3.5'
+
+services: 
+    bot:
+        build: .
+        container_name: "payload"
+        restart: always
+        env_file: 
+            - ./.env
+        ports: 
+            - 3000:3000
+        depends_on: 
+            - mongo
+        links: 
+            - mongo
+            
+    mongo:
+        container_name: "mongo"
+        image: mongo
+        restart: always
+        ports: 
+            - 27017-27019:27017-27019
+        volumes: 
+            - mongo:/data/db
+        env_file: 
+            - ./.env
+
+    nginx:
+        container_name: "nginx"
+        image: nginx
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./static/:/usr/share/nginx/html/
+        env_file:
+            - ./.env
+        depends_on:
+            - bot
+
+volumes:
+    mongo: ~

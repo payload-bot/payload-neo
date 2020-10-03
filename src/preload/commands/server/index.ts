@@ -5,6 +5,7 @@ import ExecCommand from "./exec";
 import ListCommand from "./list";
 import RemoveCommand from "./remove";
 import SetCommand from "./set";
+import Language from "../../../lib/types/Language";
 
 export default class Server extends Command {
     constructor() {
@@ -40,7 +41,7 @@ export default class Server extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.getArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (!args) {
             await this.respond(msg, lang.server_invalidsyntax.replace("%prefix", await this.getPrefix(msg)));

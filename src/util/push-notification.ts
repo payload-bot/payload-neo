@@ -1,11 +1,17 @@
 import { MessageEmbed } from "discord.js";
 import { Client } from "../lib/types";
 
+export enum NotificationLevel {
+    NONE = 0,
+    MAJOR,
+    ALL
+}
+
 export async function pushNotification(client: Client, id: string, level: number, embed: MessageEmbed, version?: string): Promise<boolean> {
     const userDBEntry = await client.userManager.getUser(id);
 
     if (userDBEntry.user.notificationsLevel == undefined) {
-        userDBEntry.user.notificationsLevel = 2;
+        userDBEntry.user.notificationsLevel = NotificationLevel.ALL;
     }
     if (userDBEntry.user.latestUpdateNotifcation == undefined) {
         userDBEntry.user.latestUpdateNotifcation = "0.0.0";

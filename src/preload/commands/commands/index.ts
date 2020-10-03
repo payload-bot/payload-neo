@@ -1,6 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
+import Language from "../../../lib/types/Language";
 
 export default class Commands extends Command {
 
@@ -12,7 +13,7 @@ export default class Commands extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         let embed = new MessageEmbed();
         let commandsToDisplay: string;
         const allCommands = client.commands.filter(cmds => !cmds.requiresRoot && !cmds.name.includes("pugscrim")).map(cmd => cmd.name);
@@ -20,7 +21,7 @@ export default class Commands extends Command {
         if (msg.guild) {
             let serverManager = client.serverManager;
             let server = await serverManager.getServer(msg.guild.id);
-            let commandRestrictions: any = server.getCommandRestrictions(msg.channel.id);
+            let commandRestrictions = server.getCommandRestrictions(msg.channel.id) as string[];
 
             const commandsConcat = [...new Set(commandRestrictions.concat(allCommands))];
             commandsToDisplay = commandsConcat.slice(commandRestrictions.length).join(", ")

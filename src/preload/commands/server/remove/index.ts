@@ -1,6 +1,7 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types/Client";
 import { Message } from "discord.js";
+import Language from "../../../../lib/types/Language";
 
 export default class Exec extends Command {
     constructor() {
@@ -26,7 +27,7 @@ export default class Exec extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg, 1);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -47,14 +48,14 @@ export default class Exec extends Command {
         const serverIndex = user.user.servers.findIndex(server => server.name == targetServer);
 
         if (serverIndex === 0) {
-            return await this.fail(msg, lang.server_targetinvalid.replace("%target", targetServer));
+            return await this.fail(msg, lang.server_targetinvalid.replace("%target", targetServer.toString()));
         }
 
         user.user.servers.splice(serverIndex, 1);
 
         await user.save();
 
-        await this.respond(msg, lang.server_removeserver.replace("%target", targetServer));
+        await this.respond(msg, lang.server_removeserver.replace("%target", targetServer.toString()));
 
         return true;
     }    

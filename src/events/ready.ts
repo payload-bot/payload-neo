@@ -1,18 +1,18 @@
-import * as Discord from "discord.js";
+import { TextChannel, MessageEmbed } from "discord.js";
 import mongoose from "mongoose";
-import { pushNotification } from "../util/push-notification";
+import { NotificationLevel, pushNotification } from "../util/push-notification";
 import { getChangelog } from "../util/get-changelog";
 import { version } from "../util/version_control";
 import config from "../config";
 import { Client as ClientDocument, ClientModel } from "../lib/model/Client";
+import { Client } from "../lib/types";
 
 module.exports = {
-    run: async (client) => {
+    run: async (client: Client) => {
         console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
         client.user.setActivity(`payload.tf/invite | v${version}`);
 
-        let waitingInterval: NodeJS.Timeout;
-        waitingInterval = setInterval(async () => {
+        const waitingInterval: NodeJS.Timeout = setInterval(async () => {
             if (mongoose.connection.readyState === 1) {
                 clearInterval(waitingInterval);
 
@@ -36,17 +36,13 @@ module.exports = {
 
                 if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
 
-                try {
-                    const channel = await client.channels.cache.get(config.info.logChannel) as Discord.TextChannel;
-                    if (channel) channel.send("```md\n" + changelog + "\n```");
-                } catch (error) {
-                    console.log("Could not find channel.");
-                }
+                const channel = client.channels.cache.get(config.info.logChannel) as TextChannel;
+                if (channel) channel.send("```md\n" + changelog + "\n```");
 
                 for (let i = 0; i < guilds.length; i++) {
-                    let notif = await pushNotification(client, guilds[i].ownerID, 2, new Discord.MessageEmbed({
+                    let notif = await pushNotification(client, guilds[i].ownerID, NotificationLevel.ALL, new MessageEmbed({
                         title: `${client.user.username} updated to v${version}!`,
-                        description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications 1\` in DM's.`,
+                        description: `A new update has been released to ${client.user.username}!\nTo opt-out of these update notifications, type \`${config.PREFIX}config notifications ${NotificationLevel.NONE}\` in DM's.`,
                         fields: [
                             {
                                 name: "Changelog",
@@ -59,9 +55,14 @@ module.exports = {
                     }), version);
                     console.log(`Notification: ${guilds[i].ownerID} | ${notif} | ${i + 1} of ${guilds.length}`);
                 }
-                if (!botDoc) return console.log("No bot db entry!");
-
-                botDoc.startupVersion = version;
+                if (!botDoc) {
+                    botDoc = new ClientDocument({
+                        id: 0,
+                        startupVersion: version
+                    })
+                } else {
+                    botDoc.startupVersion = version;
+                }
 
                 await botDoc.save();
             } else {

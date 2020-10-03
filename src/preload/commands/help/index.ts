@@ -1,6 +1,8 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
+import Language from "../../../lib/types/Language";
+import PayloadColors from "../../../lib/misc/colors";
 
 export default class Help extends Command {
     constructor() {
@@ -25,8 +27,8 @@ export default class Help extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const args  = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const args = await this.parseArgs(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (args === false) {
             return false;
@@ -66,16 +68,16 @@ export default class Help extends Command {
             client: command.permissions
         };
 
-        let helpEmbed = new MessageEmbed();
-            helpEmbed.setTitle(command.name);
-            helpEmbed.setDescription(command.description);
-            helpEmbed.addField(lang.help_embedusage, usage);
-        helpEmbed.addField(lang.help_embedpermissionshead, lang.help_embedpermissionsbody.replace('%permsuser', permissionsNeeded.user.join("\n")).replace('%permsbot', permissionsNeeded.client.join("\n")));
-            if (command.getSubcommandArray().length > 0) {
-                helpEmbed.addField(lang.help_embedsubcmds, command.getSubcommandArray().join(", "));
-            }
+        const helpEmbed = new MessageEmbed();
+        helpEmbed.setTitle(command.name);
+        helpEmbed.setDescription(command.description);
+        helpEmbed.addField(lang.help_embedusage, usage);
+        helpEmbed.addField(lang.help_embedpermissionshead, lang.help_embedpermissionsbody.replace('%permsuser', permissionsNeeded.user.join("\n").replace(/_/g, " ")).replace('%permsbot', permissionsNeeded.client.join("\n").replace(/_/g, " ")));
+        if (command.getSubcommandArray().length > 0) {
+            helpEmbed.addField(lang.help_embedsubcmds, command.getSubcommandArray().join(", "));
+        }
         helpEmbed.setFooter(lang.help_embedfooter.replace('%requester', msg.author.tag).replace('%prefix', await this.getPrefix(msg)));
-            helpEmbed.setColor(16098851);
+        helpEmbed.setColor(PayloadColors.COMMAND);
 
         await msg.channel.send(helpEmbed);
 

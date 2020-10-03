@@ -5,6 +5,7 @@ import { createCanvas, loadImage } from "canvas";
 import got from "got";
 import AWS from "aws-sdk";
 import path from "path";
+import Language from "../../../lib/types/Language";
 
 export default class Gibus extends Command {
     constructor() {
@@ -17,7 +18,7 @@ export default class Gibus extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
         return new Promise(async resolve => {
             let messages = await msg.channel.messages.fetch({ limit: 5 });
     

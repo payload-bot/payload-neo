@@ -1,18 +1,11 @@
 # payload-neo
- Payload, but this time working.
+Sharky's original payload, but back and in a new coat.
  
-# Same features from Payload
- All the commands you know and love, here again for you
+## Bot links
+ * [Changelog](https://github.com/c43721/payload-neo/blob/master/changelog.md)
+ * [Main Page](https://payload.tf/)
+ * [Documentation](https://payload.tf/docs)
+ * [Changelog](https://github.com/c43721/payload-neo/blob/master/changelog.md)
+ * [Translation](https://crowdin.com/project/payload)
  
- # Changelog
- https://github.com/c43721/payload-neo/blob/master/changelog.md
- 
-# Docs Page
- https://payload.tf/payload-docs
- 
- # Bot page
- https://payload.tf/
- 
- 
- Want to help translate? Visit https://crowdin.com/project/payload!
-
+ ### All other major links are located in the main page.

@@ -3,6 +3,7 @@ import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
 import api_key from "./api-key";
 import NotificationsCommand from "./notifications";
+import Language from "../../../lib/types/Language";
 
 export default class Config extends Command {
     constructor() {
@@ -36,7 +37,7 @@ export default class Config extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args: any = await this.getArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         if (!args) {
             await this.respond(msg, lang.config_error_invalidsyntax.replace('%prefix', await this.getPrefix(msg)));

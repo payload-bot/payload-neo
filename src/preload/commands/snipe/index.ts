@@ -2,6 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
 import { getCache, channelCacheExists, renderMessage } from "../../../util/snipe-cache";
+import Language from "../../../lib/types/Language";
 
 export default class Snipe extends Command {
     constructor() {
@@ -25,7 +26,7 @@ export default class Snipe extends Command {
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const args = await this.parseArgs(msg);
-        const lang = await this.getLanguage(msg);
+        const lang: Language = await this.getLanguage(msg);
 
         const checker = await this.checkPermissions(msg)
         if (!checker) return false;

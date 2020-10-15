@@ -20,8 +20,13 @@ export const DISCORD_MESSAGE_HTML = `<!DOCTYPE html><html lang="en"><head><meta 
  * Renders a Discord message. This functions is basically copy-pasted from the old code.
  * @param message The message object to render.
  */
-export async function renderMessage(message: Message): Promise<{buffer: Buffer, attachments: string, links: string}> {
-    const browser = await puppeteer.launch();
+export async function renderMessage(message: Message): Promise<{ buffer: Buffer, attachments: string, links: string }> {
+    const browser = await puppeteer.launch({
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
+    });
     const page = await browser.newPage();
     await page.setViewport({
         width: 1000,
@@ -125,6 +130,7 @@ export function handleMessageDelete(client: Client, message: Message): boolean {
     return true;
 }
 
+//@TODO Turn this into a scheduled script
 /**
  * Cleans up the snipe cache.
  * @param bot The bot object with a snipe cache to clean up.
@@ -134,10 +140,10 @@ export function cleanCache(client: Client, message: Message): boolean {
     let now = new Date();
 
     if (!channelCacheExists(client, message)) return false;
-    
+
     client.cache.snipe[message.guild.id][message.channel.id].forEach(cachedMessage => {
         let cachedMessageDateMS = (cachedMessage.editedAt || cachedMessage.createdAt).getTime();
-        let minutesDifference = (now.getTime() - cachedMessageDateMS)/60000;
+        let minutesDifference = (now.getTime() - cachedMessageDateMS) / 60000;
 
         if (minutesDifference > 5) client.cache.snipe[message.guild.id][message.channel.id].delete(cachedMessage.id);
     });

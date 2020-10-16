@@ -4,15 +4,15 @@ import { version } from "../util/version_control"
 import rglApi from "./routes/rgl"
 import steamid from "../util/steamid"
 import rcon from "./routes/rcon"
-import bodyParser from "body-parser"
 import cors from "cors"
 
 export async function listen(port: number, client: Client): Promise<void> {
     const server = express();
-    server.use(bodyParser.json())
-    server.use(bodyParser.urlencoded({ extended: false }))
-    server.set('json spaces', 1)
-    server.use(cors())
+
+    server.use(express.json());
+    server.use(express.urlencoded({ extended: false }));
+    server.set('json spaces', 1);
+    server.use(cors());
 
     server.get("/commands", (req: Request, res: Response) => {
         res.json({

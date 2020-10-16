@@ -37,9 +37,7 @@ export async function listen(port: number, client: Client): Promise<void> {
         });
     });
 
-    server.get('/rgl/:id', (req: Request, res: Response) => {
-        rglApi(req, res)
-    });
+    server.use("/rgl/:id", rglApi);
 
     server.post('/rcon', async (req, res) => {
         const rconRes = await rcon(req, res)

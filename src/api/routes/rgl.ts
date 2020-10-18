@@ -3,15 +3,16 @@ import cheerio from "cheerio";
 import s from "../helpers/selectors";
 
 import getSteam64 from "../../util/steamid"
+import { Request, Response } from "express";
 
 /**
  * GET /api/rgl/:id
  * -> http://rgl.gg/Public/PlayerProfile.aspx?p=:id
  */
-export default async (req, res) => {
-    const id64 = getSteam64(req.params.id)
+export default async (req: Request, res: Response) => {
+    const id64 = getSteam64(req.params.id);
 
-    if (id64 === "INVALID" || id64 === "ERROR") return res.json({ "error": 400, message: "Could not get SteamID" })
+    if (id64 === "INVALID" || id64 === "ERROR") return res.status(400).json({ success: "false", message: "Could not get SteamID" });
 
     const rglUrl = `http://rgl.gg/Public/PlayerProfile.aspx?p=${id64}`;
 
@@ -21,10 +22,10 @@ export default async (req, res) => {
     const $ = cheerio.load(body);
 
     const isRglApproved = $(s.player.isAccount).text().trim()
-    if (isRglApproved.length > 1) return res.json({
+    if (isRglApproved.length > 1) return res.status(200).json({
         steamid: id64,
-        success: false,
-        error: isRglApproved
+        success: "true",
+        message: isRglApproved
     })
 
     const trophiesRaw = $(s.player.trophies).text().split(/\s+/);
@@ -86,17 +87,17 @@ export default async (req, res) => {
         }
     });
 
-    res.json({
-        success: true,
+    res.status(200).json({
         steamid: id64,
         avatar,
         name,
-        banned,
-        probation,
-        verified,
+        bans: {
+            banned,
+            probation,
+            verified
+        },
         totalEarnings,
         trophies,
         experience,
-        code: 200
     });
 };

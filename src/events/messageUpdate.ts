@@ -1,4 +1,4 @@
-import { handleMessageDelete, cleanCache } from "../util/snipe-cache";
+import { handleMessageDelete } from "../util/snipe-cache";
 import config from "../config";
 import { Message } from "discord.js";
 import { Client } from "../lib/types";
@@ -6,7 +6,6 @@ import { Client } from "../lib/types";
 module.exports = {
     run: async (client: Client, oldMsg: Message, newMsg: Message) => {
         handleMessageDelete(client, oldMsg);
-        cleanCache(client, oldMsg);
 
         if (oldMsg.content === newMsg.content) return;
         if (!oldMsg.guild && oldMsg.content.startsWith(config.PREFIX)) client.emit("message", newMsg);

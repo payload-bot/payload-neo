@@ -154,3 +154,28 @@ export function clearSnipeCache(client: Client, guildId: string): boolean {
 
     return true;
 }
+
+/**
+ * Cleans up the pings cache.
+ * @param client The client object with a pings cache to clean up.
+ * @param guildId The guild ID to check. Best used in a for loop.
+ */
+export function clearPingCache(client: Client, guildId: string): boolean {
+    let now = new Date();
+
+    Object.keys(client.cache.pings[guildId]).forEach((channelId: string) => {
+        const allMessages = client.cache.pings[guildId][channelId];
+
+        allMessages.forEach((cachedMessage: Message) => {
+            let cachedMessageDateMS = (cachedMessage.editedAt || cachedMessage.createdAt).getTime();
+            let minutesDifference = (now.getTime() - cachedMessageDateMS) / 60000;
+
+            if (minutesDifference > 5) client.cache.pings[guildId][channelId].delete(cachedMessage.id);
+
+            if (!client.cache.pings[guildId][channelId].size) delete client.cache.pings[guildId][channelId];
+            if (!Object.values(client.cache.pings[guildId]).length) delete client.cache.pings[guildId];
+        })
+    });
+
+    return true;
+}

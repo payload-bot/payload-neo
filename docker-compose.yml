@@ -4,6 +4,7 @@ services:
     bot:
         build: .
         container_name: "payload"
+        command: "npm start"
         restart: always
         env_file: 
             - ./.env

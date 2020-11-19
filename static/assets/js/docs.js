@@ -2,7 +2,7 @@ const HTML_SPACE = "&nbsp;";
 const HTML_INDENT = HTML_SPACE.repeat(4);
 
 (async () => {
-    const resp = await fetch("/api/internal/public/client/commands");
+    const resp = await fetch("/api/internal/public/commands");
     const data = await resp.json();
 
     const mainHeader = document.querySelector("#docs > .header");

@@ -4,6 +4,6 @@ import ClientRoutes from "./client-stats";
 
 const router = express.Router();
 
-router.use("/client", ClientRoutes);
+router.use("/", ClientRoutes);
 
 export default router;

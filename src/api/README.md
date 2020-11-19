@@ -7,11 +7,13 @@
 
 # External (All public) /external/
 
-### Rcon
+- Route handler for all the routes that don't directly interact with the Payload bot
+
+### POST /rcon
+
+- Route for interacting with your TF2 server (or any server that uses SRCDS rcon)
 
 ```
-    //POST /rcon
-
     BODY:
     {
         command: "your command",
@@ -26,11 +28,11 @@
     }
 ```
 
-### RGL
+### GET /rgl/:steamid
+
+- Route for getting JSON data from a RGL profile
 
 ```
-    //GET /rgl/(your id)
-
     RESPONSE:
     {
         "steamid": "76561198154342943",
@@ -69,13 +71,13 @@
 
 # Internal (Public) /internal/public/
 
-## Client /client
+- All the routes relating to Payload directly
 
-### Commands
+### GET /commands
+
+- Get all the commands and auto reponses from the bot (with the version)
 
 ```
-    //GET /commands
-
     RESPONSE:
     {
         "commands": {
@@ -132,11 +134,11 @@
 }
 ```
 
-### Stats 
+### GET Stats
+
+- Get all the stats, including amount of users and uptime of the bot
 
 ```
-    //GET /client/stats
-
     RESPONSE:
     {
         "users": 1,

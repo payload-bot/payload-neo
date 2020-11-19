@@ -2,7 +2,7 @@ import express from "express";
 
 import ClientRoutes from "./client-stats";
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 router.use("/client", ClientRoutes);
 

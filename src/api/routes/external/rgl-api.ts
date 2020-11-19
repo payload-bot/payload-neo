@@ -4,7 +4,7 @@ import getSteam64 from "../../../util/steamid";
 import got from "got";
 import s from "../../rgl-api-helper/selectors";
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 router.get("/:id", async (req: Request, res: Response) => {
 	const id64 = getSteam64(req.params.id);

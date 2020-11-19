@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 
 import RconRoutes from "./rcon-api";
 import RglRoutes from "./rgl-api";

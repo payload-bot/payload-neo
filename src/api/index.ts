@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import cors from "cors";
 
 // ROUTES
@@ -15,6 +15,10 @@ export async function listen(port: number): Promise<void> {
 
 	server.use("/external/", ExternalRoutes);
 	server.use("/internal/", InternalRoutes);
+
+	server.all("*", (req: Request, res: Response) => {
+		res.status(404).json({ message: `Cannot find ${req.method} route for ${req.path}` });
+	});
 
 	return new Promise(resolve => {
 		server.listen(port, resolve);

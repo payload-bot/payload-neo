@@ -1,19 +1,14 @@
 const config = {
-    PREFIX: "!",
-    allowedID: "",
+	PREFIX: "pls ",
+	allowedID: "",
 
-    info: {
-        logChannel: "",
-        errorChannel: ""
-    },
+	info: {
+		logChannel: "",
+		errorChannel: ""
+	},
 
-    files: {
-        LOGS_CSS: __dirname + "/assets/dark-logs.css",
-    },
-
-    LOGSTF_API_KEY: "",
-    GOOGLE_API_KEY: "",
-    GOOGLE_CREDENTIALS_PATH: "/path/to/your/creds",
-    GCP_ID: ""
-}
+	files: {
+		LOGS_CSS: __dirname + "/assets/dark-logs.css"
+	}
+};
 export default config;

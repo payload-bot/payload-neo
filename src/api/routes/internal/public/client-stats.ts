@@ -22,7 +22,8 @@ router.get("/commands", (req: Request, res: Response) => {
 		autoResponses: {
 			count: client.autoResponses.size,
 			data: client.autoResponses.array()
-		}
+		},
+		version: version
 	});
 });
 

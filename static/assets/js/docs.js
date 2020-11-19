@@ -6,7 +6,7 @@ const HTML_INDENT = HTML_SPACE.repeat(4);
     const data = await resp.json();
 
     const mainHeader = document.querySelector("#docs > .header");
-    mainHeader.innerHTML = mainHeader.innerHTML.replace("%VERSION%", data.stats.version);
+    mainHeader.innerHTML = mainHeader.innerHTML.replace("%VERSION%", data.version);
 
     //const commandsHeader = document.querySelector("#commands > .header");
     //commandsHeader.innerHTML = commandsHeader.innerHTML.replace("%COMMAND_COUNT%", data.commands.count);

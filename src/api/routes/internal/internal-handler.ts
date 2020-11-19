@@ -1,0 +1,9 @@
+import express, { Request, Response } from "express";
+
+import PublicRoutes from "./public/internal-public-handler";
+
+const router = express.Router({ mergeParams: true });
+
+router.use("/public", PublicRoutes);
+
+export default router;

@@ -2,8 +2,8 @@
 
 - Base route: https://payload.tf/api/
 - Combine the base route with the sub routes below to get a full route
-- Example for the external Rcon route: POST /api/external/rcon
-- Example for the internal stats route: POST /api/internal/public/stats
+- Example:  POST /api/external/rcon
+- Example:  GET /api/internal/public/stats
 
 # External (Public) /external/
 

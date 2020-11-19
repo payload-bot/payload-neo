@@ -3,9 +3,9 @@
 - Base route: https://payload.tf/api/
 - Combine the base route with the sub routes below to get a full route
 - Example for the external Rcon route: POST /api/external/rcon
-- Example for the internal stats route: POST /api/internal/client/stats
+- Example for the internal stats route: POST /api/internal/public/stats
 
-# External (All public) /external/
+# External (Public) /external/
 
 - Route handler for all the routes that don't directly interact with the Payload bot
 

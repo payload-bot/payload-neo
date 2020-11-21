@@ -13,6 +13,14 @@ router.get("/stats", (req: Request, res: Response) => {
 	});
 });
 
+router.get("/status", (req: Request, res: Response) => {
+	res.json({
+		status: "online",
+		uptime: client.uptime,
+		version: version
+	});
+});
+
 router.get("/commands", (req: Request, res: Response) => {
 	res.json({
 		commands: {

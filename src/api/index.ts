@@ -4,11 +4,9 @@ import DiscordStrategy from "passport-discord";
 import cors from "cors";
 import helmet from "helmet";
 import passport from "passport";
-import client from "..";
 import config from "../config";
-import { Server } from "../lib/model/Server";
 import cookieParser from "cookie-parser";
-import AuthedUser, { AuthedUserProfile, AuthedUserServer } from "../lib/types/DiscordAuth";
+import AuthedUser, { AuthedUserProfile } from "../lib/types/DiscordAuth";
 require("dotenv").config();
 
 // ROUTES
@@ -22,7 +20,7 @@ export async function listen(port: number): Promise<void> {
 	server.use(cookieParser());
 	server.use(express.json());
 	server.use(express.urlencoded({ extended: false }));
-	server.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+	server.use(cors({ credentials: true, origin: process.env.ORIGIN }));
 	server.use(helmet());
 	server.use(cookieParser());
 	server.use(passport.initialize());

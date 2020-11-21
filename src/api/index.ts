@@ -63,43 +63,9 @@ export async function listen(port: number): Promise<void> {
 					...profile
 				};
 
-				const allGuilds: AuthedUserServer[] = await Promise.all(
-					profile.guilds.map(async guild => {
-						const isPayloadIn = client.guilds.cache.find(clientGuild => clientGuild.id === guild.id)
-							? true
-							: false;
-
-						let server = null;
-
-						if (isPayloadIn) {
-							try {
-								server = await Server.findOne({ id: guild.id });
-							} catch (error) {
-								const newServer = new Server({ id: guild.id });
-								await newServer.save();
-
-								server = newServer;
-							}
-
-							return {
-								iconUrl: `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`,
-								isPayloadIn: isPayloadIn,
-								db: server,
-								...guild
-							};
-						}
-						return {
-							iconUrl: `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`,
-							isPayloadIn: isPayloadIn,
-							...guild
-						};
-					})
-				);
-
 				const returnObject: AuthedUser = {
 					user,
 					profile: userProfile,
-					guilds: allGuilds.sort((a, b) => Number(b.isPayloadIn) - Number(a.isPayloadIn)),
 					access_token: _accessToken,
 					refresh_token: _refreshToken
 				};

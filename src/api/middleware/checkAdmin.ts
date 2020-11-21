@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthedRequest } from "../../lib/types/DiscordAuth";
 
-export default function checkAuth(req: Request, res: Response, next: NextFunction) {
+export default function checkAdmin(req: Request, res: Response, next: NextFunction) {
 	const token = req.cookies.token;
 	if (!token) return res.status(401).json({ message: "Unauthorized." });
 

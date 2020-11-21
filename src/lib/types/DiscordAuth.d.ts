@@ -3,11 +3,10 @@ import { UserModel } from "../model/User";
 import { ServerModel } from "../model/Server";
 
 export type AuthedUser = {
-	access_token: string,
-	refresh_token: string,
+	access_token: string;
+	refresh_token: string;
 	user: UserModel;
 	profile: AuthedUserProfile;
-	guilds: AuthedUserServer[];
 };
 
 export interface AuthedUserProfile extends DiscordStrategy.Profile {
@@ -25,7 +24,7 @@ export interface AuthedUserServer extends DiscordStrategy.GuildInfo {
 export type AuthedRequest = {
 	id: string;
 	isAdmin: boolean;
-	token: string,
+	token: string;
 	iat: number;
 };
 

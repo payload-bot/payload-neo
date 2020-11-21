@@ -1,5 +1,6 @@
-import express, {Request, Response} from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
+import helmet from "helmet";
 
 // ROUTES
 import ExternalRoutes from "./routes/external/external-handler";
@@ -12,6 +13,7 @@ export async function listen(port: number): Promise<void> {
 	server.use(express.urlencoded({ extended: false }));
 	server.set("json spaces", 1);
 	server.use(cors());
+	server.use(helmet());
 
 	server.use("/external/", ExternalRoutes);
 	server.use("/internal/", InternalRoutes);

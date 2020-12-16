@@ -173,3 +173,8 @@
 * Docs page, main page styling changes
 * /api/stats has version
 * nginx updates
+### 3.6.74
+* API endpoints changed
+* Cache will reduce to minimum every 5 minutes
+* Updated package dependencies
+* Updated localization files

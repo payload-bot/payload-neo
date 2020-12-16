@@ -2,11 +2,11 @@ const HTML_SPACE = "&nbsp;";
 const HTML_INDENT = HTML_SPACE.repeat(4);
 
 (async () => {
-    const resp = await fetch("/api/all-data");
+    const resp = await fetch("/api/internal/public/commands");
     const data = await resp.json();
 
     const mainHeader = document.querySelector("#docs > .header");
-    mainHeader.innerHTML = mainHeader.innerHTML.replace("%VERSION%", data.stats.version);
+    mainHeader.innerHTML = mainHeader.innerHTML.replace("%VERSION%", data.version);
 
     //const commandsHeader = document.querySelector("#commands > .header");
     //commandsHeader.innerHTML = commandsHeader.innerHTML.replace("%COMMAND_COUNT%", data.commands.count);
@@ -145,6 +145,5 @@ function getFullCommandName(cmd) {
 }
 
 function getUsage(cmd) {
-    return `!${getFullCommandName(cmd)} ${convertArgsToUsageString(cmd)}`;
+    return `pls ${getFullCommandName(cmd)} ${convertArgsToUsageString(cmd)}`;
 }
-//! is default right now :/

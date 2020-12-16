@@ -49,7 +49,7 @@
 	"help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
 	
 	"info_embedtitle": "Currently serving **%users** users in **%servers** servers!",
-	"info_embedbody": "Join the official %user discord server for help and suggestions: https:\/\/discord.gg\/gYnnMYz\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
+	"info_embedbody": "Join the official %user discord server for help and suggestions: https://payload.tf/discord\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
 	"info_embedfooter": "Created and maintained by %creator | Version %version",
 	
 	"language_fail_invalidsub": "Invalid subcommand. Type `%prefixhelp language` to learn more.",

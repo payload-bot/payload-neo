@@ -130,22 +130,51 @@ export function handleMessageDelete(client: Client, message: Message): boolean {
     return true;
 }
 
-//@TODO Turn this into a scheduled script
 /**
  * Cleans up the snipe cache.
- * @param bot The bot object with a snipe cache to clean up.
- * @param message A message object used to determine the guild and channel cache to clean up.
+ * @param client The client object with a snipe cache to clean up.
+ * @param guildId The guild ID to check. Best used in a for loop.
  */
-export function cleanCache(client: Client, message: Message): boolean {
+export function clearSnipeCache(client: Client, guildId: string): boolean {
     let now = new Date();
 
-    if (!channelCacheExists(client, message)) return false;
+    Object.keys(client.cache.snipe[guildId]).forEach((channelId: string) => {
+        const allMessages = client.cache.snipe[guildId][channelId];
 
-    client.cache.snipe[message.guild.id][message.channel.id].forEach(cachedMessage => {
-        let cachedMessageDateMS = (cachedMessage.editedAt || cachedMessage.createdAt).getTime();
-        let minutesDifference = (now.getTime() - cachedMessageDateMS) / 60000;
+        allMessages.forEach((cachedMessage: Message) => {
+            let cachedMessageDateMS = (cachedMessage.editedAt || cachedMessage.createdAt).getTime();
+            let minutesDifference = (now.getTime() - cachedMessageDateMS) / 60000;
 
-        if (minutesDifference > 5) client.cache.snipe[message.guild.id][message.channel.id].delete(cachedMessage.id);
+            if (minutesDifference > 5) client.cache.snipe[guildId][channelId].delete(cachedMessage.id);
+
+            if (!client.cache.snipe[guildId][channelId].size) delete client.cache.snipe[guildId][channelId];
+            if (!Object.values(client.cache.snipe[guildId]).length) delete client.cache.snipe[guildId];
+        })
+    });
+
+    return true;
+}
+
+/**
+ * Cleans up the pings cache.
+ * @param client The client object with a pings cache to clean up.
+ * @param guildId The guild ID to check. Best used in a for loop.
+ */
+export function clearPingCache(client: Client, guildId: string): boolean {
+    let now = new Date();
+
+    Object.keys(client.cache.pings[guildId]).forEach((channelId: string) => {
+        const allMessages = client.cache.pings[guildId][channelId];
+
+        allMessages.forEach((cachedMessage: Message) => {
+            let cachedMessageDateMS = (cachedMessage.editedAt || cachedMessage.createdAt).getTime();
+            let minutesDifference = (now.getTime() - cachedMessageDateMS) / 60000;
+
+            if (minutesDifference > 5) client.cache.pings[guildId][channelId].delete(cachedMessage.id);
+
+            if (!client.cache.pings[guildId][channelId].size) delete client.cache.pings[guildId][channelId];
+            if (!Object.values(client.cache.pings[guildId]).length) delete client.cache.pings[guildId];
+        })
     });
 
     return true;

@@ -18,10 +18,11 @@
     "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "got": "^9.6.0",
+    "helmet": "^4.2.0",
     "html": "^1.0.0",
     "html-to-text": "^5.1.1",
     "image-to-base64": "^2.0.1",
@@ -42,14 +43,13 @@
     "@types/node": "^12.12.62",
     "@types/steamid": "^1.1.0",
     "ts-node": "^8.5.2",
+    "ts-node-dev": "^1.0.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "run": "node ./dist/index.js",
-    "start": "npm run build && npm run assets && npm run run",
-    "build": "tsc --build tsconfig.json",
-    "update": "npm run build && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts",
-    "assets": "ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts"
+    "start": "node ./dist/index.js",
+    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "build": "tsc --build tsconfig.json && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts"
   },
   "repository": {
     "type": "git",

@@ -38,7 +38,7 @@
     "help_embedsubcmds": "Subcomandos",
     "help_embedfooter": "Solicitado por %requester. Para la lista de comandos: %prefixcommands",
     "info_embedtitle": "¡Tenemos **%users** en **%servers** servidores!",
-    "info_embedbody": "Únete al servidor oficial de discord de %user busca de ayuda y sugerencias: https://discord. g/gYnnMYz\n\nInvita a %user a tu servidor con `%prefixinvite`!\nAyuda a traducir para Payload: https://crowdin.com/project/payload\n\n¡Un gran agradecimiento a: miko, tú, 24 por ayudar con las traducciones!",
+    "info_embedbody": "Únete al servidor oficial de discord de %user busca de ayuda y sugerencias: https://payload.tf/discord\n\nInvita a %user a tu servidor con `%prefixinvite`!\nAyuda a traducir para Payload: https://crowdin.com/project/payload\n\n¡Un gran agradecimiento a: miko, supra, y 24 por ayudar con las traducciones!",
     "info_embedfooter": "Creado por %creator | Version %version",
     "language_fail_invalidsub": "Subcomando no válido. Escribe `%prefixhelp config` para obtener más información.",
     "language_default": "El idioma del servidor es: `%language`",

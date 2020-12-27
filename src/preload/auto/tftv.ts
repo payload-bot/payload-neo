@@ -3,7 +3,8 @@ import { Message, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
 import htmlToText from "html-to-text";
 import cheerio from "cheerio"
-import got from "got";
+import axios from "axios";
+import PayloadColors from "../../lib/misc/colors";
 
 export default class TFTV extends AutoResponse {
 
@@ -19,8 +20,8 @@ export default class TFTV extends AutoResponse {
     async run(client: Client, msg: Message): Promise<void> {
         const specificPost = msg.content.match(/#\d+/) as RegExpMatchArray;
         const url = "https://" + this.matchMsg(msg);
-        const resp = await got(url);
-        const $ = cheerio.load(resp.body);
+        const { data } = await axios(url);
+        const $ = cheerio.load(data);
 
         const frags = $("#thread-frag-count").text().trim();
         const title = $(".thread-header-title").text().trim();
@@ -33,13 +34,13 @@ export default class TFTV extends AutoResponse {
         const dateSelector = $post.find(".post-footer .js-date-toggle").attr("title")
         const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
-        let embed = new MessageEmbed();
+        const embed = new MessageEmbed();
         embed.setTitle(title);
         embed.setDescription(author);
         embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url + specificPost + ")");
         embed.setFooter(`${frags} frags`);
         embed.setTimestamp(new Date(date));
-        embed.setColor("#50759D");
+        embed.setColor(PayloadColors.USER);
 
         msg.channel.send(embed);
     }

@@ -1,7 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
-import got from "got";
+import axios from "axios";
 import Language from "../../../lib/types/Language";
 
 export default class Profile extends Command {
@@ -21,20 +21,19 @@ export default class Profile extends Command {
             ]
         );
 
-        this.apiAddress = "payload.tf";
+        this.apiAddress = "https://payload.tf";
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
         const lang: Language = await this.getLanguage(msg);
-        let profile = msg.mentions.users.first() || msg.author;
+        const profile = msg.mentions.users.first() || msg.author;
         const user = await client.userManager.getUser(profile.id);
         const steamid = user.user.steamID;
 
         msg.channel.startTyping();
 
-        const res = await got(`${this.apiAddress}/api/rgl/${user.user.steamID}`, {
-            json: true
-        });
+        // Validate everything, because we want to do conditional rendering without doing try-catches
+        const { data, status } = await axios(`${this.apiAddress}/api/external/rgl/${user.user.steamID}`, { validateStatus: () => true });
 
         const embed = new MessageEmbed({
             title: profile.tag,
@@ -42,7 +41,7 @@ export default class Profile extends Command {
                 `Bot: ${(profile.bot) ? "Yes" : "No"}
                  ID: ${profile.id}
                  Steam ID: ${steamid || "NOT SET"}
-                ${res.body.success ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${res.body.steamid})` : "\u200b"}
+                ${status === 200 ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid})` : "\u200b"}
                 ${lang.profile_points}: ${user.getFeetPushed()}
                 `,
             color: 3447003,

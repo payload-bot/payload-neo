@@ -2,7 +2,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
 import { Message } from "discord.js";
-import got from "got";
+import axios from "axios";
 import { render } from "../../../util/render-log";
 import Language from "../../../lib/types/Language";
 
@@ -96,28 +96,23 @@ export default class Combine extends Command {
             ids: logIds
         };
 
-        const res = await got("https://sharky.cool/api/logify/combine/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            json: true,
-            body: requestBody,
-            throwHttpErrors: false
-        });
 
-        if (!res.body.success) {
-            client.emit("error", res.body.error);
-            return await this.fail(msg, lang.combine_fail_error);
-        }
+        // Deprecated due to logify not being online any more.
 
-        await this.respond(msg, lang.combine_success.replace('%logpath', `https://logs.tf/${res.body.log_id}`));
+        // const { data } = await axios.post("https://sharky.cool/api/logify/combine/", requestBody);
 
-        const screenshotBuffer = await render("https://logs.tf/" + res.body.log_id);
-        await msg.channel.send({
-            files: [screenshotBuffer]
-        });
+        // if (!data) {
+        //     client.emit("error", );
+        //     return await this.fail(msg, lang.combine_fail_error);
+        // }
 
-        return true;
+        // await this.respond(msg, lang.combine_success.replace('%logpath', `https://logs.tf/${res.body.log_id}`));
+
+        // const screenshotBuffer = await render("https://logs.tf/" + res.body.log_id);
+        // await msg.channel.send({
+        //     files: [screenshotBuffer]
+        // });
+
+        return false;
     }
 }

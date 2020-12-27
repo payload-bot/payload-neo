@@ -4,7 +4,6 @@
   "description": "A bot that does it all.",
   "main": "dist/index.js",
   "dependencies": {
-    "@c43721/ts-rcon": "^2.0.3",
     "@discordjs/opus": "^0.1.0",
     "@google-cloud/translate": "^6.0.5",
     "@types/cheerio": "^0.22.23",

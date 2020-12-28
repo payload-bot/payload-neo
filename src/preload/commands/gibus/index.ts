@@ -2,7 +2,7 @@ import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";;
 import { Message } from "discord.js";
 import { createCanvas, loadImage } from "canvas";
-import got from "got";
+import axios from "axios";
 import AWS from "aws-sdk";
 import path from "path";
 import Language from "../../../lib/types/Language";
@@ -32,7 +32,7 @@ export default class Gibus extends Command {
     
             msg.channel.startTyping();
     
-            let resp = await got(attachment.url, { encoding: null });
+            const { data: response  } = await axios(attachment.url);
     
             const credentials = new AWS.SharedIniFileCredentials();
             AWS.config.credentials = credentials;
@@ -42,7 +42,7 @@ export default class Gibus extends Command {
     
             rekognition.detectFaces({
                 Image: {
-                    Bytes: resp.body
+                    Bytes: response
                 }
             }, async (err, data) => {
                 if (err) {
@@ -57,7 +57,7 @@ export default class Gibus extends Command {
                 let canvas = createCanvas(attachment.width, attachment.height);
                 let ctx = canvas.getContext("2d");
     
-                let image = await loadImage(resp.body);
+                let image = await loadImage(response);
                 let hat = await loadImage(path.resolve(__dirname, "../../../assets/gibus.png"));
     
                 ctx.drawImage(image, 0, 0);

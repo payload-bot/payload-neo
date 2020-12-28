@@ -1,23 +1,27 @@
 import SteamID from "steamid";
 
 /**
- * @param {string} ID
+ * @param {string} idToTest
  */
-export default (ID: string): string => {
-    if (ID.startsWith("U")) ID = `[${ID}]`
+export default (idToTest: string): string => {
+	const validIdTest = /(765611\d{11})|(STEAM_[01]\:[01]\:\d{8})|(\[U\:[01]\:\d{9}\])/gi;
 
-    let steamId: SteamID;
-    try {
-        steamId = new SteamID(ID);
-    } catch (err) {
-        return "ERROR";
-    }
+	const isValid = idToTest.match(validIdTest);
 
-    if (!steamId.isValid()) {
-        return "INVALID";
-    }
+	if (!isValid) return undefined;
 
-    const id64 = steamId.getSteamID64();
+	let steamId: SteamID;
+	try {
+		steamId = new SteamID(idToTest);
+	} catch (err) {
+		return undefined;
+	}
 
-    return id64;
-}
+	if (!steamId.isValid()) {
+		return undefined;
+	}
+
+	const id64 = steamId.getSteamID64();
+
+	return id64;
+};

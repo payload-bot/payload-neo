@@ -1,7 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
-import got from "got";
+import axios from "axios";
 import { render } from "../../../util/render-log";
 import Language from "../../../lib/types/Language";
 
@@ -35,10 +35,7 @@ export default class Log extends Command {
             return await this.fail(msg, lang.log_fail_noid.replace('%prefix', await this.getPrefix(msg)));
         }
 
-        const res = await got(`http://logs.tf/api/v1/log?limit=1&player=` + dbUser.user.steamID, {
-            json: true
-        });
-        const data = res.body;
+        const { data } = await axios(`http://logs.tf/api/v1/log?limit=1&player=${dbUser.user.steamID}`);
 
         if (data.logs.length < 1) {
             return await this.fail(msg, lang.log_fail_nologhistory);
@@ -46,9 +43,9 @@ export default class Log extends Command {
 
         const logID = data.logs[data.logs.length - 1].id;
 
-        const screenshotBuffer = await render("http://logs.tf/" + logID + "#" + dbUser.user.steamID);
+        const screenshotBuffer = await render(`http://logs.tf/${logID}#${dbUser.user.steamID}`);
 
-        await msg.channel.send("<http://logs.tf/" + logID + "#" + dbUser.user.steamID + ">", {
+        await msg.channel.send(`<http://logs.tf/${logID}#${dbUser.user.steamID}>`, {
             files: [screenshotBuffer]
         });
 

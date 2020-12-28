@@ -10,23 +10,7 @@
 - Route handler for all the routes that don't directly interact with the Payload bot
 
 ### POST /rcon
-
-- Route for interacting with your TF2 server (or any server that uses SRCDS rcon)
-
-```
-    BODY:
-    {
-        command: "your command",
-        "ip": "ip of server",
-        "password": "rcon password
-    }
-
-    RESPONSE:
-    {
-        success: true | false,
-        message: "message declaring any errors, or the output of console if success is true
-    }
-```
+- **DEPRECATED** Route for interacting with your TF2 server (or any server that uses SRCDS rcon). Use [rcon.tf](https://rcon.tf/api/execute) instead.
 
 ### GET /rgl/:steamid
 

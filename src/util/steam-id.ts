@@ -1,31 +1,30 @@
 import SteamID from "steamid";
-import got from "got";
+import axios from "axios";
 
 export async function ensureSteamID(id: string): Promise<string | undefined> {
-    let steamID: SteamID;
+	let steamID: SteamID;
 
-    if (id.length == 0) return undefined;
+	if (!id.length) return undefined;
 
-    try {
-        steamID = new SteamID(id);
-    } catch (err) {
-        try {
-            let steamPage = await got("https://steamcommunity.com/id/" + id);
-            let body = steamPage.body;
+	try {
+		steamID = new SteamID(id);
+	} catch (err) {
+		try {
+			const { data } = await axios(`https://steamcommunity.com/id/${id}`, { responseType: "text" });
 
-            let cssSteamID = body.match(/id="commentthread_Profile_\d+_area">/);
+			const cssSteamID = data.match(/(765611\d{11})/);
 
-            if (!cssSteamID) return undefined;
+			if (!cssSteamID) return undefined;
 
-            id = (cssSteamID[0].match(/\d+/) as RegExpMatchArray)[0];
+			id = (cssSteamID[0].match(/(765611\d{11})/) as RegExpMatchArray)[0];
 
-            return id;
-        } catch (err) {
-            return undefined;
-        }
-    }
+			return id;
+		} catch (err) {
+			return undefined;
+		}
+	}
 
-    if (!steamID.isValid()) return undefined;
+	if (!steamID.isValid()) return undefined;
 
-    return steamID.getSteamID64();
+	return steamID.getSteamID64();
 }

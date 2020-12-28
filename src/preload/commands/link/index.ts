@@ -30,7 +30,7 @@ export default class Link extends Command {
 
         const steamIDTestResult = await ensureSteamID(args[0] as string);
 
-        if (!steamIDTestResult) {
+        if (!steamIDTestResult || !steamIDTestResult.length) {
             return await this.fail(msg, lang.link_fail_invalidid);
         }
 

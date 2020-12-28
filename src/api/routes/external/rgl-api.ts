@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cheerio from "cheerio";
 import getSteam64 from "../../../util/steamid";
-import got from "got";
+import axios from "axios";
 import s from "../../rgl-api-helper/selectors";
 
 const router = express.Router();
@@ -9,21 +9,19 @@ const router = express.Router();
 router.get("/:id", async (req: Request, res: Response) => {
 	const id64 = getSteam64(req.params.id);
 
-	if (id64 === "INVALID" || id64 === "ERROR")
-		return res.status(400).json({ success: "false", message: "Could not get SteamID" });
+	if (!id64) return res.status(400).json({ success: false, message: "Could not get SteamID" });
 
 	const rglUrl = `http://rgl.gg/Public/PlayerProfile.aspx?p=${id64}`;
 
-	const rglPlayerProfile = await got.get(rglUrl);
-	const body = rglPlayerProfile.body;
+	const { data } = await axios(rglUrl);
 
-	const $ = cheerio.load(body);
+	const $ = cheerio.load(data);
 
 	const isRglApproved = $(s.player.isAccount).text().trim();
 	if (isRglApproved.length > 1)
 		return res.status(200).json({
 			steamid: id64,
-			success: "true",
+			success: false,
 			message: isRglApproved
 		});
 

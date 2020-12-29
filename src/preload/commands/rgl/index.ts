@@ -63,9 +63,9 @@ export default class RGL extends Command {
             description:
                 `${lang.rgl_embeddesc_steamid}: ${data.steamid}
                  ${lang.rgl_embeddesc_name}: ${data.name}
-                 ${data.banned ? lang.rgl_embeddesc_banned : "\u200b"}
-                 ${data.probation ? lang.rgl_embeddesc_probation : "\u200b"}
-                 ${data.verified ? lang.rgl_embeddesc_verified : "\u200b"}
+                 ${data.bans.banned ? lang.rgl_embeddesc_banned : "\u200b"}
+                 ${data.bans.probation ? lang.rgl_embeddesc_probation : "\u200b"}
+                 ${data.bans.verified ? lang.rgl_embeddesc_verified : "\u200b"}
                  ${lang.rgl_embeddesc_earnings}: ${data.totalEarnings}
                 `,
             color: 3447003,

@@ -2,15 +2,12 @@
 
 - Base route: https://payload.tf/api/
 - Combine the base route with the sub routes below to get a full route
-- Example:  POST /api/external/rcon
-- Example:  GET /api/internal/public/stats
+- Example: POST /api/external/rcon
+- Example: GET /api/internal/public/stats
 
 # External (Public) /external/
 
 - Route handler for all the routes that don't directly interact with the Payload bot
-
-### POST /rcon
-- **DEPRECATED** Route for interacting with your TF2 server (or any server that uses SRCDS rcon). Use [rcon.tf](https://rcon.tf/api/execute) instead.
 
 ### GET /rgl/:steamid
 
@@ -118,7 +115,7 @@
 }
 ```
 
-### GET Stats
+### GET /stats
 
 - Get all the stats, including amount of users and uptime of the bot
 

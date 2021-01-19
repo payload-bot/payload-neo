@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-import SteamID from "steamid";
-
-type Steam3IDFunction = () => string | undefined;
 
 export type Servers = Array<{name: string, address: string, rconPassword: string}>;
 
@@ -11,7 +8,6 @@ export type UserModel = mongoose.Document & {
     id?: string,
 
     steamID?: string,
-    getSteam3ID?: Steam3IDFunction,
 
     notificationsLevel?: number,
     latestUpdateNotifcation?: string,
@@ -57,13 +53,5 @@ const userSchema = new mongoose.Schema({
         rconPassword: String
     }],
 });
-
-userSchema.methods.getSteam3ID = function() {
-    if (!this.steamID) return undefined;
-
-    let steamID = new SteamID(this.steamID);
-
-    return steamID.steam3();
-};
 
 export const User = mongoose.model("User", userSchema);

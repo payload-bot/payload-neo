@@ -10,7 +10,7 @@ import { Client } from "../lib/types";
 module.exports = {
     run: async (client: Client) => {
         console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
-        client.user.setActivity(`payload.tf/invite | v${version}`);
+        await client.user.setActivity(`payload.tf/invite | v${version}`);
 
         const waitingInterval: NodeJS.Timeout = setInterval(async () => {
             if (mongoose.connection.readyState === 1) {

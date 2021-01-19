@@ -8,12 +8,9 @@ const router = express.Router();
  * @deprecated
  */
 router.post("/", async (req: Request, res: Response) => {
-	try {
-		const { data } = await axios.post("https://rcon.tf/api/execute", req.body);
-		res.json({ success: true, body: data });
-	} catch (err) {
-		res.status(200).json({ success: false, error: err.toString() });
-	}
+	res
+		.status(404)
+		.json({ success: false, error: "This endpoint is now deprecated and should not be used." });
 });
 
 export default router;

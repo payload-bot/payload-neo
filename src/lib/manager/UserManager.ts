@@ -132,7 +132,7 @@ export class UserEditable {
         const lastActivePush = this.user.fun.payload.lastActiveDate;
         const pushedToday = this.user.fun.payload.pushedToday;
 
-        const isUnderCooldown = isAfter(add(lastPushed, { seconds: 5 }), Date.now())
+        const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now())
         const hasReachedMaxPoints = pushedToday >= 175;
         const shouldRefreshCap = isAfter(Date.now(), add(lastActivePush, { days: 1 }))
 

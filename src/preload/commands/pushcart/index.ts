@@ -7,7 +7,7 @@ import RankCommand from "./rank";
 import GiftCommand from "./gift";
 import ServersCommand from "./servers";
 import Language from "../../../lib/types/Language";
-
+import { add, formatDistanceToNowStrict } from "date-fns";
 
 export default class PushCart extends Command {
     constructor() {
@@ -82,7 +82,9 @@ export default class PushCart extends Command {
             );
             return await this.fail(msg, lang.pushcart_fail_cooldown.replace('%time', secondsRemaining.toString()))
         } else if (pushResult == "CAP") {
-            return await this.fail(msg, lang.pushcart_fail_maxpoints);
+            const expirationDate = add(user.user.fun!.payload.lastActiveDate, { days: 1 });
+            const timeLeft = formatDistanceToNowStrict(expirationDate);
+            return await this.fail(msg, lang.pushcart_fail_maxpoints.replace('%timeleft', timeLeft));
         }
 
         server.addCartFeet(feetPushed);

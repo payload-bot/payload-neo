@@ -67,7 +67,7 @@ export class UserEditable {
                 pushing: false,
                 lastPushed: 0,
                 pushedToday: 0,
-                lastActiveDate: (new Date()).getDate()
+                lastActiveDate: Date.now()
             }
         };
 
@@ -76,7 +76,7 @@ export class UserEditable {
             pushing: false,
             lastPushed: 0,
             pushedToday: 0,
-            lastActiveDate: (new Date()).getDate()
+            lastActiveDate: Date.now()
         };
 
         return this.user.fun.payload.feetPushed || 0;
@@ -89,7 +89,7 @@ export class UserEditable {
                 pushing: false,
                 lastPushed: 0,
                 pushedToday: 0,
-                lastActiveDate: (new Date()).getDate()
+                lastActiveDate: Date.now()
             }
         };
 
@@ -98,7 +98,7 @@ export class UserEditable {
             pushing: false,
             lastPushed: 0,
             pushedToday: 0,
-            lastActiveDate: (new Date()).getDate()
+            lastActiveDate:  Date.now()
         };
 
         this.user.fun.payload.feetPushed = this.user.fun.payload.feetPushed || 0;

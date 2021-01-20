@@ -1,6 +1,7 @@
 import { User, UserModel } from "../model/User";
 import * as Discord from "discord.js";
 import SteamID from "steamid";
+import { add, isAfter } from "date-fns";
 
 export default class UserManager {
     discordClient: Discord.Client;
@@ -112,7 +113,7 @@ export class UserEditable {
                 pushing: false,
                 lastPushed: 0,
                 pushedToday: 0,
-                lastActiveDate: (new Date()).getDate()
+                lastActiveDate: Date.now()
             }
         };
 
@@ -121,25 +122,30 @@ export class UserEditable {
             pushing: false,
             lastPushed: 0,
             pushedToday: 0,
-            lastActiveDate: (new Date()).getDate()
+            lastActiveDate: Date.now()
         };
 
         this.user.fun.payload.feetPushed = this.user.fun.payload.feetPushed || 0;
         this.user.fun.payload.pushedToday = this.user.fun.payload.pushedToday || 0;
 
-        if (Date.now() - this.user.fun.payload.lastPushed < 1000 * 30) {
-            return "COOLDOWN";
-        } else if (this.user.fun.payload.pushedToday >= 1000) {
-            if (this.user.fun.payload.lastActiveDate != (new Date()).getDate()) {
-                this.user.fun.payload.pushedToday = 0;
-            }
+        const lastPushed = this.user.fun.payload.lastPushed;
+        const lastActivePush = this.user.fun.payload.lastActiveDate;
+        const pushedToday = this.user.fun.payload.pushedToday;
+
+        const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now())
+        const shouldRefreshCap = isAfter(Date.now(), add(lastActivePush, { days: 1 }))
+        const hasReachedMaxPoints = pushedToday >= 1000;
+
+        if (isUnderCooldown) return "COOLDOWN";
+        else if (hasReachedMaxPoints) {
+            if (shouldRefreshCap) this.user.fun.payload.pushedToday = 0;
             else return "CAP";
         }
 
         this.user.fun.payload.feetPushed += feet;
         this.user.fun.payload.pushedToday += feet;
         this.user.fun.payload.lastPushed = Date.now();
-        this.user.fun.payload.lastActiveDate = (new Date()).getDate();
+        this.user.fun.payload.lastActiveDate = Date.now();
 
         return "SUCCESS";
     }

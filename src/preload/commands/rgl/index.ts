@@ -32,7 +32,7 @@ export default class RGL extends Command {
 
         msg.channel.startTyping();
 
-        let userSteamId: string;
+        let userSteamId: string = "";
         if (args && args.length > 0) {
             const testSteamId = await ensureSteamID(args[0] as string);
             if (testSteamId) userSteamId = args[0];
@@ -40,8 +40,8 @@ export default class RGL extends Command {
             const user = await client.userManager.getUser(targetUser.id);
             userSteamId = user.user.steamID;
         }
-        
-        if (!userSteamId || !userSteamId.length) return await this.fail(msg, lang.rgl_fail_noid);
+
+        if (!userSteamId.length) return await this.fail(msg, lang.rgl_fail_noid);
 
         const { data } = await axios(`${this.apiAddress}/api/external/rgl/${userSteamId}`);
 
@@ -58,24 +58,25 @@ export default class RGL extends Command {
             return true;
         }
 
+        let description =  `
+            ${lang.rgl_embeddesc_steamid}: ${data.steamid}
+            ${lang.rgl_embeddesc_name}: ${data.name}
+            ${lang.rgl_embeddesc_earnings}: ${data.totalEarnings}
+        `
+        if (data.bans.banned) description += lang.rgl_embeddesc_banned;
+        if (data.bans.probation) description += lang.rgl_embeddesc_probation;
+        if (data.bans.verified) description += lang.rgl_embeddesc_verified;
+
         const embed = new MessageEmbed({
             title: lang.rgl_embedtitle,
-            description:
-                `${lang.rgl_embeddesc_steamid}: ${data.steamid}
-                 ${lang.rgl_embeddesc_name}: ${data.name}
-                 ${data.bans.banned ? lang.rgl_embeddesc_banned : "\u200b"}
-                 ${data.bans.probation ? lang.rgl_embeddesc_probation : "\u200b"}
-                 ${data.bans.verified ? lang.rgl_embeddesc_verified : "\u200b"}
-                 ${lang.rgl_embeddesc_earnings}: ${data.totalEarnings}
-                `,
-            color: 3447003,
+            description,
+            color: PayloadColors.USER,
             thumbnail: {
                 url: data.avatar
-            },
-            footer: {
-                text: `http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid}`
             }
         });
+
+        embed.setURL(`http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid}`)
 
         await msg.channel.send(embed)
 

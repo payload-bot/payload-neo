@@ -3,6 +3,7 @@ import { Client } from "../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import axios from "axios";
 import Language from "../../../lib/types/Language";
+import PayloadColors from "../../../lib/misc/colors";
 
 export default class Profile extends Command {
     apiAddress: string;
@@ -35,16 +36,18 @@ export default class Profile extends Command {
         // Validate everything, because we want to do conditional rendering without doing try-catches
         const { data, status } = await axios(`${this.apiAddress}/api/external/rgl/${user.user.steamID}`, { validateStatus: () => true });
 
+        let description =  `
+            Bot: ${(profile.bot) ? "Yes" : "No"}
+            ID: ${profile.id}
+            Steam ID: ${steamid || "NOT SET"}\n`
+
+        if(status === 200) description += `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid})\n`;
+        description +=`${lang.profile_points}: ${user.getFeetPushed()}`;
+
         const embed = new MessageEmbed({
             title: profile.tag,
-            description:
-                `Bot: ${(profile.bot) ? "Yes" : "No"}
-                 ID: ${profile.id}
-                 Steam ID: ${steamid || "NOT SET"}
-                ${status === 200 ? `RGL Profile: [here](http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid})` : "\u200b"}
-                ${lang.profile_points}: ${user.getFeetPushed()}
-                `,
-            color: 3447003,
+            description,
+            color: PayloadColors.USER,
             thumbnail: {
                 url: profile.displayAvatarURL()
             }

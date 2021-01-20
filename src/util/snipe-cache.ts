@@ -2,7 +2,7 @@ import { Message, Collection } from "discord.js";
 import { Client } from "../lib/types";
 import puppeteer, { ElementHandle } from "puppeteer";
 import cheerio from "cheerio";
-import moment from "moment";
+import { format } from "date-fns"
 
 // Module doesn't have support for TS.
 const imageToBase64 = require("image-to-base64");
@@ -34,15 +34,15 @@ export async function renderMessage(message: Message): Promise<{ buffer: Buffer,
         deviceScaleFactor: 2
     });
 
-    let $ = cheerio.load(DISCORD_MESSAGE_HTML);
+    const $ = cheerio.load(DISCORD_MESSAGE_HTML);
 
-    let username = message.member.displayName;
-    let color = message.member.displayHexColor != "#000000" ? message.member.displayHexColor : "#ffffff";
-    let avatarURL = message.author.displayAvatarURL().replace(/\.gif|\.jpg|\.jpeg/, ".png") + "?size=128";
-    let date = message.editedAt || message.createdAt;
-    let timestamp = moment(date).format("MM/DD/YYYY");
+    const username = message.member.displayName;
+    const color = message.member.displayHexColor != "#000000" ? message.member.displayHexColor : "#ffffff";
+    const avatarURL = message.author.displayAvatarURL().replace(/\.gif|\.jpg|\.jpeg/, ".png") + "?size=128";
+    const date = message.editedAt || message.createdAt;
+    const timestamp = format(date, "MM/dd/yyyy");
 
-    let avatarBase64: string = await imageToBase64(avatarURL);
+    const avatarBase64: string = await imageToBase64(avatarURL);
 
     $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${avatarBase64}');`);
     $("#gen_username").attr("style", "color: " + color).text(username);

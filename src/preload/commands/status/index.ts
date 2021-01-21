@@ -1,7 +1,7 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNowStrict } from 'date-fns'
 
 export default class Status extends Command {
     constructor() {
@@ -17,7 +17,7 @@ export default class Status extends Command {
     }
 
     async run(client: Client, msg: Message): Promise<boolean> {
-        const duration = formatDistanceToNow(Date.now() - client.uptime, { includeSeconds: true });
+        const duration = formatDistanceToNowStrict(Date.now() - client.uptime);
 
         const string = `Memory Usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB\nUptime: ${duration}`
         await msg.channel.send(string);

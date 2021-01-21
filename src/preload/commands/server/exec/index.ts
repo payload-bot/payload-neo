@@ -3,6 +3,7 @@ import { Client } from "../../../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import Language from "../../../../lib/types/Language";
 import axios from "axios";
+import PayloadColors from "../../../../lib/misc/colors";
 
 export default class Exec extends Command {
 	constructor() {
@@ -69,7 +70,7 @@ export default class Exec extends Command {
 
 		const rconEmbed = new MessageEmbed();
 		try {
-			const { data } = await axios.post("https://rcon.tf/api/execute", {
+			const { data: { body } } = await axios.post("https://rcon.tf/api/execute", {
 				ip: server.address,
 				port: 27015,
 				password: server.rconPassword,
@@ -77,14 +78,16 @@ export default class Exec extends Command {
 			});
 
 			rconEmbed.setTitle(lang.server_embedtitle);
+			rconEmbed.setColor(PayloadColors.USER);
 			rconEmbed.setAuthor(msg.author.tag, msg.author.avatarURL());
 			rconEmbed.setDescription(
-				data.length > 1500
-					? lang.server_embeddesc.replace("%response", data).slice(0, 1450) + "..."
-					: lang.server_embeddesc.replace("%response", data)
+				body.length > 1500
+					? lang.server_embeddesc.replace("%response", body).slice(0, 1450) + "..."
+					: lang.server_embeddesc.replace("%response", body)
 			);
 		} catch (err) {
 			rconEmbed.setTitle(lang.server_errorsending);
+			rconEmbed.setColor(PayloadColors.ADMIN);
 			rconEmbed.setAuthor(msg.author.tag, msg.author.avatarURL());
 			rconEmbed.setDescription(lang.server_errorsending);
 		}

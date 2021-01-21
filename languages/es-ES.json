@@ -100,7 +100,7 @@
     "server_invalidcmd": "Subcomando no válido. Escribe `%prefixhelp server` para obtener más información.",
     "server_nocommand": "Falta el argumento `<command>`.",
     "server_noname": "Falta el argumento `<name>`.",
-    "server_noservers": "Aún no tienes ningún servidor añadido. Añádelos con `%prefixserver add`.",
+    "server_noservers": "Aún no tienes ningún servidor añadido. Añádelos con `%prefixserver set`.",
     "server_targetinvalid": "`%target` no existe en tu cuenta.`",
     "server_errorconnecting": "Error al conectar con su servidor. Asegúrese de que la dirección y la contraseña de rcon son válidas.",
     "server_errorsending": "Error al enviar el comando a tu servidor.",

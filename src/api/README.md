@@ -2,7 +2,7 @@
 
 - Base route: https://payload.tf/api/
 - Combine the base route with the sub routes below to get a full route
-- Example: POST /api/external/rcon
+- Example: POST /api/external/rgl/:id
 - Example: GET /api/internal/public/stats
 
 # External (Public) /external/

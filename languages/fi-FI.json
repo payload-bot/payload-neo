@@ -12,7 +12,7 @@
     "bruh_nouser": "bruh",
     "bruh_user": "bruh %mention",
     "changelog_invalid": "Invalid version format",
-    "changelog_reply": "```%changelog```",
+    "changelog_reply": "```md\n%changelog```",
     "choose_reply": "Olen valinnut: %chosen",
     "combine_fail_invalid": "Väärä syntaksi. Varmista, että täsmennät mapin ja nimen ennen log URLia. Kirjoita `%prefixhelp combine` oppiaksesi lisää.",
     "combine_fail_invalidlog": "`%log` ei ole pätevä log.",

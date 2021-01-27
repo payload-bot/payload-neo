@@ -15,7 +15,7 @@
 	"bruh_user": "bruh %mention",
 	
 	"changelog_invalid": "Invalid version format",
-	"changelog_reply": "```%changelog```",
+	"changelog_reply": "```md\n%changelog```",
 	
 	"choose_reply": "I have chosen: %chosen",
 	

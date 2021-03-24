@@ -1,7 +1,8 @@
 import { Client } from "../../lib/types/Client";
-import { Message } from "discord.js";
+import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
 import { render } from "../../util/render-log";
+import PayloadColors from "../../lib/misc/colors";
 
 export default class Logs extends AutoResponse {
 
@@ -15,12 +16,18 @@ export default class Logs extends AutoResponse {
     }
 
     async run(client: Client, msg: Message): Promise<void> {
-        let link = this.matchMsg(msg);
+        const url = this.matchMsg(msg);
+        const screenshotBuffer = await render(url);
 
-        let screenshotBuffer = await render(link);
+        const att = new MessageAttachment(screenshotBuffer, "log.png");
+        const embed = new MessageEmbed();
+        embed.setColor(PayloadColors.COMMAND);
+        embed.setTitle("Logs.tf Preview");
+        embed.setURL(url);
+        embed.setImage(`attachment://log.png`);
+        embed.setFooter(`Rendered by autoresponse ${this.name}`);
+        embed.setTimestamp(new Date());
 
-        msg.channel.send({
-            files: [screenshotBuffer]
-        });
+        msg.channel.send({ embed, files: [att] });
     }
 }

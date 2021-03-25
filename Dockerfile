@@ -1,13 +1,29 @@
-FROM buildkite/puppeteer
+FROM node:12 AS build
+WORKDIR /opt/app
 
-COPY package*.json ./
+COPY tsconfig.json .
+COPY package*.json .
+COPY ./src ./src
+COPY ./buildscripts ./buildscripts
+COPY changelog.md .
 
 RUN npm install
+RUN npm run build
 
-COPY . .
 
-EXPOSE 3000
+FROM buildkite/puppeteer
+WORKDIR /opt/app
 
-RUN ["npm", "run", "build"]
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
+COPY package*.json .
+
+RUN npm install --production
+
+COPY --from=build /opt/app/dist ./dist
+COPY ./languages ./languages
+
+USER node
 CMD ["npm", "start"]
+EXPOSE 3000

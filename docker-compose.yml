@@ -28,7 +28,7 @@ services:
 
     nginx:
         container_name: "nginx"
-        image: nginx
+        image: nginx:1-alpine
         restart: always
         ports:
             - 80:80

@@ -1,7 +1,8 @@
 import { Client } from "../../lib/types/Client";
-import { Message } from "discord.js";
+import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { capture } from "../../util/screenshot";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
+import PayloadColors from "../../lib/misc/colors";
 
 export default class ETF2LMatchPreviews extends AutoResponse {
 
@@ -17,7 +18,7 @@ export default class ETF2LMatchPreviews extends AutoResponse {
     async run(client: Client, msg: Message): Promise<void> {
         const url = this.matchMsg(msg);
 
-        const screenshotBuffer = await capture("http://" + url, {
+        const screenshotBuffer = await capture("https://" + url, {
             top: {
                 selector: "#content > div",
                 edge: "top"
@@ -35,9 +36,16 @@ export default class ETF2LMatchPreviews extends AutoResponse {
                 edge: "bottom"
             },
         });
+        
+        const att = new MessageAttachment(screenshotBuffer, "match.png");
+        const embed = new MessageEmbed();
+        embed.setColor(PayloadColors.COMMAND);
+        embed.setTitle("ETF2L Match Preview");
+        embed.setURL(`https://${url}`);
+        embed.setImage(`attachment://match.png`);
+        embed.setFooter(`Rendered by autoresponse ${this.name}`);
+        embed.setTimestamp(new Date());
 
-        msg.channel.send({
-            files: [screenshotBuffer]
-        });
+        msg.channel.send({ embed, files: [att] });
     }
 }

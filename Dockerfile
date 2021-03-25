@@ -1,4 +1,4 @@
-FROM node:12-alpine AS build
+FROM node:12 AS build
 WORKDIR /opt/app
 
 COPY tsconfig.json .

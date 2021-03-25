@@ -2,7 +2,7 @@ FROM node:12 AS build
 WORKDIR /opt/app
 
 COPY tsconfig.json .
-COPY package*.json .
+COPY package*.json ./
 COPY ./src ./src
 COPY ./buildscripts ./buildscripts
 COPY changelog.md .
@@ -17,7 +17,7 @@ WORKDIR /opt/app
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm install --production
 

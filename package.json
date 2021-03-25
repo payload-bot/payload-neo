@@ -33,11 +33,13 @@
     "@types/node": "^12.20.6",
     "@types/puppeteer": "^5.4.3",
     "@types/steamid": "^1.1.0",
+    "dotenv-cli": "^4.0.0",
     "ts-node": "^8.5.2",
     "ts-node-dev": "^1.1.6",
     "typescript": "^3.9.9"
   },
   "scripts": {
+    "release": "dotenv release-it",
     "start": "node .",
     "dev": "ts-node-dev --respawn ./src/index.ts",
     "build": "tsc --build tsconfig.json && ts-node buildscripts/copy-static-assets.ts && ts-node buildscripts/copy-changelog.ts"

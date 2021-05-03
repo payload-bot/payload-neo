@@ -38,7 +38,7 @@
     "help_embedsubcmds": "Polecenia",
     "help_embedfooter": "Zażądane przez %requester. Lista poleceń: %prefixcommands",
     "info_embedtitle": "Aktualnie pomagam **%users** użytkownikom na **%servers** serwerach!",
-    "info_embedbody": "Join the official %user discord server for help and suggestions: https://payload.tf/discord\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
+    "info_embedbody": "Dołącz do oficjalnego Discorda %user, aby otrzymać pomoc i sugestie: https://payload.tf/discord\n\nZaproś %user na swój serwer z `%prefixinvite`!\nPomóż przetłumaczyć Payload: https://crowdin.com/project/payload\n\nWielkie dzięki dla miko, supra i 24 za pomoc w tłumaczeniu!",
     "info_embedfooter": "Stworzony i utrzymywany przez %creator | Wersja %version",
     "language_fail_invalidsub": "Nieprawidłowe polecenie. Wpisz `%prefixhelp settings `, aby dowiedzieć się więcej.",
     "language_default": "Język bota to: `%language`",

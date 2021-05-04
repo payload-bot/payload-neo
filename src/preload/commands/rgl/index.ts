@@ -62,7 +62,8 @@ export default class RGL extends Command {
             ${lang.rgl_embeddesc_steamid}: ${data.steamid}
             ${lang.rgl_embeddesc_name}: ${data.name}
             ${lang.rgl_embeddesc_earnings}: ${data.totalEarnings}
-        `
+        `;
+
         if (data.bans.banned) description += lang.rgl_embeddesc_banned;
         if (data.bans.probation) description += lang.rgl_embeddesc_probation;
         if (data.bans.verified) description += lang.rgl_embeddesc_verified;
@@ -76,9 +77,9 @@ export default class RGL extends Command {
             }
         });
 
-        embed.setURL(`http://rgl.gg/Public/PlayerProfile.aspx?p=${data.steamid}`)
+        embed.setURL(data.link)
 
-        await msg.channel.send(embed)
+        await msg.channel.send(embed);
 
         msg.channel.stopTyping(true);
 

@@ -237,7 +237,7 @@ export abstract class Command {
         return await this.subCommands[subCommandName].run(client, msg);
     }
 
-    abstract async run(client: Client, msg: Message): Promise<boolean>;
+    abstract run(client: Client, msg: Message): Promise<boolean>;
 }
 
 export interface CommandConstructor {

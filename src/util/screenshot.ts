@@ -84,7 +84,7 @@ export async function capture(url: string, options: CaptureOptions = { left: 0, 
         encoding: "binary"
     });
     await browser.close();
-    return screenshotBuffer;
+    return screenshotBuffer as Buffer;
 }
 
 /**
@@ -113,5 +113,5 @@ export async function captureSelector(url: string, selector: string, viewport = 
 
     await browser.close();
 
-    return screenshotBuffer;
+    return screenshotBuffer as Buffer;
 }

@@ -64,7 +64,7 @@ export async function renderMessage(message: Message): Promise<{ buffer: Buffer,
     let screenshotBuffer = await element.screenshot({
         encoding: "binary",
         omitBackground: true
-    });
+    }) as Buffer;
 
     await browser.close();
 

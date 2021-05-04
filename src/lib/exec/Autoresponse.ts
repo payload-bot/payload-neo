@@ -42,7 +42,7 @@ export abstract class AutoResponse {
         return lang
     }
 
-    abstract async run(client: Client, msg: Message): Promise<void>;
+    abstract run(client: Client, msg: Message): Promise<void>;
 }
 
 export interface AutoResponseConstructor {

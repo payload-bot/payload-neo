@@ -11,7 +11,7 @@ export async function pushNotification(client: Client, id: string, level: number
     const userDBEntry = await client.userManager.getUser(id);
 
     if (userDBEntry.user.notificationsLevel == undefined) {
-        userDBEntry.user.notificationsLevel = NotificationLevel.ALL;
+        userDBEntry.user.notificationsLevel = NotificationLevel.NONE;
     }
     if (userDBEntry.user.latestUpdateNotifcation == undefined) {
         userDBEntry.user.latestUpdateNotifcation = "0.0.0";

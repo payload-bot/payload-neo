@@ -1,7 +1,7 @@
 import { Client } from "../../lib/types/Client";
 import { Message, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
-import htmlToText from "html-to-text";
+import { htmlToText } from "html-to-text";
 import cheerio from "cheerio"
 import axios from "axios";
 import PayloadColors from "../../lib/misc/colors";
@@ -27,17 +27,15 @@ export default class TFTV extends AutoResponse {
         const title = $(".thread-header-title").text().trim();
         const $post = $(`#thread-container > .post:nth-child(${specificPost ? specificPost[0].slice(1) : "1"})`);
         const author = $post.find(".post-header .post-author").text().trim();
-        const body = htmlToText.fromString($post.find(".post-body").html() as string, {
-            ignoreImage: true
-        });
+        const body = htmlToText($post.find(".post-body") as any as string);
 
         const dateSelector = $post.find(".post-footer .js-date-toggle").attr("title")
         const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
         const embed = new MessageEmbed();
         embed.setTitle(title);
-        embed.setDescription(author);
-        embed.addField(url, (body.length > 400 ? body.slice(0, 400) + "..." : body) + "\n[read more](" + url + specificPost + ")");
+        embed.setURL(url);
+        embed.setDescription(`${author}\n\n${body.length > 700 ? `${body.slice(0, 700)}...\n[read more](${url + specificPost})` : body}`);
         embed.setFooter(`${frags} frags`);
         embed.setTimestamp(new Date(date));
         embed.setColor(PayloadColors.USER);

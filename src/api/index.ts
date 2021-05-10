@@ -3,7 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 
 // ROUTES
-import ExternalRoutes from "./routes/external/external-handler";
 import InternalRoutes from "./routes/internal/internal-handler";
 
 export async function listen(port: number): Promise<void> {
@@ -15,7 +14,6 @@ export async function listen(port: number): Promise<void> {
 	server.use(cors());
 	server.use(helmet());
 
-	server.use("/external/", ExternalRoutes);
 	server.use("/internal/", InternalRoutes);
 
 	server.all("*", (req: Request, res: Response) => {

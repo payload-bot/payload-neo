@@ -4,15 +4,6 @@
 - Combine the base route with the sub routes below to get a full route
 - Example: GET /api/internal/public/stats
 
-# External (Public) /external/
-
-- Route handler for all the routes that don't directly interact with the Payload bot
-
-### GET /rgl/:steamid
-**DEPRECATED**
-
-**SEE [THIS DOCUMENT](https://github.com/c43721/rgl-api#get-profilessteamid) FOR MORE INFORMATION**
-
 # Internal (Public) /internal/public/
 
 - All the routes relating to Payload directly

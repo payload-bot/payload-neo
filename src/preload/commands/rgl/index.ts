@@ -71,7 +71,7 @@ export default class RGL extends Command {
 
 			return true;
 		} catch (err) {
-			const { message, steamId } = err.response.data;
+			const { message, steamId } = err.response;
 			const embed = new MessageEmbed({
 				title: lang.rgl_embedtitle,
 				description: `${lang.rgl_embeddesc_steamid}: ${steamId}

@@ -10,7 +10,6 @@ COPY changelog.md .
 RUN npm install
 RUN npm run build
 
-
 FROM buildkite/puppeteer
 WORKDIR /opt/app
 

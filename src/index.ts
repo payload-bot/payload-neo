@@ -122,7 +122,7 @@ readdir(__dirname + "/preload/auto", (err, files) => {
     });
 });
 
-const apiPort = Number(process.env.API_PORT) || 3001
+const apiPort = Number(process.env.API_PORT) || 8080
 
 client.login(process.env.TOKEN);
 listen(apiPort);

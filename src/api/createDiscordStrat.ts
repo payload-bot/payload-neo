@@ -9,20 +9,17 @@ export default function createDiscordStrategy() {
 			clientID: process.env.CLIENT_ID,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
-			scope: ["identify", "guilds"],
+			scope: ["identify", "guilds"]
 		},
 		async (accessToken, refreshToken, profile, cb) => {
 			let user: UserModel;
-			try {
-				user = await User.findOne({ id: profile.id });
-			} catch (err) {
-				const newUser = new User({
+
+			user = await User.findOne({ id: profile.id });
+
+			if (!user) {
+				user = await User.create({
 					id: profile.id
 				});
-
-				await newUser.save();
-
-				user = newUser;
 			}
 
 			const { guilds, ...userProfile }: AuthedUserProfile = {
@@ -41,5 +38,5 @@ export default function createDiscordStrategy() {
 
 			cb(null, returnObject);
 		}
-	)
+	);
 }

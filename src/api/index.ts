@@ -6,6 +6,7 @@ import createDiscordStrategy from "./createDiscordStrat";
 
 // ROUTES
 import StatRoutes from "./controllers/stats";
+import UserRoutes from "./controllers/users";
 import { DiscordAuthRoutes } from "./controllers/auth";
 
 export async function listen(port: number): Promise<void> {
@@ -35,6 +36,7 @@ export async function listen(port: number): Promise<void> {
 	// @TODO: not use internal/public.
 	server.use("/api/internal/public/", StatRoutes);
 	server.use("/api/auth/discord", DiscordAuthRoutes);
+	server.use("/api/users", UserRoutes);
 
 	server.all("*", (req: Request, res: Response) => {
 		res.status(404).json({

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import { User } from "../../../lib/model/User";
 import DiscordUser from "../../../lib/types/DiscordAuth";
 require("dotenv").config();
 
@@ -14,16 +15,20 @@ router.get(
 		failureRedirect: `${process.env.CLIENT_URL}/login/failure?message=Failed to login`,
 		failWithError: true
 	}),
-	(req: Request, res: Response) => {
+	async (req: Request, res: Response) => {
 		const user = req.user as DiscordUser;
 
+		const dbUser = await User.findOne({ id: user.profile.id });
+
+		dbUser.accessToken = user.accessToken;
+		dbUser.refreshToken = user.refreshToken;
+		await dbUser.save();
+		
 		try {
 			const token = jwt.sign(
 				{
 					id: user.profile.id,
-					isAdmin: user.profile.isAdmin,
-					accessToken: user.accessToken,
-					refreshToken: user.refreshToken
+					isAdmin: user.profile.isAdmin
 				},
 				process.env.JWT_SECRET
 			);

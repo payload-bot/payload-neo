@@ -25,6 +25,9 @@ export type UserModel = mongoose.Document & {
     logsTfApiKey?: string,
 
     servers?: Servers,
+
+    accessToken?: string,
+    refreshToken?: string,
 };
 
 const userSchema = new mongoose.Schema({
@@ -46,6 +49,9 @@ const userSchema = new mongoose.Schema({
     },
 
     logsTfApiKey: String,
+
+    accessToken: String,
+    refreshToken: String,
 
     servers: [{
         name: String,

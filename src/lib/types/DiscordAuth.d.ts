@@ -17,14 +17,13 @@ export interface AuthedUserProfile extends DiscordStrategy.Profile {
 
 export interface AuthedUserServer extends DiscordStrategy.GuildInfo {
 	isPayloadIn: boolean;
-	iconUrl: string;
+	iconUrl: string | null;
 	server?: ServerModel;
 }
 
 export type AuthedRequest = {
 	id: string;
 	isAdmin: boolean;
-	token: string;
 	iat: number;
 };
 

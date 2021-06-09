@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import passport from "passport";
 import helmet from "helmet";
+import refresh from "passport-oauth2-refresh";
 import createDiscordStrategy from "./createDiscordStrat";
 
 // ROUTES
@@ -31,7 +32,9 @@ export async function listen(port: number): Promise<void> {
 		done(null, obj);
 	});
 
-	passport.use(createDiscordStrategy());
+	const discordStrategy = createDiscordStrategy();
+	passport.use(discordStrategy);
+	refresh.use("discord", discordStrategy);
 
 	// @TODO: not use internal/public.
 	server.use("/api/internal/public/", StatRoutes);

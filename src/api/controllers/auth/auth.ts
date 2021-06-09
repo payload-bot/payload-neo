@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import { User } from "../../../lib/model/User";
-import DiscordUser from "../../../lib/types/DiscordAuth";
+import { AuthedUser } from "../../interfaces";
 require("dotenv").config();
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get(
 		failWithError: true
 	}),
 	async (req: Request, res: Response) => {
-		const user = req.user as DiscordUser;
+		const user = req.user as any as AuthedUser;
 
 		const dbUser = await User.findOne({ id: user.profile.id });
 

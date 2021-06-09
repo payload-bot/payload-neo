@@ -1,7 +1,7 @@
 import DiscordStrategy from "passport-discord";
 import config from "../config";
 import { User, UserModel } from "../lib/model/User";
-import AuthedUser, { AuthedUserProfile } from "../lib/types/DiscordAuth";
+import { AuthedUserProfile, AuthedUser } from "./interfaces";
 
 export default function createDiscordStrategy() {
 	return new DiscordStrategy(
@@ -30,13 +30,13 @@ export default function createDiscordStrategy() {
 			};
 
 			const returnObject: AuthedUser = {
-				user,
 				profile: userProfile,
 				accessToken,
-				refreshToken
+				refreshToken,
+				user
 			};
 
-			cb(null, returnObject);
+			cb(null, returnObject as any);
 		}
 	);
 }

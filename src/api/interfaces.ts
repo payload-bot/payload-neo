@@ -1,12 +1,18 @@
 import DiscordStrategy from "passport-discord";
-import { UserModel } from "../model/User";
-import { ServerModel } from "../model/Server";
+import { ServerModel } from "../lib/model/Server";
+import { UserModel } from "../lib/model/User";
 
 export type AuthedUser = {
 	accessToken: string;
 	refreshToken: string;
 	user: UserModel;
 	profile: AuthedUserProfile;
+};
+
+export type AuthedRequest = {
+	id: string;
+	isAdmin: boolean;
+	iat: number;
 };
 
 export interface AuthedUserProfile extends DiscordStrategy.Profile {
@@ -21,10 +27,11 @@ export interface AuthedUserServer extends DiscordStrategy.GuildInfo {
 	server?: ServerModel;
 }
 
-export type AuthedRequest = {
-	id: string;
-	isAdmin: boolean;
-	iat: number;
-};
-
-export default AuthedUser;
+declare global {
+	namespace Express {
+		interface User extends AuthedRequest {}
+		interface Request {
+			guild?: ServerModel;
+		}
+	}
+}

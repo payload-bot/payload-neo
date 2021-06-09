@@ -3,7 +3,7 @@ import DiscordStrategy from "passport-discord";
 import refresh from "passport-oauth2-refresh";
 import client from "../..";
 import { Server } from "../../lib/model/Server";
-import { AuthedUserServer } from "../../lib/types/DiscordAuth";
+import { AuthedUserServer } from "../interfaces";
 import UserService from "./UserService";
 
 const userService = new UserService();

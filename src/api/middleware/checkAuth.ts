@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthedRequest } from "../../lib/types/DiscordAuth";
+import { AuthedRequest } from "../interfaces";
 
 export default function checkAuth(req: Request, res: Response, next: NextFunction) {
 	const authHeader = req.headers.authorization;

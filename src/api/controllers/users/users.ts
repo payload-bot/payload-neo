@@ -15,9 +15,10 @@ router.use(checkAuth);
 router.get("/", async (req: Request, res: Response) => {
 	const user = req.user as AuthedRequest;
 
-	const dbUser = await User.find({ id: user.id });
+	const { id, notificationsLevel, latestUpdateNotifcation, steamID } =
+		await userService.getUserByDiscordId(user.id);
 
-	res.json(dbUser);
+	res.json({ id, notificationsLevel, latestUpdateNotifcation, steamID });
 });
 
 router.get("/guilds", async (req: Request, res: Response) => {

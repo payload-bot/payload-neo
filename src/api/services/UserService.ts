@@ -4,7 +4,7 @@ export default class UserService {
 	constructor() {}
 
 	async getUserByDiscordId(id: string): Promise<UserModel> {
-		return await User.findOne({ id: id });
+		return await User.findOne({ id });
 	}
 
 	async saveTokensToUser(
@@ -13,7 +13,7 @@ export default class UserService {
 		refreshToken: string
 	): Promise<UserModel> {
 		return await User.findOneAndUpdate(
-			{ id: id },
+			{ id },
 			{
 				accessToken,
 				refreshToken

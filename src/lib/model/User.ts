@@ -1,63 +1,61 @@
 import mongoose from "mongoose";
-
-export type Servers = Array<{name: string, address: string, rconPassword: string}>;
+import { version } from "../../../package.json";
+import { NotificationLevel } from "../../util/push-notification";
 
 export type UserModel = mongoose.Document & {
-    [key: string]: any;
+	[key: string]: any;
 
-    id?: string,
+	id?: string;
 
-    steamID?: string,
+	steamID?: string;
 
-    notificationsLevel?: number,
-    latestUpdateNotifcation?: string,
+	notificationsLevel?: number;
+	latestUpdateNotifcation?: string;
 
-    fun?: {
-        payload: {
-            feetPushed: number,
-            pushing: boolean,
-            lastPushed: number,
-            pushedToday: number,
-            lastActiveDate: number
-        }
-    }
+	fun?: {
+		payload: {
+			feetPushed: number;
+			pushing: boolean;
+			lastPushed: number;
+			pushedToday: number;
+			lastActiveDate: number;
+		};
+	};
 
-    logsTfApiKey?: string,
-
-    servers?: Servers,
-
-    accessToken?: string,
-    refreshToken?: string,
+	accessToken?: string;
+	refreshToken?: string;
 };
 
 const userSchema = new mongoose.Schema({
-    id: String,
+	id: String,
 
-    steamID: String,
+	steamID: {
+		type: String,
+		default: null
+	},
 
-    notificationsLevel: Number,
-    latestUpdateNotifcation: String,
+	notificationsLevel: {
+		type: Number,
+		default: NotificationLevel.NONE
+	},
 
-    fun: {
-        payload: {
-            feetPushed: Number,
-            pushing: Boolean,
-            lastPushed: Number,
-            pushedToday: Number,
-            lastActiveDate: Number
-        }
-    },
+	latestUpdateNotifcation: {
+		type: String,
+		default: version
+	},
 
-    logsTfApiKey: String,
+	fun: {
+		payload: {
+			feetPushed: Number,
+			pushing: Boolean,
+			lastPushed: Number,
+			pushedToday: Number,
+			lastActiveDate: Number
+		}
+	},
 
-    accessToken: String,
-    refreshToken: String,
-
-    servers: [{
-        name: String,
-        address: String,
-        rconPassword: String
-    }],
+	accessToken: String,
+	refreshToken: String
 });
 
 export const User = mongoose.model("User", userSchema);

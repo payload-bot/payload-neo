@@ -17,7 +17,7 @@ export async function listen(port: number): Promise<void> {
 	server.set("json spaces", 1);
 	server.use(
 		cors({
-			origin: "http://localhost:3000"
+			origin: process.env.CLIENT_URL
 		})
 	);
 	server.use(helmet());

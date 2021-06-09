@@ -4,21 +4,14 @@ import refresh from "passport-oauth2-refresh";
 import client from "../..";
 import { Server } from "../../lib/model/Server";
 import { AuthedUserServer } from "../../lib/types/DiscordAuth";
+import UserService from "./UserService";
+
+const userService = new UserService();
 
 export default class DiscordService {
 	private readonly DISCORD_API_URL = "https://discord.com/api";
 
 	constructor() {}
-
-	private async fetchUser(accessToken: string) {
-		const { data } = await axios.get(`${this.DISCORD_API_URL}/users/@me`, {
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
-		});
-
-		return data;
-	}
 
 	private async fetchUserGuilds(accessToken: string) {
 		const { data } = await axios.get(`${this.DISCORD_API_URL}/users/@me/guilds`, {
@@ -30,16 +23,22 @@ export default class DiscordService {
 		return data;
 	}
 
-	private async getAllGuilds(accessToken: string, refreshToken: string) {
+	private async getAllGuilds(id: string, accessToken: string, refreshToken: string) {
 		let guilds: AuthedUserServer[];
 
 		try {
 			guilds = await this.fetchUserGuilds(accessToken);
 		} catch (err) {
-			refresh.requestNewAccessToken("discord", refreshToken, async () => {
-				const refreshedUser = await this.fetchUser(accessToken);
-				console.log(refreshedUser);
-			});
+			refresh.requestNewAccessToken(
+				"discord",
+				refreshToken,
+				async (err, accessToken, refreshToken) => {
+					// o_O wonKy
+					if (err) throw err;
+					await userService.saveTokensToUser(id, accessToken, refreshToken);
+					guilds = await this.fetchUserGuilds(accessToken);
+				}
+			);
 		}
 
 		const allGuilds: AuthedUserServer[] = await Promise.all(

@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import client from "../../..";
 import { User } from "../../../lib/model/User";
 import { AuthedRequest } from "../../../lib/types/DiscordAuth";
 import checkAuth from "../../middleware/checkAuth";
@@ -15,10 +16,21 @@ router.use(checkAuth);
 router.get("/", async (req: Request, res: Response) => {
 	const user = req.user as AuthedRequest;
 
+	const { username, tag, discriminator } = await client.users.fetch(user.id);
+
 	const { id, notificationsLevel, latestUpdateNotifcation, steamID } =
 		await userService.getUserByDiscordId(user.id);
 
-	res.json({ id, notificationsLevel, latestUpdateNotifcation, steamID });
+	res.json({
+		isAdmin: user.isAdmin,
+		username: tag,
+		name: username,
+		id,
+		discriminator,
+		notificationsLevel,
+		latestUpdateNotifcation,
+		steamID
+	});
 });
 
 router.get("/guilds", async (req: Request, res: Response) => {

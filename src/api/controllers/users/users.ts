@@ -25,7 +25,7 @@ router.get("/guilds", async (req: Request, res: Response) => {
 
 	const { accessToken, refreshToken } = await userService.getUserByDiscordId(user.id);
 
-	const guilds = await discordService.getAuthedGuilds(accessToken, refreshToken);
+	const guilds = await discordService.getAuthedGuilds(user.id, accessToken, refreshToken);
 
 	res.json(guilds.map(({ server, ...guild }) => guild));
 });

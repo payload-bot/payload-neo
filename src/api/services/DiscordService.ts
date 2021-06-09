@@ -72,8 +72,8 @@ export default class DiscordService {
 		return allGuilds;
 	}
 
-	async getAuthedGuilds(accessToken: string, refreshToken: string) {
-		const allGuilds = await this.getAllGuilds(accessToken, refreshToken);
+	async getAuthedGuilds(id: string, accessToken: string, refreshToken: string) {
+		const allGuilds = await this.getAllGuilds(id, accessToken, refreshToken);
 
 		const filteredGuilds = allGuilds.filter(
 			guild =>

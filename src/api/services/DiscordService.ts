@@ -77,10 +77,10 @@ export default class DiscordService {
 
 		const filteredGuilds = allGuilds.filter(
 			guild =>
-				client.guilds.cache.find(clientGuild => guild.id === clientGuild.id) &&
+				client.guilds.cache.find(clientGuild => guild.id === clientGuild.id) ||
 				(guild.permissions & 0x20) === 0x20
 		);
 
-		return filteredGuilds;
+		return filteredGuilds.sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
 	}
 }

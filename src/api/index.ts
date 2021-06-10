@@ -30,7 +30,7 @@ export async function listen(port: number): Promise<void> {
 	});
 
 	passport.deserializeUser((obj, done) => {
-		done(null, obj);
+		done(null, obj as any);
 	});
 
 	const discordStrategy = createDiscordStrategy();

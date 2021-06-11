@@ -9,7 +9,6 @@ const router = express.Router();
 const userService = new UserService();
 
 router.use(checkAuth);
-router.use(checkBeta);
 
 router.get("/", async (req: Request, res: Response) => {
 	const user = req.user;

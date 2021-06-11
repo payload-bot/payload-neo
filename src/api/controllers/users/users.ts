@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import client from "../../..";
 import checkAuth from "../../middleware/checkAuth";
-import checkBeta from "../../middleware/checkBeta";
 import UserService from "../../services/UserService";
 
 const router = express.Router();

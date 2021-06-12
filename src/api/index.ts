@@ -6,7 +6,7 @@ import refresh from "passport-oauth2-refresh";
 import createDiscordStrategy from "./createDiscordStrat";
 
 // ROUTES
-import { DiscordAuthRoutes } from "./controllers/auth";
+import AuthRoutes, { DiscordAuthRoutes } from "./controllers/auth";
 import StatRoutes from "./controllers/stats";
 import UserRoutes from "./controllers/users";
 import GuildRoutes from "./controllers/guilds";
@@ -40,6 +40,7 @@ export async function listen(port: number): Promise<void> {
 	// @TODO: not use internal/public.
 	server.use("/api/internal/public/", StatRoutes);
 	server.use("/api/auth/discord", DiscordAuthRoutes);
+	server.use("/api/auth", AuthRoutes);
 	server.use("/api/users", UserRoutes);
 	server.use("/api/guilds", GuildRoutes);
 

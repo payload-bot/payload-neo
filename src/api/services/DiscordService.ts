@@ -75,10 +75,19 @@ export default class DiscordService {
 	async getAuthedGuilds(id: string, accessToken: string, refreshToken: string) {
 		const allGuilds = await this.getAllGuilds(id, accessToken, refreshToken);
 
+
+		/*
+			This returns all guilds that are:
+			1) Within bot cache && Administrator permissions
+			2) User has permissions 0x8, which is Administrator
+
+			.cache may be subject to fail here.
+		*/
 		const filteredGuilds = allGuilds.filter(
 			guild =>
-				client.guilds.cache.find(clientGuild => guild.id === clientGuild.id) ||
-				(guild.permissions & 0x20) === 0x20
+				(client.guilds.cache.find(clientGuild => guild.id === clientGuild.id) &&
+					(guild.permissions & 0x8) === 0x8) ||
+				(guild.permissions & 0x8) === 0x8
 		);
 
 		return filteredGuilds.sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));

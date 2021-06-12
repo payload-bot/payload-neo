@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import client from "../../..";
 import checkAuth from "../../middleware/checkAuth";
 import checkBeta from "../../middleware/checkBeta";
 import checkServers from "../../middleware/checkServers";
@@ -24,10 +25,23 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
-	const { dashboard, fun, language, prefix = "pls ", commandRestrictions, settings } = req.guild;
+	const {
+		dashboard,
+		fun,
+		language,
+		prefix = "pls ",
+		commandRestrictions,
+		settings,
+		id
+	} = req.guild;
+
+	const { icon, name } = client.guilds.cache.get(id) ?? (await client.guilds.fetch(id));
 
 	res.json({
 		restrictions: commandRestrictions,
+		icon: `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
+		name,
+		id,
 		dashboard,
 		settings,
 		fun,

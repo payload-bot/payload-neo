@@ -12,7 +12,7 @@ router.use(checkAuth);
 router.get("/", async (req: Request, res: Response) => {
 	const user = req.user;
 
-	const { username, tag, discriminator, avatar } = await client.users.fetch(user.id);
+	const { username, tag, discriminator, avatar, defaultAvatarURL } = await client.users.fetch(user.id);
 
 	const { id, notificationsLevel, latestUpdateNotifcation, steamID } =
 		await userService.getUserByDiscordId(user.id);
@@ -21,7 +21,7 @@ router.get("/", async (req: Request, res: Response) => {
 		isAdmin: user.isAdmin,
 		username: tag,
 		name: username,
-		avatar: avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png` : null,
+		avatar: avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png` : defaultAvatarURL,
 		id,
 		discriminator,
 		notificationsLevel,

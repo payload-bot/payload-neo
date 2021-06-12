@@ -15,8 +15,6 @@ export default async function checkServers(
 	const user = req.user;
 	const guildParam = req.params.guildId;
 
-	console.log(guildParam)
-
 	try {
 		const { accessToken, refreshToken } = await userService.getUserByDiscordId(user.id);
 		const userServers = await discordService.getAuthedGuilds(user.id, accessToken, refreshToken);

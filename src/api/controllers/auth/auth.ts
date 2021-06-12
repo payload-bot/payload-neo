@@ -3,6 +3,7 @@ import passport from "passport";
 import { User } from "../../../lib/model/User";
 import { AuthedUser } from "../../interfaces";
 import AuthService, { AuthContext } from "../../services/AuthService";
+require("dotenv").config();
 
 const authService = new AuthService();
 

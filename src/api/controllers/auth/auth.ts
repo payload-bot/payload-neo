@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import passport from "passport";
 import { User } from "../../../lib/model/User";
 import { AuthedUser } from "../../interfaces";
-require("dotenv").config();
+import AuthService, { AuthContext } from "../../services/AuthService";
+
+const authService = new AuthService();
 
 const router = express.Router();
 
@@ -16,23 +17,23 @@ router.get(
 		failWithError: true
 	}),
 	async (req: Request, res: Response) => {
-		const user = req.user as any as AuthedUser;
+		const {
+			accessToken,
+			refreshToken,
+			profile: { id }
+		} = req.user as any as AuthedUser;
 
-		const dbUser = await User.findOne({ id: user.profile.id });
+		await User.findOneAndUpdate({ id }, { accessToken, refreshToken }, { new: true });
 
-		dbUser.accessToken = user.accessToken;
-		dbUser.refreshToken = user.refreshToken;
-		await dbUser.save();
-		
 		try {
-			const token = jwt.sign(
-				{
-					id: user.profile.id,
-					isAdmin: user.profile.isAdmin
-				},
-				process.env.JWT_SECRET
-			);
-			res.status(200).redirect(`${process.env.CLIENT_URL}/login/success?token=${token}`);
+			const token = await authService.generateJwtToken(AuthContext.AUTH, id);
+			const refreshToken = await authService.generateJwtToken(AuthContext.REFRESH, id);
+
+			res
+				.status(200)
+				.redirect(
+					`${process.env.CLIENT_URL}/login/success?token=${token}&refreshToken=${refreshToken}`
+				);
 		} catch (error) {
 			res.status(500).json({
 				status: 500,
@@ -42,5 +43,25 @@ router.get(
 		}
 	}
 );
+
+router.post("/refresh", async (req: Request<{ refreshToken: string }>, res: Response) => {
+	const oldRefreshToken = req.params.refreshToken;
+	if (!oldRefreshToken) {
+		return res
+			.status(400)
+			.json({ status: 400, error: "Bad request", message: "No valid action specified" });
+	}
+
+	try {
+		const { refreshToken, authToken } = await authService.refreshTokens(oldRefreshToken);
+		return res.status(200).json({
+			status: 200,
+			refreshToken,
+			authToken
+		});
+	} catch (err) {
+		return res.status(400).json({ status: 400, error: "Bad request", message: "Token mismatch" });
+	}
+});
 
 export default router;

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "@google-cloud/translate": "^6.2.2",
-    "aws-sdk": "^2.924.0",
+    "aws-sdk": "^2.927.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
@@ -17,6 +17,7 @@
     "html": "^1.0.0",
     "html-to-text": "^7.1.1",
     "image-to-base64": "^2.2.0",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.13",
     "passport": "^0.4.1",

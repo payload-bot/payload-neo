@@ -13,7 +13,7 @@ export default class AuthService {
 	async generateJwtToken(context: AuthContext, discordId: string): Promise<string> {
 		switch (context) {
 			case AuthContext.AUTH: {
-				return sign({ id: discordId }, process.env.JWT_SECRET, { expiresIn: "1m" });
+				return sign({ id: discordId }, process.env.JWT_SECRET, { expiresIn: "15m" });
 			}
 			case AuthContext.REFRESH: {
 				const token = sign({ id: discordId }, process.env.JWT_REFRESH_SECRET, { expiresIn: "1w" });

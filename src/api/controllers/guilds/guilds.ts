@@ -36,10 +36,12 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 	} = req.guild;
 
 	const { icon, name } = client.guilds.cache.get(id) ?? (await client.guilds.fetch(id));
+	const bot = client.guilds.cache.get(id).members.cache.get(client.user.id)
 
 	res.json({
 		restrictions: commandRestrictions,
 		icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
+		botName: bot.user.username,
 		name,
 		id,
 		dashboard,

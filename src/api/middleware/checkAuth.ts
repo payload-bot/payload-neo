@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { AuthedRequest } from "../interfaces";
 
 export default function checkAuth(req: Request, res: Response, next: NextFunction) {
-	const authHeader = req.headers.authorization;
+	// Take out "Bearer" scheme
+	const authHeader = req.headers.authorization.split(" ")[1];
 	if (!authHeader) return res.status(401).json({ status: 401, message: "Unauthorized" });
 
 	try {

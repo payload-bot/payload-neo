@@ -39,7 +39,7 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 
 	res.json({
 		restrictions: commandRestrictions,
-		icon: `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
+		icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
 		name,
 		id,
 		dashboard,

@@ -1,0 +1,16 @@
+import { object, string } from "joi";
+
+const LANGUAGES = {
+	ENGLISH: "en-US",
+	SPANISH: "es-ES",
+	FINNISH: "fi-FI",
+	POLISH: "pl-PL"
+};
+
+const guildSettingsSchema = object({
+	botName: string().min(1).max(100),
+	prefix: string().min(1).max(75),
+	language: string().valid(...Object.values(LANGUAGES))
+});
+
+export default guildSettingsSchema;

@@ -1,40 +1,35 @@
-import axios from "axios";
 import DiscordStrategy from "passport-discord";
 import refresh from "passport-oauth2-refresh";
+import DiscordOAuth2 from "discord-oauth2";
 import client from "../..";
 import { Server } from "../../lib/model/Server";
 import { AuthedUserServer } from "../interfaces";
 import UserService from "./UserService";
 
 const userService = new UserService();
-
+const discordOAuthService = new DiscordOAuth2();
 export default class DiscordService {
-	private readonly DISCORD_API_URL = "https://discord.com/api";
-
-	constructor() {}
-
 	private async fetchUserGuilds(accessToken: string) {
-		const { data } = await axios.get(`${this.DISCORD_API_URL}/users/@me/guilds`, {
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
-		});
-
-		return data;
+		return await discordOAuthService.getUserGuilds(accessToken);
 	}
 
 	private async getAllGuilds(id: string, accessToken: string, refreshToken: string) {
-		let guilds: AuthedUserServer[];
+		let guilds: any[];
 
 		try {
 			guilds = await this.fetchUserGuilds(accessToken);
 		} catch (err) {
+			console.error(`Error while fetching user guilds: ${err}`)
 			refresh.requestNewAccessToken(
 				"discord",
 				refreshToken,
 				async (err, accessToken, refreshToken) => {
 					// o_O wonKy
-					if (err) throw err;
+					if (err) {
+						console.error(err.statusCode);
+						client.emit("error", err.data);
+						throw err;
+					}
 					await userService.saveTokensToUser(id, accessToken, refreshToken);
 					guilds = await this.fetchUserGuilds(accessToken);
 				}

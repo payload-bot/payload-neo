@@ -9,7 +9,7 @@ export default function createDiscordStrategy() {
 			clientID: process.env.CLIENT_ID,
 			clientSecret: process.env.CLIENT_SECRET,
 			callbackURL: process.env.CALLBACK_URL,
-			scope: ["identify", "guilds"]
+			scope: ["identify", "guilds", "connections"]
 		},
 		async (accessToken, refreshToken, profile, cb) => {
 			let user: UserModel;

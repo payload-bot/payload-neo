@@ -27,11 +27,19 @@ export default async function checkServers(
 			});
 		}
 
+		if (!client.guilds.cache.has(guildParam)) {
+			return res.status(404).json({
+				status: 400,
+				error: "Not found",
+				message: "Server not found"
+			});
+		}
+
 		req.guild = await guildService.getGuildById(guildParam);
 
 		return next();
 	} catch (ex) {
-		client.emit('error', ex);
+		client.emit("error", ex);
 		return res.status(400).json({
 			status: 400,
 			message: "Error while getting server"

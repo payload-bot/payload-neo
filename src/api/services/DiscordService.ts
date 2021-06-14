@@ -75,7 +75,6 @@ export default class DiscordService {
 	async getAuthedGuilds(id: string, accessToken: string, refreshToken: string) {
 		const allGuilds = await this.getAllGuilds(id, accessToken, refreshToken);
 
-
 		/*
 			This returns all guilds that are:
 			1) Within bot cache && Administrator permissions

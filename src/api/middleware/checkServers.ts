@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import client from "../..";
 import DiscordService from "../services/DiscordService";
 import GuildService from "../services/GuildService";
 import UserService from "../services/UserService";
@@ -30,9 +31,10 @@ export default async function checkServers(
 
 		return next();
 	} catch (ex) {
-		return res.status(403).json({
-			status: 403,
-			message: "You do not have access to that server"
+		client.emit('error', ex);
+		return res.status(400).json({
+			status: 400,
+			message: "Error while getting server"
 		});
 	}
 }

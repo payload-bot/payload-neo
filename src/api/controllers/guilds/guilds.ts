@@ -31,7 +31,7 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 	const {
 		dashboard,
 		fun,
-		language,
+		language = 'en-US',
 		prefix = "pls ",
 		commandRestrictions,
 		settings,

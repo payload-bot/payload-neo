@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import client from "../../..";
-import { version } from "../../../../package.json"
+import { version } from "../../../util/version_control"
 
 const router = express.Router();
 

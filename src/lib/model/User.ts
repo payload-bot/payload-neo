@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { version } from "../../../package.json";
+import { version } from "../../util/version_control"
 import { NotificationLevel } from "../../util/push-notification";
 
 export type UserModel = mongoose.Document & {

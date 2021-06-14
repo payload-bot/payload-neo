@@ -6,4 +6,8 @@ export default class GuildService {
 	async getGuildById(id: string): Promise<ServerModel> {
 		return await Server.findOne({ id });
 	}
+
+	async findByGuildIdAndUpdate(id: string, details: Partial<ServerModel>) {
+		return await Server.findOneAndUpdate({ id }, details, { new: true });
+	}
 }

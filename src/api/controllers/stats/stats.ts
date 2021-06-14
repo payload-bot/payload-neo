@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import client from "../../../..";
-import { version } from "../../../../util/version_control";
+import client from "../../..";
+import { version } from "../../../../package.json"
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get("/stats", (req: Request, res: Response) => {
 		users: client.users.cache.size,
 		servers: client.guilds.cache.size,
 		uptime: client.uptime,
-		version: version
+		version
 	});
 });
 
@@ -22,8 +22,7 @@ router.get("/commands", (req: Request, res: Response) => {
 		autoResponses: {
 			count: client.autoResponses.size,
 			data: client.autoResponses.array()
-		},
-		version: version
+		}
 	});
 });
 

@@ -8,6 +8,7 @@ import { Client as ClientDocument, ClientModel } from "../lib/model/Client";
 import { Client } from "../lib/types";
 
 module.exports = {
+    once: true,
     run: async (client: Client) => {
         console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
         await client.user.setActivity(`payload.tf/invite | v${version}`);

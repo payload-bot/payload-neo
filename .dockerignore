@@ -1,2 +1,5 @@
 node_modules
 dist
+.release-it.json
+example-config.ts
+.github

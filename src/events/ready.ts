@@ -10,7 +10,7 @@ import { Client } from "../lib/types";
 module.exports = {
     once: true,
     run: async (client: Client) => {
-        console.log(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`);
+        client.logger.info(`Logged in as ${client.user.tag}, on ${client.guilds.cache.size} guilds, serving ${client.users.cache.size} users`)
         await client.user.setActivity(`payload.tf/invite | v${version}`);
 
         const waitingInterval: NodeJS.Timeout = setInterval(async () => {
@@ -30,12 +30,12 @@ module.exports = {
                 let changelog = getChangelog(version);
 
                 if (!changelog) {
-                    return console.warn("Error fetching changelog!");
+                    return client.logger.warn("Error fetching changelog!");
                 }
 
                 let botDoc: ClientModel = await ClientDocument.findOne({ id: 0 });
 
-                if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return console.log("No new version.");
+                if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return client.logger.verbose("No new version.");
 
                 const channel = client.channels.cache.get(config.info.releaseChannel) as TextChannel;
                 if (channel) channel.send("```md\n" + changelog + "\n```");
@@ -67,7 +67,7 @@ module.exports = {
 
                 await botDoc.save();
             } else {
-                console.log("Waiting for MongoDB connection...");
+                client.logger.info("Waiting for MongoDB connection...");
             }
         }, 1000);
     }

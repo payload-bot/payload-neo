@@ -19,7 +19,6 @@ export function getChangelog(version: string) {
 
 		return changelog;
 	} catch (er) {
-        console.error("Error reading file");
         return false;
 	}
 }

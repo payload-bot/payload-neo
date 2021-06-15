@@ -42,10 +42,10 @@ export async function handleCommand(client: Client, msg: Message): Promise<Boole
 
     try {
         await executableCommand.run(client, msg);
-        console.log(`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name}.`);
+        client.logger.info(`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name}.`);
         client.emit("log", (`User ${msg.author.id}/${msg.author.tag} used command ${executableCommand.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`));
     } catch (err) {
-        console.warn("Error while executing command " + command, err);
+        client.logger.error(`Error while executing command ${command}\n${err}`);
         client.emit("error", err);
     }
 

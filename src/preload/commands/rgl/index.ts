@@ -6,9 +6,8 @@ import { ensureSteamID } from "../../../util/steam-id";
 import Language from "../../../lib/types/Language";
 import PayloadColors, { EmbedColors } from "../../../lib/misc/colors";
 
+const apiAddress = "https://rgl.payload.tf";
 export default class RGL extends Command {
-	apiAddress: string;
-
 	constructor() {
 		super("rgl", "Returns data of [mentioned] user.", [
 			{
@@ -18,7 +17,6 @@ export default class RGL extends Command {
 				type: "string"
 			}
 		]);
-		this.apiAddress = "https://rgl.payload.tf";
 	}
 
 	async run(client: Client, msg: Message): Promise<boolean> {
@@ -37,12 +35,12 @@ export default class RGL extends Command {
 			userSteamId = user.user.steamID;
 		}
 
-		if (!userSteamId.length) return await this.fail(msg, lang.rgl_fail_noid);
+		if (!userSteamId?.length) return await this.fail(msg, lang.rgl_fail_noid);
 
 		try {
 			const {
 				data: { data: profile }
-			} = await axios(`${this.apiAddress}/api/v1/profiles/${userSteamId}`);
+			} = await axios(`${apiAddress}/api/v1/profiles/${userSteamId}`);
 
 			let description = `
             ${lang.rgl_embeddesc_steamid}: ${profile.steamId}

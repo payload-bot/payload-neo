@@ -36,10 +36,10 @@ export async function handleAutoCommand(client: Client, msg: Message): Promise<B
 
     try {
         await autoResponse.run(client, msg);
-        console.log(`${autoResponse.name} was initiated sent by ${msg.author.tag}/${msg.author.id}.`);
-        client.emit("log", (`User ${msg.author.id}/${msg.author.tag} initiaited autoresponse ${autoResponse.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`));
+        client.logger.info(`${autoResponse.name} was initiated sent by ${msg.author.tag}/${msg.author.id}.`);
+        client.emit("log", `User ${msg.author.id}/${msg.author.tag} initiaited autoresponse ${autoResponse.name} in ${(msg.guild) ? `guild ${msg.guild.id}/${msg.guild.name}` : "dms"}.`);
     } catch (err) {
-        console.warn("Error while executing autoresponse " + autoResponse.name, err);
+        client.logger.error(`Error while executing autoresponse ${autoResponse.name}\n${err}`);
         client.emit("error", err);
     }
 

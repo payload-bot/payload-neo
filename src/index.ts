@@ -1,8 +1,9 @@
 import * as Discord from "discord.js"
 import { readdir } from "fs";
+import mongoose from "mongoose";
+import { createLogger, format, transports } from "winston";
 import { CommandConstructor } from "./lib/exec/Command";
 import { Client } from "./lib/types";
-import mongoose from "mongoose";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
@@ -17,6 +18,25 @@ client.scheduled = [];
 
 client.userManager = new UserManager(client);
 client.serverManager = new ServerManager(client);
+
+client.logger = createLogger({
+    level: 'info',
+    format: format.combine(
+        format.timestamp({ format: new Date().toLocaleString('en-US', {
+                // Log in central time, please ;)
+                timeZone: 'America/Chicago'
+            }),
+        }),
+        format.colorize(),
+        format.json(),
+        format.prettyPrint({ colorize: true }),
+        ),
+        transports: [
+            new transports.Console({
+            format: format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message} ${info.splat ?? ''}`)
+        })
+    ]
+})
 
 client.cache = {
     snipe: {},
@@ -34,9 +54,9 @@ mongoose.connect(process.env.MONGO_URI, {
     useFindAndModify: false,
     useCreateIndex: true,
 }).then(() => {
-    console.log("Successfully connected to MongoDB.");
+    client.logger.info("Successfully connected to MongoDB.")
 }).catch(() => {
-    console.error("Error connecting to MongoDB. Make sure you used the correct password.");
+    client.logger.error('error', "Successfully connected to MongoDB.")
     process.exit(1);
 });
 
@@ -57,7 +77,7 @@ readdir(__dirname + '/events/', (err, files) => {
             emitter[once ? 'once' : 'on'](event, (...args) => eventFunction.run(client, ...args));
         }
         catch (error) {
-            console.error(error.stack);
+            client.logger.error(error.stack)
         }
         console.log("\tLoaded " + file);
     });

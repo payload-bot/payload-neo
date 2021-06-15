@@ -4,6 +4,7 @@ import { AutoResponse } from "../types/AutoCommand";
 import UserManager from "../manager/UserManager";
 import ServerManager from "../manager/ServerManager";
 import { ScheduledScript } from "./ScheduledScripts";
+import { Logger } from "winston";
 
 export interface IClientEmitter extends ClientEvents {
     "log": string,
@@ -12,6 +13,7 @@ export interface IClientEmitter extends ClientEvents {
 
 export interface Client extends Client {
     emit<K extends keyof IClientEmitter>(event: K, ...args: ClientEvents[K]): boolean;
+    logger: Logger;
 
     isReady: boolean,
     commands: Collection<string, Command>,

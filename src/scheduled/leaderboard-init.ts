@@ -18,5 +18,5 @@ export async function run(client: Client) {
 
     runLeaderboardUpdate(client);
 
-    console.log("Pulled leaderboard from db.");
+    client.logger.debug("Pulled leaderboard from db.");
 }

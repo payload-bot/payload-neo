@@ -49,5 +49,5 @@ export async function run(client: Client) {
 
     await botDoc.save();
 
-    console.log("Updated leaderboard.");
+    client.logger.verbose("Updated leaderboard");
 }

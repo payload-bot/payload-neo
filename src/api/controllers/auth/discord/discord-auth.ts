@@ -33,7 +33,11 @@ router.get(
 			res
 				.status(200)
 				.redirect(
-					`${process.env.CLIENT_URL}/login/success?token=${token}&refreshToken=${refreshToken}`
+					`${
+						req.headers.origin !== "https://staging.payload.tf"
+							? process.env.CLIENT_URL
+							: "https://staging.payload.tf"
+					}/login/success?token=${token}&refreshToken=${refreshToken}`
 				);
 		} catch (error) {
 			res.status(500).json({

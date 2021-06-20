@@ -3,7 +3,6 @@ import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
 
 import PermissionCommand from "./permissions"
-import DashboardCommand from "./dashboard"
 import Language from "../../../lib/types/Language";
 
 
@@ -33,7 +32,6 @@ export default class Settings extends Command {
             undefined,
             {
                 permissions: new PermissionCommand(),
-                dashboard: new DashboardCommand()
             }
         );
     }

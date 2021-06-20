@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import client from "../../..";
-import { ICommandRestrictions } from "../../../lib/manager/ServerManager";
 import checkAuth from "../../middleware/checkAuth";
 import checkBeta from "../../middleware/checkBeta";
 import checkServers from "../../middleware/checkServers";
@@ -30,12 +29,11 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 	const {
-		dashboard,
 		fun,
+		enableSnipeForEveryone = false,
 		language = "en-US",
 		prefix = "pls ",
 		commandRestrictions,
-		settings,
 		id
 	} = req.guild;
 
@@ -51,12 +49,11 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 			commands: client.commands.filter(c => !c.requiresRoot).map(c => c.name),
 			autoResponses: client.autoResponses.map(c => c.name)
 		},
+		enableSnipeForEveryone,
 		icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
 		botName: bot.nickname ?? bot.user.username,
 		name,
 		id,
-		dashboard,
-		settings,
 		fun,
 		language,
 		prefix

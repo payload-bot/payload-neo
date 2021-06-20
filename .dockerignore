@@ -3,3 +3,4 @@ dist
 .release-it.json
 example-config.ts
 .github
+.migrate

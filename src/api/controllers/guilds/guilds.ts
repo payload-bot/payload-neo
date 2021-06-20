@@ -29,26 +29,31 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
 	const {
-		dashboard,
 		fun,
-		language = 'en-US',
+		enableSnipeForEveryone = false,
+		language = "en-US",
 		prefix = "pls ",
 		commandRestrictions,
-		settings,
 		id
 	} = req.guild;
 
-	const { icon, name } = client.guilds.cache.get(id) ?? (await client.guilds.fetch(id));
+	const { icon, name, channels } = client.guilds.cache.get(id) ?? (await client.guilds.fetch(id));
 	const bot = client.guilds.cache.get(id).members.cache.get(client.user.id);
 
 	res.json({
-		restrictions: commandRestrictions,
+		guild: {
+			channels: channels.cache.filter(c => c.type === "text").map(({ id, name }) => ({ id, name }))
+		},
+		commands: {
+			restrictions: commandRestrictions,
+			commands: client.commands.filter(c => !c.requiresRoot).map(c => c.name),
+			autoResponses: client.autoResponses.map(c => c.name)
+		},
+		enableSnipeForEveryone,
 		icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
 		botName: bot.nickname ?? bot.user.username,
 		name,
 		id,
-		dashboard,
-		settings,
 		fun,
 		language,
 		prefix

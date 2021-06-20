@@ -11,6 +11,10 @@ import ServerManager from "./lib/manager/ServerManager";
 import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
 require("dotenv").config();
 
+const formatDate = (dateString: string) => new Date(dateString).toLocaleString('en-US', {
+    timeZone: 'America/Chicago'
+});
+
 const client: Client = new Discord.Client() as Client;
 client.autoResponses = new Discord.Collection();
 client.commands = new Discord.Collection();
@@ -22,18 +26,14 @@ client.serverManager = new ServerManager(client);
 client.logger = createLogger({
     level: 'info',
     format: format.combine(
-        format.timestamp({ format: new Date().toLocaleString('en-US', {
-                // Log in central time, please ;)
-                timeZone: 'America/Chicago'
-            }),
-        }),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         format.colorize(),
         format.json(),
         format.prettyPrint({ colorize: true }),
-        ),
-        transports: [
-            new transports.Console({
-            format: format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message} ${info.splat ?? ''}`)
+    ),
+    transports: [
+        new transports.Console({
+            format: format.printf(info => `[${formatDate(info.timestamp)}] ${info.level}: ${info.message} ${info.splat ?? ''}`)
         })
     ]
 })

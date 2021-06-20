@@ -35,10 +35,10 @@ export default class PermissionsAdjust extends Command {
         if (args && args[0]) {
             const arg = args[0]
             if (arg === "admin") {
-                server.server.settings.snipePerms = ["MANAGE_MESSAGES"]
+                server.server.enableSnipeForEveryone = false
                 await this.respond(msg, lang.settings_admin)
             } else if (arg === "all") {
-                server.server.settings.snipePerms = ["SEND_MESSAGES"]
+                server.server.enableSnipeForEveryone = true
                 await this.respond(msg, lang.settings_all)
             }
         }

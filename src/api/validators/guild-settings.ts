@@ -1,4 +1,4 @@
-import { object, string } from "joi";
+import { boolean, object, string } from "joi";
 
 const LANGUAGES = {
 	ENGLISH: "en-US",
@@ -10,6 +10,7 @@ const LANGUAGES = {
 const guildSettingsSchema = object({
 	botName: string().min(1).max(100),
 	prefix: string().min(1).max(75),
+	enableSnipeForEveryone: boolean(),
 	language: string().valid(...Object.values(LANGUAGES))
 });
 

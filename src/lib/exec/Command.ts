@@ -129,10 +129,10 @@ export abstract class Command {
     async checkPermissions(msg: Discord.Message): Promise<boolean> {
         const client: Client = msg.client as Client;
         const server = await client.serverManager.getServer(msg.guild.id);
-        const array = server.server.settings.snipePerms;
-        const perms: Array<PermissionString> = (!Array.isArray(array) || !array.length) ? ["MANAGE_MESSAGES"] : array;
-        if (msg.member.permissions.has(perms)) return true;
-        else return false;
+        const perm = server.server.enableSnipeForEveryone;
+        
+        // Return perm otherwise default to FALSE
+        return perm ?? false
     }
 
     async parseArgs(message: Message, commandLevel?: number): Promise<Array<number | string | boolean> | false> {

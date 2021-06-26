@@ -1,9 +1,9 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
-import { Server, ServerModel } from "../../../../lib/model/Server";
-import { qSort } from "../../../../util/sort";
+import { Server } from "../../../../lib/model/Server";
 import Language from "../../../../lib/types/Language";
+import PayloadColors from "../../../../lib/misc/colors";
 
 export default class Servers extends Command {
     constructor() {
@@ -24,43 +24,34 @@ export default class Servers extends Command {
         const lang: Language = await this.getLanguage(msg);
         msg.channel.startTyping();
 
-        let servers: ServerModel[] = await Server.find({
-            "fun.payloadFeetPushed": {
-                $exists: true
-            }
-        });
-
-        let leaderboard = qSort(servers.map(server => {
-            return {
-                id: server.id,
-                pushed: server.fun!.payloadFeetPushed
-            };
-        }), (serverA, serverB) => {
-            return serverB.pushed - serverA.pushed;
-        });
-
-        const top5 = leaderboard.slice(0, 5);
+        const leaderboard = await Server.aggregate([
+            { $match: { fun: { $exists: 1 } } },
+            { $group: { _id: "$id", pushed: { $sum: "$fun.payloadFeetPushed" } } },
+            { $sort: { pushed: -1 } },
+            { $limit: 5 },
+        ]);
 
         let leaderboardString = "```md\n";
 
-        for (let i = 0; i < top5.length; i++) {
-            let identifier = (client.guilds.cache.get(top5[i].id).name);
+        for (let i = 0; i < leaderboard.length; i++) {
+            const identifier = client.guilds.cache
+                .get(leaderboard[i]._id)
+                .name.replace(/\`\`\`/g, "");
 
-            identifier = (identifier as String).replace(/\`\`\`/g, "");
-
-            if (identifier == msg.guild.name) {
-                leaderboardString += `> ${i + 1}: ${identifier} (${top5[i].pushed})\n`;
-            } else {
-                leaderboardString += `${i + 1}: ${identifier} (${top5[i].pushed})\n`;
-            }
+            identifier == msg.guild.name
+                ? (leaderboardString += `> ${i + 1}: ${identifier} (${leaderboard[i].pushed})\n`)
+                : (leaderboardString += `${i + 1}: ${identifier} (${leaderboard[i].pushed})\n`);
         }
 
         leaderboardString += "```";
 
-        await msg.channel.send(new MessageEmbed({
-            title: lang.pushcart_serverembedtitle,
-            description: leaderboardString
-        }));
+        await msg.channel.send(
+            new MessageEmbed({
+                title: lang.pushcart_serverembedtitle,
+                description: leaderboardString,
+                color: PayloadColors.USER,
+            })
+        );
 
         return true;
     }

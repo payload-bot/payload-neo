@@ -2,6 +2,7 @@ import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
 import Language from "../../../../lib/types/Language";
+import PayloadColors from "../../../../lib/misc/colors";
 
 export default class Leaderboard extends Command {
     constructor() {
@@ -31,7 +32,9 @@ export default class Leaderboard extends Command {
         let leaderboardString = "```md\n";
 
         for (let i = 0; i < top10.length; i++) {
-            let tag = (client.users.cache.get(top10[i].id) || await client.users.fetch(top10[i].id)).tag;
+            let tag = (
+                client.users.cache.get(top10[i].id) || (await client.users.fetch(top10[i].id))
+            ).tag;
 
             if (top10[i].id == msg.author.id) {
                 leaderboardString += `> ${i + 1}: ${tag} (${top10[i].pushed})\n`;
@@ -41,17 +44,29 @@ export default class Leaderboard extends Command {
             }
         }
 
-        if (!isTop10) leaderboardString += `...\n> ${client.leaderboard.users.findIndex(user => user.id == msg.author.id) + 1}: ${msg.author.tag} (${(client.leaderboard.users.find(user => user.id == msg.author.id) || { pushed: 0 }).pushed})\n`;
+        if (!isTop10)
+            leaderboardString += `...\n> ${
+                client.leaderboard.users.findIndex(user => user.id == msg.author.id) + 1
+            }: ${msg.author.tag} (${
+                (client.leaderboard.users.find(user => user.id == msg.author.id) || { pushed: 0 })
+                    .pushed
+            })\n`;
 
         leaderboardString += "```";
 
-        await msg.channel.send(new MessageEmbed({
-            title: lang.pushcart_userembedtitle,
-            description: leaderboardString,
-            footer: {
-                text: lang.pushcart_userembedfooter.replace('%updated', client.leaderboard.updated.toLocaleString())
-            }
-        }));
+        await msg.channel.send(
+            new MessageEmbed({
+                title: lang.pushcart_userembedtitle,
+                description: leaderboardString,
+                footer: {
+                    text: lang.pushcart_userembedfooter.replace(
+                        "%updated",
+                        client.leaderboard.updated.toLocaleString()
+                    ),
+                },
+                color: PayloadColors.USER,
+            })
+        );
 
         return true;
     }

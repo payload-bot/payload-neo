@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import cookie from "cookie-parser";
 import passport from "passport";
 import helmet from "helmet";
 import refresh from "passport-oauth2-refresh";
@@ -23,6 +24,7 @@ export async function listen(port: number): Promise<void> {
         })
     );
     server.use(helmet());
+    server.use(cookie());
     server.use(passport.initialize());
 
     passport.serializeUser((user, done) => {

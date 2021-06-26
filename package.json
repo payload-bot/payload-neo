@@ -8,6 +8,7 @@
     "aws-sdk": "^2.927.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "date-fns": "^2.22.1",
     "discord-oauth2": "^2.6.0",

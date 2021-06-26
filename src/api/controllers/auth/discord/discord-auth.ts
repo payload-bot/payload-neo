@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import passport from "passport";
 import { User } from "../../../../lib/model/User";
 import { DiscordUserDetails } from "../../../interfaces";
+import setClientUrl, { cookieName } from "../../../middleware/setClientUrl";
 import AuthService, { AuthContext } from "../../../services/AuthService";
 require("dotenv").config();
 
@@ -9,7 +10,7 @@ const authService = new AuthService();
 
 const router = Router();
 
-router.get("/", passport.authenticate("discord"));
+router.get("/", setClientUrl, passport.authenticate("discord"));
 
 router.get(
     "/callback",
@@ -30,12 +31,10 @@ router.get(
             const token = await authService.generateJwtToken(AuthContext.AUTH, id);
             const refreshToken = await authService.generateJwtToken(AuthContext.REFRESH, id);
 
+            const redirectUrl = req.cookies?.[cookieName] || process.env.CLIENT_URL;
+
             res.redirect(
-                `${
-                    req.headers.host === "https://staging.payload.tf"
-                        ? "https://staging.payload.tf"
-                        : process.env.CLIENT_URL
-                }/login/success?token=${token}&refreshToken=${refreshToken}`
+                `${redirectUrl}/login/success?token=${token}&refreshToken=${refreshToken}`
             );
         } catch (error) {
             res.redirect(`${process.env.CLIENT_URL}/login/failure?message=Error while logging in`);

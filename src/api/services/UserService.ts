@@ -1,26 +1,26 @@
 import { User, UserModel } from "../../lib/model/User";
 
 export default class UserService {
-	constructor() {}
+    constructor() {}
 
-	async getUserByDiscordId(id: string): Promise<UserModel> {
-		return await User.findOne({ id });
-	}
+    async getUserByDiscordId(id: string): Promise<UserModel> {
+        return await User.findOne({ id });
+    }
 
-	async saveTokensToUser(
-		id: string,
-		accessToken: string,
-		refreshToken: string
-	): Promise<UserModel> {
-		return await User.findOneAndUpdate(
-			{ id },
-			{
-				accessToken,
-				refreshToken
-			},
-			{
-				new: true
-			}
-		);
-	}
+    async saveTokensToUser(
+        id: string,
+        accessToken: string,
+        refreshToken: string
+    ): Promise<UserModel> {
+        return await User.findOneAndUpdate(
+            { id },
+            {
+                accessToken,
+                refreshToken,
+            },
+            {
+                new: true,
+            }
+        );
+    }
 }

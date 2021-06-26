@@ -26,7 +26,7 @@ export default class Servers extends Command {
 
         const leaderboard = await Server.aggregate([
             { $match: { fun: { $exists: 1 } } },
-            { $group: { _id: "$id", pushed: { $sum: "$fun.payloadFeetPushed" } } },
+            { $project: { id: "$id", pushed: "$fun.payloadFeetPushed" } },
             { $sort: { pushed: -1 } },
             { $limit: 5 },
         ]);
@@ -35,7 +35,7 @@ export default class Servers extends Command {
 
         for (let i = 0; i < leaderboard.length; i++) {
             const identifier = client.guilds.cache
-                .get(leaderboard[i]._id)
+                .get(leaderboard[i].id)
                 .name.replace(/\`\`\`/g, "");
 
             identifier == msg.guild.name

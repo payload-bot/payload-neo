@@ -36,6 +36,7 @@ router.get(
             res.redirect(
                 `${redirectUrl}/login/success?token=${token}&refreshToken=${refreshToken}`
             );
+            res.clearCookie(cookieName);
         } catch (error) {
             res.redirect(`${process.env.CLIENT_URL}/login/failure?message=Error while logging in`);
         }

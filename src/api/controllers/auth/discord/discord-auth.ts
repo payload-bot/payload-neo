@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import passport from "passport";
 import { User } from "../../../../lib/model/User";
-import { AuthedUser } from "../../../interfaces";
+import { DiscordUserDetails } from "../../../interfaces";
 import AuthService, { AuthContext } from "../../../services/AuthService";
 require("dotenv").config();
 
@@ -22,7 +22,7 @@ router.get(
 			accessToken,
 			refreshToken,
 			profile: { id }
-		} = req.user as any as AuthedUser;
+		} = req.user as any as DiscordUserDetails;
 
 		await User.findOneAndUpdate({ id }, { accessToken, refreshToken }, { new: true });
 

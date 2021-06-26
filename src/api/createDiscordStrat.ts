@@ -1,7 +1,7 @@
 import DiscordStrategy from "passport-discord";
 import config from "../config";
 import { User, UserModel } from "../lib/model/User";
-import { AuthedUserProfile, AuthedUser } from "./interfaces";
+import { DiscordProfile, DiscordUserDetails } from "./interfaces";
 
 export default function createDiscordStrategy() {
 	return new DiscordStrategy(
@@ -22,14 +22,14 @@ export default function createDiscordStrategy() {
 				});
 			}
 
-			const { guilds, ...userProfile }: AuthedUserProfile = {
+			const { guilds, ...userProfile }: DiscordProfile = {
 				avatarUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}`,
 				fullName: `${profile.username}#${profile.discriminator}`,
 				isAdmin: config.allowedID === profile.id,
 				...profile
 			};
 
-			const returnObject: AuthedUser = {
+			const returnObject: DiscordUserDetails = {
 				profile: userProfile,
 				accessToken,
 				refreshToken,

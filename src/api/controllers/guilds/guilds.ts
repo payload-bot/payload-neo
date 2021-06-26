@@ -27,9 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
     res.json(guilds.map(({ server, ...guild }) => guild));
 });
 
-router.use(checkServers);
-
-router.get("/:guildId", async (req: Request, res: Response) => {
+router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
     const {
         fun,
         enableSnipeForEveryone = false,
@@ -64,7 +62,7 @@ router.get("/:guildId", async (req: Request, res: Response) => {
     });
 });
 
-router.patch("/:guildId", async (req: Request, res: Response) => {
+router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     try {
         const { botName, ...values } = await guildSettingsSchema.validateAsync(req.body);
 

@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import client from "../../..";
 import { version } from "../../../util/version_control"
 
-const router = express.Router();
+const router = Router();
 
 router.get("/stats", (req: Request, res: Response) => {
 	res.json({

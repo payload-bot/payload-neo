@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import client from "../../..";
 import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 
-const router = express.Router();
+const router = Router();
 
 const userService = new UserService();
 

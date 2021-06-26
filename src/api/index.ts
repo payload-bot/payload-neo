@@ -12,47 +12,47 @@ import UserRoutes from "./controllers/users";
 import GuildRoutes from "./controllers/guilds";
 
 export async function listen(port: number): Promise<void> {
-	const server = express();
+    const server = express();
 
-	server.use(express.json());
-	server.use(express.urlencoded({ extended: false }));
-	server.set("json spaces", 1);
-	server.use(
-		cors({
-			origin: process.env.CLIENT_URL
-		})
-	);
-	server.use(helmet());
-	server.use(passport.initialize());
+    server.use(express.json());
+    server.use(express.urlencoded({ extended: false }));
+    server.set("json spaces", 1);
+    server.use(
+        cors({
+            origin: process.env.CLIENT_URL,
+        })
+    );
+    server.use(helmet());
+    server.use(passport.initialize());
 
-	passport.serializeUser((user, done) => {
-		done(null, user);
-	});
+    passport.serializeUser((user, done) => {
+        done(null, user);
+    });
 
-	passport.deserializeUser((obj, done) => {
-		done(null, obj as any);
-	});
+    passport.deserializeUser((obj, done) => {
+        done(null, obj as any);
+    });
 
-	const discordStrategy = createDiscordStrategy();
-	passport.use(discordStrategy);
-	refresh.use("discord", discordStrategy);
+    const discordStrategy = createDiscordStrategy();
+    passport.use(discordStrategy);
+    refresh.use("discord", discordStrategy);
 
-	// @TODO: not use internal/public.
-	server.use("/api/internal/public/", StatRoutes);
-	server.use("/api/auth/discord", DiscordAuthRoutes);
-	server.use("/api/auth", AuthRoutes);
-	server.use("/api/users", UserRoutes);
-	server.use("/api/guilds", GuildRoutes);
+    // @TODO: not use internal/public.
+    server.use("/api/internal/public/", StatRoutes);
+    server.use("/api/auth/discord", DiscordAuthRoutes);
+    server.use("/api/auth", AuthRoutes);
+    server.use("/api/users", UserRoutes);
+    server.use("/api/guilds", GuildRoutes);
 
-	server.all("*", (req: Request, res: Response) => {
-		res.status(404).json({
-			status: 404,
-			error: "Not found",
-			message: `Cannot find ${req.method} route for ${req.path}`
-		});
-	});
+    server.all("*", (req: Request, res: Response) => {
+        res.status(404).json({
+            status: 404,
+            error: "Not found",
+            message: `Cannot find ${req.method} route for ${req.path}`,
+        });
+    });
 
-	return new Promise(resolve => {
-		server.listen(port, resolve);
-	});
+    return new Promise(resolve => {
+        server.listen(port, resolve);
+    });
 }

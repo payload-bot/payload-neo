@@ -1,16 +1,29 @@
 import { Router, Request, Response } from "express";
 import passport from "passport";
+import { nanoid } from "nanoid/async";
 import { User } from "../../../../lib/model/User";
 import { DiscordUserDetails } from "../../../interfaces";
+import verifyLoginState from "../../../middleware/verifyLoginState";
 import setClientUrl, { cookieName } from "../../../middleware/setClientUrl";
 import AuthService, { AuthContext } from "../../../services/AuthService";
 require("dotenv").config();
+
+/**
+ * Cookie name for Discord State param
+ */
+export const stateCookieName = "discord-state";
 
 const authService = new AuthService();
 
 const router = Router();
 
-router.get("/", setClientUrl, passport.authenticate("discord"));
+router.get("/", setClientUrl, async (req, res, next) => {
+    const state = await nanoid(16);
+    res.cookie(stateCookieName, state, { httpOnly: true });
+    passport.authenticate("discord", {
+        state,
+    })(req, res, next);
+});
 
 router.get(
     "/callback",
@@ -18,6 +31,7 @@ router.get(
         failureRedirect: `${process.env.CLIENT_URL}/login/failure?message=Failed to login`,
         failWithError: true,
     }),
+    verifyLoginState,
     async (req: Request, res: Response) => {
         const {
             accessToken,

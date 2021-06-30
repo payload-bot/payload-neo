@@ -22,7 +22,7 @@ RUN npm install --production
 
 COPY --from=build /opt/app/dist ./dist
 COPY ./languages ./languages
-COPY migrations ./migrations
+COPY ./migrations ./migrations
 
 USER node
 CMD ["npm", "start"]

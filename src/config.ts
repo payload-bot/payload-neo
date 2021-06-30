@@ -15,7 +15,7 @@ const config = {
     logging: {
         releaseChannel: process.env.RELEASE_CHANNEL,
         logChannel: process.env.LOG_CHANNEL,
-        eventChannel: process.env.EVENET_CHANNEL,
+        eventChannel: process.env.EVENT_CHANNEL,
         errorChannel: process.env.ERROR_CHANNEL,
     },
 

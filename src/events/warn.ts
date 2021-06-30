@@ -4,7 +4,7 @@ import { Client } from "../lib/types";
 
 module.exports = {
     run: async (client: Client, error: string) => {
-        const channel = client.channels.cache.get(config.info.errorChannel) as TextChannel;
+        const channel = client.channels.cache.get(config.logging.errorChannel) as TextChannel;
         if (!channel) return;
         channel.send({
             embed: {

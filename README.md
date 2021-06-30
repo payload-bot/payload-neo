@@ -9,7 +9,7 @@
 <p align="center">Payload Discord bot</p>
 
 <p align="center">
-    [![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
+    [![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
 </p>
 

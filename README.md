@@ -9,6 +9,7 @@
 <p align="center">Payload Discord bot</p>
 
 <p align="center">
+    [![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
 </p>
 
@@ -29,11 +30,12 @@ You may back me on my [Patreon](https://www.patreon.com/c43721). Direct sponsors
 Before contributing, please make sure no one else has stated against your proposal. Otherwise, make a Pull Request detailing your proposal and any relevant code changes. If you are committing code, try to create test cases, as going foward we'd like to have stable tests.
 
 # Useful Links
- * [Main Page](https://payload.tf/)
- * [Documentation](https://payload.tf/docs)
- * [Translation](https://crowdin.com/project/payload)
- * [Feature Board](https://w.supra.tf/b/LmzrWQviWCRcGxywq/payload)
- * [Changelog](https://github.com/c43721/payload-neo/blob/master/changelog.md)
+
+-   [Main Page](https://payload.tf/)
+-   [Documentation](https://payload.tf/docs)
+-   [Translation](https://crowdin.com/project/payload)
+-   [Feature Board](https://w.supra.tf/b/LmzrWQviWCRcGxywq/payload)
+-   [Changelog](https://github.com/c43721/payload-neo/blob/master/changelog.md)
 
 # License
 

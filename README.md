@@ -9,11 +9,14 @@
 <p align="center">Payload Discord bot</p>
 
 <p align="center">
-    [![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT license" />
 </p>
 
+
+
 # Description
+
+[![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
 
 Payload is the Discord bot for TF2 players. Features a leaderboard, logs.tf and team preview screenshots, and other useful commands.
 
@@ -32,6 +35,8 @@ Before contributing, please make sure no one else has stated against your propos
 # Useful Links
 
 -   [Main Page](https://payload.tf/)
+-   [Invite](https://payload.tf/invite)
+-   [Discord](https://payload.tf/discord)
 -   [Documentation](https://payload.tf/docs)
 -   [Translation](https://crowdin.com/project/payload)
 -   [Feature Board](https://w.supra.tf/b/LmzrWQviWCRcGxywq/payload)

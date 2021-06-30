@@ -3,6 +3,7 @@ import client from "../../..";
 import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
+import userSettingsSchema from "../../validators/user-settings";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.get("/", async (req: Request, res: Response) => {
         await userService.getUserByDiscordId(user.id);
 
     res.json({
-        isAdmin: config.allowedID.includes(user.id),
+        isAdmin: config.allowedID === user.id,
         username: tag,
         name: username,
         avatar: avatar
@@ -33,6 +34,22 @@ router.get("/", async (req: Request, res: Response) => {
         latestUpdateNotifcation,
         steamID,
     });
+});
+
+router.patch("/", async (req: Request, res: Response) => {
+    try {
+        const { ...values } = await userSettingsSchema.validateAsync(req.body);
+
+        if (values) {
+            await userService.findByDiscordIdAndUpdate(req.user.id, values);
+        }
+
+        return res.status(204).send();
+    } catch (err) {
+        return res
+            .status(400)
+            .json({ status: 400, error: "Bad request", message: err.details.map(d => d.message) });
+    }
 });
 
 export default router;

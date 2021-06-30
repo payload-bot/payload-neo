@@ -16,7 +16,7 @@
 
 # Description
 
-[![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
+[![Build](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/payload-bot/payload-neo/actions/workflows/build.yml)
 
 Payload is the Discord bot for TF2 players. Features a leaderboard, logs.tf and team preview screenshots, and other useful commands.
 

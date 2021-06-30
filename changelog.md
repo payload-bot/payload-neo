@@ -178,3 +178,38 @@
 * Cache will reduce to minimum every 5 minutes
 * Updated package dependencies
 * Updated localization files
+
+### 3.6.75
+* Default notifications to none
+* Redo api docs
+* Updated package dependencies
+* Updated localization files
+
+### 3.6.76
+* Fix rgl error response message
+* (Breaking) Remove all external routes from api
+* Remove old / broken commands 
+* Updated package dependencies
+
+### 3.7.0
+* Remove static files from repo
+* Redirect all traffic to nginx
+* Beta dashboard release
+* (Breaking) Use node 14
+
+### 3.7.1
+* Better logging
+* Added ability to change snipe permissions from dashboard
+
+### 3.8.0
+* Improved steam connect auto responses
+* Improved discord login
+* Optimized leaderboard query, added embed colors to pushcart commands
+* Updated package dependencies
+
+### 3.8.1
+* Add redis for caching
+* Added more user api routes
+* Fixed + refactored profile command
+* Updated package dependencies
+

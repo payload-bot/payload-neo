@@ -29,6 +29,8 @@ module.exports = {
 
                 let changelog = getChangelog(version);
 
+                client.emit("event", "STARTED");
+
                 if (!changelog) {
                     return client.logger.warn("Error fetching changelog!");
                 }
@@ -37,7 +39,7 @@ module.exports = {
 
                 if (botDoc && botDoc.startupVersion && botDoc.startupVersion == version) return client.logger.verbose("No new version.");
 
-                const channel = client.channels.cache.get(config.info.releaseChannel) as TextChannel;
+                const channel = client.channels.cache.get(config.logging.releaseChannel) as TextChannel;
                 if (channel) channel.send("```md\n" + changelog + "\n```");
 
                 for (let i = 0; i < guilds.length; i++) {

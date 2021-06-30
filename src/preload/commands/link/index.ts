@@ -36,7 +36,7 @@ export default class Link extends Command {
 
         const user = await client.userManager.getUser(msg.author.id);
 
-        user.user.steamID = steamIDTestResult;
+        user.user.steamId = steamIDTestResult;
 
         await user.save();
 

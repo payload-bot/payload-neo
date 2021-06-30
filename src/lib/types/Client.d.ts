@@ -7,40 +7,39 @@ import { ScheduledScript } from "./ScheduledScripts";
 import { Logger } from "winston";
 
 export interface IClientEmitter extends ClientEvents {
-    "log": string,
-    "error": string
+    log: string;
+    error: string;
+    event: string;
 }
 
 export interface Client extends Client {
     emit<K extends keyof IClientEmitter>(event: K, ...args: ClientEvents[K]): boolean;
     logger: Logger;
 
-    isReady: boolean,
-    commands: Collection<string, Command>,
-    autoResponses: Collection<string, AutoResponse>,
+    commands: Collection<string, Command>;
+    autoResponses: Collection<string, AutoResponse>;
 
-    scheduled: Array<ScheduledScript>,
+    scheduled: Array<ScheduledScript>;
 
-    userManager: UserManager,
-    serverManager: ServerManager,
+    userManager: UserManager;
+    serverManager: ServerManager;
 
     leaderboard: {
-        users: Array<{ id: string, pushed: number }>,
-        updated: Date
-    },
+        users: Array<{ id: string; pushed: number }>;
+        updated: Date;
+    };
 
     cache: {
         snipe: {
             [guild: string]: {
-                [channel: string]: Collection<string, Message>
-            }
-        },
+                [channel: string]: Collection<string, Message>;
+            };
+        };
 
         pings: {
             [guild: string]: {
-                [channel: string]: Collection<string, Message>
-            }
-        }
-        
-    }
+                [channel: string]: Collection<string, Message>;
+            };
+        };
+    };
 }

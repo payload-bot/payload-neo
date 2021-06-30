@@ -1,35 +1,25 @@
-version: '3.5'
+version: "3.5"
 
-services: 
-    bot:
-        build: .
-        container_name: "payload"
-        command: "npm start"
-        restart: always
-        env_file: 
-            - ./.env
-        ports: 
-            - 3000:3000
-        depends_on: 
-            - mongo
-        links: 
-            - mongo
-            
+services:
     mongo:
         container_name: "mongo"
         image: mongo
         restart: always
-        ports: 
+        networks:
+            - payload
+        ports:
             - 27017-27019:27017-27019
-        volumes: 
+        volumes:
             - mongo:/data/db
-        env_file: 
+        env_file:
             - ./.env
 
     nginx:
         container_name: "nginx"
         image: nginx:1-alpine
         restart: always
+        networks:
+            - payload
         ports:
             - 80:80
         volumes:
@@ -37,7 +27,37 @@ services:
         env_file:
             - ./.env
         depends_on:
-            - bot
+            - payload
+
+    redis:
+        container_name: "redis"
+        image: redis:alpine
+        networks:
+            - payload
+        restart: always
+        ports:
+            - 6379:6379
+
+    payload:
+        build: .
+        container_name: "payload"
+        command: "npm start"
+        restart: always
+        networks:
+            - payload
+        env_file:
+            - ./.env
+        ports:
+            - 3000:3000
+        depends_on:
+            - mongo
+            - redis
+        links:
+            - mongo
+            - redis
 
 volumes:
     mongo: ~
+
+networks:
+    payload:

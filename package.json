@@ -1,6 +1,6 @@
 {
   "name": "payload-neo",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "A bot that does it all.",
   "main": "dist/index.js",
   "dependencies": {

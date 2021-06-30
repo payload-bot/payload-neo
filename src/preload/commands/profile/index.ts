@@ -20,7 +20,7 @@ export default class Profile extends Command {
         const lang: Language = await this.getLanguage(msg);
         const profile = msg.mentions.users.first() || msg.author;
         const user = await client.userManager.getUser(profile.id);
-        const steamid = user.user.steamID;
+        const steamid = user.user.steamId;
 
         const description = `
             Bot: ${profile.bot ? "Yes" : "No"}

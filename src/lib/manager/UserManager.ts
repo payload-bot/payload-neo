@@ -49,7 +49,7 @@ export class UserEditable {
     }
 
     setSteamID(steamID: SteamID): UserEditable {
-        this.user.steamID = steamID.getSteamID64();
+        this.user.steamId = steamID.getSteamID64();
 
         return this;
     }

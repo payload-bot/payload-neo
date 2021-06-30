@@ -32,7 +32,7 @@ export default class RGL extends Command {
 			if (testSteamId) userSteamId = args[0];
 		} else {
 			const user = await client.userManager.getUser(targetUser.id);
-			userSteamId = user.user.steamID;
+			userSteamId = user.user.steamId;
 		}
 
 		if (!userSteamId?.length) return await this.fail(msg, lang.rgl_fail_noid);

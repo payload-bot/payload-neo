@@ -31,11 +31,11 @@ export default class Log extends Command {
 
         const dbUser = await client.userManager.getUser(targetUser.id);
 
-        if (!dbUser.user.steamID) {
+        if (!dbUser.user.steamId) {
             return await this.fail(msg, lang.log_fail_noid.replace('%prefix', await this.getPrefix(msg)));
         }
 
-        const { data } = await axios(`http://logs.tf/api/v1/log?limit=1&player=${dbUser.user.steamID}`);
+        const { data } = await axios(`http://logs.tf/api/v1/log?limit=1&player=${dbUser.user.steamId}`);
 
         if (data.logs.length < 1) {
             return await this.fail(msg, lang.log_fail_nologhistory);
@@ -43,9 +43,9 @@ export default class Log extends Command {
 
         const logID = data.logs[data.logs.length - 1].id;
 
-        const screenshotBuffer = await render(`http://logs.tf/${logID}#${dbUser.user.steamID}`);
+        const screenshotBuffer = await render(`http://logs.tf/${logID}#${dbUser.user.steamId}`);
 
-        await msg.channel.send(`<http://logs.tf/${logID}#${dbUser.user.steamID}>`, {
+        await msg.channel.send(`<http://logs.tf/${logID}#${dbUser.user.steamId}>`, {
             files: [screenshotBuffer]
         });
 

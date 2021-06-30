@@ -18,7 +18,7 @@ router.get("/", async (req: Request, res: Response) => {
         user.id
     );
 
-    const { id, notificationsLevel, latestUpdateNotifcation, steamID } =
+    const { id, notificationsLevel, latestUpdateNotifcation, steamId: steamID } =
         await userService.getUserByDiscordId(user.id);
 
     res.json({

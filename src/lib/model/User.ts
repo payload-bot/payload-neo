@@ -7,7 +7,7 @@ export type UserModel = mongoose.Document & {
 
 	id?: string;
 
-	steamID?: string;
+	steamId?: string;
 
 	notificationsLevel?: number;
 	latestUpdateNotifcation?: string;
@@ -29,7 +29,7 @@ export type UserModel = mongoose.Document & {
 const userSchema = new mongoose.Schema({
 	id: String,
 
-	steamID: {
+	steamId: {
 		type: String,
 		default: null
 	},

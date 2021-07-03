@@ -39,8 +39,16 @@ export async function listen(port: number): Promise<void> {
     passport.use(discordStrategy);
     refresh.use("discord", discordStrategy);
 
-    // @TODO: not use internal/public.
-    server.use("/api/internal/public/", StatRoutes);
+    server.use(
+        "/api/internal/public/",
+        (req, res, next) => {
+            // Deprecate this route and notify people
+            res.setHeader("Warning", '299 - "Deprecated"');
+            next();
+        },
+        StatRoutes
+    );
+    server.use("/api/stats", StatRoutes);
     server.use("/api/auth/discord", DiscordAuthRoutes);
     server.use("/api/auth", AuthRoutes);
     server.use("/api/users", UserRoutes);

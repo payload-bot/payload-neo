@@ -18,6 +18,6 @@ export default async function validateWebhookToken(
         req.webhook_id = id;
         return next();
     } catch (err) {
-        return res.status(403).json({ code: 403, message: "Forbidden" });
+        return res.status(404).json({ code: 404, message: "Not found" });
     }
 }

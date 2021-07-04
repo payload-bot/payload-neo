@@ -10,20 +10,30 @@ const isUser = (type: Channel | User): type is User => type instanceof User;
 
 const router = Router();
 
-router.get("/logs", async (req: Request, res: Response) => {
+router.post("/logs", async (req: Request, res: Response) => {
     // User, Channel
     const scope = req.webhook_type;
     // Snowflake
     const id = req.webhook_id;
 
-    const { logsId } = await logsWebhookSchema.validateAsync(req.body);
+    let logsId: string;
+    try {
+        const values = await logsWebhookSchema.validateAsync(req.body, { stripUnknown: true });
+        // I literally can never see this happening.
+        if (!values?.logsId) throw new Error("No logsId present");
+        logsId = values.logsId;
+    } catch (err) {
+        return res
+            .status(400)
+            .json({ status: 400, error: "Bad request", message: err.details.map(d => d.message) });
+    }
 
     const logUrl = `https://logs.tf/${logsId}`;
 
     const target = client[scope].cache.get(id) ?? (await client[scope].fetch(id));
 
     const screenshotBuffer = await render(logUrl);
-    
+
     const att = new MessageAttachment(screenshotBuffer, "log.png");
     const embed = new MessageEmbed();
     embed.setColor(PayloadColors.COMMAND);

@@ -23,4 +23,4 @@ const WebhookSchema = new Schema({
 	}
 });
 
-export const Webhook = model("Webhook", WebhookSchema);
+export const Webhook = model<WebhookModel>("Webhook", WebhookSchema);

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import client from "../../..";
 import config from "../../../config";
+import { WebhookModel } from "../../../lib/model/Webhook";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 import userSettingsSchema from "../../validators/user-settings";
@@ -18,7 +19,7 @@ router.get("/", async (req: Request, res: Response) => {
         user.id
     );
 
-    const { id, notificationsLevel, latestUpdateNotifcation, steamId } =
+    const { id, notificationsLevel, latestUpdateNotifcation, steamId, webhook } =
         await userService.getUserByDiscordId(user.id);
 
     res.json({
@@ -28,6 +29,7 @@ router.get("/", async (req: Request, res: Response) => {
         avatar: avatar
             ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png`
             : defaultAvatarURL,
+        webhook: (webhook as unknown as WebhookModel).value ?? null,
         id,
         discriminator,
         notificationsLevel,

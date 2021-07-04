@@ -11,6 +11,7 @@ import AuthRoutes, { DiscordAuthRoutes } from "./controllers/auth";
 import StatRoutes from "./controllers/stats";
 import UserRoutes from "./controllers/users";
 import GuildRoutes from "./controllers/guilds";
+import WebhookRoutes from "./controllers/webhooks";
 
 export async function listen(port: number): Promise<void> {
     const server = express();
@@ -53,6 +54,7 @@ export async function listen(port: number): Promise<void> {
     server.use("/api/auth", AuthRoutes);
     server.use("/api/users", UserRoutes);
     server.use("/api/guilds", GuildRoutes);
+    server.use("/api/webhooks/v1", WebhookRoutes);
 
     server.all("*", (req: Request, res: Response) => {
         res.status(404).json({

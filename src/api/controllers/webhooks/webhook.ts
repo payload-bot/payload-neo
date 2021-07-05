@@ -9,6 +9,7 @@ import client from "../../..";
 import WebhookService from "../../services/WebhookService";
 
 const webhookService = new WebhookService();
+const userService = new UserService();
 
 async function createWebhook(
     type: "users" | "channels",
@@ -33,8 +34,6 @@ async function createWebhook(
         return webhook;
     }
 }
-
-const userService = new UserService();
 
 const router = Router();
 

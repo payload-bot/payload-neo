@@ -40,7 +40,10 @@ export async function listen(port: number): Promise<void> {
     refresh.use("discord", discordStrategy);
 
     // @TODO: not use internal/public.
-    server.use("/api/internal/public/", StatRoutes);
+    // Also, enable cors on this route. For some reason, vercel
+    // Won't deploy without it. Why it didn't do it a week ago?
+    // Who knows!
+    server.use("/api/internal/public/", cors(), StatRoutes);
     server.use("/api/auth/discord", DiscordAuthRoutes);
     server.use("/api/auth", AuthRoutes);
     server.use("/api/users", UserRoutes);

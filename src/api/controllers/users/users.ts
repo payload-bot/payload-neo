@@ -3,11 +3,13 @@ import client from "../../..";
 import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
+import WebhookService from "../../services/WebhookService";
 import userSettingsSchema from "../../validators/user-settings";
 
 const router = Router();
 
 const userService = new UserService();
+const webhookService = new WebhookService();
 
 router.use(checkAuth);
 
@@ -18,7 +20,7 @@ router.get("/", async (req: Request, res: Response) => {
         user.id
     );
 
-    const { id, notificationsLevel, latestUpdateNotifcation, steamId: steamID } =
+    const { id, notificationsLevel, latestUpdateNotifcation, steamId, webhook } =
         await userService.getUserByDiscordId(user.id);
 
     res.json({
@@ -28,11 +30,12 @@ router.get("/", async (req: Request, res: Response) => {
         avatar: avatar
             ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png`
             : defaultAvatarURL,
+        webhook: await webhookService.getWebhookById(webhook),
         id,
         discriminator,
         notificationsLevel,
         latestUpdateNotifcation,
-        steamID,
+        steamId,
     });
 });
 

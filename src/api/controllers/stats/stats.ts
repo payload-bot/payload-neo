@@ -4,7 +4,7 @@ import { version } from "../../../util/version_control"
 
 const router = Router();
 
-router.get("/stats", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
 	res.json({
 		users: client.users.cache.size,
 		servers: client.guilds.cache.size,

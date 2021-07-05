@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { version } from "../../util/version_control"
 import { NotificationLevel } from "../../util/push-notification";
 
@@ -8,6 +8,8 @@ export type UserModel = mongoose.Document & {
 	id?: string;
 
 	steamId?: string;
+
+	webhook?: string;
 
 	notificationsLevel?: number;
 	latestUpdateNotifcation?: string;
@@ -39,6 +41,11 @@ const userSchema = new mongoose.Schema({
 		default: NotificationLevel.NONE
 	},
 
+	webhook: {
+        ref: "Webhook",
+        type: Schema.Types.ObjectId
+    },
+
 	latestUpdateNotifcation: {
 		type: String,
 		default: version
@@ -58,4 +65,4 @@ const userSchema = new mongoose.Schema({
 	refreshToken: String
 });
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model<UserModel>("User", userSchema);

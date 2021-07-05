@@ -6,6 +6,7 @@ import checkServers from "../../middleware/checkServers";
 import DiscordService from "../../services/DiscordService";
 import GuildService from "../../services/GuildService";
 import UserService from "../../services/UserService";
+import WebhookService from "../../services/WebhookService";
 import guildSettingsSchema from "../../validators/guild-settings";
 
 const router = Router();
@@ -13,6 +14,7 @@ const router = Router();
 const discordService = new DiscordService();
 const guildService = new GuildService();
 const userService = new UserService();
+const webhookService = new WebhookService();
 
 router.use(checkAuth);
 router.use(checkBeta);
@@ -29,10 +31,11 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
     const {
-        fun,
         enableSnipeForEveryone = false,
         language = "en-US",
         prefix = "pls ",
+        webhook,
+        fun,
         commandRestrictions,
         id,
     } = req.guild;
@@ -51,9 +54,10 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
             commands: client.commands.filter(c => !c.requiresRoot).map(c => c.name),
             autoResponses: client.autoResponses.map(c => c.name),
         },
-        enableSnipeForEveryone,
         icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
         botName: bot.nickname ?? bot.user.username,
+        webhook: (await webhookService.getWebhookById(webhook)) || null,
+        enableSnipeForEveryone,
         name,
         id,
         fun,

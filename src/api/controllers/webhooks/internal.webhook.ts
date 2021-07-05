@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Channel, MessageAttachment, MessageEmbed, TextChannel, User } from "discord.js";
 import { Router, Request, Response } from "express";
 import client from "../../..";
@@ -26,6 +27,15 @@ router.post("/logs", async (req: Request, res: Response) => {
         return res
             .status(400)
             .json({ status: 400, error: "Bad request", message: err.details.map(d => d.message) });
+    }
+
+    // Sanity check: Is the log valid?
+    const { data: logsApiJson } = await axios.get(`https://logs.tf/api/v1/log/${logsId}`);
+
+    if (logsApiJson.success === false) {
+        return res
+            .status(400)
+            .json({ status: 400, error: "Bad request", message: "logsId is not a valid log id" });
     }
 
     const logUrl = `https://logs.tf/${logsId}`;

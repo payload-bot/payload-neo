@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Webhook, WebhookModel } from "../../lib/model/Webhook";
+import { Webhook } from "../../lib/model/Webhook";
 
 export default async function validateWebhookToken(
     req: Request,
@@ -13,7 +13,7 @@ export default async function validateWebhookToken(
     }
 
     try {
-        const { id, type }: WebhookModel = await Webhook.findOne({ value: token }).lean().orFail();
+        const { id, type } = await Webhook.findOne({ value: token }).lean().orFail();
         req.webhook_type = type;
         req.webhook_id = id;
         return next();

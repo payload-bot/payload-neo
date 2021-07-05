@@ -10,7 +10,7 @@ export type ServerModel = mongoose.Document & {
 
     commandRestrictions?: ICommandRestrictions[],
 
-    webhook?: String;
+    webhook?: string;
 
     fun?: {
         payloadFeetPushed: number,

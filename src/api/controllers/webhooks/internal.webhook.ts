@@ -55,7 +55,20 @@ router.post("/logs", async (req: Request, res: Response) => {
 
     // These ifs are kinda dirty. But since I'm fetching, I don't know a better way other than type casting.
     if (isChannel(target)) await target.send({ embed, files: [att] });
-    else if (isUser(target)) await target.send({ embed, files: [att] });
+    else if (isUser(target)) {
+        try {
+            await target.send({ embed, files: [att] });
+        } catch (err) {
+            // I can't see this happening, but I do believe if we send DMs to people
+            // We could get errors with that stuffs.
+            client.logger.error(err);
+            return res.status(500).json({
+                status: 500,
+                error: "Internal server error",
+                message: "Something went wrong with your request",
+            });
+        }
+    }
 
     res.status(204).send();
 });

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import checkAuth from "../../middleware/checkAuth";
-import {WebhookModel } from "../../../lib/model/Webhook";
+import { Webhook, WebhookModel } from "../../../lib/model/Webhook";
 import checkServers from "../../middleware/checkServers";
 import UserService from "../../services/UserService";
 import { Server } from "../../../lib/model/Server";
@@ -57,6 +57,29 @@ router.post("/users/create", async (req, res) => {
     });
 });
 
+router.delete("/users", async (req, res) => {
+    const { id, webhook } = await userService.getUserByDiscordId(req.user.id);
+    const webhookFull = await webhookService.getWebhookById(webhook);
+
+    if (!webhookFull) {
+        return res.status(400).json({
+            status: 400,
+            error: "Bad request",
+            message: "You don't have a webhook to delete",
+        });
+    }
+
+    const user = await userService.getUserByDiscordId(id);
+
+    await Webhook.findByIdAndRemove(webhook);
+
+    user.webhook = null;
+
+    await user.save();
+
+    return res.status(204).send();
+});
+
 router.post("/guilds/:guildId/create", checkServers, async (req, res) => {
     const { _id } = req.guild;
     const channelId = req.body.channelId;
@@ -83,6 +106,27 @@ router.post("/guilds/:guildId/create", checkServers, async (req, res) => {
         message: "Created",
         data: createdWebhook.value,
     });
+});
+
+router.delete("/guilds/:guildId", checkServers, async (req, res) => {
+    const guild = req.guild;
+
+    const webhookFull = await webhookService.getWebhookById(guild.webhook);
+
+    if (!webhookFull) {
+        return res.status(400).json({
+            status: 400,
+            error: "Bad request",
+            message: "You don't have a webhook to delete",
+        });
+    }
+
+    await Webhook.findByIdAndRemove(guild.webhook);
+    guild.webhook = null;
+
+    guild.save();
+
+    return res.status(204).send();
 });
 
 export default router;

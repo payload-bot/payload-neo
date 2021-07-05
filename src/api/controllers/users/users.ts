@@ -1,14 +1,15 @@
 import { Router, Request, Response } from "express";
 import client from "../../..";
 import config from "../../../config";
-import { WebhookModel } from "../../../lib/model/Webhook";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
+import WebhookService from "../../services/WebhookService";
 import userSettingsSchema from "../../validators/user-settings";
 
 const router = Router();
 
 const userService = new UserService();
+const webhookService = new WebhookService();
 
 router.use(checkAuth);
 
@@ -29,7 +30,7 @@ router.get("/", async (req: Request, res: Response) => {
         avatar: avatar
             ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png`
             : defaultAvatarURL,
-        webhook: (webhook as unknown as WebhookModel).value ?? null,
+        webhook: await webhookService.getWebhookById(webhook),
         id,
         discriminator,
         notificationsLevel,

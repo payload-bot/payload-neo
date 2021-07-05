@@ -1,25 +1,14 @@
 import { Router } from "express";
 import checkAuth from "../../middleware/checkAuth";
-import { generate } from "generate-password";
-import { Webhook, WebhookModel } from "../../../lib/model/Webhook";
+import {WebhookModel } from "../../../lib/model/Webhook";
 import checkServers from "../../middleware/checkServers";
 import UserService from "../../services/UserService";
 import { Server } from "../../../lib/model/Server";
 import { User } from "../../../lib/model/User";
 import client from "../../..";
+import WebhookService from "../../services/WebhookService";
 
-async function _create(type: "users" | "channels", id: string) {
-    return await Webhook.create({
-        value: generate({
-            length: 32,
-            symbols: true,
-            numbers: true,
-            strict: true,
-        }),
-        type,
-        id,
-    });
-}
+const webhookService = new WebhookService();
 
 async function createWebhook(
     type: "users" | "channels",
@@ -30,7 +19,7 @@ async function createWebhook(
         const server = await Server.findById(_id);
 
         if (server.webhook) return null;
-        const webhook = await _create(type, id);
+        const webhook = await webhookService.createNewWebhook(type, id);
         server.webhook = webhook._id;
         await server.save();
         return webhook;
@@ -38,7 +27,7 @@ async function createWebhook(
         const user = await User.findById(_id);
 
         if (user.webhook) return null;
-        const webhook = await _create(type, id);
+        const webhook = await webhookService.createNewWebhook(type, id);
         user.webhook = webhook._id;
         await user.save();
         return webhook;
@@ -51,7 +40,7 @@ const router = Router();
 
 router.use(checkAuth);
 
-router.post("/users/logs/create", async (req, res) => {
+router.post("/users/create", async (req, res) => {
     const { _id } = await userService.getUserByDiscordId(req.user.id);
     const createdWebhook = await createWebhook("users", req.user.id, _id);
 
@@ -69,7 +58,7 @@ router.post("/users/logs/create", async (req, res) => {
     });
 });
 
-router.post("/guilds/:guildId/logs/create", checkServers, async (req, res) => {
+router.post("/guilds/:guildId/create", checkServers, async (req, res) => {
     const { _id } = req.guild;
     const channelId = req.body.channelId;
 

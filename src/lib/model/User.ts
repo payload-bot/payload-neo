@@ -9,7 +9,7 @@ export type UserModel = mongoose.Document & {
 
 	steamId?: string;
 
-	webhook?: String;
+	webhook?: string;
 
 	notificationsLevel?: number;
 	latestUpdateNotifcation?: string;

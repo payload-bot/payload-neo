@@ -4,6 +4,7 @@ import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
+import { isBetaTester } from "../../utils/isBetaTester";
 import userSettingsSchema from "../../validators/user-settings";
 
 const router = Router();
@@ -25,6 +26,7 @@ router.get("/", async (req: Request, res: Response) => {
 
     res.json({
         isAdmin: config.allowedID === user.id,
+        isBetaTester: isBetaTester(user.id),
         username: tag,
         name: username,
         avatar: avatar

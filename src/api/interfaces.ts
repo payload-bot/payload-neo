@@ -16,8 +16,6 @@ export type AuthedRequest = {
 
 export interface DiscordProfile extends DiscordStrategy.Profile {
     avatarUrl: string;
-    fullName: string;
-    isAdmin: boolean;
 }
 
 export interface AuthedUserServer extends DiscordStrategy.GuildInfo {
@@ -31,6 +29,8 @@ declare global {
         interface User extends AuthedRequest {}
         interface Request {
             guild?: ServerModel;
+            webhook_type?: "users" | "channels";
+            webhook_id?: string;
         }
     }
 }

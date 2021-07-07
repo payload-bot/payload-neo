@@ -24,8 +24,6 @@ export default function createDiscordStrategy() {
 
             const { guilds, ...userProfile }: DiscordProfile = {
                 avatarUrl: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}`,
-                fullName: `${profile.username}#${profile.discriminator}`,
-                isAdmin: config.allowedID === profile.id,
                 ...profile,
             };
 

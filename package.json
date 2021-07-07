@@ -1,6 +1,6 @@
 {
   "name": "payload-neo",
-  "version": "3.8.1",
+  "version": "3.8.2",
   "description": "A bot that does it all.",
   "main": "dist/index.js",
   "dependencies": {
@@ -15,6 +15,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "gamedig": "^3.0.5",
+    "generate-password": "^1.6.0",
     "helmet": "^4.6.0",
     "html-to-text": "^7.1.1",
     "image-to-base64": "^2.2.0",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.29",
+    "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
     "@types/gamedig": "^3.0.0",

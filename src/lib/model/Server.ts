@@ -1,14 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { ICommandRestrictions } from "../manager/ServerManager";
 
 export type ServerModel = mongoose.Document & {
-    id?: string,
+    id: string,
     prefix?: string,
     language?: string,
 
     enableSnipeForEveryone?: boolean,
 
     commandRestrictions?: ICommandRestrictions[],
+
+    webhook?: string;
 
     fun?: {
         payloadFeetPushed: number,
@@ -24,6 +26,11 @@ const serverSchema = new mongoose.Schema({
 
     enableSnipeForEveryone: Boolean,
 
+    webhook: {
+        ref: "Webhook",
+        type: Schema.Types.ObjectId
+    },
+
     commandRestrictions: [{
         channelID: String,
         commands: [String]
@@ -36,4 +43,4 @@ const serverSchema = new mongoose.Schema({
     },
 });
 
-export const Server = mongoose.model("Server", serverSchema);
+export const Server = mongoose.model<ServerModel>("Server", serverSchema);

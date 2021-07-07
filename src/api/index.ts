@@ -11,6 +11,7 @@ import AuthRoutes, { DiscordAuthRoutes } from "./controllers/auth";
 import StatRoutes from "./controllers/stats";
 import UserRoutes from "./controllers/users";
 import GuildRoutes from "./controllers/guilds";
+import WebhookRoutes from "./controllers/webhooks";
 
 export async function listen(port: number): Promise<void> {
     const server = express();
@@ -39,15 +40,27 @@ export async function listen(port: number): Promise<void> {
     passport.use(discordStrategy);
     refresh.use("discord", discordStrategy);
 
-    // @TODO: not use internal/public.
-    // Also, enable cors on this route. For some reason, vercel
+    // For some reason, vercel
     // Won't deploy without it. Why it didn't do it a week ago?
     // Who knows!
+    server.use(
+        "/api/internal/public/",
+        cors(),
+        (req, res, next) => {
+            // Deprecate this route and notify people
+            res.setHeader("Warning", '299 - "Deprecated"');
+            next();
+        },
+        StatRoutes
+    );
+    server.use("/api/stats", cors(), StatRoutes);
+
     server.use("/api/internal/public/", cors(), StatRoutes);
     server.use("/api/auth/discord", DiscordAuthRoutes);
     server.use("/api/auth", AuthRoutes);
     server.use("/api/users", UserRoutes);
     server.use("/api/guilds", GuildRoutes);
+    server.use("/api/webhooks/v1", WebhookRoutes);
 
     server.all("*", (req: Request, res: Response) => {
         res.status(404).json({

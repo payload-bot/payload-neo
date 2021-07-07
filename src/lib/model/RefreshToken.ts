@@ -19,4 +19,4 @@ const RefreshTokenSchema = new Schema({
 	}
 });
 
-export const RefreshToken = model("RefreshToken", RefreshTokenSchema);
+export const RefreshToken = model<RefreshTokenModel>("RefreshToken", RefreshTokenSchema);

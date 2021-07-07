@@ -239,6 +239,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookie-parser@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.2.tgz#e4d5c5ffda82b80672a88a4281aaceefb1bd9df5"
+  integrity sha512-uwcY8m6SDQqciHsqcKDGbo10GdasYsPCYkH3hVegj9qAah6pX5HivOnOuI3WYmyQMnOATV39zv/Ybs0bC/6iVg==
+  dependencies:
+    "@types/express" "*"
+
 "@types/cors@^2.8.10":
   version "2.8.10"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
@@ -1313,6 +1320,11 @@ gcp-metadata@^4.2.0:
   dependencies:
     gaxios "^4.0.0"
     json-bigint "^1.0.0"
+
+generate-password@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/generate-password/-/generate-password-1.6.0.tgz#9dff4fcca7f831e6832d464509910fab333d0323"
+  integrity sha512-YUJTQkApkLT/fru0QdYWP0lVZdPKhF5kXCP24sgI4gR/vFMJFopCj5t1+9FAKIYcML/nxzx2PMkA1ymO1FC+tQ==
 
 get-caller-file@^2.0.5:
   version "2.0.5"

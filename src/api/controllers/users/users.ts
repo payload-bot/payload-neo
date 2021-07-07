@@ -4,6 +4,7 @@ import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
+import { getDiscordUser } from "../../utils/getDiscordUser";
 import { isBetaTester } from "../../utils/isBetaTester";
 import userSettingsSchema from "../../validators/user-settings";
 
@@ -17,7 +18,7 @@ router.use(checkAuth);
 router.get("/", async (req: Request, res: Response) => {
     const user = req.user;
 
-    const { username, tag, discriminator, avatar, defaultAvatarURL } = await client.users.fetch(
+    const { username, tag, discriminator, avatar, defaultAvatarURL } = await getDiscordUser(
         user.id
     );
 

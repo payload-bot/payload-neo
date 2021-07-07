@@ -35,11 +35,19 @@ async function createWebhook(
     }
 }
 
+/*
+    Reasons for putting checkAuth on each route:
+    1) It interferes with other routes, like /internal/logs
+    2) It checks authentication globally, for the whole namespace
+
+    Two things I don't want. To fix this, just put it in the middleware for specific routes.
+
+    Ideally my routes should just be named better, but what gives. This will be rewritten anyways probably.
+*/
+
 const router = Router();
 
-router.use(checkAuth);
-
-router.post("/users/create", async (req, res) => {
+router.post("/users/create", checkAuth, async (req, res) => {
     const { _id } = await userService.getUserByDiscordId(req.user.id);
     const createdWebhook = await createWebhook("users", req.user.id, _id);
 
@@ -57,7 +65,7 @@ router.post("/users/create", async (req, res) => {
     });
 });
 
-router.delete("/users", async (req, res) => {
+router.delete("/users", checkAuth, async (req, res) => {
     const { id, webhook } = await userService.getUserByDiscordId(req.user.id);
     const webhookFull = await webhookService.getWebhookById(webhook);
 
@@ -80,7 +88,7 @@ router.delete("/users", async (req, res) => {
     return res.status(204).send();
 });
 
-router.post("/guilds/:guildId/create", checkServers, async (req, res) => {
+router.post("/guilds/:guildId/create", checkAuth, checkServers, async (req, res) => {
     const { _id } = req.guild;
     const channelId = req.body.channelId;
 
@@ -108,7 +116,7 @@ router.post("/guilds/:guildId/create", checkServers, async (req, res) => {
     });
 });
 
-router.delete("/guilds/:guildId", checkServers, async (req, res) => {
+router.delete("/guilds/:guildId", checkAuth, checkServers, async (req, res) => {
     const guild = req.guild;
 
     const webhookFull = await webhookService.getWebhookById(guild.webhook);

@@ -26,7 +26,7 @@ router.get("/", async (req: Request, res: Response) => {
 
     res.json({
         isAdmin: config.allowedID === user.id,
-        isBetaTester: isBetaTester(user.id),
+        isBetaTester: await isBetaTester(user.id),
         username: tag,
         name: username,
         avatar: avatar

@@ -20,7 +20,7 @@ export async function isBetaTester(discordId: string) {
 
         if (!userInDiscord) return false;
 
-        const userHasBetaRole = userInDiscord.roles?.cache?.find(r => r.name === "Beta Tester");
+        const userHasBetaRole = userInDiscord.roles?.cache?.find(r => r.name === "Beta Tester") ?? false;
 
         if (!userHasBetaRole) return false;
 

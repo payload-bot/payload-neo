@@ -1,9 +1,10 @@
 import { Router, Request, Response } from "express";
-import client from "../../..";
 import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
+import { getDiscordUser } from "../../utils/getDiscordUser";
+import { isBetaTester } from "../../utils/isBetaTester";
 import userSettingsSchema from "../../validators/user-settings";
 
 const router = Router();
@@ -16,7 +17,7 @@ router.use(checkAuth);
 router.get("/", async (req: Request, res: Response) => {
     const user = req.user;
 
-    const { username, tag, discriminator, avatar, defaultAvatarURL } = await client.users.fetch(
+    const { username, tag, discriminator, avatar, defaultAvatarURL } = await getDiscordUser(
         user.id
     );
 
@@ -25,6 +26,7 @@ router.get("/", async (req: Request, res: Response) => {
 
     res.json({
         isAdmin: config.allowedID === user.id,
+        isBetaTester: await isBetaTester(user.id),
         username: tag,
         name: username,
         avatar: avatar

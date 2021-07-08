@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import client from "../..";
 import { Webhook } from "../../lib/model/Webhook";
 
 export default async function validateWebhookToken(
@@ -6,9 +7,19 @@ export default async function validateWebhookToken(
     res: Response,
     next: NextFunction
 ) {
+    client.logger.debug(`
+        Request body: ${JSON.stringify(req.body)}\n
+        Request token: ${req.body.token ?? "Not present"}\n
+        Request User-Agent: ${req.headers["user-agent"]}
+    `);
     const token = req.body.token;
 
     if (!token) {
+        client.logger.debug(`
+        No token on requested resource. 
+        Request ContentType: ${req.headers["content-type"]}
+        Request User-Agent: ${req.headers["user-agent"]}
+    `);
         return res.status(401).json({ code: 401, message: "No token present" });
     }
 

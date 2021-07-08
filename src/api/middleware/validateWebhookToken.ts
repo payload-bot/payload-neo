@@ -8,7 +8,7 @@ export default async function validateWebhookToken(
     next: NextFunction
 ) {
     client.logger.debug(`
-        Request body: ${req.body}\n
+        Request body: ${JSON.stringify(req.body)}\n
         Request token: ${req.body.token ?? "Not present"}\n
         Request User-Agent: ${req.headers["user-agent"]}
     `);

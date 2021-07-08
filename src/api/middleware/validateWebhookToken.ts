@@ -7,7 +7,7 @@ export default async function validateWebhookToken(
     res: Response,
     next: NextFunction
 ) {
-    client.logger.debug(`
+    client.logger.info(`
         Request body: ${JSON.stringify(req.body)}\n
         Request token: ${req.body.token ?? "Not present"}\n
         Request User-Agent: ${req.headers["user-agent"]}
@@ -15,7 +15,7 @@ export default async function validateWebhookToken(
     const token = req.body.token;
 
     if (!token) {
-        client.logger.debug(`
+        client.logger.warn(`
         No token on requested resource. 
         Request ContentType: ${req.headers["content-type"]}
         Request User-Agent: ${req.headers["user-agent"]}

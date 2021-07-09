@@ -9,8 +9,7 @@ export default class WebhookService {
 	async createNewWebhook(type: WebhookContext, id: string) {
 		return await Webhook.create({
 			value: generate({
-				length: 32,
-				symbols: true,
+				length: 40,
 				numbers: true,
 				strict: true,
 			}),

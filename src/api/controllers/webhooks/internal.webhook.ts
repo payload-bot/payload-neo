@@ -54,7 +54,19 @@ router.post("/logs", async (req: Request, res: Response) => {
     embed.setTimestamp(new Date());
 
     // These ifs are kinda dirty. But since I'm fetching, I don't know a better way other than type casting.
-    if (isChannel(target)) await target.send({ embed, files: [att] });
+    if (isChannel(target)) {
+        // Catch permissions, other stuff
+        try {
+            await target.send({ embed, files: [att] });
+        } catch (err) {
+            client.logger.error(err);
+            return res.status(500).json({
+                status: 500,
+                error: "Internal server error",
+                message: "Something went wrong with your request",
+            });
+        }
+    }
     else if (isUser(target)) {
         try {
             await target.send({ embed, files: [att] });

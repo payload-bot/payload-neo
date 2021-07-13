@@ -32,7 +32,7 @@ export async function isBetaTester(discordId: string) {
 
 export async function isInPayloadDiscord(discordId: string) {
     try {
-        const isUserInServer = fetchUser(discordId);
+        const isUserInServer = await fetchUser(discordId);
 
         if (!isUserInServer) return false;
 

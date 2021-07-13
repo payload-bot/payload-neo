@@ -21,7 +21,7 @@ router.get("/", async (req: Request, res: Response) => {
         user.id
     );
 
-    const { id, notificationsLevel, latestUpdateNotifcation, steamId, webhook } =
+    const { id, notificationsLevel, latestUpdateNotifcation, steamId, webhook, fun } =
         await userService.getUserByDiscordId(user.id);
 
     res.json({
@@ -33,6 +33,7 @@ router.get("/", async (req: Request, res: Response) => {
             ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png`
             : defaultAvatarURL,
         webhook: await webhookService.getWebhookById(webhook),
+        pushcartPoints: fun.payload?.feetPushed ?? 0,
         id,
         discriminator,
         notificationsLevel,

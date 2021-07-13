@@ -33,7 +33,7 @@ router.get("/", async (req: Request, res: Response) => {
             ? `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.png`
             : defaultAvatarURL,
         webhook: await webhookService.getWebhookById(webhook),
-        fun,
+        pushcartPoints: fun.payload?.feetPushed ?? 0,
         id,
         discriminator,
         notificationsLevel,

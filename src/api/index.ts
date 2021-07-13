@@ -53,9 +53,8 @@ export async function listen(port: number): Promise<void> {
         },
         StatRoutes
     );
+    
     server.use("/api/stats", cors(), StatRoutes);
-
-    server.use("/api/internal/public/", cors(), StatRoutes);
     server.use("/api/auth/discord", DiscordAuthRoutes);
     server.use("/api/auth", AuthRoutes);
     server.use("/api/users", UserRoutes);

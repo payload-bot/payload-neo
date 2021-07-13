@@ -58,11 +58,7 @@ router.post("/users/create", checkAuth, async (req, res) => {
         });
     }
 
-    res.status(201).json({
-        status: 201,
-        message: "Created",
-        data: createdWebhook.value,
-    });
+    res.status(201).json(createdWebhook.toJSON());
 });
 
 router.delete("/users", checkAuth, async (req, res) => {
@@ -109,11 +105,7 @@ router.post("/guilds/:guildId/create", checkAuth, checkServers, async (req, res)
         });
     }
 
-    res.status(201).json({
-        status: 201,
-        message: "Created",
-        data: createdWebhook.value,
-    });
+    res.status(201).json(createdWebhook.toJSON());
 });
 
 router.delete("/guilds/:guildId", checkAuth, checkServers, async (req, res) => {

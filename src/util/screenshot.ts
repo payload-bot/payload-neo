@@ -4,12 +4,16 @@ import {
   SerializableOrJSHandle,
   Browser,
   LaunchOptions,
+  BrowserConnectOptions,
+  BrowserLaunchArgumentOptions,
 } from "puppeteer";
 
 type ElementBasedBound = {
   selector: string;
   edge: "top" | "bottom" | "left" | "right";
 };
+
+type PuppeteerLaunchOptions = LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions
 
 interface CaptureOptions {
   [index: string]:
@@ -68,7 +72,7 @@ export async function generateClipBounds(
   }, options);
 }
 
-async function createPage(url: string, options?: LaunchOptions) {
+async function createPage(url: string, options?: PuppeteerLaunchOptions) {
   const browser = await launchBrowser({
     // testing purposes
     // headless: false,
@@ -122,7 +126,7 @@ export async function capturePage(
 export async function captureSelector(
   url: string,
   selector: string,
-  options?: LaunchOptions
+  options?: PuppeteerLaunchOptions
 ) {
   const { page, browser } = await createPage(url, options);
 

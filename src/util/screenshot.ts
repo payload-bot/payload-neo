@@ -3,12 +3,14 @@ import {
   Page,
   SerializableOrJSHandle,
   Browser,
+  LaunchOptions,
 } from "puppeteer";
 
 type ElementBasedBound = {
   selector: string;
   edge: "top" | "bottom" | "left" | "right";
 };
+
 interface CaptureOptions {
   [index: string]:
     | string
@@ -66,17 +68,13 @@ export async function generateClipBounds(
   }, options);
 }
 
-async function createPage(url: string) {
+async function createPage(url: string, options?: LaunchOptions) {
   const browser = await launchBrowser({
     // testing purposes
     // headless: false,
     // args: ['--proxy-server="direct://"', '--proxy-bypass-list=*'],
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    defaultViewport: {
-      // Needed or else screenshots can't be created
-      height: 925,
-      width: 1000,
-    },
+    ...options,
   });
 
   const page = await browser.newPage();
@@ -92,7 +90,7 @@ async function closeBrowser(browser: Browser) {
   await browser.close();
 }
 
-export async function capture(
+export async function capturePage(
   url: string,
   options: CaptureOptions = { left: 0, top: 0 }
 ): Promise<Buffer> {
@@ -119,4 +117,22 @@ export async function capture(
   await closeBrowser(browser);
 
   return screenshotBuffer as Buffer;
+}
+
+export async function captureSelector(
+  url: string,
+  selector: string,
+  options?: LaunchOptions
+) {
+  const { page, browser } = await createPage(url, options);
+
+  await page.goto(url);
+
+  const element = await page.waitForSelector(selector);
+
+  const screenshot = (await element.screenshot()) as Buffer;
+
+  await closeBrowser(browser);
+
+  return screenshot;
 }

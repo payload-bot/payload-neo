@@ -1,4 +1,4 @@
-import * as Discord from "discord.js"
+import { Client as DJSClient, Collection } from "discord.js"
 import { readdir } from "fs";
 import mongoose from "mongoose";
 import { createLogger, format, transports } from "winston";
@@ -7,16 +7,17 @@ import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
-import { AutoResponse } from "./lib/exec/Autoresponse";
+import { Command, AutoResponse } from "./lib/exec";
+
 require("dotenv").config();
 
 const formatDate = (dateString: string) => new Date(dateString).toLocaleString('en-US', {
     timeZone: 'America/Chicago'
 });
 
-const client: Client = new Discord.Client() as Client;
-client.autoResponses = new Discord.Collection();
-client.commands = new Discord.Collection();
+const client: Client = new DJSClient() as Client;
+client.autoResponses = new Collection();
+client.commands = new Collection();
 client.scheduled = [];
 
 client.userManager = new UserManager(client);
@@ -111,7 +112,7 @@ readdir(__dirname + "/preload/commands", (err, files) => {
 
     files.forEach(async folder => {
         const { default: commandInit } = await import(`${__dirname }/preload/commands/${folder}`);
-        let command = new commandInit();
+        let command = new commandInit() as Command;
 
         if (!command.name) return console.warn("\t" + folder + " is not a valid command module.");
 

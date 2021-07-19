@@ -1,23 +1,23 @@
-import * as Discord from "discord.js"
+import { Client as DJSClient, Collection } from "discord.js"
 import { readdir } from "fs";
 import mongoose from "mongoose";
 import { createLogger, format, transports } from "winston";
-import { CommandConstructor } from "./lib/exec/Command";
 import { Client } from "./lib/types";
 import { ScheduledScript } from "./lib/types/ScheduledScripts";
 import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
-import { AutoResponseConstructor } from "./lib/exec/Autoresponse";
+import { Command, AutoResponse } from "./lib/exec";
+
 require("dotenv").config();
 
 const formatDate = (dateString: string) => new Date(dateString).toLocaleString('en-US', {
     timeZone: 'America/Chicago'
 });
 
-const client: Client = new Discord.Client() as Client;
-client.autoResponses = new Discord.Collection();
-client.commands = new Discord.Collection();
+const client: Client = new DJSClient() as Client;
+client.autoResponses = new Collection();
+client.commands = new Collection();
 client.scheduled = [];
 
 client.userManager = new UserManager(client);
@@ -43,7 +43,7 @@ client.cache = {
     pings: {}
 };
 
-const restrictedCommands = process.env.DISABLED_COMMANDS ? process.env.DISABLED_COMMANDS.split(", ") : []
+const restrictedCommands = process.env.DISABLED_COMMANDS?.split(", ") ?? []
 
 /* 
     Connect to MongoDB. Will exit if no database was found.
@@ -55,8 +55,10 @@ mongoose.connect(process.env.MONGO_URI, {
     useCreateIndex: true,
 }).then(() => {
     client.logger.info("Successfully connected to MongoDB.")
-}).catch(() => {
-    client.logger.error('error', "Successfully connected to MongoDB.")
+}).catch(err => {
+    client.logger.error("Failed to connect to MongoDB. Check your password!")
+    client.logger.error(err)
+    client.destroy()
     process.exit(1);
 });
 
@@ -68,8 +70,8 @@ readdir(__dirname + '/events/', (err, files) => {
 
     console.log("Loading events...");
 
-    files.forEach((file) => {
-        const eventFunction = require(`./events/${file}`);
+    files.forEach(async file => {
+        const { default: eventFunction } = await import(`./events/${file}`);
         const event = eventFunction.event || file.split('.')[0];
         const emitter = (typeof eventFunction.emitter === 'string' ? client[eventFunction.emitter] : eventFunction.emitter) || client;
         const { once } = eventFunction;
@@ -91,8 +93,8 @@ readdir(__dirname + "/scheduled", (err, files) => {
 
     console.log("Loading scheduled scripts...");
 
-    files.forEach(file => {
-        let script: ScheduledScript = require(__dirname + "/scheduled/" + file);
+    files.forEach(async file => {
+        const script: ScheduledScript = await import(`${__dirname}/scheduled/${file}`);
 
         client.scheduled.push(script);
 
@@ -108,9 +110,9 @@ readdir(__dirname + "/preload/commands", (err, files) => {
 
     console.log("Loading commands...");
 
-    files.forEach(folder => {
-        const commandInit: CommandConstructor = require(__dirname + "/preload/commands/" + folder).default;
-        let command = new commandInit();
+    files.forEach(async folder => {
+        const { default: commandInit } = await import(`${__dirname }/preload/commands/${folder}`);
+        let command = new commandInit() as Command;
 
         if (!command.name) return console.warn("\t" + folder + " is not a valid command module.");
 
@@ -130,9 +132,9 @@ readdir(__dirname + "/preload/auto", (err, files) => {
 
     console.log("Loading autoresponses...");
 
-    files.forEach(file => {
-        const autoInit: AutoResponseConstructor = require(__dirname + "/preload/auto/" + file).default;
-        let autoresponse = new autoInit();
+    files.forEach(async file => {
+        const { default: autoInit } = await import(__dirname + "/preload/auto/" + file);
+        const autoresponse = new autoInit() as AutoResponse;
 
         if (!autoresponse.name) return console.warn("\tFile " + file + " is not a valid autoresponse module.");
 

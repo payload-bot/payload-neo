@@ -18,7 +18,13 @@ export default class UGC extends AutoResponse {
     async run(client: Client, msg: Message): Promise<void> {
         const url = this.matchMsg(msg);
 
-        const screenshotBuffer = await captureSelector("http://" + url, "div.col-md-8");
+        // Needed hight and width to not have wierdo mobile views
+        const screenshotBuffer = await captureSelector(`https://${url}`, "#wrapper > section.container > div > div.col-md-9 > div:nth-child(3) > div.col-md-8 > div:nth-child(1)", { 
+           defaultViewport: {
+               height: 925,
+               width: 1000
+           } 
+        });
         const att = new MessageAttachment(screenshotBuffer, "team.png");
         const embed = new MessageEmbed();
         embed.setColor(PayloadColors.COMMAND);

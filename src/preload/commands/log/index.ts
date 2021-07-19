@@ -3,8 +3,8 @@ import { Client } from "../../../lib/types/Client";
 import { Message } from "discord.js";
 import axios from "axios";
 import Language from "../../../lib/types/Language";
-import { capturePage, captureSelector } from "@/util/screenshot";
-import config from "@/config";
+import { capturePage } from "../../../util/screenshot";
+import config from "../../../config";
 
 export default class Log extends Command {
   constructor() {

@@ -8,10 +8,10 @@ import {
 } from "discord.js";
 import { Router, Request, Response } from "express";
 import client from "../../..";
-import { capturePage } from "@/util/screenshot";
+import config from "../../../config";
 import PayloadColors from "../../../lib/misc/colors";
+import { capturePage } from "../../../util/screenshot";
 import logsWebhookSchema from "../../validators/logs-webhook";
-import config from "@/config";
 
 const isChannel = (type: Channel | User): type is TextChannel =>
   type instanceof TextChannel;

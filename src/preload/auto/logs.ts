@@ -2,8 +2,8 @@ import { Client } from "../../lib/types/Client";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { AutoResponse } from "../../lib/exec/Autoresponse";
 import PayloadColors from "../../lib/misc/colors";
-import { capturePage } from "@/util/screenshot";
-import config from "@/config";
+import { capturePage } from "../../util/screenshot";
+import config from "../../config";
 
 export default class Logs extends AutoResponse {
   constructor() {

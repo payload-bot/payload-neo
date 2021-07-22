@@ -9,7 +9,11 @@ import {
 import { Router, Request, Response } from "express";
 import client from "../../..";
 import config from "../../../config";
+<<<<<<< HEAD
 import PayloadColors, { EmbedColors } from "../../../lib/misc/colors";
+=======
+import PayloadColors from "../../../lib/misc/colors";
+>>>>>>> master
 import { capturePage } from "../../../util/screenshot";
 import logsWebhookSchema from "../../validators/logs-webhook";
 

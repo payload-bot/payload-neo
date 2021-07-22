@@ -47,7 +47,7 @@ async function createWebhook(
 
 const router = Router();
 
-router.post("/users/create", checkAuth, async (req, res) => {
+router.post("/users", checkAuth, async (req, res) => {
     const { _id } = await userService.getUserByDiscordId(req.user.id);
     const createdWebhook = await createWebhook("users", req.user.id, _id);
 
@@ -84,7 +84,7 @@ router.delete("/users", checkAuth, async (req, res) => {
     return res.status(204).send();
 });
 
-router.post("/guilds/:guildId/create", checkAuth, checkServers, async (req, res) => {
+router.post("/guilds/:guildId", checkAuth, checkServers, async (req, res) => {
     const { _id } = req.guild;
     const channelId = req.body.channelId;
 

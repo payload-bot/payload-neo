@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import client from "../..";
 import { Webhook } from "../../lib/model/Webhook";
 
 export default async function validateWebhookToken(

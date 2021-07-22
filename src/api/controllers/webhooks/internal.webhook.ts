@@ -9,7 +9,7 @@ import {
 import { Router, Request, Response } from "express";
 import client from "../../..";
 import config from "../../../config";
-import PayloadColors from "../../../lib/misc/colors";
+import PayloadColors, { EmbedColors } from "../../../lib/misc/colors";
 import { capturePage } from "../../../util/screenshot";
 import logsWebhookSchema from "../../validators/logs-webhook";
 
@@ -18,6 +18,52 @@ const isChannel = (type: Channel | User): type is TextChannel =>
 const isUser = (type: Channel | User): type is User => type instanceof User;
 
 const router = Router();
+
+router.post("/test", async (req: Request, res: Response) => {
+  // User, Channel
+  const scope = req.webhook_type;
+  // Snowflake
+  const id = req.webhook_id;
+
+  const target = client[scope].cache.get(id) ?? (await client[scope].fetch(id));
+  const embed = new MessageEmbed();
+
+  embed.setColor(EmbedColors.GREEN);
+  embed.setTitle("Webhook Test");
+  embed.setDescription("Successful webhook test!");
+  embed.setFooter(`Rendered via Webhook`);
+  embed.setTimestamp(new Date());
+
+  // These ifs are kinda dirty. But since I'm fetching, I don't know a better way other than type casting.
+  if (isChannel(target)) {
+    // Catch permissions, other stuff
+    try {
+      await target.send({ embed });
+    } catch (err) {
+      client.logger.error(err);
+      return res.status(500).json({
+        status: 500,
+        error: "Internal server error",
+        message: "Something went wrong with your request",
+      });
+    }
+  } else if (isUser(target)) {
+    try {
+      await target.send({ embed });
+    } catch (err) {
+      // I can't see this happening, but I do believe if we send DMs to people
+      // We could get errors with that stuffs.
+      client.logger.error(err);
+      return res.status(500).json({
+        status: 500,
+        error: "Internal server error",
+        message: "Something went wrong with your request",
+      });
+    }
+  }
+
+  res.status(204).send();
+});
 
 router.post("/logs", async (req: Request, res: Response) => {
   // User, Channel

@@ -21,7 +21,7 @@ export default async function checkServers(
     const { accessToken, refreshToken } = await userService.getUserByDiscordId(
       user.id
     );
-    
+
     const userServers = await discordService.getAuthedGuilds(
       user.id,
       accessToken,
@@ -35,7 +35,7 @@ export default async function checkServers(
       });
     }
 
-    if (!getDiscordGuild(guildParam)) {
+    if (!(await getDiscordGuild(guildParam))) {
       return res.status(404).json({
         status: 400,
         error: "Not found",

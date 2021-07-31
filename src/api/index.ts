@@ -18,7 +18,6 @@ export async function listen(port: number): Promise<void> {
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: false }));
-    server.set("json spaces", 1);
     server.use(
         cors({
             origin: process.env.CLIENT_URL,

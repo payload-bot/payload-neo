@@ -40,20 +40,6 @@ export async function listen(port: number): Promise<void> {
     passport.use(discordStrategy);
     refresh.use("discord", discordStrategy);
 
-    // For some reason, vercel
-    // Won't deploy without it. Why it didn't do it a week ago?
-    // Who knows!
-    server.use(
-        "/api/internal/public/",
-        cors(),
-        (req, res, next) => {
-            // Deprecate this route and notify people
-            res.setHeader("Warning", '299 - "Deprecated"');
-            next();
-        },
-        StatRoutes
-    );
-    
     server.use("/api/stats", cors(), StatRoutes);
     server.use("/api/auth/discord", DiscordAuthRoutes);
     server.use("/api/auth", AuthRoutes);

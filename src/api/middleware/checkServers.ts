@@ -3,7 +3,7 @@ import client from "../..";
 import DiscordService from "../services/DiscordService";
 import GuildService from "../services/GuildService";
 import UserService from "../services/UserService";
-import { getDiscordGuild } from "../utils/getDiscordGuild";
+import getDiscordGuild from "../utils/getDiscordGuild";
 
 const discordService = new DiscordService();
 const userService = new UserService();

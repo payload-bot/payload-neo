@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import client from "../../..";
 import checkAuth from "../../middleware/checkAuth";
-import checkBeta from "../../middleware/checkBeta";
 import checkServers from "../../middleware/checkServers";
 import DiscordService from "../../services/DiscordService";
 import GuildService from "../../services/GuildService";
@@ -17,7 +16,6 @@ const userService = new UserService();
 const webhookService = new WebhookService();
 
 router.use(checkAuth);
-router.use(checkBeta);
 
 router.get("/", async (req: Request, res: Response) => {
     const user = req.user;

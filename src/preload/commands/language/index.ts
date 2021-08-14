@@ -52,6 +52,9 @@ export default class Language extends Command {
                 case "es-ES":
                     languageSwitch = 'spanish'
                     break;
+                case "de-DE":
+                    languageSwitch = 'german'
+                    break;
                 case "pl-PL":
                     languageSwitch = 'polish'
                     break;

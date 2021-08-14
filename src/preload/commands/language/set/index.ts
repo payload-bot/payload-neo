@@ -14,7 +14,7 @@ export default class LanguageSet extends Command {
                     description: "Your new guild language",
                     required: true,
                     type: "string",
-                    options: ['english', 'spanish', 'polish', 'finnish']
+                    options: ['english', 'spanish', 'polish', 'finnish', 'german']
                 }
             ],
             undefined,
@@ -58,6 +58,9 @@ export default class LanguageSet extends Command {
                 break;
             case "french":
                 languageSwitch = 'fr-FR'
+                break;
+            case "german":
+                languageSwitch = 'de-DE'
                 break;
             case "russian":
                 languageSwitch = 'ru-RU'

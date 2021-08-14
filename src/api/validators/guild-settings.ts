@@ -4,6 +4,7 @@ const LANGUAGES = {
 	ENGLISH: "en-US",
 	SPANISH: "es-ES",
 	FINNISH: "fi-FI",
+	GERMAN: "de-DE",
 	POLISH: "pl-PL"
 };
 

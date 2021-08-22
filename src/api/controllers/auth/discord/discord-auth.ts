@@ -28,7 +28,7 @@ router.get("/", setClientUrl, async (req, res, next) => {
 router.get(
     "/callback",
     passport.authenticate("discord", {
-        failureRedirect: `${process.env.CLIENT_URL}/login/failure?message=Failed to login`,
+        failureRedirect: `${process.env.CLIENT_URL}/login/error?message=Failed to login`,
         failWithError: true,
     }),
     verifyLoginState,

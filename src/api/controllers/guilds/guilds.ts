@@ -81,8 +81,17 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
 
     if (botName) {
       const guild = await getDiscordGuild(req.params.guildId);
-      const bot = guild.members.cache.get(client.user.id);
+      const bot = await guild.members.fetch(client.user.id);
       bot.setNickname(botName);
+    }
+
+    // Overrides the cache. 
+    // Man this needs to get changed in the new API. This should NEVER need to be here.
+    // Thank you Elias3 for pointing this out. Dumb mistake on my part.
+    if (values.prefix) {
+      const serverCache = await client.serverManager.getServer(req.params.guildId);
+
+      serverCache.server.prefix = values.prefix;
     }
 
     if (values) {

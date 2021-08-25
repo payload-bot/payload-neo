@@ -46,7 +46,8 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
   } = req.guild;
 
   const { icon, name, channels } = await getDiscordGuild(id);
-  const bot = client.guilds.cache.get(id).members.cache.get(client.user.id);
+  const clientGuild = await client.guilds.fetch(id);
+  const botMemberInGuild = await clientGuild.members.fetch(client.user.id);
 
   res.json({
     guild: {
@@ -62,7 +63,7 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
       autoResponses: client.autoResponses.map((c) => c.name),
     },
     icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
-    botName: bot.nickname ?? bot.user.username,
+    botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
     webhook: (await webhookService.getWebhookById(webhook)) || null,
     enableSnipeForEveryone,
     name,
@@ -85,11 +86,13 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
       bot.setNickname(botName);
     }
 
-    // Overrides the cache. 
+    // Overrides the cache.
     // Man this needs to get changed in the new API. This should NEVER need to be here.
     // Thank you Elias3 for pointing this out. Dumb mistake on my part.
     if (values.prefix) {
-      const serverCache = await client.serverManager.getServer(req.params.guildId);
+      const serverCache = await client.serverManager.getServer(
+        req.params.guildId
+      );
 
       serverCache.server.prefix = values.prefix;
     }

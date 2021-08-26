@@ -102,7 +102,7 @@ router.post("/logs", async (req: Request, res: Response) => {
 
   const logUrl = `https://logs.tf/${logsId}`;
 
-  const target = client[scope].cache.get(id) ?? (await client[scope].fetch(id));
+  const target = await client[scope].fetch(id);
 
   const screenshotBuffer = await capturePage(logUrl, {
     top: {

@@ -39,14 +39,16 @@ module.exports = {
           { upsert: true }
         );
 
-        if (botDoc?.startupVersion === version)
+        if (botDoc?.startupVersion === version) {
           return client.logger.verbose("No new version.");
+        }
+        if (!config.logging.releaseChannel) return;
 
         const channel = (await client.channels.fetch(
           config.logging.releaseChannel
         )) as TextChannel;
-        
-        if (channel) channel.send("```md\n" + changelog + "\n```");
+
+        await channel.send("```md\n" + changelog + "\n```");
 
         botDoc.startupVersion = version;
 

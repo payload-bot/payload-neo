@@ -4,6 +4,8 @@ import { EmbedColors } from "../lib/misc/colors";
 import { Client } from "../lib/types";
 
 async function handleEvent(client: Client, error: Error) {
+  if (!config.logging.errorChannel) return;
+
   const channel = (await client.channels.fetch(
     config.logging.errorChannel
   )) as TextChannel;

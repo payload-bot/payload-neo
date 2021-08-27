@@ -5,6 +5,8 @@ import config from "../config";
 type EventType = "STARTED";
 
 async function handleEvent(client: Client, type: EventType) {
+  if (!config.logging.eventChannel) return;
+
   const channel = (await client.channels.fetch(
     config.logging.eventChannel
   )) as TextChannel;

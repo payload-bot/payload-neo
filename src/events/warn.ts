@@ -4,6 +4,8 @@ import { Client } from "../lib/types";
 
 module.exports = {
   run: async (client: Client, error: string) => {
+    if (!config.logging.errorChannel) return;
+    
     const channel = (await client.channels.fetch(
       config.logging.errorChannel
     )) as TextChannel;

@@ -80,8 +80,6 @@ async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
 
   if (!environment) throw new Error("Missing environment flag");
   
-  console.log(environment)
-
   // Use built in chromium browser on development mode
   if (environment === "development") {
     return await launchBrowser({

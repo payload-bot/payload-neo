@@ -24,6 +24,9 @@ const client = new DJSClient({
 
     // Regex commands
     Intents.FLAGS.GUILD_MESSAGES,
+
+    // General guilds
+    Intents.FLAGS.GUILDS,
   ],
   makeCache: Options.cacheWithLimits({
     MessageManager: 250,

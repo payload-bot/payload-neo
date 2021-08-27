@@ -1,5 +1,6 @@
 import {
   launch as launchBrowser,
+  connect,
   Page,
   SerializableOrJSHandle,
   Browser,
@@ -13,7 +14,9 @@ type ElementBasedBound = {
   edge: "top" | "bottom" | "left" | "right";
 };
 
-type PuppeteerLaunchOptions = LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions
+type PuppeteerLaunchOptions = LaunchOptions &
+  BrowserLaunchArgumentOptions &
+  BrowserConnectOptions;
 
 interface CaptureOptions {
   [index: string]:
@@ -72,14 +75,28 @@ export async function generateClipBounds(
   }, options);
 }
 
+async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
+  const environment = process.env.NODE_ENV ?? "development";
+
+  if (!environment) throw new Error("Missing environment flag");
+  
+  console.log(environment)
+
+  // Use built in chromium browser on development mode
+  if (environment === "development") {
+    return await launchBrowser({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      ...options,
+    });
+  } else if (environment === "production") {
+    return await connect({ browserWSEndpoint: "ws://chrome:9090" });
+  } else {
+    throw new Error("no valid environment for puppeteer");
+  }
+}
+
 async function createPage(url: string, options?: PuppeteerLaunchOptions) {
-  const browser = await launchBrowser({
-    // testing purposes
-    // headless: false,
-    // args: ['--proxy-server="direct://"', '--proxy-bypass-list=*'],
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    ...options,
-  });
+  const browser = await createOrConnectChrome(options);
 
   const page = await browser.newPage();
   await page.goto(url);

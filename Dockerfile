@@ -1,4 +1,4 @@
-FROM node:14-slim AS build
+FROM node:16-slim AS build
 WORKDIR /opt/app
 
 COPY tsconfig.json .
@@ -9,7 +9,7 @@ COPY ./src ./src
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
-FROM buildkite/puppeteer
+FROM node:16-buster-slim
 WORKDIR /opt/app
 
 ARG NODE_ENV=production
@@ -24,7 +24,7 @@ COPY --from=build /opt/app/dist ./dist
 COPY ./languages ./languages
 COPY ./migrations ./migrations
 COPY ./assets ./assets
-COPY changelog /opt/app/dist/
+COPY changelog.md /opt/app/dist
 
 USER node
 CMD ["node", "."]

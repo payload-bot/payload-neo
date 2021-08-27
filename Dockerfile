@@ -5,8 +5,6 @@ COPY tsconfig.json .
 COPY package.json .
 COPY yarn.lock .
 COPY ./src ./src
-COPY ./buildscripts ./buildscripts
-COPY changelog.md .
 
 RUN yarn install --frozen-lockfile
 RUN yarn build
@@ -25,6 +23,8 @@ RUN yarn install --prod --frozen-lockfile && yarn cache clean
 COPY --from=build /opt/app/dist ./dist
 COPY ./languages ./languages
 COPY ./migrations ./migrations
+COPY ./assets ./assets
+COPY changelog /opt/app/dist/
 
 USER node
 CMD ["node", "."]

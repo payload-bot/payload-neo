@@ -1,4 +1,4 @@
-import { Client as DJSClient, Collection } from "discord.js"
+import { Client as DJSClient, Collection, Intents, Options } from "discord.js"
 import { readdir } from "fs";
 import mongoose from "mongoose";
 import { createLogger, format, transports } from "winston";
@@ -8,6 +8,7 @@ import { listen } from "./api/index"
 import UserManager from "./lib/manager/UserManager";
 import ServerManager from "./lib/manager/ServerManager";
 import { Command, AutoResponse } from "./lib/exec";
+import { version } from "./util/version_control";
 
 require("dotenv").config();
 
@@ -15,7 +16,20 @@ const formatDate = (dateString: string) => new Date(dateString).toLocaleString('
     timeZone: 'America/Chicago'
 });
 
-const client: Client = new DJSClient() as Client;
+const client = new DJSClient({
+    intents: [Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGES],
+    makeCache: Options.cacheWithLimits({
+        MessageManager: 250,
+        UserManager: 50,
+    }),
+    presence: {
+        activities: [{
+            name: `payload.tf/invite | v${version}`,
+            type: 'PLAYING',
+        }]
+    },
+}) as Client;
+
 client.autoResponses = new Collection();
 client.commands = new Collection();
 client.scheduled = [];
@@ -48,12 +62,7 @@ const restrictedCommands = process.env.DISABLED_COMMANDS?.split(", ") ?? []
 /* 
     Connect to MongoDB. Will exit if no database was found.
 */
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-}).then(() => {
+mongoose.connect(process.env.MONGO_URI).then(() => {
     client.logger.info("Successfully connected to MongoDB.")
 }).catch(err => {
     client.logger.error("Failed to connect to MongoDB. Check your password!")
@@ -78,8 +87,8 @@ readdir(__dirname + '/events/', (err, files) => {
         try {
             emitter[once ? 'once' : 'on'](event, (...args) => eventFunction.run(client, ...args));
         }
-        catch (error) {
-            client.logger.error(error.stack)
+        catch (error: any) {
+            client.logger.error(error.stack as any)
         }
         console.log("\tLoaded " + file);
     });

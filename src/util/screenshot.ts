@@ -75,7 +75,7 @@ export async function generateClipBounds(
   }, options);
 }
 
-async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
+export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
   const environment = process.env.NODE_ENV ?? "development";
 
   if (!environment) throw new Error("Missing environment flag");
@@ -102,7 +102,7 @@ async function createPage(url: string, options?: PuppeteerLaunchOptions) {
   return { page, browser };
 }
 
-async function closeBrowser(browser: Browser) {
+export async function closeBrowser(browser: Browser) {
   await Promise.all(
     (await browser.pages()).map(async (page) => await page.close())
   );

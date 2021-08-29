@@ -9,21 +9,10 @@
 	"parseargs_fail_boolean": "`%argsname` argument must be either \"true\" or \"false\". Type `%prefixhelp %fullcommandname` to learn more.",
 	
 	"eightball_noquestion": "You must ask the 8ball a question.",
-	"eightball_answer": "🎱 **%answer**",
-	
-	"bruh_nouser": "bruh",
-	"bruh_user": "bruh %mention",
 	
 	"changelog_invalid": "Invalid version format",
-	"changelog_reply": "```md\n%changelog```",
 	
 	"choose_reply": "I have chosen: %chosen",
-	
-	"combine_fail_invalid": "Invalid syntax. Make sure to specify the map and title before the log URLs. Type `%prefixhelp combine` to learn more.",
-	"combine_fail_invalidlog": "`%log` is not a valid log.",
-	"combine_fail_noapikey": "You have not set a logs.tf API key. Type `%prefixhelp config` to find out more.\nGet your API key here: http://logs.tf/uploader",
-	"combine_fail_error": "Error while combining logs.",
-	"combine_success": "**Done!** %logpath",
 	
 	"commands_embedtitle": "Server Commands",
 	"commands_embedfooter": "Need help? %prefixhelp [command name].",
@@ -32,8 +21,6 @@
 	
 	"config_error_invalidsyntax": "Invalid syntax. Type `%prefixhelp config` to learn more.",
 	"config_error_invalidsubcommand": "Invalid subcommand. Type `%prefixhelp config` to learn more.",
-	"config_error_noargs": "Visit http://logs.tf/uploader to get your API key.",
-	"config_success_setkey": "Set logs.tf api key to %key.",
 	"config_success_setnotif": "Set notifications level to: %level",
 	
 	"findping_fail_noping": "You haven't been pinged in any deleted messages.",
@@ -49,7 +36,7 @@
 	"help_embedfooter": "Requested by %requester. For list of commands: %prefixcommands",
 	
 	"info_embedtitle": "Currently serving **%users** users in **%servers** servers!",
-	"info_embedbody": "Join the official %user discord server for help and suggestions: https://payload.tf/discord\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, and 24 for helping with translations!",
+	"info_embedbody": "Join the official %user discord server for help and suggestions: https://payload.tf/discord\n\nInvite %user to your server with `%prefixinvite`!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, spaenny, Elias and 24 for helping with translations!",
 	"info_embedfooter": "Created and maintained by %creator | Version %version",
 	
 	"language_fail_invalidsub": "Invalid subcommand. Type `%prefixhelp language` to learn more.",
@@ -110,8 +97,6 @@
 	"rgl_embeddesc_verified": ":white_check_mark: Verified",
 	"rgl_embeddesc_earnings": "Total Earnings",
 	
-	"rtd_roll": "🎲 **%roll**",
-	
 	"settings_fail_nosubcmd": "Invalid subcommand. Type `%prefixhelp settings` to learn more.",
 	"settings_all": "Successfully set Snipe permissions to: `ALL USERS`",
 	"settings_admin": "Successfully set Snipe permissions to: `MANAGE MESSAGES`",
@@ -119,25 +104,11 @@
 	"dashboard_admin": "Succsessfully set Dashboard Permissions to: `ADMIN`",
 	"dashboard_mod": "Succsessfully set Dashboard Permissions to: `MODERATORS`",
 	
-	"server_invalidsyntax": "Invalid syntax. Type `%prefixhelp server` to learn more.",
-	"server_invalidcmd": "Invalid subcommand. Type `%prefixhelp server` to learn more.",
-	"server_nocommand": "Missing `<command>` argument.",
-	"server_noname": "Missing `<name>` argument.",
-	"server_noservers": "You have no servers added yet. Add them with `%prefixserver set`.",
-	"server_targetinvalid": "`%target` does not exist under your account.`",
-	"server_errorconnecting": "Error connecting to your server. Make sure the address and rcon password are valid.",
-	"server_errorsending": "Error sending command to your server.",
-	"server_embedtitle": "Rcon command sent!",
-	"server_embeddesc": "Console output: \n\n```%response```",
-	"server_removeserver": "Removed server `%target` from your list.",
-	"server_setserver": "Set server `%server` to `%addr` with password `%password`",
-	
 	"snipe_fail_nomsg": "No messages to snipe!",
 	"snipe_fail_max": "Snipe cache doesn't go that far!",
 	
 	"translate_error": "Error translating.",
 	"translate_embedtitle": "Translate",
-	"translate_embeddesc": "%translated",
 	"translate_embedfooter": "Made possible by Google Translate.",
 	
 	"servers_offline": "Server is offline.",

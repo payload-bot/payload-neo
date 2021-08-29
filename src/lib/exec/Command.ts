@@ -211,7 +211,7 @@ export abstract class Command {
     }
 
     async respond(message: Message, response: string): Promise<Message> {
-        return await message.channel.send(response) as Message;
+        return await message.channel.send(response);
     }
 
     async fail(message: Message, reason: string): Promise<false> {

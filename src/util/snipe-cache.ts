@@ -1,6 +1,6 @@
 import { Message, Collection } from "discord.js";
 import { Client } from "../lib/types";
-import puppeteer, { ElementHandle } from "puppeteer";
+import { ElementHandle } from "puppeteer";
 import cheerio from "cheerio";
 import { format } from "date-fns"
 import { closeBrowser, createOrConnectChrome } from "./screenshot";

@@ -64,7 +64,7 @@ export abstract class Command {
         this.args = args || [];
         this.permissions = permissions || ["SEND_MESSAGES"];
         this.canBeExecutedBy = canBeExecutedBy || ["SEND_MESSAGES"];
-        this.zones = zones || ["text", "dm"];
+        this.zones = zones || ["GUILD_TEXT", "DM"];
         this.requiresRoot = requiresRoot || false;
         this.subCommands = subCommands || {};
         this.commandLadder = commandLadder || [];
@@ -211,7 +211,7 @@ export abstract class Command {
     }
 
     async respond(message: Message, response: string): Promise<Message> {
-        return await message.channel.send(response) as Message;
+        return await message.channel.send(response);
     }
 
     async fail(message: Message, reason: string): Promise<false> {

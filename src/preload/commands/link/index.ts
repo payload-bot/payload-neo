@@ -1,6 +1,6 @@
 import { Command } from "../../../lib/exec/Command";
 import { Client } from "../../../lib/types";
-import { Message, MessageButton } from "discord.js";
+import { Message } from "discord.js";
 import { ensureSteamID } from "../../../util/steam-id";
 import Language from "../../../lib/types/Language";
 

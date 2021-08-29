@@ -67,6 +67,7 @@ services:
         depends_on:
             - mongo
             - redis
+            - chrome
         links:
             - mongo
             - redis

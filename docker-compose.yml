@@ -46,6 +46,9 @@ services:
         environment:
             - MAX_CONCURRENT_SESSIONS=10
             - PORT=9090
+            - ENABLE_DEBUGGER=false
+            - EXIT_ON_HEALTH_FAILURE=true
+            - DEBUG=-*
         ports: 
             - 9090:9090
         restart: always

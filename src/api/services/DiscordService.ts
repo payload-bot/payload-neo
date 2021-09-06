@@ -1,10 +1,12 @@
-import DiscordStrategy from "passport-discord";
+import type DiscordStrategy from "passport-discord";
 import refresh from "passport-oauth2-refresh";
 import DiscordOAuth2 from "discord-oauth2";
-import client from "../..";
-import { Server } from "../../lib/model/Server";
-import { AuthedUserServer } from "../interfaces";
+import { container } from "@sapphire/framework"
+import type { AuthedUserServer } from "../interfaces";
 import UserService from "./UserService";
+import { Server } from "#/lib/models/Server";
+
+const { client, logger } = container;
 
 const userService = new UserService();
 const discordOAuthService = new DiscordOAuth2();
@@ -13,43 +15,34 @@ export default class DiscordService {
         return await discordOAuthService.getUserGuilds(accessToken);
     }
 
-    private async getAllGuilds(id: string, accessToken: string, refreshToken: string) {
-        let guilds: any[];
+    private async getAllGuilds(id: string, accessToken: string, refreshToken: string): Promise<AuthedUserServer[]> {
+        let userGuilds: null | any[] = null;
 
         try {
-            guilds = await this.fetchUserGuilds(accessToken);
+            userGuilds = await this.fetchUserGuilds(accessToken);
         } catch (err) {
-            console.error(`Error while fetching user guilds: ${err}`);
+            logger.error(`Error while fetching user guilds: ${err}`);
             refresh.requestNewAccessToken(
                 "discord",
                 refreshToken,
                 async (err, accessToken, refreshToken) => {
                     // o_O wonKy
                     if (err) {
-                        console.error(err.statusCode);
-                        client.emit("error", err.data);
+                        logger.error(err.statusCode);
                         throw err;
                     }
                     await userService.saveTokensToUser(id, accessToken, refreshToken);
-                    guilds = await this.fetchUserGuilds(accessToken);
+                    userGuilds = await this.fetchUserGuilds(accessToken);
                 }
             );
         }
 
         const allGuilds: AuthedUserServer[] = await Promise.all(
-            guilds.map(async (guild: DiscordStrategy.GuildInfo) => {
-                const isPayloadIn = client.guilds.cache.find(
-                    clientGuild => clientGuild.id === guild.id
-                )
-                    ? true
-                    : false;
-
-                let server = null;
+            userGuilds!.map(async (guild: DiscordStrategy.GuildInfo) => {
+                const isPayloadIn = await client.guilds.fetch(guild.id)
 
                 if (isPayloadIn) {
-                    server = await Server.findOne({ id: guild.id });
-
-                    if (server === null) server = await Server.create({ id: guild.id });
+                    const server = await Server.findOne({ id: guild.id }, {},  {upsert: true }).lean().exec();
 
                     return {
                         iconUrl:
@@ -58,7 +51,7 @@ export default class DiscordService {
                         isPayloadIn: isPayloadIn,
                         server,
                         ...guild,
-                    };
+                    } as any;
                 }
                 return {
                     iconUrl:
@@ -66,7 +59,7 @@ export default class DiscordService {
                         `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`,
                     isPayloadIn: isPayloadIn,
                     ...guild,
-                };
+                } as any;
             })
         );
 
@@ -78,14 +71,11 @@ export default class DiscordService {
 
         /*
 			This returns all guilds that are:
-			1) Within bot cache && Administrator permissions
-			2) User has permissions 0x8, which is Administrator
-
-			.cache may be subject to fail here.
+			1) User has permissions 0x8, which is Administrator
 		*/
         const filteredGuilds = allGuilds.filter(
-            guild =>
-                (client.guilds.cache.find(clientGuild => guild.id === clientGuild.id) &&
+            async guild =>
+                (await client.guilds.fetch(guild.id) &&
                     (guild.permissions & 0x8) === 0x8) ||
                 (guild.permissions & 0x8) === 0x8
         );

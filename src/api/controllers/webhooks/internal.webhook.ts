@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Router, Request, Response } from "express";
+import { container } from "@sapphire/framework";
 import {
   Channel,
   MessageAttachment,
@@ -6,12 +8,12 @@ import {
   TextChannel,
   User,
 } from "discord.js";
-import { Router, Request, Response } from "express";
-import client from "../../..";
 import config from "../../../config";
-import PayloadColors, { EmbedColors } from "../../../lib/misc/colors";
-import { capturePage } from "../../../util/screenshot";
 import logsWebhookSchema from "../../validators/logs-webhook";
+import { capturePage } from "#/lib/utils/screenshot";
+import PayloadColors, { EmbedColors } from "#/lib/utils/colors";
+
+const { client, logger } = container;
 
 const isChannel = (type: Channel | User): type is TextChannel =>
   type instanceof TextChannel;
@@ -21,11 +23,11 @@ const router = Router();
 
 router.post("/test", async (req: Request, res: Response) => {
   // User, Channel
-  const scope = req.webhook_type;
+  const scope = req.webhook_type as "users" | "channels";
   // Snowflake
-  const id = req.webhook_id;
+  const id = req.webhook_id as string;
 
-  const target = client[scope].cache.get(id) ?? (await client[scope].fetch(id));
+  const target = await client[scope].fetch(id) as Channel | User;
   const embed = new MessageEmbed();
 
   embed.setColor(EmbedColors.GREEN);
@@ -40,7 +42,7 @@ router.post("/test", async (req: Request, res: Response) => {
     try {
       await target.send({ embeds: [embed] });
     } catch (err) {
-      client.logger.error(err);
+      logger.error(err);
       return res.status(500).json({
         status: 500,
         error: "Internal server error",
@@ -53,7 +55,7 @@ router.post("/test", async (req: Request, res: Response) => {
     } catch (err) {
       // I can't see this happening, but I do believe if we send DMs to people
       // We could get errors with that stuffs.
-      client.logger.error(err);
+      logger.error(err);
       return res.status(500).json({
         status: 500,
         error: "Internal server error",
@@ -62,14 +64,14 @@ router.post("/test", async (req: Request, res: Response) => {
     }
   }
 
-  res.status(204).send();
+  return res.status(204).send();
 });
 
 router.post("/logs", async (req: Request, res: Response) => {
   // User, Channel
-  const scope = req.webhook_type;
+  const scope = req.webhook_type as "users" | "channels";
   // Snowflake
-  const id = req.webhook_id;
+  const id = req.webhook_id as string;
 
   let logsId: string;
   try {
@@ -83,7 +85,7 @@ router.post("/logs", async (req: Request, res: Response) => {
     return res.status(400).json({
       status: 400,
       error: "Bad request",
-      message: err.details.map((d) => d.message),
+      message: err.details.map((d: any) => d.message),
     });
   }
 
@@ -102,7 +104,7 @@ router.post("/logs", async (req: Request, res: Response) => {
 
   const logUrl = `https://logs.tf/${logsId}`;
 
-  const target = await client[scope].fetch(id);
+  const target = await client[scope].fetch(id) as Channel | User;
 
   const screenshotBuffer = await capturePage(logUrl, {
     top: {
@@ -162,7 +164,7 @@ router.post("/logs", async (req: Request, res: Response) => {
     }
   }
 
-  res.status(204).send();
+  return res.status(204).send();
 });
 
 export default router;

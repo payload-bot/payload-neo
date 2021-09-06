@@ -1,4 +1,4 @@
-import path from "path";
+import { join } from "path";
 
 const config = {
     /**
@@ -25,7 +25,7 @@ const config = {
      * Static files for CSS or other assets
      */
     files: {
-        LOGS_CSS: path.join(__dirname, "../assets/dark-logs.css"),
+        LOGS_CSS: join(__dirname, "../assets/dark-logs.css"),
     },
 } as const;
 

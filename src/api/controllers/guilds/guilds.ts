@@ -1,13 +1,15 @@
 import { Router, Request, Response } from "express";
-import client from "../../..";
+import { container } from "@sapphire/framework";
 import checkAuth from "../../middleware/checkAuth";
 import checkServers from "../../middleware/checkServers";
 import DiscordService from "../../services/DiscordService";
 import GuildService from "../../services/GuildService";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
-import getDiscordGuild from "../../utils/getDiscordGuild";
 import guildSettingsSchema from "../../validators/guild-settings";
+import type { ServerModel } from "#/lib/models/Server";
+
+const { client } = container;
 
 const router = Router();
 
@@ -22,13 +24,13 @@ router.get("/", async (req: Request, res: Response) => {
   const user = req.user;
 
   const { accessToken, refreshToken } = await userService.getUserByDiscordId(
-    user.id
+    user!.id
   );
 
   const guilds = await discordService.getAuthedGuilds(
-    user.id,
-    accessToken,
-    refreshToken
+    user!.id,
+    accessToken as string,
+    refreshToken as string,
   );
 
   res.json(guilds.map(({ server, ...guild }) => guild));
@@ -41,13 +43,13 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
     prefix = "pls ",
     webhook,
     fun,
-    commandRestrictions,
+    // commandRestrictions,
     id,
-  } = req.guild;
+  } = req.guild as ServerModel;
 
-  const { icon, name, channels } = await getDiscordGuild(id);
+  const { icon, name, channels } = await client.guilds.fetch(id);
   const clientGuild = await client.guilds.fetch(id);
-  const botMemberInGuild = await clientGuild.members.fetch(client.user.id);
+  const botMemberInGuild = await clientGuild.members.fetch(client.user!.id);
 
   res.json({
     guild: {
@@ -55,16 +57,16 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
         .filter((c) => c.type === "GUILD_TEXT")
         .map(({ id, name }) => ({ id, name })),
     },
-    commands: {
-      restrictions: commandRestrictions,
-      commands: client.commands
-        .filter((c) => !c.requiresRoot)
-        .map((c) => c.name),
-      autoResponses: client.autoResponses.map((c) => c.name),
-    },
+    // commands: {
+    //   restrictions: commandRestrictions,
+    //   commands: client.commands
+    //     .filter((c) => !c.requiresRoot)
+    //     .map((c) => c.name),
+    //   autoResponses: client.autoResponses.map((c) => c.name),
+    // },
     icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
     botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
-    webhook: (await webhookService.getWebhookById(webhook)) || null,
+    webhook: (await webhookService.getWebhookById(webhook!)) || null,
     enableSnipeForEveryone,
     name,
     id,
@@ -81,20 +83,9 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     );
 
     if (botName) {
-      const guild = await getDiscordGuild(req.params.guildId);
-      const bot = await guild.members.fetch(client.user.id);
-      bot.setNickname(botName);
-    }
-
-    // Overrides the cache.
-    // Man this needs to get changed in the new API. This should NEVER need to be here.
-    // Thank you Elias3 for pointing this out. Dumb mistake on my part.
-    if (values.prefix) {
-      const serverCache = await client.serverManager.getServer(
-        req.params.guildId
-      );
-
-      serverCache.server.prefix = values.prefix;
+      const guild = await client.guilds.fetch(req.params.guildId);
+      const bot = await guild.members.fetch(client.user!.id);
+      await bot.setNickname(botName);
     }
 
     if (values) {
@@ -106,7 +97,7 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     return res.status(400).json({
       status: 400,
       error: "Bad request",
-      message: err.details.map((d) => d.message),
+      message: err.details.map((d: any) => d.message),
     });
   }
 });

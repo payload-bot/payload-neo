@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 const ALLOWED_HOSTS = [
   "https://payload.tf/",
@@ -13,8 +13,8 @@ export default function setClientUrl(
   res: Response,
   next: NextFunction
 ) {
-  if (ALLOWED_HOSTS.includes(req.headers.referer)) {
-    res.cookie(cookieName, req.headers.referer.slice(0, -1));
+  if (ALLOWED_HOSTS.includes(req.headers.referer as string)) {
+    res.cookie(cookieName, (req.headers.referer as string).slice(0, -1));
   }
 
   next();

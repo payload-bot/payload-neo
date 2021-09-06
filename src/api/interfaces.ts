@@ -1,6 +1,6 @@
-import DiscordStrategy from "passport-discord";
-import { ServerModel } from "../lib/model/Server";
-import { UserModel } from "../lib/model/User";
+import type { ServerModel } from "#/lib/models/Server";
+import type { UserModel } from "#/lib/models/User";
+import type DiscordStrategy from "passport-discord";
 
 export type DiscordUserDetails = {
     accessToken: string;

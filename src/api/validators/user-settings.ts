@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { NotificationLevel } from "../../util/push-notification";
+import NotificationLevel from "#/lib/utils/notificationLevel";
 
 const userSettingsSchema = Joi.object({
   steamId: Joi.string()

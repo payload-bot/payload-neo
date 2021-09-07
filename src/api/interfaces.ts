@@ -1,5 +1,5 @@
-import type { ServerModel } from "#/lib/models/Server";
-import type { UserModel } from "#/lib/models/User";
+import type { ServerModel } from "#lib/models//Server";
+import type { UserModel } from "#lib/models//User";
 import type DiscordStrategy from "passport-discord";
 
 export type DiscordUserDetails = {

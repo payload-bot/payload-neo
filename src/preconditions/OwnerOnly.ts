@@ -1,6 +1,6 @@
-import config from "#/config";
 import { Precondition } from "@sapphire/framework";
 import type { Message } from "discord.js";
+import config from "#root/config";
 
 export class UserPrecondition extends Precondition {
   public async run(message: Message) {

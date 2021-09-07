@@ -1,5 +1,5 @@
 import DiscordStrategy from "passport-discord";
-import { User, UserModel } from "#/lib/models/User";
+import { User, UserModel } from "#lib/models//User";
 import type { DiscordProfile, DiscordUserDetails } from "./interfaces";
 
 export default function createDiscordStrategy() {

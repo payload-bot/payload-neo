@@ -10,8 +10,8 @@ import {
 } from "discord.js";
 import config from "../../../config";
 import logsWebhookSchema from "../../validators/logs-webhook";
-import { capturePage } from "#/lib/utils/screenshot";
-import PayloadColors, { EmbedColors } from "#/lib/utils/colors";
+import { capturePage } from "#utils/screenshot";
+import PayloadColors, { EmbedColors } from "#utils/colors";
 
 const { client, logger } = container;
 

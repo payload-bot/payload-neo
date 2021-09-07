@@ -4,7 +4,7 @@ import DiscordOAuth2 from "discord-oauth2";
 import { container } from "@sapphire/framework"
 import type { AuthedUserServer } from "../interfaces";
 import UserService from "./UserService";
-import { Server } from "#/lib/models/Server";
+import { Server } from "#lib/models//Server";
 
 const { client, logger } = container;
 

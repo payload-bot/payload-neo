@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { container } from "@sapphire/framework";
-import { User } from "#/lib/models/User";
-import { WebhookModel, Webhook } from "#/lib/models/Webhook";
-import { Server } from "#/lib/models/Server";
+import { User } from "#lib/models//User";
+import { WebhookModel, Webhook } from "#lib/models//Webhook";
+import { Server } from "#lib/models//Server";
 import checkAuth from "../../middleware/checkAuth";
 import checkServers from "../../middleware/checkServers";
 import UserService from "../../services/UserService";

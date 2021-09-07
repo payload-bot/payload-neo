@@ -2,16 +2,17 @@
   "extends": "@sapphire/ts-config",
   "compilerOptions": {
     "rootDir": "src",
+    "target": "ESNext",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "lib": ["DOM"],
-    "target": "ESNext",
-		"removeComments": true,
+    "removeComments": true,
     "paths": {
-      "#/*": ["src/*"],
-      "#lib/*": ["src/lib/*"]
+      "#utils/*": ["lib/utils/*"],
+      "#lib/*": ["lib/*"],
+      "#root/*": ["*"]
     }
   },
   "include": ["src", "src/**/*.json"]

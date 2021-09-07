@@ -1,4 +1,4 @@
-import { Webhook } from "#/lib/models/Webhook";
+import { Webhook } from "#lib/models//Webhook";
 import type { Request, Response, NextFunction } from "express";
 
 export default async function validateWebhookToken(

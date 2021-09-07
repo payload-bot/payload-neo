@@ -1,7 +1,7 @@
-import connectMongo from "#/lib/utils/connectMongo";
 import { ApplyOptions } from "@sapphire/decorators";
 import { ListenerOptions, Events, Listener } from "@sapphire/framework";
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
+import connectMongo from "#utils/connectMongo";
 
 const dev = process.env.NODE_ENV !== "production";
 

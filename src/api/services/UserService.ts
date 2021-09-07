@@ -1,4 +1,4 @@
-import { User, UserModel } from "#/lib/models/User";
+import { User, UserModel } from "#lib/models//User";
 import type { UpdateQuery } from "mongoose";
 
 type UserUpdateDetails = {

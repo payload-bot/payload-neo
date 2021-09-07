@@ -3,6 +3,13 @@
   "version": "5.0.0",
   "description": "A bot that does it all.",
   "main": "dist/index.js",
+  "imports": {
+    "#root/*": "./dist/*.js",
+    "#lib/*": "./dist/lib/*.js",
+    "#lib/utils/*": "./dist/lib/utils/*.js",
+    "#lib/models/*": "./dist/lib/models/*.js",
+    "#utils/*": "./dist/lib/utils/*.js"
+  },
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@google-cloud/translate": "^6.2.7",

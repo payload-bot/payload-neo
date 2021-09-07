@@ -1,5 +1,5 @@
-import { Webhook } from "#/lib/models/Webhook";
 import { generate } from "generate-password";
+import { Webhook } from "#lib/models/Webhook";
 
 export type WebhookContext = "users" | "channels";
 

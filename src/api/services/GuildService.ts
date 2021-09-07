@@ -1,5 +1,5 @@
 import type { UpdateQuery } from "mongoose";
-import { Server, ServerModel } from "#/lib/models/Server";
+import { Server, ServerModel } from "#lib/models//Server";
 
 export default class GuildService {
   async getGuildById(id: string): Promise<ServerModel> {

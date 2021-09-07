@@ -2,7 +2,7 @@ import { Args, Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { bold } from "@discordjs/builders";
-import { random } from "#/lib/utils/random";
+import { random } from "#utils/random";
 import { send } from "@skyra/editable-commands";
 
 const responses: readonly string[] = [

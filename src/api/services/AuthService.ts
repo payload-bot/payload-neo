@@ -1,4 +1,4 @@
-import { RefreshToken } from "#/lib/models/RefreshToken";
+import { RefreshToken } from "#lib/models/RefreshToken";
 import { sign, verify } from "jsonwebtoken";
 import { Error } from "mongoose";
 

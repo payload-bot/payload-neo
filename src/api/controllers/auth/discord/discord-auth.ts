@@ -5,7 +5,7 @@ import type { DiscordUserDetails } from "../../../interfaces";
 import verifyLoginState from "../../../middleware/verifyLoginState";
 import setClientUrl, { cookieName } from "../../../middleware/setClientUrl";
 import AuthService, { AuthContext } from "../../../services/AuthService";
-import { User } from "#/lib/models/User";
+import { User } from "#lib/models//User";
 require("dotenv").config();
 
 /**

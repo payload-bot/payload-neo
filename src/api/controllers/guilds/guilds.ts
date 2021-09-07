@@ -7,7 +7,7 @@ import GuildService from "../../services/GuildService";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
 import guildSettingsSchema from "../../validators/guild-settings";
-import type { ServerModel } from "#/lib/models/Server";
+import type { ServerModel } from "#lib/models//Server";
 
 const { client } = container;
 

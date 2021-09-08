@@ -232,6 +232,14 @@
     "@sapphire/utilities" "^2.0.1"
     tslib "^2.3.1"
 
+"@sapphire/plugin-editable-commands@^0.1.0-next.e24c125.0":
+  version "0.1.0-next.e24c125.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/plugin-editable-commands/-/plugin-editable-commands-0.1.0-next.e24c125.0.tgz#c7a2b6e50626233d0082d160cd98990f388cc222"
+  integrity sha512-WNaX8M+Gz9yUoUzcjKtglK5wwdK9U4y4DaKNCntmFWhthIZ7XkiXRLG5/EmxNE+xNi8jLmK6YagtmAycJRaSHw==
+  dependencies:
+    "@skyra/editable-commands" "^2.1.0"
+    tslib "^2.3.1"
+
 "@sapphire/plugin-i18next@^1.3.7":
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/@sapphire/plugin-i18next/-/plugin-i18next-1.3.7.tgz#5e7bce72866c8f4ada314a7c48a9e8ab84d85a1d"

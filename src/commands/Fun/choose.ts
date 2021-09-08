@@ -1,7 +1,7 @@
 import { Args, Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
-import { send } from "@skyra/editable-commands";
+import { send } from "@sapphire/plugin-editable-commands";
 import { random } from "#utils/random";
 
 @ApplyOptions<CommandOptions>({

@@ -1,7 +1,7 @@
 import { Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
-import { send } from "@skyra/editable-commands";
+import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<CommandOptions>({
   description: "Sends a discord invite link for Payload",

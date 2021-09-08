@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { bold } from "@discordjs/builders";
 import { random } from "#utils/random";
-import { send } from "@skyra/editable-commands";
+import { send } from "@sapphire/plugin-editable-commands";
 
 const responses: readonly string[] = [
   "It is certain.",

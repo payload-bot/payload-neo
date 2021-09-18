@@ -29,7 +29,9 @@ export default class SteamConnectLink extends AutoResponse {
       .replace(/^ ?password /, "");
 
     const embed = new MessageEmbed();
-    embed.setTitle(`steam://connect/${ip}/${encodeURIComponent(password)}`);
+
+    const title = `steam://connect/${ip}/${encodeURIComponent(password)}`;
+    embed.setTitle(title.length > 250 ? title.slice(0, 250) : title);
 
     const connectInfoEmbed = await msg.channel.send({ embeds: [embed] });
 

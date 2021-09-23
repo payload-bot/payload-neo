@@ -1,9 +1,10 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, Util } from "discord.js";
 import { Server } from "../../../../lib/model/Server";
 import Language from "../../../../lib/types/Language";
 import PayloadColors from "../../../../lib/misc/colors";
+import { codeBlock } from "@discordjs/builders";
 
 export default class Servers extends Command {
   constructor() {
@@ -31,28 +32,20 @@ export default class Servers extends Command {
       { $limit: 5 },
     ]);
 
-    let leaderboardString = "```md\n";
+    const leaderboardString = await Promise.all(
+      leaderboard.map(async ({ id, pushed }, i) => {
+        const { name } = await client.guilds.fetch(id);
 
-    for (let i = 0; i < leaderboard.length; i++) {
-      const identifier = client.guilds.cache
-        .get(leaderboard[i].id)
-        .name.replace(/\`\`\`/g, "");
-
-      identifier == msg.guild.name
-        ? (leaderboardString += `> ${i + 1}: ${identifier} (${
-            leaderboard[i].pushed
-          })\n`)
-        : (leaderboardString += `${i + 1}: ${identifier} (${
-            leaderboard[i].pushed
-          })\n`);
-    }
-
-    leaderboardString += "```";
+        return msg.guild.name === name
+          ? `> ${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`
+          : `${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`;
+      })
+    );
 
     const embeds = [
       new MessageEmbed({
         title: lang.pushcart_serverembedtitle,
-        description: leaderboardString,
+        description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.USER,
       }),
     ];

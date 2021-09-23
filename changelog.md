@@ -213,3 +213,18 @@
 * Fixed + refactored profile command
 * Updated package dependencies
 
+### 4.0.0
+* Screenshots deferred to service
+* DJS -> v13.1.0
+* Removed auto-update notifications
+* Updated invite URL
+* Removed build scripts
+* Removed ts-node and ts-node-dev from deps
+* Use messageCreate instead of message
+
+### 4.1.0
+* Don't download chrome in PROD
+* Fix: fix title too large error
+* Fix: fix tag not found error
+* Refactor: refactor pushcart leaderboard and servers command
+* Fix: fix language not being updated when saved from dashboard 

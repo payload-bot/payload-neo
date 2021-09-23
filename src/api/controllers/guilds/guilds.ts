@@ -80,25 +80,32 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
       req.body
     );
 
+    const id = req.params.guildId;
+
     if (botName) {
-      const guild = await getDiscordGuild(req.params.guildId);
+      const guild = await getDiscordGuild(id);
       const bot = await guild.members.fetch(client.user.id);
       bot.setNickname(botName);
     }
 
-    // Overrides the cache.
-    // Man this needs to get changed in the new API. This should NEVER need to be here.
-    // Thank you Elias3 for pointing this out. Dumb mistake on my part.
-    if (values.prefix) {
-      const serverCache = await client.serverManager.getServer(
-        req.params.guildId
-      );
-
-      serverCache.server.prefix = values.prefix;
+    if (values) {
+      await guildService.findByGuildIdAndUpdate(id, values);
     }
 
-    if (values) {
-      await guildService.findByGuildIdAndUpdate(req.params.guildId, values);
+    // Refresh cache, don't care if it hasn't been touched (tbh, this should just be removed (the cache) :/)
+    try {
+      const server = await client.serverManager.ensureServer(id);
+
+      await server.refresh();
+    } catch (err) {
+      client.logger.error(
+        `Tried to refresh cache of server ${id}, but failed!`
+      );
+      return res.status(500).json({
+        status: 500,
+        error: "Internal Server Error",
+        message: `Error occured while saving guild settings for id ${id}`,
+      });
     }
 
     return res.status(204).send();
@@ -106,7 +113,8 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     return res.status(400).json({
       status: 400,
       error: "Bad request",
-      message: err.details.map((d) => d.message),
+      message:
+        err.details?.map((d) => d.message) ?? "Error occured while saving",
     });
   }
 });

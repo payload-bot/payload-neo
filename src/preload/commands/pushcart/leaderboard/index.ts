@@ -3,6 +3,7 @@ import { Client } from "../../../../lib/types";
 import { Message, MessageEmbed } from "discord.js";
 import Language from "../../../../lib/types/Language";
 import PayloadColors from "../../../../lib/misc/colors";
+import { codeBlock } from "@discordjs/builders";
 
 export default class Leaderboard extends Command {
   constructor() {
@@ -29,40 +30,43 @@ export default class Leaderboard extends Command {
     const top10 = client.leaderboard.users.slice(0, 10);
 
     let isTop10 = false;
-    let leaderboardString = "```md\n";
 
-    for (let i = 0; i < top10.length; i++) {
-      let tag = (
-        client.users.cache.get(top10[i].id) ||
-        (await client.users.fetch(top10[i].id))
-      ).tag;
+    const leaderboardString = await Promise.all(
+      top10.map(async ({ id, pushed }, i) => {
+        const { tag } = await client.users.fetch(id);
 
-      if (top10[i].id == msg.author.id) {
-        leaderboardString += `> ${i + 1}: ${tag} (${top10[i].pushed})\n`;
-        isTop10 = true;
-      } else {
-        leaderboardString += `${i + 1}: ${tag} (${top10[i].pushed})\n`;
-      }
+        let localIsTop10 = false;
+        if (msg.author.id === id) {
+          isTop10 = true;
+          localIsTop10 = true;
+        }
+
+        return `${localIsTop10 ? "> " : ""}${i + 1}: ${tag} (${pushed})`;
+      })
+    );
+
+    if (!isTop10) {
+      leaderboardString.push(
+        `...\n> ${
+          client.leaderboard.users.findIndex(
+            (user) => user.id == msg.author.id
+          ) + 1
+        }: ${msg.author.tag} (${
+          (
+            client.leaderboard.users.find(
+              (user) => user.id == msg.author.id
+            ) || {
+              pushed: 0,
+            }
+          ).pushed
+        })`
+      );
     }
-
-    if (!isTop10)
-      leaderboardString += `...\n> ${
-        client.leaderboard.users.findIndex((user) => user.id == msg.author.id) +
-        1
-      }: ${msg.author.tag} (${
-        (
-          client.leaderboard.users.find((user) => user.id == msg.author.id) || {
-            pushed: 0,
-          }
-        ).pushed
-      })\n`;
-
-    leaderboardString += "```";
 
     const embeds = [
       new MessageEmbed({
         title: lang.pushcart_userembedtitle,
-        description: leaderboardString,
+        description: codeBlock("md", leaderboardString.join("\n")),
         footer: {
           text: lang.pushcart_userembedfooter.replace(
             "%updated",

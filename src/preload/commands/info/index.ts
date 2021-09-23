@@ -13,7 +13,7 @@ export default class Info extends Command {
 
   async run(client: Client, msg: Message): Promise<boolean> {
     const lang: Language = await this.getLanguage(msg);
-    
+
     const embed = new MessageEmbed();
     embed.setAuthor(`${client.user.username}`, client.user.avatarURL());
     embed.setTitle(
@@ -28,10 +28,11 @@ export default class Info extends Command {
     );
     embed.setFooter(
       lang.info_embedfooter
-        .replace("%creator", client.users.cache.get(config.allowedID).tag)
+        .replace("%creator", (await client.users.fetch(config.allowedID)).tag)
         .replace("%version", version),
       client.users.cache.get(config.allowedID).avatarURL()
     );
+    
     embed.setColor(PayloadColors.PAYLOAD);
 
     await msg.channel.send({ embeds: [embed] });

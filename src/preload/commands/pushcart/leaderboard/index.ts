@@ -1,6 +1,6 @@
 import { Command } from "../../../../lib/exec/Command";
 import { Client } from "../../../../lib/types";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, Util } from "discord.js";
 import Language from "../../../../lib/types/Language";
 import PayloadColors from "../../../../lib/misc/colors";
 import { codeBlock } from "@discordjs/builders";
@@ -41,7 +41,9 @@ export default class Leaderboard extends Command {
           localIsTop10 = true;
         }
 
-        return `${localIsTop10 ? "> " : ""}${i + 1}: ${tag} (${pushed})`;
+        return `${localIsTop10 ? "> " : ""}${i + 1}: ${Util.escapeMarkdown(
+          tag
+        )} (${pushed})`;
       })
     );
 
@@ -51,7 +53,7 @@ export default class Leaderboard extends Command {
           client.leaderboard.users.findIndex(
             (user) => user.id == msg.author.id
           ) + 1
-        }: ${msg.author.tag} (${
+        }: ${Util.escapeMarkdown(msg.author.tag)} (${
           (
             client.leaderboard.users.find(
               (user) => user.id == msg.author.id

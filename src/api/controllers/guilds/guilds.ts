@@ -85,7 +85,7 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     if (botName) {
       const guild = await getDiscordGuild(id);
       const bot = await guild.members.fetch(client.user.id);
-      bot.setNickname(botName);
+      await bot.setNickname(botName);
     }
 
     if (values) {

@@ -27,7 +27,7 @@ export class UserCommand extends Command {
     ID: ${profile.id}
     Steam ID: ${steamid || "NOT SET"}
     Points: 0
-`;
+    `;
 
     const embed = new MessageEmbed({
       title: profile.tag,

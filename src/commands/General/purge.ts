@@ -7,7 +7,7 @@ import type { TextChannel } from "discord.js";
 @ApplyOptions<CommandOptions>({
   description:
     "Purges a certain number of messages sent by a user or everyone if no user is mentioned.",
-  requiredUserPermissions: ["SEND_MESSAGES", "MANAGE_MESSAGES"],
+  requiredUserPermissions: ["MANAGE_MESSAGES"],
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {

@@ -5,13 +5,14 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { User } from "#lib/models/User";
 import { MessageEmbed } from "discord.js";
 import PayloadColors from "#utils/colors";
+import type { Args } from "@sapphire/framework";
 
 @ApplyOptions<CommandOptions>({
   description: "Gets user's profile.",
 })
 export class UserCommand extends Command {
-  async run(msg: Message) {
-    const profile = msg.mentions.users.first() || msg.author; // I don't think u can do pick for mentions
+  async run(msg: Message, args: Args) {
+    const profile = await args.pick("user").catch(() => msg.author);
     let user = await User.findOne({ id: profile.id });
 
     if (!user) {

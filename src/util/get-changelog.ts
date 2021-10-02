@@ -15,7 +15,7 @@ export async function getChangelog(version: string) {
       changelogText.match(/### \d+\.\d+\.\d+/g) as RegExpMatchArray
     ).map((str) => str.replace("### ", ""));
 
-    if (!availableVersions.includes(version)) return false;
+    if (!availableVersions.includes(version)) return null;
 
     const versionRegExp = new RegExp(
       `### ${version.replace(/\./g, "\\.")}([^\#+])+`
@@ -27,6 +27,6 @@ export async function getChangelog(version: string) {
 
     return changelog;
   } catch (er) {
-    return false;
+    return null;
   }
 }

@@ -3,6 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { TextChannel } from "discord.js";
+import { bold } from "@discordjs/builders";
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -46,10 +47,10 @@ export class UserCommand extends Command {
         .slice(0, amount as number)
     );
 
-    return await await send(
+    return await send(
       msg,
-      `🗑 Deleted **${deletedMessages.size}** messages in **${String(
-        (Date.now() - startTime) / 1000
+      `🗑 Deleted ${bold(deletedMessages.size.toString())} messages in **${bold(
+        String((Date.now() - startTime) / 1000)
       )}** seconds.`
     );
   }

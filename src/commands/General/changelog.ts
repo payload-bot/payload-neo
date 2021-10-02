@@ -11,11 +11,10 @@ import { codeBlock } from "@discordjs/builders";
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
-    const argStr = await args.pick("string").catch(() => null);
+    const version = await args.pick("string").catch(() => null);
 
-    if (!argStr) return await send(msg, { content: "Invalid version format" });
+    if (!version) return await send(msg, { content: "Invalid version format" });
 
-    const [version] = argStr.split(" ");
     const changeLog = await getChangelog(version);
 
     if (!changeLog)

@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { resolve } from "path";
 
 export async function getChangelog(version: string) {
-  if (!version.match(/\d+\.\d+.\d+/)) return false;
+  if (!version.match(/\d+\.\d+.\d+/)) return null;
   try {
     const changelogText = await readFile(
       resolve(__dirname, "../../changelog.md"),

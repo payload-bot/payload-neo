@@ -1,7 +1,7 @@
 import { Args, Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
+import type { Message } from "discord.js";
 import type { TextChannel } from "discord.js";
 import { bold } from "@discordjs/builders";
 
@@ -9,25 +9,27 @@ import { bold } from "@discordjs/builders";
   description:
     "Purges a certain number of messages sent by a user or everyone if no user is mentioned.",
   requiredUserPermissions: ["MANAGE_MESSAGES"],
+  runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
-    const amount = await args.pick("number");
+    const amount = await args.pick("number").catch(() => 100);
 
     if (!amount) return;
-    const users = msg.mentions.users;
 
+    const targetUserToRemove = msg.mentions.users;
+
+    // const targetUserToRemove = await args.rest("member");
     await msg.channel.sendTyping();
-
     await msg.delete();
 
     const startTime = Date.now();
 
     let channelMessages = await msg.channel.messages.fetch({
-      limit: 100,
+      limit: amount,
     });
 
-    if (users.size > 0) {
+    if (!targetUserToRemove.size) {
       channelMessages = channelMessages.filter((foundMsg) => {
         return msg.mentions.users
           .map((user) => user.id)
@@ -44,7 +46,7 @@ export class UserCommand extends Command {
     const deletedMessages = await (msg.channel as TextChannel).bulkDelete(
       channelMessages
         .map((channelMessage) => channelMessage.id)
-        .slice(0, amount as number)
+        .slice(0, amount)
     );
 
     return await send(

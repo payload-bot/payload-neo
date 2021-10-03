@@ -1,9 +1,9 @@
 import { Args, Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { getChangelog } from "#root/util/get-changelog";
+import type { Message } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
+import { getChangelog } from "#root/util/get-changelog";
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -17,8 +17,8 @@ export class UserCommand extends Command {
 
     const changeLog = await getChangelog(version);
 
-    if (!changeLog)
-      return await send(msg, { content: "Invalid version format" });
+    // This error should be invalid version rather than saying Invalid version format
+    if (!changeLog) return await send(msg, { content: "Invalid version" });
 
     return await send(msg, {
       content: codeBlock("md", changeLog),

@@ -1,41 +1,37 @@
 import { Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import type { Message } from "discord.js";
+import type { Args } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
-import { User } from "#lib/models/User";
+import type { Message } from "discord.js";
 import { MessageEmbed } from "discord.js";
 import PayloadColors from "#utils/colors";
-import type { Args } from "@sapphire/framework";
+import { User } from "#lib/models/User";
 
 @ApplyOptions<CommandOptions>({
   description: "Gets user's profile.",
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
-    const profile = await args.pick("user").catch(() => msg.author);
-    let user = await User.findOne({ id: profile.id });
-
-    if (!user) {
-      user = new User({
-        id: profile.id,
-      });
-    }
+    const targetUser = await args.pick("user").catch(() => msg.author);
+    let user =
+      (await User.findOne({ id: targetUser.id }).lean().exec()) ??
+      new User({ id: targetUser.id });
 
     const steamid = user.steamId;
 
     const description = `
-    Bot: ${profile.bot ? "Yes" : "No"}
-    ID: ${profile.id}
+    Bot: ${targetUser.bot ? "Yes" : "No"}
+    ID: ${targetUser.id}
     Steam ID: ${steamid || "NOT SET"}
-    Points: 0
+    Points: ${user.points ?? 0}
     `;
 
     const embed = new MessageEmbed({
-      title: profile.tag,
+      title: targetUser.tag,
       description,
       color: PayloadColors.USER,
       thumbnail: {
-        url: profile.displayAvatarURL(),
+        url: targetUser.displayAvatarURL(),
       },
     });
 

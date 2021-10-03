@@ -1,8 +1,7 @@
 import { Args, Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
-import type { Message } from "discord.js";
-import type { TextChannel } from "discord.js";
+import type { Message, TextChannel } from "discord.js";
 import { bold } from "@discordjs/builders";
 
 @ApplyOptions<CommandOptions>({

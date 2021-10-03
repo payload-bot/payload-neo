@@ -15,8 +15,6 @@ export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
     const amount = await args.pick("number").catch(() => 100);
 
-    if (!amount) return;
-
     const targetUserToRemove = msg.mentions.users;
 
     // const targetUserToRemove = await args.rest("member");

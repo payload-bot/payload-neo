@@ -4,7 +4,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import type { Message, TextChannel } from "discord.js";
 import { bold } from "@discordjs/builders";
 
-const fourteenDays = 1000 * 60 * 60 * 24 * 14;
+const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -37,7 +37,7 @@ export class UserCommand extends Command {
     }
 
     channelMessages = channelMessages.filter((channelMessage) => {
-      return Date.now() - channelMessage.createdTimestamp < fourteenDays;
+      return Date.now() - channelMessage.createdTimestamp < twoWeeks;
     });
 
     const deletedMessages = await (msg.channel as TextChannel).bulkDelete(

@@ -15,15 +15,13 @@ export class UserCommand extends Command {
       .pick("user")
       .catch(() => msg.author);
 
-    const user = (await User.findOne({ id: id }).lean().exec()) ?? {};
-
-    const steamid = user.steamId;
+    let user = await User.findOne({ id }).lean().exec();
 
     const description = `
     Bot: ${bot ? "Yes" : "No"}
     ID: ${id}
-    Steam ID: ${steamid || "NOT SET"}
-    Points: ${user.points ?? 0}
+    Steam ID: ${user?.steamId || "NOT SET"}
+    Points: ${user?.points ?? 0}
     `;
 
     const embed = new MessageEmbed({

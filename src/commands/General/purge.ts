@@ -16,9 +16,8 @@ export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
     const amount = await args.pick("number").catch(() => 100);
 
-    const targetUserToRemove = msg.mentions.users;
+    const targetedUsersToRemove = msg.mentions.users;
 
-    // const targetUserToRemove = await args.rest("member");
     await msg.channel.sendTyping();
     await msg.delete();
 
@@ -28,7 +27,7 @@ export class UserCommand extends Command {
       limit: amount,
     });
 
-    if (!targetUserToRemove.size) {
+    if (!targetedUsersToRemove.size) {
       channelMessages = channelMessages.filter((foundMsg) => {
         return msg.mentions.users
           .map((user) => user.id)

@@ -17,7 +17,6 @@ export class UserCommand extends Command {
 
     const changeLog = await getChangelog(version);
 
-    // This error should be invalid version rather than saying Invalid version format
     if (!changeLog) return await send(msg, { content: "Invalid version" });
 
     return await send(msg, {

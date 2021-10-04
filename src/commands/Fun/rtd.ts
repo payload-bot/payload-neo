@@ -11,9 +11,9 @@ import { random } from "#utils/random";
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {
-    const sides = Math.round(await args.pick("number").catch(() => 6));
-    const amount = Math.round(await args.pick("number").catch(() => 1));
-    let dice: number[] = new Array(amount);
+    const sides = await args.pick("number").catch(() => 6);
+    const amount = await args.pick("number").catch(() => 1);
+    let dice: number[] = [];
 
     for (let i = 0; i < amount; i++) dice.push(random(1, sides));
 

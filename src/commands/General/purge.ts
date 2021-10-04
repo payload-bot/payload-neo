@@ -27,7 +27,7 @@ export class UserCommand extends Command {
       limit: amount,
     });
 
-    if (!targetedUsersToRemove.size) {
+    if (targetedUsersToRemove.size) {
       channelMessages = channelMessages.filter((foundMsg) => {
         return msg.mentions.users
           .map((user) => user.id)

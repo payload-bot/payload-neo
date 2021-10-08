@@ -2,7 +2,7 @@ import {
   AliasPiece,
   PieceContext,
   PieceOptions,
-  Awaited,
+  Awaitable,
   CommandOptions,
 } from "@sapphire/framework";
 import type { Message } from "discord.js";
@@ -39,5 +39,5 @@ export abstract class AutoCommand extends AliasPiece {
     return msg.content.match(this.regex)?.[0] ?? null;
   }
 
-  abstract run(msg: Message): Awaited<unknown>;
+  abstract run(msg: Message): Awaitable<unknown>;
 }

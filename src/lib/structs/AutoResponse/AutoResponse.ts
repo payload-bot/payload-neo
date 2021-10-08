@@ -35,8 +35,8 @@ export abstract class AutoCommand extends AliasPiece {
    * @returns {string | null}
    * @description Gets the resulting match of the Regex defined in the command
    */
-  public getMatch(msg: Message): string | null {
-    return msg.content.match(this.regex)?.[0] ?? null;
+  public getMatch(msg: Message): string {
+    return msg.content.match(this.regex)![0];
   }
 
   abstract run(msg: Message): Awaitable<unknown>;

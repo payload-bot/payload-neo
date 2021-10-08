@@ -16,7 +16,7 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
 
-    this.stores.register(new AutoResponseStore().registerPath(join(__dirname, '..', 'commands/Auto')));
+    this.stores.register(new AutoResponseStore().registerPath(join(__dirname, '..', 'auto')));
   }
 
   public fetchPrefix = async (msg: Message) => {

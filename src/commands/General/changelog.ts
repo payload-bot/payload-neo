@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
-import { getChangelog } from "#root/util/get-changelog";
+import { getChangelog } from "#utils/get-changelog";
 
 @ApplyOptions<CommandOptions>({
   description:

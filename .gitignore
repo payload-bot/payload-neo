@@ -1,5 +1,26 @@
-dist/
-node_modules/
+# Compiled Code
+/dist
+/node_modules
 
-*.env
+# Stores and ENV
+.env
 .migrate
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store

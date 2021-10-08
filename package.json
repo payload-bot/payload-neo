@@ -15,7 +15,7 @@
     "@google-cloud/translate": "^6.3.0",
     "@sapphire/decorators": "^3.0.0",
     "@sapphire/discord.js-utilities": "^3.0.1",
-    "@sapphire/framework": "^1.0.2",
+    "@sapphire/framework": "next",
     "@sapphire/plugin-editable-commands": "^0.1.0-next.23809.0",
     "@sapphire/plugin-i18next": "^2.0.0-pr-145.4dbd0994.0",
     "@sapphire/plugin-logger": "^1.0.13",

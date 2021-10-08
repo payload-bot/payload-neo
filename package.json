@@ -51,7 +51,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@sapphire/ts-config": "^3.0.0",
+    "@sapphire/ts-config": "^3.1.0",
     "@types/cheerio": "^0.22.30",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
@@ -65,19 +65,14 @@
     "@types/passport-oauth2-refresh": "^1.1.1",
     "@types/puppeteer": "^5.4.4",
     "@types/steamid": "^2.0.0",
-    "dotenv-cli": "^4.0.0",
-    "nodemon": "^2.0.12",
     "tsc-watch": "^4.5.0",
     "typescript": "^4.4.2"
   },
   "scripts": {
     "migrate": "migrate",
-    "release": "dotenv release-it",
     "start": "node .",
-    "watch": "tsc -w",
-    "watch:start": "tsc-watch --onSuccess \"node ./dist/index.js\"",
-    "dev": "nodemon ./dist/index.js",
-    "build": "tsc --build tsconfig.json"
+    "build": "tsc --build tsconfig.json",
+    "dev": "tsc-watch --onSuccess \"node ./dist/index.js\""
   },
   "repository": {
     "type": "git",

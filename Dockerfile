@@ -32,8 +32,8 @@ RUN yarn workspaces focus --production && yarn cache clean
 COPY ./assets ./assets
 COPY ./src/languages ./languages
 COPY ./migrations ./migrations
-COPY changelog.md ./dist
 COPY --from=build /opt/app/dist ./dist
+COPY changelog.md ./dist
 
 USER node
 CMD ["node", "."]

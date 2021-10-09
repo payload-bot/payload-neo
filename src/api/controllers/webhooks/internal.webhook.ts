@@ -27,7 +27,7 @@ router.post("/test", async (req: Request, res: Response) => {
   // Snowflake
   const id = req.webhook_id as string;
 
-  const target = await client[scope].fetch(id) as Channel | User;
+  const target = (await client[scope].fetch(id)) as Channel | User;
   const embed = new MessageEmbed();
 
   embed.setColor(EmbedColors.GREEN);
@@ -90,7 +90,7 @@ router.post("/logs", async (req: Request, res: Response) => {
   }
 
   // Sanity check: Is the log valid?
-  const { data: logsApiJson } = await axios.get(
+  const { data: logsApiJson } = await axios.get<{ success: boolean }>(
     `https://logs.tf/api/v1/log/${logsId}`
   );
 
@@ -104,7 +104,7 @@ router.post("/logs", async (req: Request, res: Response) => {
 
   const logUrl = `https://logs.tf/${logsId}`;
 
-  const target = await client[scope].fetch(id) as Channel | User;
+  const target = (await client[scope].fetch(id)) as Channel | User;
 
   const screenshotBuffer = await capturePage(logUrl, {
     top: {

@@ -15,7 +15,7 @@ export class UserCommand extends Command {
       .pick("user")
       .catch(() => msg.author);
 
-    let user = await User.findOne({ id }).lean().exec();
+    const user = await User.findOne({ id }).lean().exec();
 
     const description = `
     Bot: ${bot ? "Yes" : "No"}

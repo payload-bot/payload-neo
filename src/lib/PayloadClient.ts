@@ -1,6 +1,6 @@
 import { SapphireClient } from "@sapphire/framework";
 import { Enumerable } from "@sapphire/decorators";
-import type { Message } from "discord.js";
+import { Collection, Message } from "discord.js";
 import { join } from "path";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import { Server } from "./models/Server";
@@ -12,6 +12,12 @@ process.env.NODE_ENV ??= "development";
 export class PayloadClient extends SapphireClient {
   @Enumerable(false)
   public dev = process.env.NODE_ENV !== "production";
+
+  @Enumerable(false)
+  public snipeCache = {};
+
+  @Enumerable(false)
+  public pingCache = {};
 
   constructor() {
     super(CLIENT_OPTIONS);

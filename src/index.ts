@@ -1,9 +1,6 @@
 import "#utils/setup";
-import { config as denvconfig } from "dotenv";
 import { container } from "@sapphire/framework";
 import { PayloadClient } from "#lib/PayloadClient";
-
-denvconfig();
 
 const client = new PayloadClient();
 

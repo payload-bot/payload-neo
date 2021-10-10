@@ -1,5 +1,3 @@
-process.env.NODE_ENV ??= "development";
-
 import { SapphireClient } from "@sapphire/framework";
 import { Enumerable } from "@sapphire/decorators";
 import type { Message } from "discord.js";
@@ -9,6 +7,8 @@ import { Server } from "./models/Server";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
 
+process.env.NODE_ENV ??= "development";
+
 export class PayloadClient extends SapphireClient {
   @Enumerable(false)
   public dev = process.env.NODE_ENV !== "production";
@@ -16,7 +16,9 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
 
-    this.stores.register(new AutoResponseStore().registerPath(join(__dirname, '..', 'auto')));
+    this.stores.register(
+      new AutoResponseStore().registerPath(join(__dirname, "..", "auto"))
+    );
   }
 
   public fetchPrefix = async (msg: Message) => {

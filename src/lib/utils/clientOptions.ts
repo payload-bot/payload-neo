@@ -25,7 +25,7 @@ function makeLogger() {
   return {
     instance: new Logger(LogLevel.Debug),
     level:
-      process.env.NODE_ENV === "production" ? LogLevel.Warn : LogLevel.Debug,
+      process.env.NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
   };
 }
 

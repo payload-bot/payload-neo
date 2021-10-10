@@ -579,6 +579,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/image-to-base64@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/image-to-base64@npm:2.1.0"
+  checksum: 11bbd1fd9d59030376553313b1922d15caa031e1d54dc9be1096547b4285f37502ff5dc7dfc38bba5ab7e83f66d382ee4e5f1276920d6c2d71c67ee71e4c8efe
+  languageName: node
+  linkType: hard
+
 "@types/jsonwebtoken@npm:^8.5.5":
   version: 8.5.5
   resolution: "@types/jsonwebtoken@npm:8.5.5"
@@ -3079,6 +3086,7 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/gamedig": ^3.0.1
     "@types/html-to-text": ^8.0.1
+    "@types/image-to-base64": ^2.1.0
     "@types/jsonwebtoken": ^8.5.5
     "@types/node": ^16.10.3
     "@types/passport": ^1.0.7

@@ -6,6 +6,7 @@ import WebhookService from "../../services/WebhookService";
 import { isBetaTester } from "../../utils/isBetaTester";
 import userSettingsSchema from "../../validators/user-settings";
 import { container } from "@sapphire/framework";
+import { envParseArray } from "#utils/envParser";
 
 const { client } = container;
 
@@ -37,7 +38,7 @@ router.get("/", async (req: Request, res: Response) => {
   } = await userService.getUserByDiscordId(user!.id);
 
   res.json({
-    isAdmin: config.allowedID === user!.id,
+    isAdmin: envParseArray("OWNERS").includes(user!.id),
     isBetaTester: await isBetaTester(user!.id),
     username: tag,
     name: username,

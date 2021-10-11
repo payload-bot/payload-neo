@@ -1,5 +1,5 @@
+import { envParseArray } from "#utils/envParser";
 import type { Request, Response, NextFunction } from "express";
-import config from "../../config";
 
 export default function checkAdmin(
   req: Request,
@@ -7,7 +7,7 @@ export default function checkAdmin(
   next: NextFunction
 ) {
   try {
-    if (config.allowedID!.includes(req.user!.id)) return next();
+    if (envParseArray("OWNERS").includes(req.user!.id)) return next();
     return res.status(403).json({ message: "Forbidden" });
   } catch (ex) {
     return res.status(403).json({ message: "Forbidden" });

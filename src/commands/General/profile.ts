@@ -18,10 +18,10 @@ export class UserCommand extends Command {
     const user = await User.findOne({ id }).lean().exec();
 
     const description = `
-    Bot: ${bot ? "Yes" : "No"}
-    ID: ${id}
-    Steam ID: ${user?.steamId || "NOT SET"}
-    Points: ${user?.points ?? 0}
+      Bot: ${bot ? "Yes" : "No"}
+      ID: ${id}
+      Steam ID: ${user?.steamId || "NOT SET"}
+      Points: ${user?.fun?.payload?.feetPushed ?? 0}
     `;
 
     const embed = new MessageEmbed({

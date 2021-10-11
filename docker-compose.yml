@@ -5,7 +5,7 @@ services:
         container_name: "chrome"
         image: browserless/chrome
         networks:
-            - bot_internal
+            - production
         environment:
             - MAX_CONCURRENT_SESSIONS=10
             - PORT=9090
@@ -22,7 +22,7 @@ services:
         command: "yarn start"
         restart: always
         networks:
-            - bot_internal
+            - production
         env_file:
             - ./.env
         ports:
@@ -33,4 +33,4 @@ services:
             - chrome
 
 networks:
-    bot_internal:
+    production:

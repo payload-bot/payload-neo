@@ -39,4 +39,4 @@ COPY changelog.md ./dist
 USER node
 CMD ["node", "."]
 
-EXPOSE 8080
+EXPOSE 9091

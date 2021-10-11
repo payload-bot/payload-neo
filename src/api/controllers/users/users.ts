@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-import config from "../../../config";
 import checkAuth from "../../middleware/checkAuth";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";

@@ -7,8 +7,6 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-
 RUN yarn install --immutable
 
 COPY tsconfig.json .

@@ -10,6 +10,7 @@
     "lib": ["DOM"],
     "removeComments": true,
     "paths": {
+      "#lib/types": ["lib/types"],
       "#utils/*": ["lib/utils/*"],
       "#lib/*": ["lib/*"],
       "#root/*": ["*"]

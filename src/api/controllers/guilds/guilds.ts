@@ -1,13 +1,15 @@
 import { Router, Request, Response } from "express";
-import client from "../../..";
+import { container } from "@sapphire/framework";
 import checkAuth from "../../middleware/checkAuth";
 import checkServers from "../../middleware/checkServers";
 import DiscordService from "../../services/DiscordService";
 import GuildService from "../../services/GuildService";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
-import getDiscordGuild from "../../utils/getDiscordGuild";
 import guildSettingsSchema from "../../validators/guild-settings";
+import type { ServerModel } from "#lib/models/Server";
+
+const { client } = container;
 
 const router = Router();
 
@@ -22,13 +24,13 @@ router.get("/", async (req: Request, res: Response) => {
   const user = req.user;
 
   const { accessToken, refreshToken } = await userService.getUserByDiscordId(
-    user.id
+    user!.id
   );
 
   const guilds = await discordService.getAuthedGuilds(
-    user.id,
-    accessToken,
-    refreshToken
+    user!.id,
+    accessToken as string,
+    refreshToken as string,
   );
 
   res.json(guilds.map(({ server, ...guild }) => guild));
@@ -41,13 +43,13 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
     prefix = "pls ",
     webhook,
     fun,
-    commandRestrictions,
+    // commandRestrictions,
     id,
-  } = req.guild;
+  } = req.guild as ServerModel;
 
-  const { icon, name, channels } = await getDiscordGuild(id);
+  const { icon, name, channels } = await client.guilds.fetch(id);
   const clientGuild = await client.guilds.fetch(id);
-  const botMemberInGuild = await clientGuild.members.fetch(client.user.id);
+  const botMemberInGuild = await clientGuild.members.fetch(client.user!.id);
 
   res.json({
     guild: {
@@ -55,16 +57,16 @@ router.get("/:guildId", checkServers, async (req: Request, res: Response) => {
         .filter((c) => c.type === "GUILD_TEXT")
         .map(({ id, name }) => ({ id, name })),
     },
-    commands: {
-      restrictions: commandRestrictions,
-      commands: client.commands
-        .filter((c) => !c.requiresRoot)
-        .map((c) => c.name),
-      autoResponses: client.autoResponses.map((c) => c.name),
-    },
+    // commands: {
+    //   restrictions: commandRestrictions,
+    //   commands: client.commands
+    //     .filter((c) => !c.requiresRoot)
+    //     .map((c) => c.name),
+    //   autoResponses: client.autoResponses.map((c) => c.name),
+    // },
     icon: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
     botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
-    webhook: (await webhookService.getWebhookById(webhook)) || null,
+    webhook: (await webhookService.getWebhookById(webhook!)) || null,
     enableSnipeForEveryone,
     name,
     id,
@@ -83,8 +85,8 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
     const id = req.params.guildId;
 
     if (botName) {
-      const guild = await getDiscordGuild(id);
-      const bot = await guild.members.fetch(client.user.id);
+      const guild = await client.guilds.fetch(id);
+      const bot = await guild.members.fetch(client.user!.id);
       await bot.setNickname(botName);
     }
 
@@ -92,29 +94,12 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
       await guildService.findByGuildIdAndUpdate(id, values);
     }
 
-    // Refresh cache, don't care if it hasn't been touched (tbh, this should just be removed (the cache) :/)
-    try {
-      const server = await client.serverManager.ensureServer(id);
-
-      await server.refresh();
-    } catch (err) {
-      client.logger.error(
-        `Tried to refresh cache of server ${id}, but failed!`
-      );
-      return res.status(500).json({
-        status: 500,
-        error: "Internal Server Error",
-        message: `Error occured while saving guild settings for id ${id}`,
-      });
-    }
-
     return res.status(204).send();
   } catch (err: any) {
     return res.status(400).json({
       status: 400,
       error: "Bad request",
-      message:
-        err.details?.map((d) => d.message) ?? "Error occured while saving",
+      message: err.details.map((d: any) => d.message),
     });
   }
 });

@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import client from "../..";
+import type { Request, Response, NextFunction } from "express";
 import DiscordService from "../services/DiscordService";
 import GuildService from "../services/GuildService";
 import UserService from "../services/UserService";
-import getDiscordGuild from "../utils/getDiscordGuild";
+import { container } from "@sapphire/framework";
 
+const { client } = container;
 const discordService = new DiscordService();
 const userService = new UserService();
 const guildService = new GuildService();
@@ -19,13 +19,13 @@ export default async function checkServers(
 
   try {
     const { accessToken, refreshToken } = await userService.getUserByDiscordId(
-      user.id
+      user!.id
     );
 
     const userServers = await discordService.getAuthedGuilds(
-      user.id,
-      accessToken,
-      refreshToken
+      user!.id,
+      accessToken as string,
+      refreshToken as string
     );
 
     if (!userServers.map((s) => s.id).includes(guildParam)) {
@@ -35,7 +35,7 @@ export default async function checkServers(
       });
     }
 
-    if (!(await getDiscordGuild(guildParam))) {
+    if (!(await client.guilds.fetch(guildParam))) {
       return res.status(404).json({
         status: 400,
         error: "Not found",

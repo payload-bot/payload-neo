@@ -1,24 +1,20 @@
 {
+  "extends": "@sapphire/ts-config",
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "sourceMap": false,
-    "removeComments": false,
-    "strict": true,
+    "rootDir": "src",
+    "target": "ESNext",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "inlineSourceMap": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "baseUrl": "src",
+    "lib": ["DOM"],
+    "removeComments": true,
+    "paths": {
+      "#lib/types": ["lib/types"],
+      "#utils/*": ["lib/utils/*"],
+      "#lib/*": ["lib/*"],
+      "#root/*": ["*"]
+    }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "src/**/*.json"]
 }

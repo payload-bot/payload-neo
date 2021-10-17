@@ -1,6 +1,8 @@
-import client from "../..";
+import { container } from "@sapphire/framework";
 
-const PAYLOAD_DISCORD_ID = process.env.PAYLOAD_DISCORD_ID;
+const client = container.client;
+
+const PAYLOAD_DISCORD_ID = process.env.PAYLOAD_DISCORD_ID as string;
 
 async function fetchUser(discordId: string) {
   const discord = await client.guilds.fetch(PAYLOAD_DISCORD_ID);

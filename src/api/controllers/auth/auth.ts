@@ -15,7 +15,7 @@ router.post("/refresh", async (req: Request, res: Response) => {
     }
 
     try {
-        const { refreshToken, authToken } = await authService.refreshTokens(oldRefreshToken);
+        const { refreshToken, authToken } = await authService.refreshTokens(oldRefreshToken) as any;
         return res.status(200).json({
             status: 200,
             refreshToken,

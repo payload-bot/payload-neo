@@ -1,9 +1,11 @@
 import { Router, Request, Response } from "express";
-import client from "../../..";
+import { container } from "@sapphire/framework";
+
+const { client } = container;
 
 const router = Router();
 
-router.post("/tf2", (req: Request, res: Response) => {
+router.post("/tf2", (_req: Request, res: Response) => {
 	// There's a TF2 update!!!
 	// Placeholder for now
 	client.logger.info('TF2 Update.');

@@ -1,48 +1,11 @@
 version: "3.5"
 
 services:
-    mongo:
-        container_name: "mongo"
-        image: mongo
-        restart: always
-        networks:
-            - payload
-        ports:
-            - 27017-27019:27017-27019
-        volumes:
-            - mongo:/data/db
-        env_file:
-            - ./.env
-
-    nginx:
-        container_name: "nginx"
-        image: nginx:1-alpine
-        restart: always
-        networks:
-            - payload
-        ports:
-            - 80:80
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        env_file:
-            - ./.env
-        depends_on:
-            - payload
-
-    redis:
-        container_name: "redis"
-        image: redis:alpine
-        networks:
-            - payload
-        restart: always
-        ports:
-            - 6379:6379
-
     chrome:
         container_name: "chrome"
         image: browserless/chrome
         networks:
-            - payload
+            - production
         environment:
             - MAX_CONCURRENT_SESSIONS=10
             - PORT=9090
@@ -56,25 +19,18 @@ services:
     payload:
         build: .
         container_name: "payload"
-        command: "npm start"
+        command: "yarn start"
         restart: always
         networks:
-            - payload
+            - production
         env_file:
             - ./.env
         ports:
-            - 3000:3000
+            - 9091:9091
         depends_on:
-            - mongo
-            - redis
             - chrome
         links:
-            - mongo
-            - redis
             - chrome
 
-volumes:
-    mongo: ~
-
 networks:
-    payload:
+    production:

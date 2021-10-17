@@ -1,11 +1,11 @@
 import { Router, Request, Response } from "express";
 import passport from "passport";
 import { nanoid } from "nanoid/async";
-import { User } from "../../../../lib/model/User";
-import { DiscordUserDetails } from "../../../interfaces";
+import type { DiscordUserDetails } from "../../../interfaces";
 import verifyLoginState from "../../../middleware/verifyLoginState";
 import setClientUrl, { cookieName } from "../../../middleware/setClientUrl";
 import AuthService, { AuthContext } from "../../../services/AuthService";
+import { User } from "#lib/models//User";
 require("dotenv").config();
 
 /**

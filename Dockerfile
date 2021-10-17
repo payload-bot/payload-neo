@@ -7,6 +7,8 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
 RUN yarn install --immutable
 
 COPY tsconfig.json .
@@ -20,6 +22,7 @@ FROM node:16-buster-slim
 WORKDIR /opt/app
 
 ARG NODE_ENV=production
+
 ENV NODE_ENV=${NODE_ENV}
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 

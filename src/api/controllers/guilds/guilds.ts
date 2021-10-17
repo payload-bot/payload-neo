@@ -7,7 +7,7 @@ import GuildService from "../../services/GuildService";
 import UserService from "../../services/UserService";
 import WebhookService from "../../services/WebhookService";
 import guildSettingsSchema from "../../validators/guild-settings";
-import type { ServerModel } from "#lib/models//Server";
+import type { ServerModel } from "#lib/models/Server";
 
 const { client } = container;
 
@@ -82,14 +82,16 @@ router.patch("/:guildId", checkServers, async (req: Request, res: Response) => {
       req.body
     );
 
+    const id = req.params.guildId;
+
     if (botName) {
-      const guild = await client.guilds.fetch(req.params.guildId);
+      const guild = await client.guilds.fetch(id);
       const bot = await guild.members.fetch(client.user!.id);
       await bot.setNickname(botName);
     }
 
     if (values) {
-      await guildService.findByGuildIdAndUpdate(req.params.guildId, values);
+      await guildService.findByGuildIdAndUpdate(id, values);
     }
 
     return res.status(204).send();

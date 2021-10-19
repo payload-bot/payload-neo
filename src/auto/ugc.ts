@@ -17,7 +17,7 @@ export default class UserAutoCommand extends AutoCommand {
     // Needed hight and width to not have wierdo mobile views
     const screenshotBuffer = await captureSelector(
       `https://${url}`,
-      "#wrapper > section.container > div > div.col-md-9 > div:nth-child(3) > div.col-md-8 > div:nth-child(1)",
+      "#wrapper > section.container > div > div.col-md-9",
       {
         defaultViewport: {
           height: 925,

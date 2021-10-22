@@ -10,7 +10,7 @@ export class UserListener extends Listener<typeof Events.CommandDenied> {
   public async run(error: UserError, { message }: CommandDeniedPayload) {
     if (Reflect.get(Object(error.context), "silent")) return;
 
-    return this.alert(message, error.context as any);
+    return this.alert(message, error.message);
   }
 
   private alert(message: Message, content: string) {

@@ -10,6 +10,7 @@ const twoWeeks = 1000 * 60 * 60 * 24 * 14;
   description:
     "Purges a certain number of messages sent by a user or everyone if no user is mentioned.",
   requiredUserPermissions: ["MANAGE_MESSAGES"],
+  requiredClientPermissions: ["MANAGE_MESSAGES"],
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends Command {

@@ -39,5 +39,5 @@ export abstract class AutoCommand extends AliasPiece {
     return msg.content.match(this.regex)![0];
   }
 
-  abstract run(msg: Message): Awaitable<unknown>;
+  public abstract messageRun(msg: Message): Awaitable<unknown>;
 }

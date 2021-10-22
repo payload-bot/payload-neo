@@ -15,8 +15,8 @@ import { htmlToText } from "html-to-text";
 export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message) {
     const url = "https://" + this.getMatch(msg);
-    const { data } = await axios(url);
-    const $ = cheerio.load(data);
+    const { data } = await axios(url, { responseType: "text" });
+    const $ = cheerio.load(data as string);
 
     const frags = $("#thread-frag-count").text().trim();
     const title = $(".thread-header-title").text().trim();

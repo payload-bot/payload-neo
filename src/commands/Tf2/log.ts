@@ -1,5 +1,10 @@
 import axios from "axios";
-import { Args, Command, CommandOptions } from "@sapphire/framework";
+import {
+  Args,
+  BucketScope,
+  Command,
+  CommandOptions,
+} from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
@@ -10,6 +15,9 @@ import { User } from "#lib/models/User";
 @ApplyOptions<CommandOptions>({
   description:
     "Displays the latest log of the (mentioned) user. Must have your steamid linked through the bot.",
+  cooldownDelay: 1000,
+  cooldownLimit: 1,
+  cooldownScope: BucketScope.User,
 })
 export class UserCommand extends Command {
   async run(msg: Message, args: Args) {

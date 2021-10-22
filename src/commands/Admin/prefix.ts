@@ -17,6 +17,8 @@ import { inlineCode } from "@discordjs/builders";
   subCommands: [
     "set",
     "delete",
+    { input: "update", output: "set" },
+    { input: "remove", output: "delete" },
     { input: "view", output: "view", default: true },
   ],
 })

@@ -11,7 +11,7 @@ import { Message, MessageEmbed } from "discord.js";
   regex: /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const connectInfo = this.getMatch(msg);
     const parts = connectInfo[0].trim().split(";");
 

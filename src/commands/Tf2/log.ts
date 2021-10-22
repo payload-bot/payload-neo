@@ -1,16 +1,12 @@
 import axios from "axios";
-import {
-  Args,
-  BucketScope,
-  Command,
-  CommandOptions,
-} from "@sapphire/framework";
+import { Args, BucketScope, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import { capturePage } from "#utils/screenshot";
 import { User } from "#lib/models/User";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -19,8 +15,8 @@ import { User } from "#lib/models/User";
   cooldownLimit: 1,
   cooldownScope: BucketScope.User,
 })
-export class UserCommand extends Command {
-  async run(msg: Message, args: Args) {
+export class UserCommand extends PayloadCommand {
+  async messageRun(msg: Message, args: Args) {
     const { id } = await args.pick("member").catch(() => msg.author);
 
     await msg.channel.sendTyping();

@@ -1,8 +1,9 @@
-import { Args, Command, CommandOptions } from "@sapphire/framework";
+import type { Args, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message, TextChannel } from "discord.js";
 import { bold } from "@discordjs/builders";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
@@ -13,8 +14,8 @@ const twoWeeks = 1000 * 60 * 60 * 24 * 14;
   requiredClientPermissions: ["MANAGE_MESSAGES"],
   runIn: ["GUILD_TEXT"],
 })
-export class UserCommand extends Command {
-  async run(msg: Message, args: Args) {
+export class UserCommand extends PayloadCommand {
+  async messageRun(msg: Message, args: Args) {
     const amount = await args.pick("number").catch(() => 100);
 
     const targetedUsersToRemove = msg.mentions.users;

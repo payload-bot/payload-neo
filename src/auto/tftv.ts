@@ -13,7 +13,7 @@ import { htmlToText } from "html-to-text";
   regex: /teamfortress\.tv\/\d+\/[\w-]+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const url = "https://" + this.getMatch(msg);
     const { data } = await axios(url);
     const $ = cheerio.load(data);

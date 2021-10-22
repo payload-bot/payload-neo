@@ -1,9 +1,10 @@
-import { Args, Command, CommandOptions } from "@sapphire/framework";
+import type { Args, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { bold } from "@discordjs/builders";
 import { random } from "#utils/random";
 import { send } from "@sapphire/plugin-editable-commands";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 const responses: readonly string[] = [
   "It is certain.",
@@ -33,8 +34,8 @@ const responses: readonly string[] = [
 @ApplyOptions<CommandOptions>({
   description: "Asks the 8ball a question",
 })
-export class UserCommand extends Command {
-  async run(msg: Message, args: Args) {
+export class UserCommand extends PayloadCommand {
+  async messageRun(msg: Message, args: Args) {
     const question = await args.rest("string").catch(() => null);
 
     if (!question) return await send(msg, "No question");

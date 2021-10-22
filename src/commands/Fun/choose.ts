@@ -1,14 +1,15 @@
-import { Args, Command, CommandOptions } from "@sapphire/framework";
+import type { Args, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { random } from "#utils/random";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 @ApplyOptions<CommandOptions>({
   description: "Randomly chooses <amount> options from a list.",
 })
-export class UserCommand extends Command {
-  async run(msg: Message, args: Args) {
+export class UserCommand extends PayloadCommand {
+  async messageRun(msg: Message, args: Args) {
     const amount = await args.pick("number").catch(() => 1);
     const options = await args.repeat("string");
 

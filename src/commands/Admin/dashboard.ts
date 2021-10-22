@@ -8,7 +8,7 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends PayloadCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const component = new MessageActionRow().addComponents([
       new MessageButton({
         url: `https://payload.tf/dashboard/${msg.guild!.id}`,

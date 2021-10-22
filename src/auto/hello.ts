@@ -9,7 +9,7 @@ import type { Message } from "discord.js";
   regex: /^hello$/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     return await msg.channel.send("<:heart_eyes:>");
   }
 }

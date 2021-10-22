@@ -11,7 +11,7 @@ import { Message, MessageAttachment, MessageEmbed } from "discord.js";
   regex: /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const url = this.getMatch(msg);
 
     // Needed hight and width to not have wierdo mobile views

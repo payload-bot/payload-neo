@@ -12,7 +12,7 @@ import config from "#root/config";
   regex: /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const url = this.getMatch(msg);
 
     const screenshotBuffer = await capturePage(url, {

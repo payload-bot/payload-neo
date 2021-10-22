@@ -11,7 +11,7 @@ import { Message, MessageAttachment, MessageEmbed } from "discord.js";
   regex: /etf2l.org\/matches\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async run(msg: Message) {
+  async messageRun(msg: Message) {
     const url = this.getMatch(msg);
 
     const screenshotBuffer = await capturePage(`https://${url}`, {

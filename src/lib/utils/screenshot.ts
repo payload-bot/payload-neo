@@ -1,5 +1,4 @@
 import {
-  launch as launchBrowser,
   connect,
   Page,
   SerializableOrJSHandle,
@@ -8,6 +7,8 @@ import {
   BrowserConnectOptions,
   BrowserLaunchArgumentOptions,
 } from "puppeteer";
+
+import puppeteer from "puppeteer";
 
 type ElementBasedBound = {
   selector: string;
@@ -79,10 +80,10 @@ export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
   const environment = process.env.NODE_ENV ?? "development";
 
   if (!environment) throw new Error("Missing environment flag");
-  
+
   // Use built in chromium browser on development mode
   if (environment === "development") {
-    return await launchBrowser({
+    return await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       ...options,
     });
@@ -147,7 +148,7 @@ export async function captureSelector(
 
   await page.goto(url);
 
-  const element = await page.waitForSelector(selector) as any;
+  const element = (await page.waitForSelector(selector)) as any;
 
   const screenshot = (await element.screenshot()) as Buffer;
 

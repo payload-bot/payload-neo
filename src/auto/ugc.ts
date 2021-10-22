@@ -17,11 +17,11 @@ export default class UserAutoCommand extends AutoCommand {
     // Needed hight and width to not have wierdo mobile views
     const screenshotBuffer = await captureSelector(
       `https://${url}`,
-      "#wrapper > section.container > div > div.col-md-9",
+      "#wrapper > section.container > div > div.col-md-9 > div:nth-child(3) > div.col-md-9 > div:nth-child(1)",
       {
         defaultViewport: {
-          height: 925,
-          width: 1000,
+          height: 1920,
+          width: 1080,
         },
       }
     );
@@ -30,7 +30,7 @@ export default class UserAutoCommand extends AutoCommand {
     const embed = new MessageEmbed();
     embed.setColor(PayloadColors.COMMAND);
     embed.setTitle("Logs.tf Preview");
-    embed.setURL(url);
+    embed.setURL(`https://${url}`);
     embed.setImage(`attachment://log.png`);
     embed.setFooter(`Rendered by autoresponse ${this.name}`);
     embed.setTimestamp(new Date());

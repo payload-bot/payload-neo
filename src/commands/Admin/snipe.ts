@@ -3,12 +3,13 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
 import { Server } from "#lib/models/Server";
-import { PermissionFlagsBits } from "discord-api-types";
 import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
+import type { PayloadClient } from "#lib/PayloadClient";
 
 @ApplyOptions<CommandOptions>({
   description:
     "Retrieves the latest (or number [number]) deleted/edited message from the past 5 minutes.",
+  typing: true,
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends Command {
@@ -18,13 +19,13 @@ export class UserCommand extends Command {
       .exec();
 
     if (!guildSetting?.enableSnipeForEveryone) {
-      if (!msg.member!.permissions.has(PermissionFlagsBits.ManageMessages)) {
+      if (!msg.member!.permissions.has("MANAGE_MESSAGES")) {
         return;
       }
     }
 
     const number = await args.pick("number").catch(() => 1);
-    const { client } = this.container;
+    const client = this.container.client as PayloadClient;
 
     if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
       return await send(msg, "no messages");
@@ -40,7 +41,7 @@ export class UserCommand extends Command {
       return await send(msg, "only have this many");
     }
 
-    const ids = cache.keys();
+    const ids = [...cache.keys()];
     const targetMessage = cache.get(ids[max - number])!;
 
     const snipeData = await renderMessage(targetMessage);
@@ -50,7 +51,7 @@ export class UserCommand extends Command {
     });
 
     if (snipeData.attachments || snipeData.links) {
-      await msg.channel.send(msg, snipeData.attachments + "\n" + snipeData.links);
+      await msg.channel.send(snipeData.attachments + "\n" + snipeData.links);
     }
 
     return true;

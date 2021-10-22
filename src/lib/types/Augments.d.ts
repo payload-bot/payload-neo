@@ -1,7 +1,16 @@
 import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
+import type { SnipeCache } from "#lib/interfaces/cache";
 
 export type O = object;
+
+declare module 'discord.js' {
+	interface Client {
+		readonly dev: boolean;
+		readonly cache: SnipeCache;
+	}
+}
+
 
 declare module "@sapphire/framework" {
   interface Preconditions {

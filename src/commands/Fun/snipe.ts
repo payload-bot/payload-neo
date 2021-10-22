@@ -9,7 +9,6 @@ import type { PayloadClient } from "#lib/PayloadClient";
 @ApplyOptions<CommandOptions>({
   description:
     "Retrieves the latest (or number [number]) deleted/edited message from the past 5 minutes.",
-  typing: true,
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends Command {

@@ -25,7 +25,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       if (!doesMatch) continue;
 
-      await autoResponse.run(message);
+      await autoResponse.messageRun(message);
     }
   }
 }

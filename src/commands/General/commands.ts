@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors";
-import { codeBlock } from "@discordjs/builders";
+import { inlineCode } from "@discordjs/builders";
 
 @ApplyOptions<CommandOptions>({
   description: "Information about the Payload client",
@@ -21,11 +21,11 @@ export class UserCommand extends Command {
       fields: [
         {
           name: "Commands",
-          value: commands.map((c) => codeBlock(c.name)).join(", "),
+          value: commands.map((c) => inlineCode(c.name)).join(", "),
         },
         {
           name: "Auto Commands",
-          value: autoCommands.map((ac) => codeBlock(ac.name)).join(", "),
+          value: autoCommands.map((ac) => inlineCode(ac.name)).join(", "),
         },
       ],
     });

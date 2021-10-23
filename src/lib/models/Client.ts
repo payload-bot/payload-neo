@@ -1,15 +1,28 @@
 import mongoose from "mongoose";
 
 export type ClientModel = mongoose.Document & {
-    id?: 0,
+    id: 0,
 
-    startupVersion?: string
+    leaderboard: {
+        pushcart: {
+            users: Array<{ id: string, pushed: number }>,
+            updated: Date
+        }
+    },
 };
 
 const ClientSchema = new mongoose.Schema({
     id: Number,
 
-    startupVersion: String
+    leaderboard: {
+        pushcart: {
+            users: [{
+                id: String,
+                pushed: Number
+            }],
+            updated: Date
+        }
+    },
 });
 
-export const Client = mongoose.model("Client", ClientSchema);
+export const Client = mongoose.model<ClientModel>("Client", ClientSchema);

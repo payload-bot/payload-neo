@@ -192,6 +192,37 @@ export class UserCommand extends PayloadCommand {
     );
   }
 
+  async servers(msg: Message) {
+    const { client } = this.container;
+
+    const leaderboard = await Server.aggregate([
+      { $match: { fun: { $exists: 1 } } },
+      { $project: { id: "$id", pushed: "$fun.payloadFeetPushed" } },
+      { $sort: { pushed: -1 } },
+      { $limit: 5 },
+    ]);
+
+    const leaderboardString = await Promise.all(
+      leaderboard.map(async ({ id, pushed }, i) => {
+        const { name } = await client.guilds.fetch(id);
+
+        return msg.guild!.name === name
+          ? `> ${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`
+          : `${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`;
+      })
+    );
+
+    const embeds = [
+      new MessageEmbed({
+        title: "servers",
+        description: codeBlock("md", leaderboardString.join("\n")),
+        color: PayloadColors.USER,
+      }),
+    ];
+
+    return await send(msg, { embeds });
+  }
+
   private async userPushcart(id: string, units: number) {
     const user = await User.findOne({ id }, {}, { upsert: true });
 

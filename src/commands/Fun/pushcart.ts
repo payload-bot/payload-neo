@@ -172,6 +172,26 @@ export class UserCommand extends PayloadCommand {
     return await send(msg, { embeds });
   }
 
+  async rank(msg: Message, args: PayloadCommand.Args) {
+    const client = await Client.findOne({ id: 0 }).lean().exec();
+
+    const targetUser = await args.pick("user").catch(() => msg.author);
+
+    const rank =
+      client!.leaderboard.pushcart.users.findIndex(
+        (user) => user.id == targetUser.id
+      ) + 1;
+
+    const { pushed } = client!.leaderboard.pushcart.users.find(
+      (user) => user.id === targetUser.id
+    ) ?? { pushed: 0 };
+
+    return await send(
+      msg,
+      codeBlock("md", `#${rank}: ${targetUser.tag} (${pushed})`)
+    );
+  }
+
   private async userPushcart(id: string, units: number) {
     const user = await User.findOne({ id }, {}, { upsert: true });
 

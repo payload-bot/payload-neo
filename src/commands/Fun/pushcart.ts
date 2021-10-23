@@ -72,6 +72,49 @@ export class UserCommand extends PayloadCommand {
     return await send(msg, `pushed ${randomNumber}`);
   }
 
+  @RequiresGuildContext()
+  async gift(msg: Message, args: PayloadCommand.Args) {
+    const targetUser = await args.pick("member").catch(() => null);
+    const amount = await args.pick("number").catch(() => 0);
+
+    if (amount === 0) {
+      return await send(msg, "no amount!");
+    }
+
+    if (!targetUser) {
+      return await send(msg, "no targeted user!");
+    }
+
+    const safeAmount = Math.abs(amount);
+
+    const fromUser = await User.findOne(
+      { id: msg.author.id },
+      {},
+      { upsert: true }
+    );
+
+    if (!fromUser?.fun?.payload?.feetPushed) {
+      return await send(msg, "not creds at all");
+    }
+
+    if (fromUser.fun.payload.feetPushed < safeAmount ?? true) {
+      return await send(msg, "not enough creds");
+    }
+
+    const toUser = await User.findOne(
+      { id: targetUser.id },
+      {},
+      { upsert: true }
+    );
+
+    fromUser.fun.payload.feetPushed -= safeAmount;
+    toUser!.fun!.payload!.feetPushed += safeAmount;
+
+    await Promise.all([fromUser.save(), toUser!.save()]);
+
+    return await send(msg, "successfully done the transaction");
+  }
+
   private async userPushcart(id: string, units: number) {
     const user = await User.findOne({ id }, {}, { upsert: true });
 

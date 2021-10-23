@@ -9,7 +9,6 @@ const { config } = require("dotenv");
   
   These are not used in Payload anymore and should be deleted.
 */
-
 module.exports.up = function (next) {
     config();
 

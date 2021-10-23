@@ -1,20 +1,24 @@
 import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { SnipeCache } from "#lib/interfaces/cache";
+import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 export type O = object;
 
-declare module 'discord.js' {
-	interface Client {
-		readonly dev: boolean;
-		readonly cache: SnipeCache;
-	}
+declare module "discord.js" {
+  interface Client {
+    readonly dev: boolean;
+    readonly cache: SnipeCache;
+  }
 }
-
 
 declare module "@sapphire/framework" {
   interface Preconditions {
     OwnerOnly: never;
+  }
+
+  interface ArgType {
+    commandName: PayloadCommand;
   }
 }
 

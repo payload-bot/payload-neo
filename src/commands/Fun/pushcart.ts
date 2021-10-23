@@ -1,11 +1,14 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message } from "discord.js";
+import { Message, MessageEmbed, Util } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { Server } from "#lib/models/Server";
 import { weightedRandom } from "#utils/random";
 import { User } from "#lib/models/User";
 import { isAfter, add } from "date-fns";
+import { Client } from "#lib/models/Client";
+import PayloadColors from "#utils/colors";
+import { codeBlock } from "@sapphire/utilities";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -113,6 +116,60 @@ export class UserCommand extends PayloadCommand {
     await Promise.all([fromUser.save(), toUser!.save()]);
 
     return await send(msg, "successfully done the transaction");
+  }
+
+  async leaderboard(msg: Message) {
+    const { client } = this.container;
+
+    const clientLeaderboard = await Client.findOne({ id: 0 }).lean().exec();
+
+    const top10 = clientLeaderboard!.leaderboard.pushcart.users.slice(0, 10);
+
+    let isTop10 = false;
+
+    const leaderboardString = await Promise.all(
+      top10.map(async ({ id, pushed }, i) => {
+        const { tag } = await client.users.fetch(id);
+
+        let localIsTop10 = false;
+        if (msg.author.id === id) {
+          isTop10 = true;
+          localIsTop10 = true;
+        }
+
+        return `${localIsTop10 ? "> " : ""}${i + 1}: ${Util.escapeMarkdown(
+          tag
+        )} (${pushed})`;
+      })
+    );
+
+    if (!isTop10) {
+      leaderboardString.push(
+        `...\n> ${
+          clientLeaderboard!.leaderboard.pushcart.users.findIndex(
+            (user) => user.id === msg.author.id
+          ) + 1
+        }: ${Util.escapeMarkdown(msg.author.tag)} (${
+          (
+            clientLeaderboard!.leaderboard.pushcart.users.find(
+              (user) => user.id === msg.author.id
+            ) ?? {
+              pushed: 0,
+            }
+          ).pushed
+        })`
+      );
+    }
+
+    const embeds = [
+      new MessageEmbed({
+        title: "leaderboard",
+        description: codeBlock("md", leaderboardString.join("\n")),
+        color: PayloadColors.USER,
+      }),
+    ];
+
+    return await send(msg, { embeds });
   }
 
   private async userPushcart(id: string, units: number) {

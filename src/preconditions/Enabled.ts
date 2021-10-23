@@ -34,10 +34,8 @@ export class UserPrecondition extends Precondition {
       .exec();
 
     if (
-      server?.commandRestrictions?.find(
-        (restriction) =>
-          restriction.channelID === msg.channelId &&
-          restriction.commands.includes(command.name)
+      server?.commandRestrictions?.find((restriction) =>
+        restriction.includes(command.name)
       )
     ) {
       return this.error({ context: { ...context, silent: true } });

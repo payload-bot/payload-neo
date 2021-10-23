@@ -1,10 +1,5 @@
 import { Schema, model } from "mongoose";
 
-export interface ICommandRestrictions {
-  channelID: string;
-  commands: Array<string>;
-}
-
 export type ServerModel = Document & {
   id: string;
   prefix?: string;
@@ -12,7 +7,7 @@ export type ServerModel = Document & {
 
   enableSnipeForEveryone?: boolean;
 
-  commandRestrictions?: ICommandRestrictions[];
+  commandRestrictions?: string[];
 
   webhook?: string;
 
@@ -35,12 +30,7 @@ const serverSchema = new Schema({
     type: Schema.Types.ObjectId,
   },
 
-  commandRestrictions: [
-    {
-      channelID: String,
-      commands: [String],
-    },
-  ],
+  commandRestrictions: [String],
 
   fun: {
     payloadFeetPushed: Number,

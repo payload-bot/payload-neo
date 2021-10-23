@@ -5,7 +5,6 @@ const { config } = require("dotenv");
 /*
   Renames steamID to steamId in User model
 */
-
 module.exports.up = function (next) {
     config();
 

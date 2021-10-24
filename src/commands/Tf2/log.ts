@@ -21,7 +21,7 @@ export class UserCommand extends PayloadCommand {
 
     await msg.channel.sendTyping();
 
-    const user = await User.findOne({ id }).lean().exec();
+    const user = await User.findOne({ id }).lean()
 
     if (!user?.steamId) {
       return await send(msg, "no steamid linked");

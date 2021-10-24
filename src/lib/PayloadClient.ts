@@ -31,7 +31,7 @@ export class PayloadClient extends SapphireClient {
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const server = await Server.findOne({ id: msg.guildId }).lean().exec();
+      const server = await Server.findOne({ id: msg.guildId }).lean()
 
       return server?.prefix ?? config.PREFIX;
     }
@@ -41,7 +41,7 @@ export class PayloadClient extends SapphireClient {
 
   public fetchLanguage = async (msg: InternationalizationContext) => {
     if (msg.guild) {
-      const server = await Server.findOne({ id: msg.guild.id }).lean().exec();
+      const server = await Server.findOne({ id: msg.guild.id }).lean()
 
       return server?.language ?? "en-US";
     }

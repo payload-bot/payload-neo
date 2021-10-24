@@ -25,7 +25,7 @@ import { inlineCode } from "@discordjs/builders";
 export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   async view(msg: Message) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean().exec();
+    const server = await Server.findOne({ id: msg.guild!.id }).lean()
 
     return await send(msg, inlineCode(server?.prefix ?? config.PREFIX));
   }
@@ -33,7 +33,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async set(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean().exec();
+    const server = await Server.findOne({ id: msg.guild!.id }).lean()
     const prefix = await args.pick("string").catch(() => null);
 
     if (!prefix) {
@@ -63,7 +63,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async delete(msg: Message) {
-    // TODO: old => new const server = await Server.findOne({ id: msg.guild!.id }).lean().exec();
+    // TODO: old => new const server = await Server.findOne({ id: msg.guild!.id }).lean()
 
     const embed = new MessageEmbed({
       author: {

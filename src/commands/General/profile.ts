@@ -15,7 +15,7 @@ export class UserCommand extends PayloadCommand {
       .pick("user")
       .catch(() => msg.author);
 
-    const user = await User.findOne({ id }).lean().exec();
+    const user = await User.findOne({ id }).lean()
 
     const description = `
       Bot: ${bot ? "Yes" : "No"}

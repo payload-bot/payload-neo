@@ -1,0 +1,4 @@
+{
+    "noCommands": "You need to specify which commands to restrict!",
+    "restrictSuccess": "Restricted the following commands: {{ commands }}"
+}

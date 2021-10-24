@@ -1,4 +1,4 @@
 {
-    "deleted_one": "🗑 Deleted **{{ count }}** message in {{ seconds }} seconds.",
-    "deleted_other": "🗑 Deleted **{{ count }}** messages in {{ seconds }} seconds."
+  "deleted_one": "🗑 Deleted **{{ count }}** message in {{ seconds }} seconds.",
+  "deleted_other": "🗑 Deleted **{{ count }}** messages in {{ seconds }} seconds."
 }

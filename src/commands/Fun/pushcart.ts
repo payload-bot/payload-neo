@@ -5,10 +5,11 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { Server } from "#lib/models/Server";
 import { weightedRandom } from "#utils/random";
 import { User } from "#lib/models/User";
-import { isAfter, add } from "date-fns";
+import { isAfter, add, formatDistanceToNowStrict } from "date-fns";
 import { Client } from "#lib/models/Client";
 import PayloadColors from "#utils/colors";
 import { codeBlock } from "@sapphire/utilities";
+import { LanguageKeys } from "#lib/i18n/all";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -31,7 +32,7 @@ const PUSHCART_CAP = 1000;
 })
 export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
-  async push(msg: Message) {
+  async push(msg: Message, args: PayloadCommand.Args) {
     const randomNumber = weightedRandom([
       { number: 3, weight: 2 },
       { number: 4, weight: 3 },
@@ -50,29 +51,45 @@ export class UserCommand extends PayloadCommand {
       { number: 17, weight: 2 },
     ]);
 
+    const { t } = args;
+
     const result = await this.userPushcart(msg.author.id, randomNumber);
 
-    //const user = await User.findOne({ id: msg.author.id }).lean()
+    const user = await User.findOne({ id: msg.author.id }).lean();
 
     if (result === PayloadPushResult.COOLDOWN) {
-      //   const secondsRemaining = Math.round(
-      //     (user.user.fun!.payload.lastPushed + 1000 * 30 - Date.now()) / 1000
-      //   );
+      const timeLeft = Math.round(
+        (user!.fun!.payload.lastPushed + 1000 * 30 - Date.now()) / 1000
+      );
 
-      return await send(msg, "wait this long");
+      return await send(
+        msg,
+        t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: timeLeft })
+      );
     } else if (result === PayloadPushResult.CAP) {
-      //   const timeLeft = formatDistanceToNowStrict(user.fun.payload.lastActiveDate);
+      const timeLeft = formatDistanceToNowStrict(
+        user!.fun!.payload.lastActiveDate
+      );
 
-      return await send(msg, "wait this long, you reached cap");
+      return await send(
+        msg,
+        t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft })
+      );
     }
 
-    await Server.findOneAndUpdate(
+    const server = await Server.findOneAndUpdate(
       { id: msg.guild!.id },
       { $inc: { "fun.payloadFeetPushed": randomNumber } },
-      { upsert: true }
+      { upsert: true, new: true }
     );
 
-    return await send(msg, `pushed ${randomNumber}`);
+    return await send(
+      msg,
+      t(LanguageKeys.Commands.Pushcart.PushSuccess, {
+        units: randomNumber,
+        total: server!.fun!.payloadFeetPushed,
+      })
+    );
   }
 
   @RequiresGuildContext()
@@ -80,12 +97,14 @@ export class UserCommand extends PayloadCommand {
     const targetUser = await args.pick("member").catch(() => null);
     const amount = await args.pick("number").catch(() => 0);
 
+    const { t } = args;
+
     if (amount === 0) {
-      return await send(msg, "no amount!");
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.NoAmount));
     }
 
     if (!targetUser) {
-      return await send(msg, "no targeted user!");
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.NoTargetUser));
     }
 
     const safeAmount = Math.abs(amount);
@@ -96,12 +115,11 @@ export class UserCommand extends PayloadCommand {
       { upsert: true }
     );
 
-    if (!fromUser?.fun?.payload?.feetPushed) {
-      return await send(msg, "not creds at all");
-    }
-
-    if (fromUser.fun.payload.feetPushed < safeAmount ?? true) {
-      return await send(msg, "not enough creds");
+    if (
+      !fromUser?.fun?.payload?.feetPushed ||
+      (fromUser.fun.payload.feetPushed < safeAmount ?? true)
+    ) {
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.NotEnoughCreds));
     }
 
     const toUser = await User.findOne(
@@ -115,13 +133,20 @@ export class UserCommand extends PayloadCommand {
 
     await Promise.all([fromUser.save(), toUser!.save()]);
 
-    return await send(msg, "successfully done the transaction");
+    return await send(
+      msg,
+      t(LanguageKeys.Commands.Pushcart.GiftSuccess, {
+        from: msg.author.tag,
+        to: targetUser.user.tag,
+        count: amount,
+      })
+    );
   }
 
-  async leaderboard(msg: Message) {
+  async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const clientLeaderboard = await Client.findOne({ id: 0 }).lean()
+    const clientLeaderboard = await Client.findOne({ id: 0 }).lean();
 
     const top10 = clientLeaderboard!.leaderboard.pushcart.users.slice(0, 10);
 
@@ -163,7 +188,7 @@ export class UserCommand extends PayloadCommand {
 
     const embeds = [
       new MessageEmbed({
-        title: "leaderboard",
+        title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.USER,
       }),
@@ -173,7 +198,7 @@ export class UserCommand extends PayloadCommand {
   }
 
   async rank(msg: Message, args: PayloadCommand.Args) {
-    const client = await Client.findOne({ id: 0 }).lean()
+    const client = await Client.findOne({ id: 0 }).lean();
 
     const targetUser = await args.pick("user").catch(() => msg.author);
 
@@ -192,7 +217,7 @@ export class UserCommand extends PayloadCommand {
     );
   }
 
-  async servers(msg: Message) {
+  async servers(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
     const leaderboard = await Server.aggregate([
@@ -214,7 +239,7 @@ export class UserCommand extends PayloadCommand {
 
     const embeds = [
       new MessageEmbed({
-        title: "servers",
+        title: args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.USER,
       }),

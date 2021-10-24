@@ -1,4 +1,4 @@
-import type { Args, CommandOptions } from "@sapphire/framework";
+import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
@@ -6,6 +6,7 @@ import { Server } from "#lib/models/Server";
 import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -13,7 +14,7 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: Args) {
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
     const guildSetting = await Server.findOne({ id: msg.guild!.id })
       .lean()
       .exec();
@@ -28,7 +29,7 @@ export class UserCommand extends PayloadCommand {
     const client = this.container.client as PayloadClient;
 
     if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
-      return await send(msg, "no messages");
+      return await send(msg, args.t(LanguageKeys.Commands.Snipe.NoMessages));
     }
 
     await msg.channel.sendTyping();
@@ -38,7 +39,10 @@ export class UserCommand extends PayloadCommand {
     const max = cache.size;
 
     if (number > max) {
-      return await send(msg, "only have this many");
+      return await send(
+        msg,
+        args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount)
+      );
     }
 
     const ids = [...cache.keys()];

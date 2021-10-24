@@ -9,6 +9,7 @@ import {
 } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
   description:
@@ -17,14 +18,14 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
   aliases: ["ping"],
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message) {
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
     const client = this.container.client as PayloadClient;
 
     if (
       !pingChannelCacheExists(client, msg) ||
       getPingCache(client, msg).size == 0
     ) {
-      return await send(msg, "no ping");
+      return await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
     }
 
     await msg.channel.sendTyping();
@@ -35,7 +36,7 @@ export class UserCommand extends PayloadCommand {
     );
 
     if (targetMessages.size < 1) {
-      return await send(msg, "no pings");
+      return await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
     }
 
     const targetMessage = targetMessages.last()!;

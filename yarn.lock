@@ -115,18 +115,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:~1.3.0":
-  version: 1.3.7
-  resolution: "@grpc/grpc-js@npm:1.3.7"
+"@grpc/grpc-js@npm:~1.4.0":
+  version: 1.4.1
+  resolution: "@grpc/grpc-js@npm:1.4.1"
   dependencies:
+    "@grpc/proto-loader": ^0.6.4
     "@types/node": ">=12.12.47"
-  checksum: 8d02972968afd4c54aaa6acc47d1601c73adc03829370fe4ced6b98679ee0b8cd10bcaa3e1d4d35f4eccdbd5f3e10304a10ef0006798b560226da5979dc84899
+  checksum: 2fefef0963a1276af1bcf3225267524c4a6733de0e99729d19433a5a1b0705e23e9f718b4a9c4c03961f1f0b5eee10c8694b594b28dbf91aa9e3fea2c5f5e398
   languageName: node
   linkType: hard
 
-"@grpc/proto-loader@npm:^0.6.1":
-  version: 0.6.5
-  resolution: "@grpc/proto-loader@npm:0.6.5"
+"@grpc/proto-loader@npm:^0.6.1, @grpc/proto-loader@npm:^0.6.4":
+  version: 0.6.6
+  resolution: "@grpc/proto-loader@npm:0.6.6"
   dependencies:
     "@types/long": ^4.0.1
     lodash.camelcase: ^4.3.0
@@ -135,7 +136,7 @@ __metadata:
     yargs: ^16.1.1
   bin:
     proto-loader-gen-types: build/bin/proto-loader-gen-types.js
-  checksum: 8fb28e51aa9c531c292a7711c16d4dab06371b32c620a7af1112e5fec8dc2e3e443fb7b8e1c345313c63083940487b6fa142f466761dde6441eaea8a8ce9b0d0
+  checksum: d147accc4d6bbdfd67ca681192cea286511aadc532930b77106bb458b094a8473031eb0de523e5fe2e0e87c4f5ee7c4c31248e01276b910040da169e0f6b3196
   languageName: node
   linkType: hard
 
@@ -229,9 +230,9 @@ __metadata:
   linkType: hard
 
 "@sapphire/async-queue@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "@sapphire/async-queue@npm:1.1.5"
-  checksum: 7ede75c6ac22db54969071b0de4b6c7d2db10be4c6af7f075d95b8ac6190dff8c6a8cdff5a9ab6c92c8a95fe858e294cf770d52d12b89386aef681e94fd07905
+  version: 1.1.7
+  resolution: "@sapphire/async-queue@npm:1.1.7"
+  checksum: cdfd7819bc0847be3d11e663712d42a3a3b574897fb253274acdbff5433bf4ddba37cf0541233d070cdd6757ce5f565829f36abdd98257507b5a00b727b8abcf
   languageName: node
   linkType: hard
 
@@ -579,14 +580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
-  version: 16.10.3
-  resolution: "@types/node@npm:16.10.3"
-  checksum: 3fd429bce8a4acb497dcc62b536782a5e87ccf7cd91d64a78b263ae5d66cb72bf84be9eeeff6f84ae0567b065a40b267caa66d311f9e094990a5847bbd168a29
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.11.4":
+"@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^16.11.4":
   version: 16.11.4
   resolution: "@types/node@npm:16.11.4"
   checksum: 96e08c0f8bb17601c18640a8eac61e2f236fe0c8a6b01a9221c10749157358fb29fdef4b5e264f72559e72f9830e6093f3ab5fef2df90afdad562ffa45ac534c
@@ -1056,7 +1050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-convert@npm:^1.9.0, color-convert@npm:^1.9.1":
+"color-convert@npm:^1.9.0, color-convert@npm:^1.9.3":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
   dependencies:
@@ -1088,7 +1082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-string@npm:^1.5.2":
+"color-string@npm:^1.6.0":
   version: 1.6.0
   resolution: "color-string@npm:1.6.0"
   dependencies:
@@ -1098,13 +1092,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color@npm:3.0.x":
-  version: 3.0.0
-  resolution: "color@npm:3.0.0"
+"color@npm:^3.1.3":
+  version: 3.2.1
+  resolution: "color@npm:3.2.1"
   dependencies:
-    color-convert: ^1.9.1
-    color-string: ^1.5.2
-  checksum: 273fe5d4c2a322dbc0e184ef6c891cbefefa11af7c6a8ed6001ff6986af747038cf3258bd4f4b715415f287c556efc8d1f0368bc02240877610ae1d427887537
+    color-convert: ^1.9.3
+    color-string: ^1.6.0
+  checksum: f81220e8b774d35865c2561be921f5652117638dcda7ca4029262046e37fc2444ac7bbfdd110cf1fd9c074a4ee5eda8f85944ffbdda26186b602dd9bb05f6400
   languageName: node
   linkType: hard
 
@@ -1123,12 +1117,12 @@ __metadata:
   linkType: hard
 
 "colorspace@npm:1.1.x":
-  version: 1.1.2
-  resolution: "colorspace@npm:1.1.2"
+  version: 1.1.4
+  resolution: "colorspace@npm:1.1.4"
   dependencies:
-    color: 3.0.x
+    color: ^3.1.3
     text-hex: 1.0.x
-  checksum: a959ec1669176aa72185067b7d04dae1cef2698456e1a452a035ce8adcac95673fbb1547e3240903355bcbaa67e031cca0b8b4f7d42c256b3dd94dcead8e1405
+  checksum: bb3934ef3c417e961e6d03d7ca60ea6e175947029bfadfcdb65109b01881a1c0ecf9c2b0b59abcd0ee4a0d7c1eae93beed01b0e65848936472270a0b341ebce8
   languageName: node
   linkType: hard
 
@@ -1258,9 +1252,9 @@ __metadata:
   linkType: hard
 
 "css-what@npm:^5.0.0, css-what@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "css-what@npm:5.0.1"
-  checksum: 7a3de33a1c130d32d711cce4e0fa747be7a9afe6b5f2c6f3d56bc2765f150f6034f5dd5fe263b9359a1c371c01847399602d74b55322c982742b336d998602cd
+  version: 5.1.0
+  resolution: "css-what@npm:5.1.0"
+  checksum: 0b75d1bac95c885c168573c85744a6c6843d8c33345f54f717218b37ea6296b0e99bb12105930ea170fd4a921990392a7c790c16c585c1d8960c49e2b7ec39f7
   languageName: node
   linkType: hard
 
@@ -1880,8 +1874,8 @@ __metadata:
   linkType: hard
 
 "google-auth-library@npm:^7.6.1, google-auth-library@npm:^7.9.2":
-  version: 7.10.0
-  resolution: "google-auth-library@npm:7.10.0"
+  version: 7.10.1
+  resolution: "google-auth-library@npm:7.10.1"
   dependencies:
     arrify: ^2.0.0
     base64-js: ^1.3.0
@@ -1892,15 +1886,15 @@ __metadata:
     gtoken: ^5.0.4
     jws: ^4.0.0
     lru-cache: ^6.0.0
-  checksum: 0c564b87197aa1f513cde97ad993ce158ffc8319d3e8a12426e6b8a9c5b030724b0e1d6d4155a41de210f902180d25e156f95a71bb423633a3c30276b6dee203
+  checksum: b5f55d4db005dfe9419f413689b0d3ff2847cb52c8ccd0b50036f524f72314eab4465f46c5268f52525d268df82327c9fc1cf0f365e90c734e4056de29f414ac
   languageName: node
   linkType: hard
 
 "google-gax@npm:^2.24.1":
-  version: 2.27.0
-  resolution: "google-gax@npm:2.27.0"
+  version: 2.28.0
+  resolution: "google-gax@npm:2.28.0"
   dependencies:
-    "@grpc/grpc-js": ~1.3.0
+    "@grpc/grpc-js": ~1.4.0
     "@grpc/proto-loader": ^0.6.1
     "@types/long": ^4.0.0
     abort-controller: ^3.0.0
@@ -1915,7 +1909,7 @@ __metadata:
     retry-request: ^4.0.0
   bin:
     compileProtos: build/tools/compileProtos.js
-  checksum: 471a3c0a093627146f99c6bb9260d3b80fd044e9d6c831e5741812b888661349adae92c0b95bbee87cfd8ef1ac6487f66ee361283eb4abbc777ada19a33ad730
+  checksum: 63e2ef42e4466848a318de268f5fc2b95fa0bfe3edaec675c97544478fa16b8fbc72353ceba950efad5c006cb78e86d29d8ce7f9641554b80c9427655cf6b344
   languageName: node
   linkType: hard
 
@@ -2096,16 +2090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^21.0.1":
-  version: 21.2.4
-  resolution: "i18next@npm:21.2.4"
-  dependencies:
-    "@babel/runtime": ^7.12.0
-  checksum: 2ec6c52da2e51bc35a4ca60ad2339c2eb91020a272b18695053f1842538313886d5293205e7290a83cd029c838e99351fad89444b6873d18d104383af1c95cdf
-  languageName: node
-  linkType: hard
-
-"i18next@npm:^21.3.2":
+"i18next@npm:^21.0.1, i18next@npm:^21.3.2":
   version: 21.3.3
   resolution: "i18next@npm:21.3.3"
   dependencies:

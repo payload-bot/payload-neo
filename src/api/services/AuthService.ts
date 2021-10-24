@@ -27,7 +27,7 @@ export default class AuthService {
 
     async refreshTokens(oldRefreshToken: string) {
         try {
-            await RefreshToken.deleteOne({ value: oldRefreshToken }).orFail().lean().exec();
+            await RefreshToken.deleteOne({ value: oldRefreshToken }).orFail().lean()
 
             const decoded = verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string) as {
                 id: string;

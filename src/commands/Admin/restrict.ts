@@ -1,9 +1,11 @@
-import type { Args, CommandOptions } from "@sapphire/framework";
+import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
 import { Server } from "#lib/models/Server";
+import { LanguageKeys } from "#lib/i18n/all";
+import { codeBlock } from "@discordjs/builders";
 
 const FLAGS = ["all"];
 
@@ -14,10 +16,11 @@ const FLAGS = ["all"];
   flags: FLAGS,
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: Args) {
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
     const useAllCommands = args.getFlags("all");
+    
     if (args.finished && !useAllCommands) {
-      return await send(msg, "no commands chosen");
+      return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
     }
 
     let commands: PayloadCommand[];
@@ -36,12 +39,16 @@ export class UserCommand extends PayloadCommand {
       .filter((name) => !["restrict", "unrestrict"].includes(name));
 
     if (!filteredCommands.length) {
-      return await send(msg, "no commands to restrict");
+      return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
     }
 
     await this.setRestrictions(msg.guildId!, filteredCommands);
 
-    return msg.channel.send(filteredCommands.join(", "));
+    return msg.channel.send(
+      args.t(LanguageKeys.Commands.Restrict.RestrictSuccess, {
+        commands: codeBlock(filteredCommands.join(", ")),
+      })
+    );
   }
 
   private async setRestrictions(guildId: string, commands: string[]) {
@@ -53,8 +60,6 @@ export class UserCommand extends PayloadCommand {
 
     const toRestrict = [...new Set([...existingRestrictions, ...commands])];
 
-    this.container.logger.debug(toRestrict);
-    
     await Server.findOneAndUpdate(
       { id: guildId },
       { commandRestrictions: toRestrict }

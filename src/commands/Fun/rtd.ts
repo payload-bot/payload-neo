@@ -14,8 +14,8 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: Args) {
     const sides = await args.pick("number").catch(() => 6);
     const amount = await args.pick("number").catch(() => 1);
-    let dice: number[] = [];
-
+    
+    const dice: number[] = [];
     for (let i = 0; i < amount; i++) dice.push(random(1, sides));
 
     const rolls = dice.map((roll) => bold(roll.toString())).join(" | ");

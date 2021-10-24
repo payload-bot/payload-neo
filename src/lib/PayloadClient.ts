@@ -7,7 +7,6 @@ import { Server } from "./models/Server";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
 import type { SnipeCache } from "./interfaces/cache";
-import type { InternationalizationContext } from "@sapphire/plugin-i18next";
 
 process.env.NODE_ENV ??= "development";
 
@@ -37,16 +36,6 @@ export class PayloadClient extends SapphireClient {
     }
 
     return [config.PREFIX, ""];
-  };
-
-  public fetchLanguage = async (msg: InternationalizationContext) => {
-    if (msg.guild) {
-      const server = await Server.findOne({ id: msg.guild.id }).lean()
-
-      return server?.language ?? "en-US";
-    }
-
-    return "en-US";
   };
 
   public async login(token?: string) {

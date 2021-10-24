@@ -1,5 +1,5 @@
 {
-  "clientPermissions": "I don't have sufficient permissions! I'm missing: {{ missing, permissionsAndList }}",
+  "clientPermissions": "I don't have sufficient permissions! I'm missing: {{ missing }}",
   "cooldown": "You have just used this command. You can use this command again in {{ remaining, duration }}.",
   "dmOnly": "This command can only be used in DM channels.",
   "guildNewsOnly": "This command can only be used in announcement channels.",

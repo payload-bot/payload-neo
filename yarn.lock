@@ -3038,6 +3038,7 @@ __metadata:
     "@sapphire/plugin-i18next": ^2.0.1
     "@sapphire/plugin-logger": ^2.0.1
     "@sapphire/plugin-subcommands": ^2.0.1
+    "@sapphire/time-utilities": ^1.4.4
     "@sapphire/ts-config": ^3.1.2
     "@sapphire/utilities": ^3.0.4
     "@types/cheerio": ^0.22.30

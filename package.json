@@ -7,8 +7,9 @@
     "#root/*": "./dist/*.js",
     "#lib/*": "./dist/lib/*.js",
     "#lib/utils/*": "./dist/lib/utils/*.js",
-    "#lib/types": "./dist/lib/types.js",
+    "#lib/types": "./dist/lib/types/index.js",
     "#lib/models/*": "./dist/lib/models/*.js",
+    "#lib/i18n/all": "./dist/lib/i18n/all/index.js",
     "#utils/*": "./dist/lib/utils/*.js"
   },
   "dependencies": {

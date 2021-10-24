@@ -1,35 +1,39 @@
-import type { CommandOptions, Args } from "@sapphire/framework";
+import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import { MessageEmbed, Message } from "discord.js";
 import PayloadColors from "#utils/colors";
 import { User } from "#lib/models/User";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
   description: "Gets user's profile.",
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: Args) {
-    const { bot, id, tag, displayAvatarURL } = await args
-      .pick("user")
-      .catch(() => msg.author);
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
+    const targetUser = await args.pick("user").catch(() => msg.author);
 
-    const user = await User.findOne({ id }).lean()
+    const { t } = args;
+
+    const user = await User.findOne({ id: targetUser.id }).lean();
+
+    const botT = t(LanguageKeys.Commands.Profile.Bot);
+    const pointsT = t(LanguageKeys.Commands.Profile.Points);
 
     const description = `
-      Bot: ${bot ? "Yes" : "No"}
-      ID: ${id}
+      ${botT}: ${targetUser.bot ? "Yes" : "No"}
+      ID: ${targetUser.id}
       Steam ID: ${user?.steamId || "NOT SET"}
-      Points: ${user?.fun?.payload?.feetPushed ?? 0}
+      ${pointsT}: ${user?.fun?.payload?.feetPushed ?? 0}
     `;
 
     const embed = new MessageEmbed({
-      title: tag,
+      title: targetUser.tag,
       description,
       color: PayloadColors.USER,
       thumbnail: {
-        url: displayAvatarURL(),
+        url: targetUser.displayAvatarURL(),
       },
     });
 

@@ -3,12 +3,14 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
+import PayloadColors from "#utils/colors";
 
 @ApplyOptions<CommandOptions>({
   description: "Information about the Payload client",
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message) {
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
     const membersServing = client.guilds.cache.reduce(
@@ -17,15 +19,18 @@ export class UserCommand extends PayloadCommand {
     );
 
     const guildsServing = client.guilds.cache.size;
-    const guildPrefix = await client.fetchPrefix(msg);
 
     const embed = new MessageEmbed({
       author: {
         name: client.user!.username,
         iconURL: client.user!.displayAvatarURL(),
       },
-      title: `Serving ${membersServing} users in ${guildsServing} servers!`,
-      description: `Join the official %user discord server for help and suggestions: https://payload.tf/discord\n\nInvite %user to your server with ${guildPrefix}!\nHelp translate for Payload: https://crowdin.com/project/payload\n\nA huge thanks to: miko, supra, spaenny, Elias and 24 for helping with translations!`,
+      title: args.t(LanguageKeys.Commands.Info.EmbedTitle, {
+        users: membersServing,
+        servers: guildsServing,
+      }),
+      description: args.t(LanguageKeys.Commands.Info.EmbedDescription),
+      color: PayloadColors.PAYLOAD,
     });
 
     return await send(msg, { embeds: [embed] });

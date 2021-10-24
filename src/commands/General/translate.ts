@@ -1,20 +1,21 @@
-import type { Args, CommandOptions } from "@sapphire/framework";
+import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { Translate as GTranslate } from "@google-cloud/translate/build/src/v2/index";
 import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
   description: "Breaks a phrase in translation.",
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: Args) {
+  async messageRun(msg: Message, args: PayloadCommand.Args) {
     const phrase = await args.rest("string").catch(() => null);
 
     if (!phrase) {
-      return await send(msg, "no phrase sent");
+      return await send(msg, args.t(LanguageKeys.Commands.Translate.NoPhrase));
     }
 
     const translator = new GTranslate({
@@ -27,20 +28,23 @@ export class UserCommand extends PayloadCommand {
 
       const embed = new MessageEmbed({
         description: botchedPhrase,
-        title: "Translate Result",
+        title: args.t(LanguageKeys.Commands.Translate.EmbedTitle),
         author: {
           name: msg.author.username,
           iconURL: msg.author.displayAvatarURL(),
         },
         footer: {
-          text: "Translated by Google Translate",
+          text: args.t(LanguageKeys.Commands.Translate.EmbedFooter),
         },
         color: PayloadColors.USER,
       });
 
       return await send(msg, { embeds: [embed] });
     } catch (err) {
-      return await send(msg, "error translating");
+      return await send(
+        msg,
+        args.t(LanguageKeys.Commands.Translate.ErrorTranslating)
+      );
     }
   }
 }

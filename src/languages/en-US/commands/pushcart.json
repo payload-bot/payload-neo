@@ -10,5 +10,5 @@
   "giftSuccess_many": "🎁 {{ from }} has gifted **{{ count }}** points to {{ to }}!",
 
   "leaderboardEmbedTitle": "Pushcart Leaderboard",
-  "serverEmbedTitle": "Pushcart Server Leadearboard"
+  "serverEmbedTitle": "Pushcart Server Leaderboard"
 }

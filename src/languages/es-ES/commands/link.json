@@ -1,0 +1,5 @@
+{
+  "missingId": "¡Debes proveer una SteamID!",
+  "malformedId": "¡Eso no es una SteamID!",
+  "success": "¡Nueva SteamID establecida exitosamente!"
+}

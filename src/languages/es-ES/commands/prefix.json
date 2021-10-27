@@ -1,0 +1,8 @@
+{
+  "currentPrefix": "El prefijo actual es: {{ prefix }}",
+  "setNeedsArgs": "Por favor, especifique un nuevo prefijo!",
+  "setSamePrefix": "El prefijo nuevo es igual al anterior!",
+  "setPrefixEmbedTitle": "El prefijo fue actualizado por {{ user }}",
+  "setPrefixEmbedDesc": "El prefijo ha sido actualizado de {{ old }} a {{ new }}",
+  "deleteAlreadyDefault": "¡Tu prefijo ya es el predeterminado!"
+}

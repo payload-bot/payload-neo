@@ -1,0 +1,4 @@
+{
+  "noCommands": "¡Debes especificar que comandos quieres removar las restricciónes!",
+  "unrestrictSuccess": "Se ha removido la restricción de los siguientes comandos: {{ commands }}"
+}

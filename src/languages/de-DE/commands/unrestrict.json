@@ -1,0 +1,4 @@
+{
+  "noCommands": "Du musst angeben, welche Befehle uneingeschränkt sein sollen!",
+  "unrestrictSuccess": "Uneingeschränkt: {{ commands }}"
+}

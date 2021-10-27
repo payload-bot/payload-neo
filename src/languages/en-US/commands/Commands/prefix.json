@@ -1,8 +1,0 @@
-{
-  "currentPrefix": "The current prefix is: {{ prefix }}",
-  "setNeedsArgs": "Please specify a new prefix!",
-  "setSamePrefix": "Your new prefix is the same as the old prefix!",
-  "setPrefixEmbedTitle": "Prefix updated by {{ user }}",
-  "setPrefixEmbedDesc": "Prefix updated from {{ old }} to {{ new }}",
-  "deleteAlreadyDefault": "Your prefix is already the default!"
-}

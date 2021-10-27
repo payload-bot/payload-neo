@@ -102,5 +102,5 @@ export const CLIENT_OPTIONS: ClientOptions = {
   logger: makeLogger(),
   makeCache: cacheOptions(),
   presence: getPresence(),
-  // i18n: parseI18N(),
+  i18n: parseI18N(),
 };

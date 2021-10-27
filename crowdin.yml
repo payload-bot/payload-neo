@@ -1,8 +1,7 @@
-project_id: "395009"
-api_token_env: "CROWDIN_PERSONAL_TOKEN"
-commit_message: "chore(i18n): update localization files"
+project_id: '395009'
+api_token_env: CROWDIN_PERSONAL_TOKEN
+commit_message: 'chore(i18n): update localization files'
 append_commit_message: false
-
 files:
   - source: /src/languages/en-US/**/*.json
     translation: /src/languages/%locale%/**/%original_file_name%

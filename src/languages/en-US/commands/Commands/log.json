@@ -1,0 +1,5 @@
+{
+  "noIdLinked": "{{ user }} doesn't have their SteamID linked!",
+  "noHistory": "Player doesn't have any log history!",
+  "button": "Visit Log"
+}

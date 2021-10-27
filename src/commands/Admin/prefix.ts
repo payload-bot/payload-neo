@@ -26,7 +26,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   async view(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();;
+    const server = await Server.findOne({ id: msg.guild!.id }).lean();
 
     const content = args.t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
       prefix: inlineCode(server?.prefix ?? config.PREFIX),
@@ -38,7 +38,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async set(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();;
+    const server = await Server.findOne({ id: msg.guild!.id }).lean();
     const prefix = await args.pick("string").catch(() => null);
 
     const { t } = args;
@@ -75,7 +75,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async delete(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();;
+    const server = await Server.findOne({ id: msg.guild!.id }).lean();
     const { t } = args;
 
     if (server?.prefix === config.PREFIX) {

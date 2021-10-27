@@ -32,7 +32,7 @@ export class PayloadClient extends SapphireClient {
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const server = await Server.findOne({ id: msg.guildId }).lean();;
+      const server = await Server.findOne({ id: msg.guildId }).lean();
 
       return server?.prefix ?? config.PREFIX;
     }

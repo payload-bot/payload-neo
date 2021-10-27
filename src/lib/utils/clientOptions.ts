@@ -50,7 +50,7 @@ function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
-        const server = await Server.findOne({ id: msg.guild.id }).lean();;
+        const server = await Server.findOne({ id: msg.guild.id }).lean();
 
         return server?.language ?? "en-US";
       }

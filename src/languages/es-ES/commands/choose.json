@@ -1,0 +1,5 @@
+{
+  "noOptions": "¡No tengo nada entre que elegir!",
+  "chosen_one": "¡Elijo {{ options }}!",
+  "chosen_other": "He elegido lo siguiente: {{ options }}"
+}

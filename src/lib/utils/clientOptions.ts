@@ -45,7 +45,6 @@ function getPresence(): PresenceData {
   };
 }
 
-// @ts-ignore
 function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {

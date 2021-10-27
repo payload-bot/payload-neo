@@ -1,0 +1,4 @@
+{
+  "deleted_one": "🗑 Se han eliminado **{{ count }}** mensajes en {{ seconds }} segundos.",
+  "deleted_other": "🗑 Se han eliminado **{{ count }}** mensajes en {{ seconds }} segundos."
+}

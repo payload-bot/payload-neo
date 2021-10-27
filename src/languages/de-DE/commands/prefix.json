@@ -1,0 +1,8 @@
+{
+  "currentPrefix": "Das aktuelle Präfix ist: {{ prefix }}",
+  "setNeedsArgs": "Bitte gebe ein neues Präfix an!",
+  "setSamePrefix": "Dein neues Präfix ist das gleiche wie das alte Präfix!",
+  "setPrefixEmbedTitle": "Präfix aktualisiert von {{ user }}",
+  "setPrefixEmbedDesc": "Präfix wurde aktualisiert von {{ old }} auf {{ new }}",
+  "deleteAlreadyDefault": "Dein Präfix ist bereits der Standard!"
+}

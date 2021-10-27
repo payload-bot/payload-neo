@@ -16,7 +16,7 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const user = await User.findOne({ id: targetUser.id }).lean();
+    const user = await User.findOne({ id: targetUser.id }).lean();;
 
     const botT = t(LanguageKeys.Commands.Profile.Bot);
     const pointsT = t(LanguageKeys.Commands.Profile.Points);

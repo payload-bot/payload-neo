@@ -19,6 +19,6 @@ export default class WebhookService {
   }
 
   async getWebhookById(id: string) {
-    return await Webhook.findById(id).lean();
+    return await Webhook.findById(id).lean();;
   }
 }

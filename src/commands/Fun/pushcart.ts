@@ -55,7 +55,7 @@ export class UserCommand extends PayloadCommand {
 
     const result = await this.userPushcart(msg.author.id, randomNumber);
 
-    const user = await User.findOne({ id: msg.author.id }).lean();
+    const user = await User.findOne({ id: msg.author.id }).lean();;
 
     if (result === PayloadPushResult.COOLDOWN) {
       const timeLeft = Math.round(
@@ -146,7 +146,7 @@ export class UserCommand extends PayloadCommand {
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const clientLeaderboard = await Client.findOne({ id: 0 }).lean();
+    const clientLeaderboard = await Client.findOne({ id: 0 }).lean();;
 
     const top10 = clientLeaderboard!.leaderboard.pushcart.users.slice(0, 10);
 
@@ -198,7 +198,7 @@ export class UserCommand extends PayloadCommand {
   }
 
   async rank(msg: Message, args: PayloadCommand.Args) {
-    const client = await Client.findOne({ id: 0 }).lean();
+    const client = await Client.findOne({ id: 0 }).lean();;
 
     const targetUser = await args.pick("user").catch(() => msg.author);
 

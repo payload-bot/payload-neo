@@ -29,9 +29,7 @@ export class UserPrecondition extends Precondition {
     command: Command,
     context: Precondition.Context
   ) {
-    const server = await Server.findOne({ id: msg.guildId as string })
-      .lean()
-      .exec();
+    const server = await Server.findOne({ id: msg.guildId as string }).lean();
 
     if (
       server?.commandRestrictions?.find((restriction) =>

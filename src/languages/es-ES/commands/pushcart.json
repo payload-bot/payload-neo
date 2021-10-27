@@ -1,0 +1,12 @@
+{
+  "cooldown": "Debes esperar {{ seconds }} segundo(s) antes de empujar el carro nuevamente!",
+  "maxpoints": "Has alcanzado la máxima cantidad de puntos por hoy. ¡Vuelve en {{ expires }}!",
+  "pushSuccess": "<:payload:656955124098269186> Ha empujado el carrito **{{ units }}** pies ({{ total }} total).",
+  "noAmount": "Por favor, especifique la cantidad de puntos a regalar",
+  "noTargetUser": "¡Debes especificar a quien le estás dando estos puntos!",
+  "notEnoughCreds": "¡No tienes tantos puntos para regalar!",
+  "giftSuccess_one": "🎁¡{{ from }} le ha regalado **{{ count }}** punto(s) a {{ to }}!",
+  "giftSuccess_many": "🎁¡{{ from }} le ha regalado **{{ count }}** punto(s) a {{ to }}!",
+  "leaderboardEmbedTitle": "Leaderboard de Empuja-Carritos",
+  "serverEmbedTitle": "=Leaderboard de Empuja-Carritos de Servidores"
+}

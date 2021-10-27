@@ -1,0 +1,4 @@
+{
+  "deleted_one": "🗑 Es wurde **{{ count }}** Nachricht in {{ seconds }} Sekunden gelöscht.",
+  "deleted_other": "🗑 Es wurden **{{ count }}** Nachrichten in {{ seconds }} Sekunden gelöscht."
+}

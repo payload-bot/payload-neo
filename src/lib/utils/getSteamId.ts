@@ -1,5 +1,5 @@
 import axios from "axios";
-import SteamID from "steamid";
+import { ID } from "@node-steam/id";
 
 /**
  * Tests and retrieves an ID64 from a string
@@ -7,12 +7,12 @@ import SteamID from "steamid";
  * @returns {string|null} Result
  */
 export async function getSteamIdFromArgs(id: string) {
-  let steamID: SteamID;
-
   if (!!id) return null;
 
+  let steamID: ID;
+
   try {
-    steamID = new SteamID(id);
+    steamID = new ID(id);
   } catch (err) {
     try {
       const { data } = await axios.get<string>(

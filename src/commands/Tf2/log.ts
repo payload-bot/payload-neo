@@ -12,7 +12,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 @ApplyOptions<CommandOptions>({
   description:
     "Displays the latest log of the (mentioned) user. Must have your steamid linked through the bot.",
-  cooldownDelay: 1000,
+  cooldownDelay: 1500,
   cooldownLimit: 1,
   cooldownScope: BucketScope.User,
 })

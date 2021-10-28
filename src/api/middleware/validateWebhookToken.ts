@@ -16,6 +16,7 @@ export default async function validateWebhookToken(
     const { id, type } = await Webhook.findOne({ value: token })
       .lean()
       .orFail();
+      
     req.webhook_type = type;
     req.webhook_id = id;
     return next();

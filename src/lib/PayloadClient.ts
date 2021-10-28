@@ -7,7 +7,8 @@ import { Server } from "./models/Server";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
 import type { SnipeCache } from "./interfaces/cache";
-import type { InternationalizationContext } from "@sapphire/plugin-i18next";
+import i18next from "i18next";
+import { DurationFormatter } from "@sapphire/time-utilities";
 
 process.env.NODE_ENV ??= "development";
 
@@ -31,7 +32,7 @@ export class PayloadClient extends SapphireClient {
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const server = await Server.findOne({ id: msg.guildId }).lean()
+      const server = await Server.findOne({ id: msg.guildId }).lean();
 
       return server?.prefix ?? config.PREFIX;
     }
@@ -39,18 +40,15 @@ export class PayloadClient extends SapphireClient {
     return [config.PREFIX, ""];
   };
 
-  public fetchLanguage = async (msg: InternationalizationContext) => {
-    if (msg.guild) {
-      const server = await Server.findOne({ id: msg.guild.id }).lean()
-
-      return server?.language ?? "en-US";
-    }
-
-    return "en-US";
-  };
-
   public async login(token?: string) {
     const response = await super.login(token);
+
+    // i18n formatting
+    // @TODO: move this to plugin instead... needs PR
+    i18next.services!.formatter!.add("duration", (value, _lng, options) => {
+      return new DurationFormatter().format(value, options?.duration ?? 2);
+    });
+
     return response;
   }
 

@@ -1,5 +1,10 @@
+import { Server } from "#lib/models/Server";
 import config from "#root/config";
 import { Logger, LogLevel } from "@sapphire/framework";
+import type {
+  InternationalizationContext,
+  InternationalizationOptions,
+} from "@sapphire/plugin-i18next";
 import {
   ClientOptions,
   Intents,
@@ -40,6 +45,30 @@ function getPresence(): PresenceData {
   };
 }
 
+function parseI18N(): InternationalizationOptions {
+  return {
+    fetchLanguage: async (msg: InternationalizationContext) => {
+      if (msg.guild) {
+        const server = await Server.findOne({ id: msg.guild.id }).lean();
+
+        return server?.language ?? "en-US";
+      }
+
+      return "en-US";
+    },
+    i18next: (_: string[], languages: string[]) => ({
+      fallbackLng: "en-US",
+      preload: languages,
+      supportedLngs: languages,
+      load: "all",
+      lng: "en-US",
+      overloadTranslationOptionHandler: (args) => ({
+        defaultValue: args[1] ?? "globals:default",
+      }),
+    }),
+  };
+}
+
 export const CLIENT_OPTIONS: ClientOptions = {
   intents: [
     // Need to parse DMS
@@ -55,4 +84,5 @@ export const CLIENT_OPTIONS: ClientOptions = {
   logger: makeLogger(),
   makeCache: cacheOptions(),
   presence: getPresence(),
+  i18n: parseI18N(),
 };

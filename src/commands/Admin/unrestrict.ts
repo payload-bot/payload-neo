@@ -58,9 +58,11 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async unsetRestrictions(guildId: string, commands: string[]) {
-    const server = await Server.findOne({ id: guildId }, {}, { upsert: true })
-      .lean()
-      .exec();
+    const server = await Server.findOne(
+      { id: guildId },
+      {},
+      { upsert: true }
+    ).lean();
 
     const existingRestrictions = server!.commandRestrictions ?? [];
 

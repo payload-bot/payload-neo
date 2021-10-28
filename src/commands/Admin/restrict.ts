@@ -18,7 +18,7 @@ const FLAGS = ["all"];
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const useAllCommands = args.getFlags("all");
-    
+
     if (args.finished && !useAllCommands) {
       return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
     }
@@ -52,9 +52,11 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async setRestrictions(guildId: string, commands: string[]) {
-    const server = await Server.findOne({ id: guildId }, {}, { upsert: true })
-      .lean()
-      .exec();
+    const server = await Server.findOne(
+      { id: guildId },
+      {},
+      { upsert: true }
+    ).lean();
 
     const existingRestrictions = server!.commandRestrictions ?? [];
 

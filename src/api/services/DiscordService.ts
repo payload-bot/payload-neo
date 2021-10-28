@@ -42,7 +42,7 @@ export default class DiscordService {
                 const isPayloadIn = await client.guilds.fetch(guild.id)
 
                 if (isPayloadIn) {
-                    const server = await Server.findOne({ id: guild.id }, {},  {upsert: true }).lean()
+                    const server = await Server.findOne({ id: guild.id }, {},  {upsert: true }).lean();
 
                     return {
                         iconUrl:

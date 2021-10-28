@@ -15,9 +15,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
-    const guildSetting = await Server.findOne({ id: msg.guild!.id })
-      .lean()
-      .exec();
+    const guildSetting = await Server.findOne({ id: msg.guild!.id }).lean();
 
     if (!guildSetting?.enableSnipeForEveryone) {
       if (!msg.member!.permissions.has("MANAGE_MESSAGES")) {

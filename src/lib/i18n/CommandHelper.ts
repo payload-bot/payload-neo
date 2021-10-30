@@ -2,6 +2,7 @@ export class BuildCommandHelp {
   private aliases: string = null!;
   private usages: string = null!;
   private details: string = null!;
+  private description: string = null!;
 
   public setAliases(text: string) {
     this.aliases = text;
@@ -18,15 +19,25 @@ export class BuildCommandHelp {
     return this;
   }
 
+  public setDescription(text: string) {
+    this.description = text;
+    return this;
+  }
+
   public display(
     name: string,
     aliases: string | null,
     options: LanguageHelpDisplayOptions,
-    prefixUsed: string
+    prefixUsed: string,
+    description: string
   ) {
-    console.log(options)
     const { usages = [], details } = options;
     const output: string[] = [];
+
+    // Simple Description
+    if (description) {
+      output.push(this.description, description, "");
+    }
 
     // Usages
     if (usages.length) {
@@ -40,6 +51,7 @@ export class BuildCommandHelp {
       );
     }
 
+    // Aliases
     if (aliases !== null) {
       output.push(`${this.aliases}: ${aliases}`, "");
     }

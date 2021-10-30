@@ -1,7 +1,8 @@
 {
   "helpTitles": {
+    "description": "**Description**",
     "aliases": "**Aliases**",
-    "usagess": "**usages**",
-    "extendedHelp": "**More Details**"
+    "usages": "**usages**",
+    "moreDetails": "**More Details**"
   }
 }

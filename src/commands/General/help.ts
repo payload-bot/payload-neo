@@ -34,21 +34,21 @@ export class UserCommand extends PayloadCommand {
     const translatedCases = args.t(LanguageKeys.System.HelpTitles);
 
     const builder = new BuildCommandHelp()
+      .setDescription(translatedCases.description)
       .setAliases(translatedCases.aliases)
       .setUsages(translatedCases.usages)
-      .setDetails(translatedCases.extendedHelp);
+      .setDetails(translatedCases.moreDetails);
 
     const detailedDescription = args.t(
       command.detailedDescription
     ) as LanguageHelpDisplayOptions;
 
-    console.log(detailedDescription);
-
     const content = builder.display(
       command.name,
       this.getAliases(command),
       detailedDescription,
-      context.commandPrefix
+      context.commandPrefix,
+      args.t(command.description)
     );
 
     const embed = new MessageEmbed({

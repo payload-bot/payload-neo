@@ -45,7 +45,7 @@ export class UserCommand extends PayloadCommand {
 
     const content = builder.display(
       commandData!.name,
-      commandData?.aliases?.join(", ") ?? null,
+      this.getAliases(commandData!),
       detailedDescription,
       commandPrefix
     );
@@ -57,5 +57,11 @@ export class UserCommand extends PayloadCommand {
     });
 
     return await send(msg, { embeds: [embed] });
+  }
+
+  private getAliases(command: PayloadCommand) {
+    if (!!command.aliases) return null;
+
+    return (command.aliases as readonly string[]).join(", ");
   }
 }

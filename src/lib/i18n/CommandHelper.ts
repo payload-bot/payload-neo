@@ -27,7 +27,6 @@ export class BuildCommandHelp {
     const { usages = [], details } = options;
     const output: string[] = [];
 
-    console.log(details)
     // Usages
     if (usages.length) {
       output.push(

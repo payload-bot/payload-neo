@@ -6,6 +6,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { Server } from "#lib/models/Server";
 import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 
 const FLAGS = ["all"];
 
@@ -38,7 +39,7 @@ export class UserCommand extends PayloadCommand {
       .map((cmd) => cmd?.name ?? cmd)
       .filter((name) => !["restrict", "unrestrict"].includes(name));
 
-    if (!filteredCommands.length) {
+    if (isNullishOrEmpty(filteredCommands)) {
       return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
     }
 

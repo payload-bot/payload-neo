@@ -15,11 +15,11 @@ export class UserListener extends Listener<typeof Events.CommandDenied> {
     const indentifier = mapIdentifier(error.identifier);
     const content = await resolveKey(message, indentifier, { message, command, ...(error.context as any)})
 
-    return this.alert(message, content);
+    return await this.alert(message, content);
   }
 
-  private alert(message: Message, content: string) {
-    return message.channel.send({
+  private async alert(message: Message, content: string) {
+    return await message.channel.send({
       content,
       allowedMentions: { users: [message.author.id], roles: [] },
     });

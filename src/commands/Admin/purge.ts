@@ -17,7 +17,8 @@ const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
-    const amount = await args.pick("number").catch(() => 100);
+    // Discord limitation (Prove me wrong.)
+    const amount = await args.pick("number", { maximum: 100 }).catch(() => 100);
 
     const targetedUsersToRemove = msg.mentions.users;
 

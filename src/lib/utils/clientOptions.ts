@@ -81,6 +81,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
     Intents.FLAGS.GUILDS,
   ],
   defaultPrefix: config.PREFIX,
+  loadDefaultErrorListeners: false,
   logger: makeLogger(),
   makeCache: cacheOptions(),
   presence: getPresence(),

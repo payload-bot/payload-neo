@@ -1,3 +1,4 @@
+import { LanguageKeys } from "#lib/i18n/all";
 import type { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { Argument, Command, ArgumentContext } from "@sapphire/framework";
@@ -18,6 +19,6 @@ export class UserArgument extends Argument<Command> {
     }
 
     // make this identifier something in the future
-    return this.error({ parameter, identifier: "BadCommandName", context });
+    return this.error({ parameter, identifier: LanguageKeys.Arguments.Command, context });
   }
 }

@@ -1,4 +1,5 @@
-import { T } from "#lib/types";
+import { T, FT } from "#lib/types";
 
-export const Description = T<string>("commands/rtd:description");
-export const DetailedDescription = T<string>("commands/rtd:detailedDescription");
+export const Description = T<string>("commands/invite:description");
+export const DetailedDescription = T<string>("commands/invite:detailedDescription");
+export const Button = FT<{ url: string }, string>("commands/invite:button");

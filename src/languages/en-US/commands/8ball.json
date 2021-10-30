@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Asks the magic 8ball a question.",
   "detailedDescription": {},
   "noQuestion": "You need to give me a question!"
 }

@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Disables command(s) for all channels in this server",
   "detailedDescription": {},
   "noCommands": "You need to specify which commands to restrict!",
   "restrictSuccess": "Restricted the following commands: {{ commands }}"

@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Pushcart leaderboard",
   "detailedDescription": {},
   "cooldown": "You must wait {{ seconds }} seconds before pushing the cart again!",
   "maxpoints": "You have reached the max number of points for today. Come back in {{ expires }}!",

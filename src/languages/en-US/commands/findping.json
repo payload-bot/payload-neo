@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Finds if you've been ghost pinged",
   "detailedDescription": {},
   "noPings": "You have not been mentioned yet"
 }

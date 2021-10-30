@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Links a user's SteamID to Payload",
   "detailedDescription": {},
   "missingId": "You need to provide a SteamID!",
   "malformedId": "That doesn't appear to be a SteamID!",

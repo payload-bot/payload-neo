@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Grabs a log of a user from logs.tf",
   "detailedDescription": {},
   "noIdLinked": "{{ user }} doesn't have their SteamID linked!",
   "noHistory": "Player doesn't have any log history!",

@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Enables command(s) for all channels in this server",
   "detailedDescription": {},
   "noCommands": "You need to specify which commands to unrestrict!",
   "unrestrictSuccess": "Unrestricted the following commands: {{ commands }}"

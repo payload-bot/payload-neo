@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Gets the changelog of Payload",
   "detailedDescription": {},
   "invalidFormat": "Invalid version format",
   "invalidVersion": "Invalid version"

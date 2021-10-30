@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "Manages your prefix for this server",
   "detailedDescription": {},
   "currentPrefix": "The current prefix is: {{ prefix }}",
   "setNeedsArgs": "Please specify a new prefix!",

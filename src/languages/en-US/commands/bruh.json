@@ -1,7 +1,7 @@
 {
   "description": "Bruh",
   "detailedDescription": {
-    "usagess": ["<user>"],
+    "usages": ["<user>"],
     "details": "If you mention a user in this command, it will ping them."
   },
   "noMention": "bruh",

@@ -1,7 +1,7 @@
 {
   "description": "Gets help on a command.",
   "detailedDescription": {
-    "usagess": ["[command]"],
+    "usages": ["[command]"],
     "details": "Need some help on a command? This will give you the usages of the command with the arguments it can accept, and some additional details about the command."
   }
 }

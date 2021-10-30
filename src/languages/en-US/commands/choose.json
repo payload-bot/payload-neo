@@ -1,7 +1,7 @@
 {
   "description": "Randomly chooses an item from a list of options",
   "detailedDescription": {
-    "usagess": ["[num] <options>"],
+    "usages": ["[num] <options>"],
     "details": "The first argument is the number of choices to choose, defaulting to **1**.\nOptions is a repeated string.\n**Hint**: To use sentences, use \"quotes to group words together!\""
   },
   "noOptions": "I have nothing to choose from!",

@@ -1,5 +1,6 @@
 import { FT, T } from '#lib/types';
 
+export const ArgsMissing = T('arguments:missing');
 export const BooleanError = FT<{ parameter: string; possibles: string[]; count: number }>('arguments:booleanError');
 export const ChannelError = FT<{ parameter: string }>('arguments:channelError');
 export const Command = FT<{ parameter: string }>('arguments:command');

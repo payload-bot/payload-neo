@@ -1,27 +1,6 @@
 {
   "booleanError": "I could not resolve `{{ parameter }}` to a boolean, the only possible value is: {{ possibles, list }}",
-  "booleanFalseOptions": [
-    "false",
-    "f",
-    "no",
-    "n",
-    "off",
-    "disable",
-    "disabled",
-    "0",
-    "-"
-  ],
-  "booleanTrueOptions": [
-    "true",
-    "t",
-    "yes",
-    "y",
-    "on",
-    "enable",
-    "enabled",
-    "1",
-    "+"
-  ],
+  "missing": "You're missing an argument! You should do `{{ commandContext.commandPrefix }}help {{ command.name }}` to find out how to use this command.",
   "channelError": "I could not resolve `{{ parameter }}` to a channel, make sure you typed its name or ID correctly!",
   "command": "I could not resolve `{{ parameter }}` to a command! Make sure you typed its name or one of its aliases correctly!",
   "dateError": "I could not resolve `{ {parameter}}` to a date, there are some of the valid formats:\n\n$t(arguments:dateFormats)",

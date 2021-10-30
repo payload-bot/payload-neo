@@ -39,6 +39,8 @@ export function mapIdentifier(identifier: string): string {
 		case Identifiers.ArgumentStringTooShort:
 		case Identifiers.ArgumentUserError:
 			return `arguments:${identifier}`;
+	case Identifiers.ArgsMissing:
+		return LanguageKeys.Arguments.ArgsMissing;
     case Identifiers.CommandDisabled:
       return LanguageKeys.Preconditions.DisabledGlobal;
     case Identifiers.PreconditionCooldown:

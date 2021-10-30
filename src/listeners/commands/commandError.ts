@@ -22,9 +22,12 @@ export class UserListener extends Listener<typeof Events.CommandError> {
   async run(error: Error, { message, args }: CommandErrorPayload) {
     const { client, logger } = this.container;
 
-    if (typeof error === "string") return this.container.logger.error(`Unhandled string error:\n${error}`);
-    if (error instanceof ArgumentError) return await this.argumentError(message, args.t, error);
-    if (error instanceof UserError) return await this.userError(message, args.t, error);
+    if (typeof error === "string")
+      return this.container.logger.error(`Unhandled string error:\n${error}`);
+    if (error instanceof ArgumentError)
+      return await this.argumentError(message, args.t, error);
+    if (error instanceof UserError)
+      return await this.userError(message, args.t, error);
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
@@ -91,10 +94,15 @@ export class UserListener extends Listener<typeof Events.CommandError> {
   }
 
   private async userError(message: Message, t: TFunction, error: UserError) {
-    if (Reflect.get(Object(error.context), 'silent')) return;
+    if (Reflect.get(Object(error.context), "silent")) return;
 
     const identifier = mapIdentifier(error.identifier);
 
-    return await send(message, t(identifier, { context: error.context }))
+    return await send(
+      message,
+      t(identifier, {
+        ...(error.context as any),
+      })
+    );
   }
-} 
+}

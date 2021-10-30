@@ -19,19 +19,18 @@ export class UserCommand extends PayloadCommand {
   async messageRun(
     msg: Message,
     args: PayloadCommand.Args,
-    { commandPrefix }: CommandContext
+    context: CommandContext
   ) {
     if (args.finished) {
-      // return commands
+      // Just send the commands command
+      const allCommands = this.container.stores.get("commands");
+      const runCommand = allCommands.get("commands");
+
+      return runCommand?.messageRun(msg, args, context);
     }
 
-    const command = await args.pickResult("commandName");
+    const command = await args.pick("commandName");
 
-    if (!command.success) {
-      // not a valid command
-    }
-
-    const commandData = command.value;
     const translatedCases = args.t(LanguageKeys.System.HelpTitles);
 
     const builder = new BuildCommandHelp()
@@ -40,18 +39,18 @@ export class UserCommand extends PayloadCommand {
       .setDetails(translatedCases.extendedHelp);
 
     const detailedDescription = args.t(
-      commandData!.detailedDescription
+      command.detailedDescription
     ) as LanguageHelpDisplayOptions;
 
     const content = builder.display(
-      commandData!.name,
-      this.getAliases(commandData!),
+      command.name,
+      this.getAliases(command),
       detailedDescription,
-      commandPrefix
+      context.commandPrefix
     );
 
     const embed = new MessageEmbed({
-      title: commandData!.name,
+      title: command.name,
       color: PayloadColors.COMMAND,
       description: content,
     });

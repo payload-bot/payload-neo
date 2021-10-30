@@ -49,6 +49,10 @@ export class PayloadClient extends SapphireClient {
       return new DurationFormatter().format(value, options?.duration ?? 2);
     });
 
+    i18next.options!.interpolation!.defaultVariables = {
+      PUSHCART_EMOJI: "<:payload:656955124098269186>",
+    };
+
     return response;
   }
 

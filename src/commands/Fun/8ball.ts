@@ -39,12 +39,12 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const question = await args.rest("string").catch(() => null);
 
-    if (!question)
+    if (!question) {
       return await send(
         msg,
         args.t(LanguageKeys.Commands.EightBall.NoQuestion)
       );
-
+    }
     const response = responses[random(0, responses.length - 1)];
 
     return await send(msg, `🎱 ${bold(response)}`);

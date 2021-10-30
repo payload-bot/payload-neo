@@ -23,7 +23,6 @@ export class UserCommand extends PayloadCommand {
       }
     }
 
-    const number = await args.pick("number").catch(() => 1);
     const client = this.container.client as PayloadClient;
 
     if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
@@ -34,17 +33,10 @@ export class UserCommand extends PayloadCommand {
 
     const cache = getCache(client, msg);
 
-    const max = cache.size;
-
-    if (number > max) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount)
-      );
-    }
+    const number = await args.pick("integer", { minimum: 1, maximum: cache.size });
 
     const ids = [...cache.keys()];
-    const targetMessage = cache.get(ids[max - number])!;
+    const targetMessage = cache.get(ids[number])!;
 
     const snipeData = await renderMessage(targetMessage);
 

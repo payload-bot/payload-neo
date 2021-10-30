@@ -8,6 +8,10 @@ import {
 } from "@sapphire/framework";
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
+import type { TFunction } from "@sapphire/plugin-i18next";
+import { mapIdentifier } from "#lib/i18n/mapping";
+import { cutText } from "@sapphire/utilities";
+import { send } from "@skyra/editable-commands";
 
 const ignoredCodes = [
   RESTJSONErrorCodes.UnknownChannel,
@@ -15,12 +19,12 @@ const ignoredCodes = [
 ];
 
 export class UserListener extends Listener<typeof Events.CommandError> {
-  run(error: Error, { message, args }: CommandErrorPayload<Args>) {
+  async run(error: Error, { message, args }: CommandErrorPayload) {
     const { client, logger } = this.container;
 
-    if (typeof error === "string") return;
-    if (error instanceof ArgumentError) return;
-    if (error instanceof UserError) return;
+    if (typeof error === "string") return this.container.logger.error(`Unhandled string error:\n${error}`);
+    if (error instanceof ArgumentError) return await this.argumentError(message, args.t, error);
+    if (error instanceof UserError) return await this.userError(message, args.t, error);
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
@@ -33,6 +37,8 @@ export class UserListener extends Listener<typeof Events.CommandError> {
         }`
       );
     }
+
+    return undefined;
   }
 
   private isSilencedError(args: Args, error: DiscordAPIError | HTTPError) {
@@ -66,4 +72,29 @@ export class UserListener extends Listener<typeof Events.CommandError> {
     // If the query was made to the message's channel, then it was a DM response:
     return error.path === `/channels/${args.message.channel.id}/messages`;
   }
-}
+
+  private async argumentError(
+    message: Message,
+    t: TFunction,
+    error: ArgumentError<unknown>
+  ) {
+    const argument = error.argument.name;
+    const identifier = mapIdentifier(error.identifier);
+    const parameter = error.parameter.replaceAll("`", "῾");
+    const content = t(identifier, {
+      ...error,
+      ...(error.context as object),
+      argument,
+      parameter: cutText(parameter, 50),
+    });
+    return await send(message, content);
+  }
+
+  private async userError(message: Message, t: TFunction, error: UserError) {
+    if (Reflect.get(Object(error.context), 'silent')) return;
+
+    const identifier = mapIdentifier(error.identifier);
+
+    return await send(message, t(identifier, { context: error.context }))
+  }
+} 

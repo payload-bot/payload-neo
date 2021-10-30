@@ -7,7 +7,7 @@
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "skipLibCheck": true,
     "baseUrl": "src",
-    "lib": ["DOM"],
+    "lib": ["DOM", "ES2021"],
     "removeComments": true,
     "paths": {
       "#lib/types": ["lib/types"],

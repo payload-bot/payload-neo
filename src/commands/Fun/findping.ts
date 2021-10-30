@@ -12,8 +12,8 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description:
-    "Retrieves the latest (or number [number]) deleted/edited message from the past 5 minutes.",
+  description: LanguageKeys.Commands.FindPing.Description,
+  detailedDescription: LanguageKeys.Commands.FindPing.DetailedDescription,
   runIn: ["GUILD_TEXT"],
   aliases: ["ping"],
 })

@@ -1,4 +1,6 @@
 {
+  "description": "",
+  "detailedDescription": {},
   "title": "Serving {{ users }} users in {{ servers }} servers!",
   "description": "Join the official Payload discord server for help and suggestions: https://payload.tf/discord\n\nInvite Payload to your server: https://payload.tf/invite\nHelp translate for Payload: https://crowdin.com/project/payload"
 }

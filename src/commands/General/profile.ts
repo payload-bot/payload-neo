@@ -8,7 +8,8 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description: "Gets user's profile.",
+  description: LanguageKeys.Commands.Profile.Description,
+  detailedDescription: LanguageKeys.Commands.Profile.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {

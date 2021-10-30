@@ -17,3 +17,6 @@ export * as Link from "./link";
 export * as Profile from "./profile";
 export * as Settings from "./settings";
 export * as Translate from "./translate";
+export * as Avatar from "./avatar";
+export * as Rtd from "./rtd";
+export * as Invite from "./invite";

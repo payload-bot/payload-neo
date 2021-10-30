@@ -10,7 +10,8 @@ import { codeBlock } from "@discordjs/builders";
 const FLAGS = ["all"];
 
 @ApplyOptions<CommandOptions>({
-  description: "Restricts a command from being used in a channel.",
+  description: LanguageKeys.Commands.Unrestrict.Description,
+  detailedDescription: LanguageKeys.Commands.Unrestrict.DetailedDescription,
   requiredUserPermissions: ["MANAGE_MESSAGES"],
   runIn: ["GUILD_TEXT"],
   flags: FLAGS,

@@ -1,4 +1,6 @@
 {
+    "description": "",
+    "detailedDescription": {},
     "noMention": "bruh",
     "mention": "bruh {{ mention }}"
 }

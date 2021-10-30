@@ -1,4 +1,6 @@
 {
+  "description": "",
+  "detailedDescription": {},
   "noMessages": "No messages to snipe!",
   "aboveCacheAmount": "Snipe cache doesn't go that far! The most we can fetch is {{ count }}."
 }

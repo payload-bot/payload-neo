@@ -7,7 +7,8 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description: "Randomly chooses <amount> options from a list.",
+  description: LanguageKeys.Commands.Choose.Description,
+  detailedDescription: LanguageKeys.Commands.Choose.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {

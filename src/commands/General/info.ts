@@ -7,7 +7,8 @@ import { LanguageKeys } from "#lib/i18n/all";
 import PayloadColors from "#utils/colors";
 
 @ApplyOptions<CommandOptions>({
-  description: "Information about the Payload client",
+  description: LanguageKeys.Commands.Info.Description,
+  detailedDescription: LanguageKeys.Commands.Info.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {

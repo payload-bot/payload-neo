@@ -1,4 +1,6 @@
 {
+  "description": "",
+  "detailedDescription": {},
   "cooldown": "You must wait {{ seconds }} seconds before pushing the cart again!",
   "maxpoints": "You have reached the max number of points for today. Come back in {{ expires }}!",
   "pushSuccess": "<:payload:656955124098269186> Pushed the cart forward **{{ units }}** feet ({{ total }} total).",

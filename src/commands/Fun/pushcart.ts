@@ -20,7 +20,8 @@ enum PayloadPushResult {
 const PUSHCART_CAP = 1000;
 
 @ApplyOptions<PayloadCommand.Options>({
-  description: "Pushes the cart.",
+  description: LanguageKeys.Commands.Pushcart.Description,
+  detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
   runIn: ["GUILD_TEXT"],
   subCommands: [
     "leaderboard",

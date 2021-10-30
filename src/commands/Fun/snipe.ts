@@ -9,8 +9,8 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description:
-    "Retrieves the latest (or number [number]) deleted/edited message from the past 5 minutes.",
+  description: LanguageKeys.Commands.Snipe.Description,
+  detailedDescription: LanguageKeys.Commands.Snipe.DetailedDescription,
   runIn: ["GUILD_TEXT"],
 })
 export class UserCommand extends PayloadCommand {
@@ -24,7 +24,7 @@ export class UserCommand extends PayloadCommand {
     }
 
     const number = await args.pick("integer", { minimum: 1, maximum: 5 });
-    
+
     const client = this.container.client as PayloadClient;
 
     if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
@@ -42,7 +42,8 @@ export class UserCommand extends PayloadCommand {
         msg,
         args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max })
       );
-    }1
+    }
+    1;
 
     const ids = [...cache.keys()];
     const targetMessage = cache.get(ids[max - number])!;

@@ -1,7 +1,7 @@
 # Builder
 FROM node:16-slim AS build
 WORKDIR /opt/app
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
@@ -19,10 +19,8 @@ RUN yarn build
 FROM node:16-buster-slim
 WORKDIR /opt/app
 
-ARG NODE_ENV=production
-
-ENV NODE_ENV=${NODE_ENV}
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV NODE_ENV=production
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases

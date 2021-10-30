@@ -24,6 +24,7 @@ export class BuildCommandHelp {
     options: LanguageHelpDisplayOptions,
     prefixUsed: string
   ) {
+    console.log(options)
     const { usages = [], details } = options;
     const output: string[] = [];
 

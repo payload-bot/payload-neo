@@ -1,6 +1,9 @@
 {
   "description": "Enables command(s) for all channels in this server",
-  "detailedDescription": {},
+  "detailedDescription": {
+    "usages": ["[...command]", " --all", "-a"],
+    "details": "Opposite of `restrict`, this enables commands from being used in this server.\n**Tip**: To restrict all commands, you can use the `--all` or `-a` flag!"
+  },
   "noCommands": "You need to specify which commands to unrestrict!",
   "unrestrictSuccess": "Unrestricted the following commands: {{ commands }}"
 }

@@ -1,5 +1,8 @@
 {
-  "description": "Invite Payload to your discord!",
-  "detailedDescription": {},
+  "description": "Invite Payload to your Discord!",
+  "detailedDescription": {
+    "usages": [],
+    "details": "Invite me to your Discord!"
+  },
   "button": "Click here"
 }

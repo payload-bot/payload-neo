@@ -42,6 +42,8 @@ export class UserCommand extends PayloadCommand {
       command.detailedDescription
     ) as LanguageHelpDisplayOptions;
 
+    console.log(detailedDescription);
+
     const content = builder.display(
       command.name,
       this.getAliases(command),

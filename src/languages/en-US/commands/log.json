@@ -1,6 +1,9 @@
 {
   "description": "Grabs a log of a user from logs.tf",
-  "detailedDescription": {},
+  "detailedDescription": {
+    "usages": ["<user>"],
+    "details": "Grabs the latest log of the user, defaulting to the author if no mentions provided. **Note**: The targeted user **must** have linked their SteamID through Payload first."
+  },
   "noIdLinked": "{{ user }} doesn't have their SteamID linked!",
   "noHistory": "Player doesn't have any log history!",
   "button": "Visit Log"

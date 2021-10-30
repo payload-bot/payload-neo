@@ -1,7 +1,7 @@
 {
   "description": "Asks the magic 8ball a question.",
   "detailedDescription": {
-    "usages": ["<question>"],
+    "usagess": ["<question>"],
     "details": "The question must not be empty."
   },
   "noQuestion": "You need to give me a question!"

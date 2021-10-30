@@ -1,4 +1,7 @@
 {
   "description": "Rolls a dice",
-  "detailedDescription": {}
+  "detailedDescription": {
+    "usages": ["<sides>", "<sides> <amount>"],
+    "details": "Roll the dice! You can configure the amount of sides or the amount of rolls you want to do."
+  }
 }

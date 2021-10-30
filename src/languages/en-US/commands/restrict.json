@@ -1,6 +1,9 @@
 {
   "description": "Disables command(s) for all channels in this server",
-  "detailedDescription": {},
+  "detailedDescription": {
+    "usages": ["[...command]", " --all", "-a"],
+    "details": "Disable commands from being used in this server. Great for reducing spammy commands. **Tip**: To restrict all commands, you can use the `--all` or `-a` flag!"
+  },
   "noCommands": "You need to specify which commands to restrict!",
   "restrictSuccess": "Restricted the following commands: {{ commands }}"
 }

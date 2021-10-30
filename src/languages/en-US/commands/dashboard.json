@@ -1,7 +1,8 @@
 {
   "description": "Links a user to the dashboard",
   "detailedDescription": {
-    "usage": "dashboard"
+    "usages": [],
+    "details": "Just links you to the dashboard of this server."
   },
   "button": "Visit Dashboard",
   "content": "Visit Dashboard"

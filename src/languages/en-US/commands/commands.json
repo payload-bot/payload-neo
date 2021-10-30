@@ -1,6 +1,9 @@
 {
   "description": "A list of commands available in Payload",
-  "detailedDescription": {},
+  "detailedDescription": {
+    "usages": [],
+    "details": "Handly list of commands. Useful for restricting or unrestricting commands you don't know about, but don't want people to use."
+  },
   "embedTitle": "List of Commands",
   "commands": "Commands",
   "auto": "Auto Commands"

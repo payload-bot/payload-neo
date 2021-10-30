@@ -20,3 +20,4 @@ export * as Translate from "./translate";
 export * as Avatar from "./avatar";
 export * as Rtd from "./rtd";
 export * as Invite from "./invite";
+export * as Help from "./help";

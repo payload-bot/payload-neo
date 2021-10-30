@@ -1,6 +1,6 @@
 {
-    "description": "Bruh",
-    "detailedDescription": {},
-    "noMention": "bruh",
-    "mention": "bruh {{ mention }}"
+  "description": "Bruh",
+  "detailedDescription": {},
+  "noMention": "bruh",
+  "mention": "bruh {{ mention }}"
 }

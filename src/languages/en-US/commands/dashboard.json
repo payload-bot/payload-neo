@@ -1,7 +1,7 @@
 {
   "description": "Links a user to the dashboard",
   "detailedDescription": {
-      "usage": "dashboard"
+    "usage": "dashboard"
   },
   "button": "Visit Dashboard",
   "content": "Visit Dashboard"

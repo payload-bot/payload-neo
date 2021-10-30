@@ -1,4 +1,9 @@
 {
+  "description": "User settings link to the dashboard",
+  "detailedDescription": {
+    "usages": [],
+    "details": "Want to easily update or view your current profile settings? This will take you to the dashboard for easy configuration."
+  },
   "button": "User Settings",
   "message": "Update your settings from the dashboard!"
 }

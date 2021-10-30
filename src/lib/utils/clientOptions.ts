@@ -62,6 +62,7 @@ function parseI18N(): InternationalizationOptions {
       supportedLngs: languages,
       load: "all",
       lng: "en-US",
+      returnObjects: true,
       overloadTranslationOptionHandler: (args) => ({
         defaultValue: args[1] ?? "globals:default",
       }),

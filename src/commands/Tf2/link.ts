@@ -8,7 +8,8 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description: "Links your steam account to your Discord account.",
+  description: LanguageKeys.Commands.Link.Description,
+  detailedDescription: LanguageKeys.Commands.Link.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {

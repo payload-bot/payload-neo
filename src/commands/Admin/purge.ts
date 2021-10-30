@@ -9,8 +9,8 @@ import { LanguageKeys } from "#lib/i18n/all";
 const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
 @ApplyOptions<CommandOptions>({
-  description:
-    "Purges a certain number of messages sent by a user or everyone if no user is mentioned.",
+  description: LanguageKeys.Commands.Purge.Description,
+  detailedDescription: LanguageKeys.Commands.Purge.DetailedDescription,
   requiredUserPermissions: ["MANAGE_MESSAGES"],
   requiredClientPermissions: ["MANAGE_MESSAGES"],
   runIn: ["GUILD_TEXT"],

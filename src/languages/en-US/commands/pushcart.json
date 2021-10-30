@@ -1,7 +1,18 @@
 {
+  "description": "Pushcart leaderboard",
+  "detailedDescription": {
+    "usages": [
+      "",
+      "gift [user]",
+      "leaderboard",
+      "servers",
+      "rank <user>"
+    ],
+    "details": "Push the cart! This is a global leaderboard, and you can view current rankings at anytime using the listed subcommands."
+  },
   "cooldown": "You must wait {{ seconds }} seconds before pushing the cart again!",
   "maxpoints": "You have reached the max number of points for today. Come back in {{ expires }}!",
-  "pushSuccess": "<:payload:656955124098269186> Pushed the cart forward **{{ units }}** feet ({{ total }} total).",
+  "pushSuccess": "{{ PUSHCART_EMOJI }} Pushed the cart forward **{{ units }}** feet ({{ total }} total).",
 
   "noAmount": "Please specify the amount of points to gift",
   "noTargetUser": "You need to specify who to gives these points to!",

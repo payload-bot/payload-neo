@@ -13,7 +13,8 @@ import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<PayloadCommand.Options>({
-  description: "Sets, deletes, or views the current prefix of the server.",
+  description: LanguageKeys.Commands.Prefix.Description,
+  detailedDescription: LanguageKeys.Commands.Prefix.DetailedDescription,
   runIn: ["GUILD_TEXT"],
   subCommands: [
     "set",

@@ -11,7 +11,8 @@ import { isNullishOrEmpty } from "@sapphire/utilities";
 const FLAGS = ["all"];
 
 @ApplyOptions<CommandOptions>({
-  description: "Restricts a command from being used in a channel.",
+  description: LanguageKeys.Commands.Restrict.Description,
+  detailedDescription: LanguageKeys.Commands.Restrict.DetailedDescription,
   requiredUserPermissions: ["MANAGE_MESSAGES"],
   runIn: ["GUILD_TEXT"],
   flags: FLAGS,

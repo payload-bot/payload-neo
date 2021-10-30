@@ -33,7 +33,8 @@ const responses: readonly string[] = [
 ];
 
 @ApplyOptions<CommandOptions>({
-  description: "Asks the 8ball a question",
+  description: LanguageKeys.Commands.EightBall.Description,
+  detailedDescription: LanguageKeys.Commands.EightBall.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {

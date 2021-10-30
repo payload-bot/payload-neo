@@ -5,10 +5,11 @@ import type { Message } from "discord.js";
 import { bold } from "@discordjs/builders";
 import { random } from "#utils/random";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<CommandOptions>({
-  description:
-    "Rolls a die with 6 sides or a die with [sides] sides if specified or [amount] dice with [sides] sides if specified.",
+  description: LanguageKeys.Commands.Rtd.Description,
+  detailedDescription: LanguageKeys.Commands.Rtd.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: Args) {

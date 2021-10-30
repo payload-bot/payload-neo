@@ -1,4 +1,9 @@
 {
+  "description": "Basic information about a user's profile",
+  "detailedDescription": {
+    "usages": ["<user>"],
+    "details": "Want some basic information of a user, such as their pushcart points? You can use this command to view if they're really helping you push the cart."
+  },
   "bot": "Bot",
   "points": "Points"
 }

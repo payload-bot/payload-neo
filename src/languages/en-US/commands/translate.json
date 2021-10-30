@@ -1,4 +1,9 @@
 {
+  "description": "Translate a sentence into English",
+  "detailedDescription": {
+    "usages": ["[phrase]"],
+    "details": "Translate a sentence using Google Translate."
+  },
   "noPhrase": "No input was provided",
   "title": "Translate Result",
   "footer": "Translated by Google Translate",

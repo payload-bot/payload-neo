@@ -1,4 +1,9 @@
 {
+  "description": "Deletes messages in bulk in a text channel",
+  "detailedDescription": {
+    "usages": ["<number> [...mentions]"],
+    "details": "Deletes <number> of messages, to a maximum of 100, from the current channel. **Tip**: You can also mention users to filter the delete by!"
+  },
   "deleted_one": "🗑 Deleted **{{ count }}** message in {{ seconds }} seconds.",
   "deleted_other": "🗑 Deleted **{{ count }}** messages in {{ seconds }} seconds."
 }

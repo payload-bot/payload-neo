@@ -228,3 +228,13 @@
 * Fix: fix tag not found error
 * Refactor: refactor pushcart leaderboard and servers command
 * Fix: fix language not being updated when saved from dashboard 
+
+### 5.0.0
+* Migrate to new framework
+* Translate via i18n + crowdin
+* De-monorepo
+* Improved help command
+* Support djs 13.3.0
+* BREAKING CHANGE: Restrictions are guild-wide, not channel-specific
+* Mention bot for prefix
+* Updated invite url

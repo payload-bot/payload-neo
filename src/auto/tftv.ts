@@ -8,8 +8,10 @@ import { Message, MessageEmbed } from "discord.js";
 import axios from "axios";
 import cheerio from "cheerio";
 import { htmlToText } from "html-to-text";
+import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<AutoCommandOptions>({
+  description: LanguageKeys.Auto.Tftv.Description,
   regex: /teamfortress\.tv\/\d+\/[\w-]+/,
 })
 export default class UserAutoCommand extends AutoCommand {
@@ -47,6 +49,6 @@ export default class UserAutoCommand extends AutoCommand {
       url,
     });
 
-    msg.channel.send({ embeds: [embed] });
+    return await msg.channel.send({ embeds: [embed] });
   }
 }

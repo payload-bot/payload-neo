@@ -1,4 +1,4 @@
-import type { PieceContext } from "@sapphire/framework";
+import type { CommandContext, PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "../commands/PayloadCommand";
 
@@ -10,8 +10,14 @@ export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;
 
   constructor(context: PieceContext, options: AutoCommandOptions) {
-    super(context, { ...options });
+    super(context, { ...options, typing: true });
     this.regex = options.regex;
+  }
+
+  public async preParse(msg: Message, paramaters: string, context: CommandContext) {
+    // Hijacked to send typing for auto commands
+    await msg.channel.sendTyping();
+    return super.preParse(msg, paramaters, context);
   }
 
   /**

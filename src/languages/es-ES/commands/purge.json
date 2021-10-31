@@ -1,4 +1,11 @@
 {
+  "description": "Elimina los mensajes en masa en un canal de texto",
+  "detailedDescription": {
+    "usages": [
+      "<numero> [...mentions]"
+    ],
+    "details": "Elimina <number> de mensajes, hasta un máximo de 100, del canal actual. **Consejo**: ¡También puedes mencionar a los usuarios para filtrar la eliminación por!"
+  },
   "deleted_one": "🗑 Se han eliminado **{{ count }}** mensajes en {{ seconds }} segundos.",
   "deleted_other": "🗑 Se han eliminado **{{ count }}** mensajes en {{ seconds }} segundos."
 }

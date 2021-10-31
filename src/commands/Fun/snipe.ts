@@ -43,7 +43,6 @@ export class UserCommand extends PayloadCommand {
         args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max })
       );
     }
-    1;
 
     const ids = [...cache.keys()];
     const targetMessage = cache.get(ids[max - number])!;

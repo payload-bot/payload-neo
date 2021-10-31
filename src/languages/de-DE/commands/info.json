@@ -1,4 +1,9 @@
 {
-  "title": "Bediene {{ users }} Benutzer auf {{ servers }} Servern!",
-  "description": "Trete dem offiziellen Payload Discord Server bei für Hilfe und Anregungen: https://payload.tf/discord\n\nLade Payload auf deinen Server ein: https://payload.tf/invite\nHelfe bei der Übersetzung von Payload: https://crowdin.com/project/payload"
+  "description": "Informationen zu Payload",
+  "detailedDescription": {
+    "usages": [],
+    "details": "Grundlegende Informationen und Links zu Payload"
+  },
+  "embedTitle": "Bediene {{ users }} Benutzer auf {{ servers }} Servern!",
+  "embedDescription": "Trete dem offiziellen Payload Discord Server bei für Hilfe und Anregungen: https://payload.tf/discord\n\nLade Payload auf deinen Server ein: https://payload.tf/invite\nHelfe bei der Übersetzung von Payload: https://crowdin.com/project/payload"
 }

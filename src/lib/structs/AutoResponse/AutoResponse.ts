@@ -5,6 +5,7 @@ import {
   Awaitable,
   CommandOptions,
 } from "@sapphire/framework";
+import type { TFunction } from "@sapphire/plugin-i18next";
 import type { Message } from "discord.js";
 
 export interface AutoCommandOptions extends PieceOptions, CommandOptions {
@@ -39,5 +40,5 @@ export abstract class AutoCommand extends AliasPiece {
     return msg.content.match(this.regex)![0];
   }
 
-  public abstract messageRun(msg: Message): Awaitable<unknown>;
+  public abstract messageRun(msg: Message, t: TFunction): Awaitable<unknown>;
 }

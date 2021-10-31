@@ -6,12 +6,15 @@ import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
+import { LanguageKeys } from "#lib/i18n/all";
+import type { TFunction } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<AutoCommandOptions>({
+  description: LanguageKeys.Auto.Etf2l.Description,
   regex: /etf2l.org\/teams\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message) {
+  async messageRun(msg: Message, t: TFunction) {
     const url = this.getMatch(msg);
 
     const screenshotBuffer = await captureSelector(
@@ -23,12 +26,12 @@ export default class UserAutoCommand extends AutoCommand {
 
     const embed = new MessageEmbed();
     embed.setColor(PayloadColors.COMMAND);
-    embed.setTitle("ETF2L Team Preview");
+    embed.setTitle(t(LanguageKeys.Auto.Etf2l.EmbedTitle));
     embed.setURL(`https://${url}`);
     embed.setImage(`attachment://team.png`);
-    embed.setFooter(`Rendered by autoresponse ${this.name}`);
+    embed.setFooter(t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }));
     embed.setTimestamp(new Date());
 
-    msg.channel.send({ embeds: [embed], files: [att] });
+    return await msg.channel.send({ embeds: [embed], files: [att] });
   }
 }

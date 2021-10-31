@@ -6,21 +6,13 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
 import { Message, MessageEmbed } from "discord.js";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { CommandContext } from "@sapphire/framework";
-import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.Connect.LinkDescription,
   regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
-    const connectInfo = context.prefix.toString();
+  async messageRun(msg: Message) {
+    const connectInfo = this.getMatch(msg);
     const parts = connectInfo[0].trim().split(";");
 
     const ip = parts[0].replace(/^connect (https?:\/\/)?/, "");
@@ -48,16 +40,12 @@ export default class UserAutoCommand extends AutoCommand {
       });
 
       embed.setColor(EmbedColors.GREEN);
-      embed.setDescription(
-        `${name}\n${players.length}/${maxplayers} ${args.t(
-          LanguageKeys.Auto.Connect.Players
-        )}`
-      );
+      embed.setDescription(`${name}\n${players.length}/${maxplayers} players`);
     } catch (err) {
       embed.setColor(EmbedColors.RED);
-      embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
+      embed.setDescription("Server is offline.");
     }
 
-    return await connectInfoEmbed.edit({ embeds: [embed] });
+    connectInfoEmbed.edit({ embeds: [embed] });
   }
 }

@@ -1,0 +1,6 @@
+{
+  "description": "Renders a preview of an ETF2L team",
+  "matchesDescription": "Renders a preview of an ETF2L match",
+  "embedTitle": "ETF2L Team Preview",
+  "matchEmbedTitle": "ETF2L Match Preview"
+}

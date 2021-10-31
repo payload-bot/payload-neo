@@ -1,22 +1,23 @@
-import {
-  AliasPiece,
-  PieceContext,
-  PieceOptions,
-  Awaitable,
-  CommandOptions,
-} from "@sapphire/framework";
+import type { CommandContext, PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
+import { PayloadCommand } from "../commands/PayloadCommand";
 
-export interface AutoCommandOptions extends PieceOptions, CommandOptions {
+export interface AutoCommandOptions extends PayloadCommand.Options {
   regex: RegExp;
 }
 
-export abstract class AutoCommand extends AliasPiece {
+export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;
 
   constructor(context: PieceContext, options: AutoCommandOptions) {
-    super(context, { ...options });
+    super(context, { ...options, typing: true });
     this.regex = options.regex;
+  }
+
+  public async preParse(msg: Message, paramaters: string, context: CommandContext) {
+    // Hijacked to send typing for auto commands
+    await msg.channel.sendTyping();
+    return super.preParse(msg, paramaters, context);
   }
 
   /**
@@ -38,6 +39,4 @@ export abstract class AutoCommand extends AliasPiece {
   public getMatch(msg: Message): string {
     return msg.content.match(this.regex)![0];
   }
-
-  public abstract messageRun(msg: Message): Awaitable<unknown>;
 }

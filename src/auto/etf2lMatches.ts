@@ -6,21 +6,13 @@ import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
-import { LanguageKeys } from "#lib/i18n/all";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { CommandContext } from "@sapphire/framework";
 
 @ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.Etf2l.Etf2lMatchesDescription,
   regex: /etf2l.org\/matches\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
-    const url = context.prefix;
+  async messageRun(msg: Message) {
+    const url = this.getMatch(msg);
 
     const screenshotBuffer = await capturePage(`https://${url}`, {
       top: {
@@ -43,16 +35,13 @@ export default class UserAutoCommand extends AutoCommand {
 
     const att = new MessageAttachment(screenshotBuffer, "match.png");
     const embed = new MessageEmbed();
-
     embed.setColor(PayloadColors.COMMAND);
-    embed.setTitle(args.t(LanguageKeys.Auto.Etf2l.Etf2lMatchesEmbedTitle));
+    embed.setTitle("ETF2L Match Preview");
     embed.setURL(`https://${url}`);
     embed.setImage(`attachment://match.png`);
-    embed.setFooter(
-      args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name })
-    );
+    embed.setFooter(`Rendered by autoresponse ${this.name}`);
     embed.setTimestamp(new Date());
 
-    return await msg.channel.send({ embeds: [embed], files: [att] });
+    msg.channel.send({ embeds: [embed], files: [att] });
   }
 }

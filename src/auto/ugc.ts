@@ -6,24 +6,13 @@ import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
-import { LanguageKeys } from "#lib/i18n/all";
-import { BucketScope, CommandContext } from "@sapphire/framework";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 @ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.UGC.Description,
-  cooldownDelay: 2500,
-  cooldownScope: BucketScope.Guild,
-  cooldownLimit: 1,
   regex: /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
-    const url = context.prefix;
+  async messageRun(msg: Message) {
+    const url = this.getMatch(msg);
 
     // Needed hight and width to not have wierdo mobile views
     const screenshotBuffer = await captureSelector(
@@ -37,18 +26,15 @@ export default class UserAutoCommand extends AutoCommand {
       }
     );
 
-    const att = new MessageAttachment(screenshotBuffer, "preview.png");
+    const att = new MessageAttachment(screenshotBuffer, "log.png");
     const embed = new MessageEmbed();
-
     embed.setColor(PayloadColors.COMMAND);
-    embed.setTitle(args.t(LanguageKeys.Auto.UGC.EmbedTitle));
+    embed.setTitle("Logs.tf Preview");
     embed.setURL(`https://${url}`);
-    embed.setImage(`attachment://preview.png`);
-    embed.setFooter(
-      args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name })
-    );
+    embed.setImage(`attachment://log.png`);
+    embed.setFooter(`Rendered by autoresponse ${this.name}`);
     embed.setTimestamp(new Date());
 
-    return await msg.channel.send({ embeds: [embed], files: [att] });
+    msg.channel.send({ embeds: [embed], files: [att] });
   }
 }

@@ -1,12 +1,17 @@
-import type { PieceContext } from "@sapphire/framework";
+import {
+  AliasPiece,
+  PieceContext,
+  PieceOptions,
+  Awaitable,
+  CommandOptions,
+} from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { PayloadCommand } from "../commands/PayloadCommand";
 
-export interface AutoCommandOptions extends PayloadCommand.Options {
+export interface AutoCommandOptions extends PieceOptions, CommandOptions {
   regex: RegExp;
 }
 
-export abstract class AutoCommand extends PayloadCommand {
+export abstract class AutoCommand extends AliasPiece {
   public regex: RegExp;
 
   constructor(context: PieceContext, options: AutoCommandOptions) {
@@ -33,4 +38,6 @@ export abstract class AutoCommand extends PayloadCommand {
   public getMatch(msg: Message): string {
     return msg.content.match(this.regex)![0];
   }
+
+  public abstract messageRun(msg: Message): Awaitable<unknown>;
 }

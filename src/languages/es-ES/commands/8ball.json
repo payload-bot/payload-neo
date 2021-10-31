@@ -1,3 +1,10 @@
 {
+  "description": "Pregunta al 8ball mágico.",
+  "detailedDescription": {
+    "usages": [
+      "<pregunta>"
+    ],
+    "details": "El pregunta no debe estar vacío."
+  },
   "noQuestion": "¡Necesitas hacerme una pregunta!"
 }

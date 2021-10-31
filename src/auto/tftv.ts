@@ -49,6 +49,6 @@ export default class UserAutoCommand extends AutoCommand {
       url,
     });
 
-    msg.channel.send({ embeds: [embed] });
+    return await msg.channel.send({ embeds: [embed] });
   }
 }

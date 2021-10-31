@@ -54,6 +54,6 @@ export default class UserAutoCommand extends AutoCommand {
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
     }
 
-    connectInfoEmbed.edit({ embeds: [embed] });
+    return await connectInfoEmbed.edit({ embeds: [embed] });
   }
 }

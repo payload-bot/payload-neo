@@ -49,6 +49,6 @@ export default class UserAutoCommand extends AutoCommand {
     );
     embed.setTimestamp(new Date());
 
-    msg.channel.send({ embeds: [embed], files: [att] });
+    return await msg.channel.send({ embeds: [embed], files: [att] });
   }
 }

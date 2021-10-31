@@ -1,6 +1,6 @@
 {
-  "description": "Re",
-  "descriptionLink": "Re",
+  "description": "Renders a short description of a server, with a handy link to connect to it!",
+  "descriptionLink": "Renders a short description of a server, with a handy link to connect to it!",
   "players": "players",
   "offline": "Server is offline (Has it started yet?)"
 }

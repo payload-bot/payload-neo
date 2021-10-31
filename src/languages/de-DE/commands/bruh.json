@@ -1,4 +1,11 @@
 {
-    "noMention": "bruh",
-    "mention": "bruh {{ mention }}"
+  "description": "Bruh",
+  "detailedDescription": {
+    "usages": [
+      "<user>"
+    ],
+    "details": "Wenn Sie einen Benutzer in diesem Befehl erwähnen, wird er ihn anpingen."
+  },
+  "noMention": "bruh",
+  "mention": "bruh {{ mention }}"
 }

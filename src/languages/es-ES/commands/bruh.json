@@ -1,4 +1,11 @@
 {
-    "noMention": "bruh",
-    "mention": "bruh {{ mention }}"
+  "description": "bruh",
+  "detailedDescription": {
+    "usages": [
+      "<usario>"
+    ],
+    "details": "Si mencionas a un usuario en este comando, lo hará ping."
+  },
+  "noMention": "bruh",
+  "mention": "bruh {{ mention }}"
 }

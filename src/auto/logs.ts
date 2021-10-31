@@ -8,11 +8,14 @@ import { capturePage } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import config from "#root/config";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { CommandContext } from "@sapphire/framework";
+import { BucketScope, CommandContext } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Logs.Description,
+  cooldownDelay: 2500,
+  cooldownScope: BucketScope.Guild,
+  cooldownLimit: 1,
   regex: /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {

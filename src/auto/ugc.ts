@@ -7,11 +7,14 @@ import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
-import type { CommandContext } from "@sapphire/framework";
+import { BucketScope, CommandContext } from "@sapphire/framework";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.UGC.Description,
+  cooldownDelay: 2500,
+  cooldownScope: BucketScope.Guild,
+  cooldownLimit: 1,
   regex: /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {

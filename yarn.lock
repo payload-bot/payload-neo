@@ -258,15 +258,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "@sapphire/discord.js-utilities@npm:4.0.2"
+"@sapphire/discord.js-utilities@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@sapphire/discord.js-utilities@npm:4.1.0"
   dependencies:
     "@sapphire/discord-utilities": ^2.2.2
     "@sapphire/time-utilities": ^1.4.6
     "@sapphire/utilities": ^3.0.6
     tslib: ^2.3.1
-  checksum: 6d0bd945076a91c88ee2665c2878dec7213cb11ede5632462fc0862159aa52443936c85332e3afb038adbc33c06f3218607ed54cd4491d4d3067782d7bfecd6e
+  checksum: a0c1e0b844157839edf27acb40239a1c173bf8368d5e58a24b86f4014cf0610ce6ef99dd60c442c6eb05ec95b70db497da51227809ba1fd209be382236f336d8
   languageName: node
   linkType: hard
 
@@ -2975,7 +2975,7 @@ __metadata:
     "@google-cloud/translate": ^6.3.1
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^3.1.3
-    "@sapphire/discord.js-utilities": ^4.0.2
+    "@sapphire/discord.js-utilities": ^4.1.0
     "@sapphire/framework": ^2.1.3
     "@sapphire/plugin-editable-commands": ^1.0.1
     "@sapphire/plugin-i18next": ^2.0.1

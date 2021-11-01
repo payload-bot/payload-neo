@@ -1,4 +1,11 @@
 {
+  "description": "Traducir una frase al inglés",
+  "detailedDescription": {
+    "usages": [
+      "[phrase]"
+    ],
+    "details": "Traducir una frase usando Google Translate."
+  },
   "noPhrase": "No se proporcionó ninguna entrada",
   "title": "Traducir Resultado",
   "footer": "Traducido por Google Translate",

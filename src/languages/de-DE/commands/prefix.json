@@ -1,4 +1,16 @@
 {
+  "description": "Verwaltet dein Präfix für diesen Server",
+  "detailedDescription": {
+    "usages": [
+      "\"\"",
+      "set <new prefix>",
+      "update <new prefix>",
+      "delete",
+      "reset",
+      "view"
+    ],
+    "details": "Verwalte das Präfix deines Servers. Du kannst es jederzeit mit den `delete` oder `reset` Argumenten zurücksetzen."
+  },
   "currentPrefix": "Das aktuelle Präfix ist: {{ prefix }}",
   "setNeedsArgs": "Bitte gebe ein neues Präfix an!",
   "setSamePrefix": "Dein neues Präfix ist das gleiche wie das alte Präfix!",

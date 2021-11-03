@@ -208,6 +208,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/passport@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@nestjs/passport@npm:8.0.1"
+  peerDependencies:
+    "@nestjs/common": ^6.0.0 || ^7.0.0 || ^8.0.0
+    passport: ^0.4.0
+  checksum: eefaab06e1fe6cf433e09cd9925509afbaffe621fd0b9df21c3996ebf18aaf31cecf7f812cc6205e3893a3ae17f567cef68ad79ce7e59694b3c4bbe4d5e3011b
+  languageName: node
+  linkType: hard
+
 "@nestjs/platform-express@npm:^8.1.2":
   version: 8.1.2
   resolution: "@nestjs/platform-express@npm:8.1.2"
@@ -651,7 +661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:^8.5.5":
+"@types/jsonwebtoken@npm:*, @types/jsonwebtoken@npm:^8.5.5":
   version: 8.5.5
   resolution: "@types/jsonwebtoken@npm:8.5.5"
   dependencies:
@@ -727,6 +737,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/passport-jwt@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@types/passport-jwt@npm:3.0.6"
+  dependencies:
+    "@types/express": "*"
+    "@types/jsonwebtoken": "*"
+    "@types/passport-strategy": "*"
+  checksum: aa1e89b30bf77e1147bd5d47118fec38705246d6789b687d7385f037fdc01bed4d1e222e9d3c5c04e871c9a06474853090c17968434f9affefc53bed4dfad32b
+  languageName: node
+  linkType: hard
+
 "@types/passport-oauth2-refresh@npm:^1.1.1":
   version: 1.1.1
   resolution: "@types/passport-oauth2-refresh@npm:1.1.1"
@@ -745,6 +766,16 @@ __metadata:
     "@types/oauth": "*"
     "@types/passport": "*"
   checksum: 09d047a6c09a05c036f7db0cf8f8c09bf5878fdd15949bb1baa09a35f439929d471048fa6595f09ea4a4ea25396ce3918b362136579cf4a2b2ee29a92c0dd1ce
+  languageName: node
+  linkType: hard
+
+"@types/passport-strategy@npm:*":
+  version: 0.2.35
+  resolution: "@types/passport-strategy@npm:0.2.35"
+  dependencies:
+    "@types/express": "*"
+    "@types/passport": "*"
+  checksum: e5949063ad8977ce1f7cf2a5df6bc379c4d43a959c9946bfed6570ef379c6c12d1713212a29b3b5aafc631c5ebe9bfe082116f3e75ca1bf45d79dd889671532d
   languageName: node
   linkType: hard
 
@@ -1778,7 +1809,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.17.1":
+"express@npm:4.17.1, express@npm:^4.17.1":
   version: 4.17.1
   resolution: "express@npm:4.17.1"
   dependencies:
@@ -2428,7 +2459,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^8.5.1":
+"jsonwebtoken@npm:^8.2.0, jsonwebtoken@npm:^8.5.1":
   version: 8.5.1
   resolution: "jsonwebtoken@npm:8.5.1"
   dependencies:
@@ -3101,6 +3132,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"passport-jwt@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "passport-jwt@npm:4.0.0"
+  dependencies:
+    jsonwebtoken: ^8.2.0
+    passport-strategy: ^1.0.0
+  checksum: d0499ebb819c714d885a9c03a6c5d6dfae916c1a81ccb62357136d5bf477529327e9b8fc658f61f97c565651d2bd78eccec4543474a08e944132f0e2ec47cc3d
+  languageName: node
+  linkType: hard
+
 "passport-oauth2-refresh@npm:^2.1.0":
   version: 2.1.0
   resolution: "passport-oauth2-refresh@npm:2.1.0"
@@ -3121,7 +3162,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-strategy@npm:1.x.x":
+"passport-strategy@npm:1.x.x, passport-strategy@npm:^1.0.0":
   version: 1.0.0
   resolution: "passport-strategy@npm:1.0.0"
   checksum: 5086693f2508e538dffa55a338c89fe8192fb5f4478c71f80cd5890b8573419a098f4fec88b505374f60bbe9049f6f24b9f3992678612528a3370b4dc73354a2
@@ -3199,6 +3240,7 @@ __metadata:
     "@nestjs/config": ^1.0.3
     "@nestjs/core": ^8.1.2
     "@nestjs/mongoose": ^9.0.1
+    "@nestjs/passport": ^8.0.1
     "@nestjs/platform-express": ^8.1.2
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^3.1.3
@@ -3222,6 +3264,7 @@ __metadata:
     "@types/node": ^16.11.6
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
+    "@types/passport-jwt": ^3.0.6
     "@types/passport-oauth2-refresh": ^1.1.1
     "@types/puppeteer": ^5.4.4
     axios: ^0.24.0
@@ -3234,6 +3277,7 @@ __metadata:
     discord-oauth2: ^2.8.0
     discord.js: ^13.3.0
     dotenv: ^10.0.0
+    express: ^4.17.1
     gamedig: ^3.0.7
     helmet: ^4.6.0
     html-to-text: ^8.0.0
@@ -3244,6 +3288,7 @@ __metadata:
     mongoose: ^6.0.12
     passport: ^0.5.0
     passport-discord: ^0.1.4
+    passport-jwt: ^4.0.0
     passport-oauth2-refresh: ^2.1.0
     puppeteer: ^10.4.0
     reflect-metadata: ^0.1.13

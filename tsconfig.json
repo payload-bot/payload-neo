@@ -13,6 +13,7 @@
       "#lib/types": ["lib/types"],
       "#utils/*": ["lib/utils/*"],
       "#lib/*": ["lib/*"],
+      "#api/*": ["api/*"],
       "#root/*": ["*"]
     }
   },

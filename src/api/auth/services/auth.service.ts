@@ -1,12 +1,21 @@
 import type { Environment } from "#api/environment/environment";
 import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
 import { sign, verify } from "jsonwebtoken";
-import { Error } from "mongoose";
+import { Model } from "mongoose";
 import { AuthContext } from "../interfaces/auth.interface";
+import {
+  RefreshToken,
+  RefreshTokenDocument,
+} from "../models/refreshToken.model";
 
 @Injectable()
 export class AuthService {
-  constructor(private environment: Environment) {}
+  constructor(
+    @InjectModel(RefreshToken.name)
+    private refreshToken: Model<RefreshTokenDocument>,
+    private environment: Environment
+  ) {}
 
   async generateJwtToken(
     context: AuthContext,
@@ -27,7 +36,7 @@ export class AuthService {
           }
         );
 
-        await RefreshToken.create({ value: token });
+        await this.refreshToken.create({ value: token });
         return token;
       }
     }
@@ -35,7 +44,10 @@ export class AuthService {
 
   async refreshTokens(oldRefreshToken: string) {
     try {
-      await RefreshToken.deleteOne({ value: oldRefreshToken }).orFail().lean();
+      await this.refreshToken
+        .deleteOne({ value: oldRefreshToken })
+        .orFail()
+        .lean();
 
       const decoded = verify(
         oldRefreshToken,
@@ -50,7 +62,7 @@ export class AuthService {
         AuthContext.AUTH,
         decoded.id
       );
-      
+
       const refreshToken = await this.generateJwtToken(
         AuthContext.REFRESH,
         decoded.id
@@ -58,7 +70,6 @@ export class AuthService {
 
       return { authToken, refreshToken };
     } catch (err) {
-      if (err instanceof Error.DocumentNotFoundError) return null;
       return null;
     }
   }

@@ -1,7 +1,16 @@
 import { Module } from "@nestjs/common";
-import { AuthController } from './controllers/auth.controller';
+import { MongooseModule } from "@nestjs/mongoose";
+import { AuthController } from "./controllers/auth.controller";
+import { RefreshToken, RefreshTokenSchema } from "./models/refreshToken.model";
+import { AuthService } from "./services/auth.service";
 
 @Module({
-  controllers: [AuthController]
+  imports: [
+    MongooseModule.forFeature([
+      { name: RefreshToken.name, schema: RefreshTokenSchema },
+    ]),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService]
 })
 export class AuthModule {}

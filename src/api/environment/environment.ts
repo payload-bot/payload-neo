@@ -6,6 +6,10 @@ import type { ConfigService } from "@nestjs/config";
 export class Environment {
   constructor(private configService: ConfigService) {}
 
+  get mongoDbUri() {
+    return this.configService.get<string>("MONGO_URI") as string;
+  }
+
   get clientUrl() {
     return this.configService.get<string>("CLIENT_URL") as string;
   }

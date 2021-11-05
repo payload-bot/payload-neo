@@ -13,7 +13,7 @@ export class AuthController {
 
   @Get("/callback")
   @UseGuards(AuthGuard("discord"))
-  async callback(@Res() res: Response) {
+  async callback(@Res({ passthrough: true }) res: Response) {
     const redirectUrl = this.configService.get<string>("CLIENT_URL");
     res.redirect(redirectUrl + `?token=`);
   }

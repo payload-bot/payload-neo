@@ -1,4 +1,5 @@
 import { Environment } from "#api/environment/environment";
+import { UserService } from "#api/users/services/user.service";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { sign, verify } from "jsonwebtoken";
@@ -14,6 +15,7 @@ export class AuthService {
   constructor(
     @InjectModel(RefreshToken.name)
     private refreshToken: Model<RefreshTokenDocument>,
+    private userService: UserService,
     private environment: Environment
   ) {}
 
@@ -72,5 +74,14 @@ export class AuthService {
     } catch (err) {
       return null;
     }
+  }
+
+  async logOut(id: string, token: string) {
+    await this.refreshToken.deleteOne({ value: token }).orFail().lean();
+
+    await this.userService.updateUser(id, {
+      refreshToken: undefined,
+      accessToken: undefined,
+    });
   }
 }

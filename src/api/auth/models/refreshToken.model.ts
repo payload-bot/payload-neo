@@ -5,8 +5,6 @@ export type RefreshTokenDocument = RefreshToken & Document;
 
 @Schema()
 export class RefreshToken {
-  constructor() {}
-
   @Prop({ index: true })
   value!: string;
 

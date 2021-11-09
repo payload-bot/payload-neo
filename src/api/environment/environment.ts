@@ -1,8 +1,7 @@
-import { Global, Injectable } from "@nestjs/common";
-import type { ConfigService } from "@nestjs/config";
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
-@Global()
 export class Environment {
   constructor(private configService: ConfigService) {}
 
@@ -12,6 +11,18 @@ export class Environment {
 
   get clientUrl() {
     return this.configService.get<string>("CLIENT_URL") as string;
+  }
+
+  get clientSecret() {
+    return this.configService.get<string>("CLIENT_SECRET") as string;
+  }
+
+  get clientId() {
+    return this.configService.get<string>("CLIENT_ID") as string;
+  }
+
+  get callbackUrl() {
+    return this.configService.get<string>("CALLBACK_URL") as string;
   }
 
   get jwtAuthSecret() {

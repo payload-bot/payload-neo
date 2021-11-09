@@ -1,8 +1,15 @@
 import {
+  BadRequestException,
+  Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
+  Post,
   Res,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
   VERSION_NEUTRAL,
 } from "@nestjs/common";
 import type { Response } from "express";
@@ -11,6 +18,8 @@ import { Environment } from "#api/environment/environment";
 import { AuthService } from "../services/auth.service";
 import { AuthContext } from "../interfaces/auth.interface";
 import { CurrentUser } from "../decorators/current-user.decorator";
+import { Auth } from "../guards/auth.guard";
+import type { User } from "#api/users/models/user.model";
 
 @Controller({
   path: "auth",
@@ -25,6 +34,29 @@ export class AuthController {
   @Get()
   @UseGuards(AuthGuard("discord"))
   login() {}
+
+  @Post("refresh")
+  @HttpCode(HttpStatus.OK)
+  @UsePipes(ValidationPipe)
+  @Auth()
+  async refresh(@Body("refreshToken") token: string) {
+    if (!token) throw new BadRequestException();
+
+    return await this.authService.refreshTokens(token);
+  }
+
+  @Post("/logout")
+  @HttpCode(HttpStatus.OK)
+  @UsePipes(ValidationPipe)
+  @Auth()
+  async logout(
+    @Body("refreshToken") token: string,
+    @CurrentUser() { id }: User
+  ) {
+    if (!token) throw new BadRequestException();
+
+    await this.authService.logOut(id, token);
+  }
 
   @Get("/callback")
   @UseGuards(AuthGuard("discord"))

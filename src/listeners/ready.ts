@@ -2,6 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { ListenerOptions, Events, Listener } from "@sapphire/framework";
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
 import connectMongo from "#utils/connectMongo";
+import { bootstrap } from "#api/main";
 
 const dev = process.env.NODE_ENV !== "production";
 
@@ -13,10 +14,12 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
 
     async run() {
         const { client } = this.container;
-        await connectMongo(client);
-
+        
         this.printBanner();
         this.printStoreDebugInformation();
+
+        await connectMongo(client);
+        await bootstrap();
     }
 
     private printBanner() {

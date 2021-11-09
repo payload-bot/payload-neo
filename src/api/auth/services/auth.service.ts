@@ -1,4 +1,4 @@
-import type { Environment } from "#api/environment/environment";
+import { Environment } from "#api/environment/environment";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { sign, verify } from "jsonwebtoken";

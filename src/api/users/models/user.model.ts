@@ -1,10 +1,8 @@
 import { MongooseDocument } from "#api/shared/mongoose.document";
 import NotificationLevel from "#utils/notificationLevel";
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Exclude, Transform } from "class-transformer";
+import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Exclude } from "class-transformer";
 import type { Document } from "mongoose";
-
-export type UserDocument = User & Document;
 
 @Schema()
 export class User extends MongooseDocument {
@@ -28,9 +26,17 @@ export class User extends MongooseDocument {
   @Prop()
   refreshToken?: string;
 
-  @Transform(() => {
-    return null;
-  })
+  @Prop(
+    raw({
+      payload: {
+        feetPushed: String,
+        pushing: Boolean,
+        lastPushed: Number,
+        pushedToday: Number,
+        lastActiveDate: Number,
+      },
+    })
+  )
   fun!: UserPushcartDetails;
 }
 
@@ -42,4 +48,5 @@ export interface UserPushcartDetails {
   lastActiveDate: number;
 }
 
+export type UserDocument = User & Document;
 export const UserSchema = SchemaFactory.createForClass(User);

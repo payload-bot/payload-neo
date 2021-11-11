@@ -61,7 +61,7 @@ export class AuthController {
   @Get("/callback")
   @UseGuards(AuthGuard("discord"))
   async callback(
-    @CurrentUser() { id }: any,
+    @CurrentUser() { id }: User,
     @Res({ passthrough: true }) res: Response
   ) {
     const authToken = await this.authService.generateJwtToken(

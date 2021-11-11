@@ -7,8 +7,6 @@ import {
   Get,
   Patch,
   UseInterceptors,
-  UsePipes,
-  ValidationPipe,
 } from "@nestjs/common";
 import { UpdateProfileDto } from "../dto/update-profile.dto";
 import type { User } from "../models/user.model";

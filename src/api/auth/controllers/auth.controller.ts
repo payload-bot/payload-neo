@@ -8,8 +8,6 @@ import {
   Post,
   Res,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
   VERSION_NEUTRAL,
 } from "@nestjs/common";
 import type { Response } from "express";

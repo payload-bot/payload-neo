@@ -28,7 +28,9 @@ export class UserService {
       latestUpdateNotifcation,
       notificationsLevel,
       steamId,
-      fun: { feetPushed },
+      fun: {
+        payload: { feetPushed },
+      },
     } = await this.findUser({ id });
 
     const user = await client.users.fetch(id);

@@ -27,7 +27,6 @@ export class UserController {
 
   @Patch()
   @Auth()
-  @UsePipes(ValidationPipe)
   async updateUser(
     @CurrentUser() { id }: User,
     @Body() body: UpdateProfileDto

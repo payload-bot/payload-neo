@@ -1,4 +1,4 @@
-import { VersioningType } from "@nestjs/common";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.modules";
@@ -23,6 +23,11 @@ export async function bootstrap() {
   });
 
   app.useGlobalFilters(new DocumentNotFoundFilter());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    })
+  );
 
   await app.listen(8080);
 }

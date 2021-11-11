@@ -37,7 +37,6 @@ export class AuthController {
 
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
-  @UsePipes(ValidationPipe)
   @Auth()
   async refresh(@Body("refreshToken") token: string) {
     if (!token) throw new BadRequestException();
@@ -47,7 +46,6 @@ export class AuthController {
 
   @Post("/logout")
   @HttpCode(HttpStatus.OK)
-  @UsePipes(ValidationPipe)
   @Auth()
   async logout(
     @Body("refreshToken") token: string,

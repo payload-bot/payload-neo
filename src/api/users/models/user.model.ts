@@ -41,11 +41,13 @@ export class User extends MongooseDocument {
 }
 
 export interface UserPushcartDetails {
-  feetPushed: string;
-  pushing: boolean;
-  lastPushed: number;
-  pushedToday: number;
-  lastActiveDate: number;
+  payload: {
+    feetPushed: string;
+    pushing: boolean;
+    lastPushed: number;
+    pushedToday: number;
+    lastActiveDate: number;
+  };
 }
 
 export type UserDocument = User & Document;

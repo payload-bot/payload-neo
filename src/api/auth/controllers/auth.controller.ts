@@ -74,10 +74,9 @@ export class AuthController {
       id
     );
 
-    // @ts-ignore
     const redirectUrl = this.environment.clientUrl;
     res.redirect(
-      "/api/v1/users" + `?token=${authToken}&refreshToken=${refreshToken}`
+      redirectUrl + `?token=${authToken}&refreshToken=${refreshToken}`
     );
   }
 }

@@ -6,6 +6,7 @@ import { Profile } from "../dto/profile.dto";
 import { container } from "@sapphire/framework";
 import { User, UserDocument } from "../models/user.model";
 import { Environment } from "#api/environment/environment";
+import { UpdateProfileDto } from "../dto/update-profile.dto";
 
 export interface CreateUserParams {
   id: string;
@@ -68,6 +69,10 @@ export class UserService {
       .exec();
 
     return plainToClass(User, updatedUser);
+  }
+
+  async updateUserProfile(id: string, details: UpdateProfileDto) {
+    return await this.updateUser(id, { ...details });
   }
 
   async createUser({

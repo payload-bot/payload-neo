@@ -25,6 +25,18 @@ export class Environment {
     return this.configService.get<string>("CALLBACK_URL") as string;
   }
 
+  get owners() {
+    return this.configService.get<string[]>("OWNERS") as string[];
+  }
+
+  get discordId() {
+    return this.configService.get<string>("DISCORD_GUILD_ID") as string;
+  }
+
+  get discordBetaRoleId() {
+    return this.configService.get<string>("DISCORD_GUILD_BETA_ROLE_ID") as string;
+  }
+
   get jwtAuthSecret() {
     return this.configService.get<string>("JWT_AUTH_SECRET") as string;
   }

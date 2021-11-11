@@ -17,6 +17,6 @@ export class UserController {
   @Get()
   @Auth()
   async currentUser(@CurrentUser() { id }: User) {
-    return await this.userService.findUser({ id });
+    return await this.userService.userToProfile(id);
   }
 }

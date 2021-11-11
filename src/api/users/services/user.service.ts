@@ -6,7 +6,7 @@ import { Profile } from "../dto/profile.dto";
 import { container } from "@sapphire/framework";
 import { User, UserDocument } from "../models/user.model";
 import { Environment } from "#api/environment/environment";
-import { UpdateProfileDto } from "../dto/update-profile.dto";
+import type { UpdateProfileDto } from "../dto/update-profile.dto";
 
 export interface CreateUserParams {
   id: string;
@@ -49,7 +49,7 @@ export class UserService {
       lastUpdate: latestUpdateNotifcation,
       notificationsLevel: notificationsLevel,
       avatar: user.displayAvatarURL(),
-      pushcartPoints: parseInt(feetPushed, 10),
+      pushcartPoints: parseInt(feetPushed ?? 0, 10),
     });
   }
 

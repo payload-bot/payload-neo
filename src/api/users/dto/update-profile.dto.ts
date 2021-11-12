@@ -1,9 +1,10 @@
+import { IsValidSteamId } from "#api/shared/steamid.validator";
 import NotificationLevel from "#utils/notificationLevel";
 import { Optional } from "@nestjs/common";
-import { IsNumber, IsString, Matches, Max, Min } from "class-validator";
+import { IsNumber, IsString, Max, Min } from "class-validator";
 
 export class UpdateProfileDto {
-  @Matches(/(765611\d{11})/)
+  @IsValidSteamId()
   @Optional()
   @IsString()
   steamId!: string;

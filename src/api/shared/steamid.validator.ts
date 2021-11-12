@@ -10,13 +10,17 @@ export function IsValidSteamId(validationOptions?: ValidationOptions) {
       constraints: [],
       options: {
         ...validationOptions,
-        message: "$value is not a valid steamid",
+        message: "$value is not a valid steamid64",
       },
       validator: {
         validate(value: any) {
           const steamId = new SteamId(value);
 
-          return typeof value === "string" && steamId.isValid();
+          return (
+            typeof value === "string" &&
+            steamId.isValid() &&
+            value === steamId.getSteamID64()
+          );
         },
       },
     });

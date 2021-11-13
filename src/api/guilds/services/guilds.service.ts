@@ -1,11 +1,6 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { UserService } from "#api/users/services/user.service";
-import {
-  forwardRef,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { plainToClass } from "class-transformer";
 import type { Model } from "mongoose";
@@ -17,7 +12,6 @@ export class GuildsService {
     @InjectModel(Guild.name)
     private guildModel: Model<GuildDocument>,
     private usersService: UserService,
-    @Inject(forwardRef(() => DiscordService))
     private discordService: DiscordService
   ) {}
 

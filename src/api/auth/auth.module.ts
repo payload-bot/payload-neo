@@ -1,3 +1,4 @@
+import { DiscordModule } from "#api/discord/discord.module";
 import { UsersModule } from "#api/users/users.module";
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -13,6 +14,7 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
       { name: RefreshToken.name, schema: RefreshTokenSchema },
     ]),
     UsersModule,
+    DiscordModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, DiscordStrategy],

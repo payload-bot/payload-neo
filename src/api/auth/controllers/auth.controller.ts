@@ -46,12 +46,13 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Auth()
   async logout(
-    @Body("refreshToken") token: string,
-    @CurrentUser() { id }: User
+    @Body("refreshToken") refreshToken: string,
+    @CurrentUser() { id, accessToken }: User
   ) {
-    if (!token) throw new BadRequestException();
+    if (!refreshToken) throw new BadRequestException();
+    if (!accessToken) throw new BadRequestException();
 
-    await this.authService.logOut(id, token);
+    await this.authService.logOut(id, refreshToken, accessToken);
   }
 
   @Get("/callback")

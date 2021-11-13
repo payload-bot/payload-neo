@@ -1,3 +1,4 @@
+import { DiscordService } from "#api/discord/services/discord.service";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { Injectable } from "@nestjs/common";
@@ -15,6 +16,7 @@ export class AuthService {
   constructor(
     @InjectModel(RefreshToken.name)
     private refreshToken: Model<RefreshTokenDocument>,
+    private discordService: DiscordService,
     private userService: UserService,
     private environment: Environment
   ) {}
@@ -76,12 +78,14 @@ export class AuthService {
     }
   }
 
-  async logOut(id: string, token: string) {
-    await this.refreshToken.deleteOne({ value: token }).orFail().lean();
+  async logOut(id: string, refreshToken: string, accessToken: string) {
+    await this.refreshToken.deleteOne({ value: refreshToken }).orFail().lean();
 
     await this.userService.updateUser(id, {
       refreshToken: undefined,
       accessToken: undefined,
     });
+
+    await this.discordService.revokeUserTokens(accessToken!);
   }
 }

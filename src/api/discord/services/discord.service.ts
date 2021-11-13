@@ -5,6 +5,7 @@ import {
   RESTPostOAuth2RefreshTokenResult,
   Routes,
   RouteBases,
+  OAuth2Routes,
 } from "discord-api-types/v9";
 import { firstValueFrom, map, of, retryWhen, tap } from "rxjs";
 import { Environment } from "#api/environment/environment";
@@ -21,6 +22,24 @@ export class DiscordService {
     private httpService: HttpService,
     private usersService: UserService
   ) {}
+
+  async revokeUserTokens(token: string) {
+    const revoke$ = this.httpService.post(
+      OAuth2Routes.tokenRevocationURL,
+      {
+        token: token,
+        client_id: this.environment.clientId,
+        client_secret: this.environment.clientSecret,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    await firstValueFrom(revoke$);
+  }
 
   async getSortedUserGuilds(
     id: string,

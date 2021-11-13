@@ -23,7 +23,7 @@ export class UserCommand extends PayloadCommand {
       }
     }
 
-    const number = await args.pick("integer", { minimum: 1, maximum: 5 });
+    const number = await args.pick("integer", { minimum: 1, maximum: 5 }).catch(() => 1);
 
     const client = this.container.client as PayloadClient;
 

@@ -1,10 +1,11 @@
+import { MongooseDocument } from "#api/shared/mongoose.document";
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import type { Document } from "mongoose";
 
 export type GuildDocument = Guild & Document;
 
 @Schema()
-export class Guild {
+export class Guild extends MongooseDocument {
   @Prop()
   id!: string;
 

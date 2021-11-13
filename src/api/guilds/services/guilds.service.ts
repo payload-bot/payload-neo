@@ -85,7 +85,7 @@ export class GuildsService {
 
   async updateGuildById(guildId: string, details: UpdateQuery<GuildDocument>) {
     const guild = await this.guildModel
-      .findOne({ id: guildId }, details, { upsert: true, new: true })
+      .findOneAndUpdate({ id: guildId }, details, { new: true })
       .lean()
       .exec();
 

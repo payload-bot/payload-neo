@@ -1,7 +1,7 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { UserService } from "#api/users/services/user.service";
 import config from "#root/config";
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { container } from "@sapphire/framework";
 import { plainToClass } from "class-transformer";
@@ -13,6 +13,8 @@ const { client } = container;
 
 @Injectable()
 export class GuildsService {
+  private logger = new Logger(GuildsService.name);
+
   constructor(
     @InjectModel(Guild.name)
     private guildModel: Model<GuildDocument>,
@@ -21,6 +23,9 @@ export class GuildsService {
   ) {}
 
   async getUserGuilds(id: string) {
+    this.logger.debug("Fetching user guilds...");
+    const startTime = Date.now();
+
     const { accessToken, refreshToken } =
       await this.usersService.getDiscordTokensForUser(id);
 
@@ -32,6 +37,9 @@ export class GuildsService {
       accessToken!,
       refreshToken!
     );
+
+    this.logger.debug("Done fetching user guilds!");
+    this.logger.debug(`It took ${Date.now() - startTime}ms `);
 
     return userServers;
   }

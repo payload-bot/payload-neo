@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import {
   RESTGetAPICurrentUserGuildsResult,
@@ -7,7 +11,7 @@ import {
   RouteBases,
   OAuth2Routes,
 } from "discord-api-types/v9";
-import { firstValueFrom, map, of, retryWhen, tap } from "rxjs";
+import { catchError, firstValueFrom, map, of, retryWhen, tap } from "rxjs";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
@@ -17,6 +21,8 @@ const { client } = container;
 
 @Injectable()
 export class DiscordService {
+  private logger = new Logger(DiscordService.name);
+
   constructor(
     private environment: Environment,
     private httpService: HttpService,
@@ -131,6 +137,10 @@ export class DiscordService {
         }
       )
       .pipe(
+        catchError((err) => {
+          this.logger.error(err);
+          throw new InternalServerErrorException();
+        }),
         tap(async ({ data: { access_token, refresh_token } }) =>
           of(
             await this.usersService.updateUser(id, {

@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import {
   RESTGetAPICurrentUserGuildsResult,
@@ -10,7 +10,6 @@ import { firstValueFrom, map, of, retryWhen, tap } from "rxjs";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
-import { GuildsService } from "#api/guilds/services/guilds.service";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 
 const { client } = container;
@@ -20,10 +19,7 @@ export class DiscordService {
   constructor(
     private environment: Environment,
     private httpService: HttpService,
-    private usersService: UserService,
-    @Inject(forwardRef(() => GuildsService))
-     // @ts-ignore
-     private guildsService: GuildsService
+    private usersService: UserService
   ) {}
 
   async getSortedUserGuilds(

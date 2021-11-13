@@ -4,9 +4,7 @@ import cheerio from "cheerio";
 import { format } from "date-fns"
 import { closeBrowser, createOrConnectChrome } from "./screenshot";
 import type { PayloadClient } from "#lib/PayloadClient";
-
-// Module doesn't have support for TS.
-const imageToBase64 = require("image-to-base64");
+import axios from "axios";
 
 /**
  * Contains the following IDs:
@@ -39,9 +37,9 @@ export async function renderMessage(message: Message): Promise<{ buffer: Buffer,
     const date = message.editedAt || message.createdAt;
     const timestamp = format(date, "MM/dd/yyyy");
 
-    const avatarBase64: string = await imageToBase64(avatarURL);
+    const { data: avatarBuffer } = await axios.get(avatarURL, { responseType: "arraybuffer" });
 
-    $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${avatarBase64}');`);
+    $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${avatarBuffer}');`);
     $("#gen_username").attr("style", "color: " + color).text(username);
     $("#gen_timestamp").text(timestamp);
     $("#gen_messageContent").html(message.cleanContent.replace(/\n/g, "<br>"));

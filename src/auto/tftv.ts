@@ -7,7 +7,7 @@ import PayloadColors from "#utils/colors";
 import { Message, MessageEmbed } from "discord.js";
 import axios from "axios";
 import cheerio from "cheerio";
-import { htmlToText } from "html-to-text";
+import { convert  } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 
 @ApplyOptions<AutoCommandOptions>({
@@ -24,7 +24,7 @@ export default class UserAutoCommand extends AutoCommand {
     const title = $(".thread-header-title").text().trim();
     const $post = $(`#thread-container > .post:nth-child(1)`);
     const author = $post.find(".post-header .post-author").text().trim();
-    const body = htmlToText($post.find(".post-body") as any as string);
+    const body = convert ($post.find(".post-body") as any as string);
 
     const dateSelector = $post
       .find(".post-footer .js-date-toggle")

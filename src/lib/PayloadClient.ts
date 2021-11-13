@@ -45,13 +45,9 @@ export class PayloadClient extends SapphireClient {
 
     // i18n formatting
     // @TODO: move this to plugin instead... needs PR
-    i18next.services!.formatter!.add("duration", (value, _lng, options) => {
+    i18next.services?.formatter?.add("duration", (value, _lng, options) => {
       return new DurationFormatter().format(value, options?.duration ?? 2);
     });
-
-    i18next.options!.interpolation!.defaultVariables = {
-      PUSHCART_EMOJI: "<:payload:656955124098269186>",
-    };
 
     return response;
   }

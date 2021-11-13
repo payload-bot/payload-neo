@@ -1,10 +1,15 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { UserService } from "#api/users/services/user.service";
+import config from "#root/config";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import { container } from "@sapphire/framework";
 import { plainToClass } from "class-transformer";
-import type { Model } from "mongoose";
+import type { Model, UpdateQuery } from "mongoose";
+import { GuildResponseDto } from "../dto/guild-response.dto";
 import { Guild, GuildDocument } from "../models/guild.model";
+
+const { client } = container;
 
 @Injectable()
 export class GuildsService {
@@ -31,8 +36,41 @@ export class GuildsService {
     return userServers;
   }
 
-  async getUserGuild(id: string, guildId: string) {
-    return { id, guildId };
+  async getUserGuild(guildId: string) {
+    const {
+      enableSnipeForEveryone = false,
+      language = "en-US",
+      prefix = config.PREFIX,
+      fun,
+    } = await this.findOrCreateGuild(guildId);
+
+    const clientGuild = await client.guilds.fetch(guildId);
+    const botMemberInGuild = await clientGuild.members.fetch(client.user!.id);
+
+    return new GuildResponseDto({
+      id: guildId,
+      prefix,
+      language,
+      enableSnipeForEveryone,
+      pushcartPoints: fun?.payloadFeetPushed ?? 0,
+      botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
+      icon: clientGuild.iconURL(),
+    });
+  }
+
+  async findOrCreateGuild(guildId: string) {
+    let guild: Guild;
+    try {
+      guild = await this.guildModel
+        .findOne({ id: guildId })
+        .orFail()
+        .lean()
+        .exec();
+    } catch (err) {
+      guild = await this.guildModel.create({ id: guildId });
+    }
+
+    return plainToClass(Guild, guild);
   }
 
   async getGuildById(guildId: string) {
@@ -45,8 +83,11 @@ export class GuildsService {
     return plainToClass(Guild, guild);
   }
 
-  async getGuildByIdNullable(guildId: string) {
-    const guild = await this.guildModel.findOne({ id: guildId }).lean().exec();
+  async updateGuildById(guildId: string, details: UpdateQuery<GuildDocument>) {
+    const guild = await this.guildModel
+      .findOne({ id: guildId }, details, { upsert: true, new: true })
+      .lean()
+      .exec();
 
     return plainToClass(Guild, guild);
   }

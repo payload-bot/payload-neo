@@ -1,38 +1,17 @@
 import config from "#root/config";
-import type { GuildFun } from "../models/guild.model";
 
 export class GuildResponseDto {
-  public id: string;
-  public icon: string;
+  public id!: string;
+  public icon!: string | null;
 
-  public botName: string;
+  public botName!: string;
 
-  public enableSnipeForEveryone: boolean;
-  public language: string;
-  public prefix: string;
-  public fun: GuildFun | null;
+  public enableSnipeForEveryone: boolean = false;
+  public language: string = "en-US";
+  public prefix: string = config.PREFIX;
+  public pushcartPoints: number = 0;
 
-  constructor(options: GuildResponseOptions) {
-    this.id = options.id;
-    this.icon = options.icon;
-
-    this.botName = options.botName;
-
-    this.enableSnipeForEveryone = options.enableSnipeForEveryone ?? false;
-    this.language = options.language ?? "en-US";
-    this.prefix = options.prefix ?? config.PREFIX;
-    this.fun = options.fun;
+  constructor(options: Partial<GuildResponseDto>) {
+    Object.assign(this, options);
   }
-}
-
-export interface GuildResponseOptions {
-  id: string;
-  icon: string;
-
-  botName: string;
-
-  enableSnipeForEveryone: boolean | null;
-  language: string | null;
-  prefix: string | null;
-  fun: GuildFun | null;
 }

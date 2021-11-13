@@ -8,6 +8,7 @@ import {
   Param,
   UseInterceptors,
 } from "@nestjs/common";
+import { GuildAuth } from "../guards/guild-auth.guard";
 import { GuildsService } from "../services/guilds.service";
 
 @Controller("guilds")
@@ -22,7 +23,7 @@ export class GuildsController {
   }
 
   @Get(":guildId")
-  @Auth()
+  @GuildAuth()
   async getGuild(
     @CurrentUser() { id }: User,
     @Param("guildId") guildId: string

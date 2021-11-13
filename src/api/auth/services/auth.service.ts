@@ -79,13 +79,13 @@ export class AuthService {
   }
 
   async logOut(id: string, refreshToken: string, accessToken: string) {
-    await this.refreshToken.deleteOne({ value: refreshToken }).orFail().lean();
-
-    await this.userService.updateUser(id, {
-      refreshToken: undefined,
-      accessToken: undefined,
-    });
-
-    await this.discordService.revokeUserTokens(accessToken!);
+    await Promise.all([
+      this.refreshToken.deleteOne({ value: refreshToken }).orFail(),
+      this.userService.updateUser(id, {
+        refreshToken: undefined,
+        accessToken: undefined,
+      }),
+      await this.discordService.revokeUserTokens(accessToken),
+    ]);
   }
 }

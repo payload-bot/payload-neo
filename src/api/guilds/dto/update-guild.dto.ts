@@ -12,7 +12,7 @@ export class UpdateGuildDto {
   @MinLength(1)
   @MaxLength(100)
   botName!: string;
-  
+
   @IsOptional()
   @IsString()
   @MinLength(1)

@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { GuildsService } from "./services/guilds.service";
 import { GuildsController } from "./controllers/guilds.controller";
 import { UsersModule } from "#api/users/users.module";
@@ -9,7 +9,7 @@ import { Guild, GuildSchema } from "./models/guild.model";
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Guild.name, schema: GuildSchema }]),
-    forwardRef(() => DiscordModule),
+    DiscordModule,
     UsersModule,
   ],
   controllers: [GuildsController],

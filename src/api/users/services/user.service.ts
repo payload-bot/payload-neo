@@ -53,6 +53,16 @@ export class UserService {
     });
   }
 
+  async getDiscordTokensForUser(id: string) {
+    const { accessToken, refreshToken } = await this.userModel
+      .findOne({ id })
+      .orFail()
+      .lean()
+      .exec();
+
+    return { accessToken, refreshToken };
+  }
+
   async findUser(query: FilterQuery<UserDocument>): Promise<User> {
     return plainToClass(
       User,

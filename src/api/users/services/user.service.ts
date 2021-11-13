@@ -90,13 +90,13 @@ export class UserService {
     accessToken,
     refreshToken,
   }: CreateUserParams): Promise<User> {
-    await this.userModel.create({
+    const user = await this.userModel.create({
       id,
       accessToken,
       refreshToken,
     });
 
-    return await this.findUser({ id });
+    return plainToClass(User, user);
   }
 
   private async isBetaTester(discordId: string) {

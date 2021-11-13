@@ -24,10 +24,7 @@ export class GuildsController {
 
   @Get(":guildId")
   @GuildAuth()
-  async getGuild(
-    @CurrentUser() { id }: User,
-    @Param("guildId") guildId: string
-  ) {
-    return await this.guildsService.getUserGuild(id, guildId);
+  async getGuild(@Param("guildId") guildId: string) {
+    return await this.guildsService.getUserGuild(guildId);
   }
 }

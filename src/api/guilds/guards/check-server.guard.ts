@@ -21,7 +21,7 @@ export class CheckServerGuard implements CanActivate {
 
     const userServers = await this.guildsService.getUserGuilds(user.id);
 
-    if (!userServers.map((s) => s.id).includes(guildId)) {
+    if (!userServers.find(s => s.id === guildId)) {
       return false;
     }
 

@@ -39,7 +39,7 @@ export async function renderMessage(message: Message): Promise<{ buffer: Buffer,
 
     const { data: avatarBuffer } = await axios.get(avatarURL, { responseType: "arraybuffer" });
 
-    $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${avatarBuffer}');`);
+    $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${Buffer.from(avatarBuffer).toString('base64')}');`);
     $("#gen_username").attr("style", "color: " + color).text(username);
     $("#gen_timestamp").text(timestamp);
     $("#gen_messageContent").html(message.cleanContent.replace(/\n/g, "<br>"));

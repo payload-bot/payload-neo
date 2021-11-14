@@ -45,6 +45,18 @@ function getPresence(): PresenceData {
   };
 }
 
+// see below
+// function getAllI18nFormatters() {
+//   return [
+//     {
+//       name: "duration",
+//       format: (value, _lng, options) => {
+//         return new DurationFormatter().format(value, options?.duration ?? 2);
+//       },
+//     },
+//   ];
+// }
+
 function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
@@ -69,6 +81,8 @@ function parseI18N(): InternationalizationOptions {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
         },
       },
+      // @TODO: uncomment when https://github.com/sapphiredev/plugins/pull/167 is published
+      // formatters: getAllI18nFormatters(),
       overloadTranslationOptionHandler: (args) => ({
         defaultValue: args[1] ?? "globals:default",
       }),

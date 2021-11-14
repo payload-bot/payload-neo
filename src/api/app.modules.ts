@@ -7,6 +7,7 @@ import { EnvironmentModule } from "./environment/environment.module";
 import { GuildsModule } from "./guilds/guilds.module";
 import { UsersModule } from "./users/users.module";
 import { HttpModule } from "@nestjs/axios";
+import { WebhooksModule } from "./webhooks/webhooks.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { HttpModule } from "@nestjs/axios";
     AuthModule,
     UsersModule,
     GuildsModule,
+    WebhooksModule,
   ],
 })
 export class AppModule {}

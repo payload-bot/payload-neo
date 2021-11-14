@@ -10,9 +10,12 @@ import {
   Patch,
   UseInterceptors,
 } from "@nestjs/common";
+import { container } from "@sapphire/framework";
 import { UpdateGuildDto } from "../dto/update-guild.dto";
 import { GuildAuth } from "../guards/guild-auth.guard";
 import { GuildsService } from "../services/guilds.service";
+
+const { i18n } = container;
 
 @Controller("guilds")
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,6 +26,11 @@ export class GuildsController {
   @Auth()
   async getAuthedGuilds(@CurrentUser() { id }: User) {
     return await this.guildsService.getUserGuilds(id);
+  }
+
+  @Get("languages")
+  async getValidLanguages() {
+    return [...i18n.languages.keys()];
   }
 
   @Get(":guildId")

@@ -1,3 +1,4 @@
+import { IsValidLanguage } from "#api/shared/language.validator";
 import {
   IsBoolean,
   IsOptional,
@@ -22,4 +23,8 @@ export class UpdateGuildDto {
   @IsOptional()
   @IsBoolean()
   enableSnipeForEveryone!: boolean;
+
+  @IsOptional()
+  @IsValidLanguage()
+  language!: string;
 }

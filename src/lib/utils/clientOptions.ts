@@ -63,11 +63,11 @@ function parseI18N(): InternationalizationOptions {
       load: "all",
       lng: "en-US",
       returnObjects: true,
-      debug: true,
       interpolation: {
+        escapeValue: false,
         defaultVariables: {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
-        }
+        },
       },
       overloadTranslationOptionHandler: (args) => ({
         defaultValue: args[1] ?? "globals:default",

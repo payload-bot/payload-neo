@@ -87,7 +87,7 @@ export class WebhookService {
     try {
       await target.send({
         embeds: [embed],
-        attachments: attachment ? [attachment] : undefined,
+        files: attachment ? [attachment] : undefined,
       });
     } catch (_err) {
       this.logger.error(_err);

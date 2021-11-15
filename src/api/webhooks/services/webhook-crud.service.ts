@@ -1,8 +1,9 @@
+import { GuildsService } from "#api/guilds/services/guilds.service";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { plainToClass } from "class-transformer";
 import { generate } from "generate-password";
-import type { Model } from "mongoose";
+import type { Model, Types } from "mongoose";
 import {
   Webhook,
   WebhookDocument,
@@ -13,7 +14,8 @@ import {
 export class WebhookCrudService {
   constructor(
     @InjectModel(Webhook.name)
-    private webhookModel: Model<WebhookDocument>
+    private webhookModel: Model<WebhookDocument>,
+    private guildsService: GuildsService
   ) {}
 
   async getWebhookByDiscordId(id: string) {
@@ -57,6 +59,17 @@ export class WebhookCrudService {
       }),
     });
 
-    return plainToClass(Webhook, createdWebhook);
+    if (type === "channels") {
+      await this.saveWebhookToGuild(id, createdWebhook._id);
+    }
+
+    return plainToClass(
+      Webhook,
+      await this.getWebhookByObjectId(createdWebhook._id)
+    );
+  }
+
+  private async saveWebhookToGuild(guildId: string, webhookId: Types.ObjectId) {
+    await this.guildsService.updateGuildById(guildId, { webhook: webhookId });
   }
 }

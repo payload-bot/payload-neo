@@ -13,7 +13,7 @@ import { container } from "@sapphire/framework";
 import { plainToClass } from "class-transformer";
 import type { Model, UpdateQuery } from "mongoose";
 import { GuildResponseDto } from "../dto/guild-response.dto";
-import { Guild, GuildDocument } from "../models/guild.model";
+import { Server, GuildDocument } from "../models/guild.model";
 
 const { client } = container;
 
@@ -22,7 +22,7 @@ export class GuildsService {
   private logger = new Logger(GuildsService.name);
 
   constructor(
-    @InjectModel(Guild.name)
+    @InjectModel(Server.name)
     private guildModel: Model<GuildDocument>,
     private usersService: UserService,
     private discordService: DiscordService
@@ -83,7 +83,7 @@ export class GuildsService {
   }
 
   async findOrCreateGuild(guildId: string) {
-    let guild: Guild;
+    let guild: Server;
     try {
       guild = await this.guildModel
         .findOne({ id: guildId })
@@ -94,7 +94,7 @@ export class GuildsService {
       guild = await this.guildModel.create({ id: guildId });
     }
 
-    return plainToClass(Guild, guild);
+    return plainToClass(Server, guild);
   }
 
   async getGuildById(guildId: string) {
@@ -104,15 +104,16 @@ export class GuildsService {
       .lean()
       .exec();
 
-    return plainToClass(Guild, guild);
+    return plainToClass(Server, guild);
   }
 
-  async updateGuildById(guildId: string, details: UpdateQuery<GuildDocument>) {
+  async updateGuildById(guildId: string, details: UpdateQuery<Server>) {
     const guild = await this.guildModel
       .findOneAndUpdate({ id: guildId }, details, { new: true })
+      .orFail()
       .lean()
       .exec();
 
-    return plainToClass(Guild, guild);
+    return plainToClass(Server, guild);
   }
 }

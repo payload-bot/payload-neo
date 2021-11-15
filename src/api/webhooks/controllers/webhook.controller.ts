@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { CurrentWebhook } from "../decorators/get-webhook.decorator";
+import { WebhookLogDto } from "../dto/webhook-log.dto";
 import type { Webhook } from "../models/webhook.model";
 import { WebhookService } from "../services/webhook.service";
 
@@ -11,7 +12,7 @@ export class WebhookController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async getUserWebhook(
     @CurrentWebhook() { id, type }: Webhook,
-    @Body("logsId") logsId: string
+    @Body() { logsId }: WebhookLogDto
   ) {
     await this.webhookService.sendLogPreview(type, id, logsId);
     return;

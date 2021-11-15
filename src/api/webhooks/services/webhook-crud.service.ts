@@ -34,7 +34,7 @@ export class WebhookCrudService {
 
   async getWebhookBySecret(secret: string) {
     const webhook = await this.webhookModel
-      .findById({ value: secret })
+      .findOne({ value: secret })
       .orFail()
       .lean()
       .exec();

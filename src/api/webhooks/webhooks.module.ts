@@ -1,5 +1,10 @@
 import { GuildsModule } from "#api/guilds/guilds.module";
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { WebhookCrudController } from "./controllers/webhook-crud.controller";
 import { WebhookController } from "./controllers/webhook.controller";
@@ -19,6 +24,11 @@ import { WebhookService } from "./services/webhook.service";
 })
 export class WebhooksModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(WebhookValidationMiddleware).forRoutes(WebhookController);
+    consumer
+      .apply(WebhookValidationMiddleware)
+      .forRoutes(
+        { path: "*", method: RequestMethod.POST },
+        { path: "logs", method: RequestMethod.POST }
+      );
   }
 }

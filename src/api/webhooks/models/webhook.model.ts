@@ -11,7 +11,7 @@ export class Webhook extends MongooseDocument {
   @Prop({ index: true, required: true })
   value!: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @Prop()
   type!: WebhookTargetType;
 

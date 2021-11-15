@@ -14,6 +14,6 @@ import { WebhookService } from "./services/webhook.service";
   ],
   controllers: [WebhookCrudController, WebhookController],
   providers: [WebhookCrudService, WebhookService],
-  exports: [WebhookCrudService],
+  exports: [WebhookCrudService, WebhookService],
 })
 export class WebhooksModule {}

@@ -22,7 +22,9 @@ export class WebhookService {
 
     if (!target) throw new NotFoundException();
 
-    const screenshotBuffer = await capturePage(`https://logs.tf/${logsId}`, {
+    const logsUrl = `https://logs.tf/${logsId}`;
+
+    const screenshotBuffer = await capturePage(logsUrl, {
       top: {
         selector: "#log-header",
         edge: "top",
@@ -46,14 +48,14 @@ export class WebhookService {
     const att = new MessageAttachment(screenshotBuffer, "log.png");
 
     const embed = new MessageEmbed({
-      title: "Webhook Test",
-      description: "Successful webhook test!",
+      title: "Logs.tf Preview",
       footer: {
         text: "Rendered from Webhook",
       },
       image: {
         url: "attachment://log.png",
       },
+      url: logsUrl,
       color: EmbedColors.GREEN,
       timestamp: new Date(),
     });

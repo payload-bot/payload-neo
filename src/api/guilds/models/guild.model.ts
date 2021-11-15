@@ -1,6 +1,8 @@
 import { MongooseDocument } from "#api/shared/mongoose.document";
+import { Webhook } from "#api/webhooks/models/webhook.model";
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
-import type { Document } from "mongoose";
+import { Exclude, Type } from "class-transformer";
+import { Document, Types } from "mongoose";
 
 export type GuildDocument = Guild & Document;
 
@@ -20,6 +22,11 @@ export class Guild extends MongooseDocument {
 
   @Prop({ type: [String] })
   commandRestrictions!: string[];
+
+  @Prop({ type: Types.ObjectId, ref: "Webhook" })
+  @Exclude()
+  @Type(() => Webhook)
+  webhook?: Webhook;
 
   @Prop(
     raw({

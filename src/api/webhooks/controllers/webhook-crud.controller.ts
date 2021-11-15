@@ -14,12 +14,12 @@ import {
   Post,
   UseInterceptors,
 } from "@nestjs/common";
-import { WebhookService } from "../services/webhook.service";
+import { WebhookCrudService } from "../services/webhook-crud.service";
 
 @Controller("webhooks")
 @UseInterceptors(ClassSerializerInterceptor)
 export class WebhookCrudController {
-  constructor(private webhookService: WebhookService) {}
+  constructor(private webhookService: WebhookCrudService) {}
 
   @Get("users")
   @Auth()

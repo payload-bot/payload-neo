@@ -32,6 +32,16 @@ export class WebhookCrudService {
     return plainToClass(Webhook, webhook);
   }
 
+  async getWebhookBySecret(secret: string) {
+    const webhook = await this.webhookModel
+      .findById({ value: secret })
+      .orFail()
+      .lean()
+      .exec();
+
+    return plainToClass(Webhook, webhook);
+  }
+
   async deleteWebhookByDiscordId(id: string) {
     await this.webhookModel.findOneAndRemove({ id }).orFail().lean().exec();
   }

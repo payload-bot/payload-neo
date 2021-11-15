@@ -1,46 +1,62 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { plainToClass } from "class-transformer";
-import { generate } from "generate-password";
-import type { Model } from "mongoose";
+import { EmbedColors } from "#utils/colors";
 import {
-  Webhook,
-  WebhookDocument,
-  WebhookTargetType,
-} from "../models/webhook.model";
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from "@nestjs/common";
+import { container } from "@sapphire/framework";
+import { MessageEmbed, TextChannel, User } from "discord.js";
+import type { WebhookTargetType } from "../models/webhook.model";
+
+const { client } = container;
 
 @Injectable()
 export class WebhookService {
-  constructor(
-    @InjectModel(Webhook.name)
-    private webhookModel: Model<WebhookDocument>
-  ) {}
+  private logger = new Logger(WebhookService.name);
 
-  async getWebhookByDiscordId(id: string) {
-    const webhook = await this.webhookModel
-      .findOne({ id })
-      .orFail()
-      .lean()
-      .exec();
+  async sendLogPreview(scope: WebhookTargetType, id: string) {
+    const target = (await client[scope].fetch(id)) as TextChannel | User;
 
-    return plainToClass(Webhook, webhook);
-  }
+    if (!target) throw new NotFoundException();
 
-  async deleteWebhookByDiscordId(id: string) {
-    await this.webhookModel.findOneAndRemove({ id }).orFail().lean().exec();
-  }
-
-  async createNewWebhook(type: WebhookTargetType, id: string) {
-    const createdWebhook = await this.webhookModel.create({
-      id,
-      type,
-      value: generate({
-        length: 40,
-        numbers: true,
-        strict: true,
-      }),
+    const embed = new MessageEmbed({
+      title: "Webhook Test",
+      description: "Successful webhook test!",
+      footer: {
+        text: "Rendered from Webhook",
+      },
+      color: EmbedColors.GREEN,
+      timestamp: new Date(),
     });
 
-    return plainToClass(Webhook, createdWebhook);
+    await this.sendWebhook(target, embed);
+  }
+
+  async sendTest(scope: WebhookTargetType, id: string) {
+    const target = (await client[scope].fetch(id)) as TextChannel | User;
+
+    if (!target) throw new NotFoundException();
+
+    const embed = new MessageEmbed({
+      title: "Webhook Test",
+      description: "Successful webhook test!",
+      footer: {
+        text: "Rendered from Webhook",
+      },
+      color: EmbedColors.GREEN,
+      timestamp: new Date(),
+    });
+
+    await this.sendWebhook(target, embed);
+  }
+
+  private async sendWebhook(target: TextChannel | User, embed: MessageEmbed) {
+    try {
+      await target.send({ embeds: [embed] });
+    } catch (_err) {
+      this.logger.error(_err);
+      throw new InternalServerErrorException();
+    }
   }
 }

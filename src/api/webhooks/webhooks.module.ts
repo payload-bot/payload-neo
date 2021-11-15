@@ -27,8 +27,8 @@ export class WebhooksModule implements NestModule {
     consumer
       .apply(WebhookValidationMiddleware)
       .forRoutes(
-        { path: "*", method: RequestMethod.POST },
-        { path: "logs", method: RequestMethod.POST }
+        { path: "*/test", method: RequestMethod.POST },
+        { path: "*/logs", method: RequestMethod.POST }
       );
   }
 }

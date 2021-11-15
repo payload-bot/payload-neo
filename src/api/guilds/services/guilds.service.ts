@@ -1,7 +1,13 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { UserService } from "#api/users/services/user.service";
+import { Webhook } from "#api/webhooks/models/webhook.model";
 import config from "#root/config";
-import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { container } from "@sapphire/framework";
 import { plainToClass } from "class-transformer";
@@ -64,6 +70,16 @@ export class GuildsService {
       botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
       icon: clientGuild.iconURL(),
     });
+  }
+
+  async getGuildWebhook(guildId: string) {
+    const guild = await this.getGuildById(guildId);
+
+    if (!guild?.webhook) {
+      throw new NotFoundException();
+    }
+
+    return plainToClass(Webhook, guild.webhook);
   }
 
   async findOrCreateGuild(guildId: string) {

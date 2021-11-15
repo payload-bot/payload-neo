@@ -1,6 +1,7 @@
 import { CurrentUser } from "#api/auth/decorators/current-user.decorator";
 import { Auth } from "#api/auth/guards/auth.guard";
 import { GuildAuth } from "#api/guilds/guards/guild-auth.guard";
+import { GuildsService } from "#api/guilds/services/guilds.service";
 import type { User } from "#api/users/models/user.model";
 import {
   Body,
@@ -19,7 +20,10 @@ import { WebhookCrudService } from "../services/webhook-crud.service";
 @Controller("webhooks")
 @UseInterceptors(ClassSerializerInterceptor)
 export class WebhookCrudController {
-  constructor(private webhookService: WebhookCrudService) {}
+  constructor(
+    private webhookService: WebhookCrudService,
+    private guildsService: GuildsService
+  ) {}
 
   @Get("users")
   @Auth()
@@ -30,7 +34,7 @@ export class WebhookCrudController {
   @Get("guilds/:guildId")
   @GuildAuth()
   async getServerWebhook(@Param("guildId") id: string) {
-    return await this.webhookService.getWebhookByDiscordId(id);
+    return await this.guildsService.getGuildWebhook(id);
   }
 
   @Post("users")

@@ -15,6 +15,7 @@ import {
   Post,
   UseInterceptors,
 } from "@nestjs/common";
+import { GuildWebhookCreateDto } from "../dto/webhook-create-guild.dto";
 import { WebhookCrudService } from "../services/webhook-crud.service";
 
 @Controller("webhooks")
@@ -45,23 +46,31 @@ export class WebhookCrudController {
 
   @Post("guilds/:guildId")
   @GuildAuth()
-  async createServerWebhook(@Body("channelId") channelId: string) {
-    return await this.webhookService.createNewWebhook("channels", channelId);
+  async createServerWebhook(
+    @Param("guildId") guildId: string,
+    @Body() { channelId }: GuildWebhookCreateDto
+  ) {
+    return await this.webhookService.createNewWebhook(
+      "channels",
+      channelId,
+      guildId
+    );
   }
 
   @Delete("users")
   @HttpCode(HttpStatus.NO_CONTENT)
   @Auth()
   async deleteUserWebhook(@CurrentUser() { id }: User) {
-    await this.webhookService.deleteWebhookByDiscordId(id);
+    await this.webhookService.deleteUserWebhook(id);
     return;
   }
 
   @Delete("guilds/:guildId")
   @HttpCode(HttpStatus.NO_CONTENT)
   @GuildAuth()
-  async deleteServerWebhook(@Body("channelId") channelId: string) {
-    await this.webhookService.deleteWebhookByDiscordId(channelId);
+  async deleteServerWebhook(@Param("guildId") guildId: string) {
+    const webhook = await this.guildsService.getGuildWebhook(guildId);
+    await this.webhookService.deleteGuildWebhook(webhook.id, guildId);
     return;
   }
 }

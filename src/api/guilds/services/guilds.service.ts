@@ -73,7 +73,12 @@ export class GuildsService {
   }
 
   async getGuildWebhook(guildId: string) {
-    const guild = await this.getGuildById(guildId);
+    const guild = await this.guildModel
+      .findOne({ id: guildId })
+      .orFail()
+      .lean()
+      .populate("webhook")
+      .exec();
 
     if (!guild?.webhook) {
       throw new NotFoundException();

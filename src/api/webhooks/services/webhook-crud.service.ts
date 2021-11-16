@@ -44,11 +44,22 @@ export class WebhookCrudService {
     return plainToClass(Webhook, webhook);
   }
 
-  async deleteWebhookByDiscordId(id: string) {
-    await this.webhookModel.findOneAndRemove({ id }).orFail().lean().exec();
+  async deleteUserWebhook(id: string) {
+    await this.webhookModel.findOneAndRemove({ id }).orFail();
   }
 
-  async createNewWebhook(type: WebhookTargetType, id: string) {
+  async deleteGuildWebhook(id: string, guildId: string) {
+    await Promise.all([
+      this.webhookModel.findOneAndRemove({ id }).orFail(),
+      this.removeWebhookFromGuild(guildId),
+    ]);
+  }
+
+  async createNewWebhook(
+    type: WebhookTargetType,
+    id: string,
+    guildId?: string
+  ) {
     const createdWebhook = await this.webhookModel.create({
       id,
       type,
@@ -60,16 +71,19 @@ export class WebhookCrudService {
     });
 
     if (type === "channels") {
-      await this.saveWebhookToGuild(id, createdWebhook._id);
+      await this.saveWebhookToGuild(guildId!, createdWebhook._id);
     }
 
-    return plainToClass(
-      Webhook,
-      await this.getWebhookByObjectId(createdWebhook._id)
-    );
+    return await this.getWebhookByObjectId(createdWebhook._id.toString());
   }
 
   private async saveWebhookToGuild(guildId: string, webhookId: Types.ObjectId) {
     await this.guildsService.updateGuildById(guildId, { webhook: webhookId });
+  }
+
+  private async removeWebhookFromGuild(guildId: string) {
+    await this.guildsService.updateGuildById(guildId, {
+      $unset: { webhook: 1 },
+    });
   }
 }

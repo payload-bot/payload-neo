@@ -3,7 +3,7 @@ import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { sign, verify } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { Model } from "mongoose";
 import { AuthContext } from "../interfaces/auth.interface";
 import {
@@ -46,36 +46,17 @@ export class AuthService {
     }
   }
 
-  async refreshTokens(oldRefreshToken: string) {
-    try {
-      await this.refreshToken
-        .deleteOne({ value: oldRefreshToken })
-        .orFail()
-        .lean();
+  async refreshTokens(oldRefreshToken: string, id: string) {
+    await this.refreshToken
+      .deleteOne({ value: oldRefreshToken })
+      .orFail()
+      .lean();
 
-      const decoded = verify(
-        oldRefreshToken,
-        process.env.JWT_REFRESH_SECRET as string
-      ) as {
-        id: string;
-        iat: number;
-        exp: number;
-      };
+    const authToken = await this.generateJwtToken(AuthContext.AUTH, id);
 
-      const authToken = await this.generateJwtToken(
-        AuthContext.AUTH,
-        decoded.id
-      );
+    const refreshToken = await this.generateJwtToken(AuthContext.REFRESH, id);
 
-      const refreshToken = await this.generateJwtToken(
-        AuthContext.REFRESH,
-        decoded.id
-      );
-
-      return { authToken, refreshToken };
-    } catch (err) {
-      return null;
-    }
+    return { authToken, refreshToken };
   }
 
   async logOut(id: string, refreshToken: string, accessToken: string) {

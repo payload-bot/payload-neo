@@ -33,28 +33,6 @@ export class AuthController {
   @UseGuards(AuthGuard("discord"))
   login() {}
 
-  @Post("refresh")
-  @HttpCode(HttpStatus.OK)
-  @Auth()
-  async refresh(@Body("refreshToken") token: string) {
-    if (!token) throw new BadRequestException();
-
-    return await this.authService.refreshTokens(token);
-  }
-
-  @Post("/logout")
-  @HttpCode(HttpStatus.OK)
-  @Auth()
-  async logout(
-    @Body("refreshToken") refreshToken: string,
-    @CurrentUser() { id, accessToken }: User
-  ) {
-    if (!refreshToken) throw new BadRequestException();
-    if (!accessToken) throw new BadRequestException();
-
-    await this.authService.logOut(id, refreshToken, accessToken);
-  }
-
   @Get("/callback")
   @UseGuards(AuthGuard("discord"))
   async callback(
@@ -75,5 +53,31 @@ export class AuthController {
     res.redirect(
       redirectUrl + `?token=${authToken}&refreshToken=${refreshToken}`
     );
+  }
+
+  @Post("refresh")
+  @HttpCode(HttpStatus.OK)
+  @Auth()
+  async refresh(
+    @CurrentUser() { id }: User,
+    @Body("refreshToken") token: string
+  ) {
+    if (!token) throw new BadRequestException();
+
+    return await this.authService.refreshTokens(token, id);
+  }
+
+  @Post("/logout")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Auth()
+  async logout(
+    @Body("refreshToken") refreshToken: string,
+    @CurrentUser() { id, accessToken }: User
+  ) {
+    if (!refreshToken) throw new BadRequestException();
+    if (!accessToken) throw new BadRequestException();
+
+    await this.authService.logOut(id, refreshToken, accessToken);
+    return;
   }
 }

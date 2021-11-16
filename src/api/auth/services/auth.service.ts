@@ -1,9 +1,9 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import { Model } from "mongoose";
 import { AuthContext } from "../interfaces/auth.interface";
 import {
@@ -46,17 +46,35 @@ export class AuthService {
     }
   }
 
-  async refreshTokens(oldRefreshToken: string, id: string) {
-    await this.refreshToken
-      .deleteOne({ value: oldRefreshToken })
-      .orFail()
-      .lean();
+  async refreshTokens(oldRefreshToken: string) {
+    try {
+      await this.refreshToken
+        .findOneAndRemove({ value: oldRefreshToken })
+        .orFail();
 
-    const authToken = await this.generateJwtToken(AuthContext.AUTH, id);
+      const decoded = verify(
+        oldRefreshToken,
+        this.environment.jwtRefreshSecret
+      ) as {
+        id: string;
+        iat: number;
+        exp: number;
+      };
 
-    const refreshToken = await this.generateJwtToken(AuthContext.REFRESH, id);
+      const authToken = await this.generateJwtToken(
+        AuthContext.AUTH,
+        decoded.id
+      );
 
-    return { authToken, refreshToken };
+      const refreshToken = await this.generateJwtToken(
+        AuthContext.REFRESH,
+        decoded.id
+      );
+
+      return { authToken, refreshToken };
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
   }
 
   async logOut(id: string, refreshToken: string, accessToken: string) {

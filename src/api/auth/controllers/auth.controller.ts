@@ -57,14 +57,10 @@ export class AuthController {
 
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
-  @Auth()
-  async refresh(
-    @CurrentUser() { id }: User,
-    @Body("refreshToken") token: string
-  ) {
+  async refresh(@Body("refreshToken") token: string) {
     if (!token) throw new BadRequestException();
 
-    return await this.authService.refreshTokens(token, id);
+    return await this.authService.refreshTokens(token);
   }
 
   @Post("/logout")

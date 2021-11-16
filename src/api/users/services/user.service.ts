@@ -25,14 +25,8 @@ export class UserService {
   ) {}
 
   async userToProfile(id: string) {
-    const {
-      latestUpdateNotifcation,
-      notificationsLevel,
-      steamId,
-      fun: {
-        payload: { feetPushed },
-      },
-    } = await this.findUser({ id });
+    const { latestUpdateNotifcation, notificationsLevel, steamId, fun } =
+      await this.findUser({ id });
 
     const user = await client.users.fetch(id);
 
@@ -49,7 +43,7 @@ export class UserService {
       lastUpdate: latestUpdateNotifcation,
       notificationsLevel: notificationsLevel,
       avatar: user.displayAvatarURL(),
-      pushcartPoints: parseInt(feetPushed ?? 0, 10),
+      pushcartPoints: parseInt(fun?.payload?.feetPushed ?? 0, 10),
     });
   }
 

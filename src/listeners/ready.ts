@@ -1,63 +1,90 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { ListenerOptions, Events, Listener } from "@sapphire/framework";
-import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
+import {
+  ListenerOptions,
+  Events,
+  Listener,
+  Piece,
+  Store,
+} from "@sapphire/framework";
+import {
+  blue,
+  gray,
+  green,
+  magenta,
+  magentaBright,
+  white,
+  yellow,
+} from "colorette";
 import connectMongo from "#utils/connectMongo";
 import { bootstrap } from "#api/main";
+import type { TFunction } from "@sapphire/plugin-i18next";
 
 const dev = process.env.NODE_ENV !== "production";
 
 @ApplyOptions<ListenerOptions>({
-    once: true,
+  once: true,
 })
 export class ReadyEvent extends Listener<typeof Events.ClientReady> {
-    private readonly style = dev ? yellow : blue;
+  private readonly style = dev ? yellow : blue;
 
-    async run() {
-        const { client } = this.container;
-        
-        this.printBanner();
-        this.printStoreDebugInformation();
+  async run() {
+    const { client } = this.container;
 
-        await connectMongo(client);
-        await bootstrap();
-    }
+    this.printBanner();
+    this.printStoreDebugInformation();
 
-    private printBanner() {
-        const success = green("+");
+    await connectMongo(client);
+    await bootstrap();
+  }
 
-        const llc = dev ? magentaBright : white;
-        const blc = dev ? magenta : blue;
+  private printBanner() {
+    const success = green("+");
 
-        const line01 = llc("");
-        const line02 = llc("");
-        const line03 = llc("");
+    const llc = dev ? magentaBright : white;
+    const blc = dev ? magenta : blue;
 
-        // Offset Pad
-        const pad = " ".repeat(7);
+    const line01 = llc("");
+    const line02 = llc("");
+    const line03 = llc("");
 
-        console.log(
-            String.raw`
-${line01} ${pad}${blc("5.0.0")}
+    // Offset Pad
+    const pad = " ".repeat(7);
+
+    console.log(
+      String.raw`
+${line01} ${pad}${blc("Payload Version 5.0.0")}
 ${line02} ${pad}[${success}] Gateway
-${line03}${dev ? ` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(dev ? "DEVELOPMENT" : "PRODUCTION")}` : ""}
+${line02} ${pad}[${success}] MongoDB
+${line02} ${pad}[${success}] API
+${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(
+        dev ? "DEVELOPMENT" : "PRODUCTION"
+      )}`}
 		`.trim()
-        );
-    }
+    );
+  }
 
-    private printStoreDebugInformation() {
-        const { client, logger } = this.container;
-        const stores = [...client.stores.values()];
-        const last = stores.pop()!;
+  private printStoreDebugInformation() {
+    const { client, logger, i18n } = this.container;
+    const stores = [...client.stores.values()];
 
-        for (const store of stores) logger.info(this.styleStore(store, false));
-        logger.info(this.styleStore(last, true));
-    }
+    for (const store of stores) logger.info(this.styleStore(store));
 
-    private styleStore(store: any, last: boolean) {
-        return gray(
-            `${last ? "└─" : "├─"} Loaded ${this.style(store.size.toString().padEnd(3, " "))} ${
-                store.name
-            }.`
-        );
-    }
+    logger.info(this.styleLanguages(i18n.languages));
+  }
+
+  private styleStore(store: Store<Piece>) {
+    return gray(
+      `${"├─"} Loaded ${this.style(store.size.toString().padEnd(3, " "))} ${
+        store.name
+      }.`
+    );
+  }
+
+  private styleLanguages(languages: Map<string, TFunction>) {
+    return gray(
+      `└─ Loaded ${this.style(
+        languages.size.toString().padEnd(3, " ")
+      )} languages.`
+    );
+  }
 }

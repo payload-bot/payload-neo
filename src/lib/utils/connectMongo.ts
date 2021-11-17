@@ -7,7 +7,6 @@ export default async function connectMongo(client: SapphireClient) {
       connectTimeoutMS: 5000,
       dbName: "payload",
     });
-    client.logger.info("Successfully connected to MongoDB.");
   } catch (err) {
     client.logger.fatal("Failed to connect to MongoDB. Check your password!");
     client.logger.fatal(err);

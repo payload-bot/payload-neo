@@ -66,6 +66,7 @@ export class GuildsService {
       prefix,
       language,
       enableSnipeForEveryone,
+      name: clientGuild.name,
       pushcartPoints: fun?.payloadFeetPushed ?? 0,
       botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
       icon: clientGuild.iconURL(),

@@ -1,6 +1,7 @@
 import config from "#root/config";
 
 export class GuildResponseDto {
+  public name!: string;
   public id!: string;
   public icon!: string | null;
 

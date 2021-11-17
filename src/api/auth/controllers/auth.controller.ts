@@ -51,7 +51,7 @@ export class AuthController {
 
     const redirectUrl = this.environment.clientUrl;
     res.redirect(
-      redirectUrl + `?token=${authToken}&refreshToken=${refreshToken}`
+      `${redirectUrl}/login/success?token=${authToken}&refreshToken=${refreshToken}`
     );
   }
 

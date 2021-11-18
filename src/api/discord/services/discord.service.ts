@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Injectable, Logger } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import {
@@ -7,6 +6,7 @@ import {
   Routes,
   RouteBases,
   OAuth2Routes,
+  RESTAPIPartialCurrentUserGuild,
 } from "discord-api-types/v9";
 import {
   catchError,
@@ -23,7 +23,7 @@ import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { URLSearchParams } from "url";
-import type { Guild, GuildMember } from "discord.js";
+import { Guild, GuildMember, Permissions } from "discord.js";
 
 const { client } = container;
 
@@ -68,31 +68,40 @@ export class DiscordService {
       refreshToken
     );
 
-    const convertedGuilds = await this.convertGuilds(allGuilds);
+    const convertedGuilds = await this.convertGuilds(id, allGuilds);
 
-    const filteredGuilds = await this.filterGuilds(convertedGuilds);
-
-    return filteredGuilds.sort(
-      (a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1)
-    );
+    return convertedGuilds
+      .filter((guild) => guild.canManage)
+      .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
   }
 
   async canUserManageGuild(guild: Guild, member: GuildMember) {
     if (guild.ownerId === member.id) return true;
-    if (member.permissions.has("ADMINISTRATOR")) return true;
+    if (member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) return true;
 
     // @TODO: Allow for owners to add roles to allow dashboard access
     return false;
   }
 
-  private async filterGuilds(guilds: ConvertedGuild[]) {
-    // @TODO: Allow for owners to add roles to allow dashboard access
-    return guilds.filter((guild) =>
-      guild.owner ? true : (guild.permissions & 0x8) === 0x8
-    );
+  private async canManage(id: string, guild: RESTAPIPartialCurrentUserGuild) {
+    if (guild.owner) return true;
+    const fetchedGuild = await client.guilds.fetch(guild.id).catch(() => null);
+
+    if (!fetchedGuild)
+      return new Permissions(BigInt(guild.permissions)).has(
+        Permissions.FLAGS.MANAGE_GUILD
+      );
+
+    const member = await fetchedGuild.members.fetch(id).catch(() => null);
+    if (!member) return false;
+
+    return await this.canUserManageGuild(fetchedGuild, member);
   }
 
-  private async convertGuilds(guilds: RESTGetAPICurrentUserGuildsResult) {
+  private async convertGuilds(
+    id: string,
+    guilds: RESTGetAPICurrentUserGuildsResult
+  ) {
     return await Promise.all(
       guilds.map(async (guild) => {
         const isPayloadIn = await client.guilds
@@ -105,6 +114,7 @@ export class DiscordService {
 
         return new ConvertedGuild({
           isPayloadIn: isPayloadIn ? true : false,
+          canManage: await this.canManage(id, guild),
           ...guild,
           icon,
         });
@@ -116,7 +126,7 @@ export class DiscordService {
     id: string,
     accessToken: string,
     refreshToken: string
-  ) {
+  ): Promise<RESTGetAPICurrentUserGuildsResult> {
     const userGuilds$ = this.httpService
       .get<RESTGetAPICurrentUserGuildsResult>(
         RouteBases.api + Routes.userGuilds(),
@@ -127,12 +137,6 @@ export class DiscordService {
         }
       )
       .pipe(
-        catchError(({ response }) => {
-          this.logger.warn(
-            `Encountered an error while fetching user servers for ${id}`
-          );
-          this.logger.warn(response.data);
-        }),
         retryWhen((errors) => {
           return errors.pipe(
             filter(({ response }) => [401, 400].includes(response.status)),

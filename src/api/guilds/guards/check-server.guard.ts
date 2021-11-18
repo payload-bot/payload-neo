@@ -1,14 +1,6 @@
 import type { User } from "#api/users/models/user.model";
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  InternalServerErrorException,
-} from "@nestjs/common";
-import { container } from "@sapphire/framework";
+import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
 import { GuildsService } from "../services/guilds.service";
-
-const { client } = container;
 
 @Injectable()
 export class CheckServerGuard implements CanActivate {
@@ -19,18 +11,11 @@ export class CheckServerGuard implements CanActivate {
     const guildId = request.params.guildId;
     const user = request.user as User;
 
-    const userServers = await this.guildsService.getUserGuilds(user.id);
+    const canManage = await this.guildsService.getUserGuildsManagable(
+      user.id,
+      guildId
+    );
 
-    if (!userServers.find(s => s.id === guildId)) {
-      return false;
-    }
-
-    if (!(await client.guilds.fetch(guildId))) {
-      throw new InternalServerErrorException({
-        message: "Could not fetch guild from Discord",
-      });
-    }
-
-    return true;
+    return canManage;
   }
 }

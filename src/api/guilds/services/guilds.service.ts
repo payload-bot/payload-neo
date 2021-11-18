@@ -4,6 +4,7 @@ import { Webhook } from "#api/webhooks/models/webhook.model";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import config from "#root/config";
 import {
+  BadRequestException,
   Injectable,
   Logger,
   NotFoundException,
@@ -49,6 +50,18 @@ export class GuildsService {
     this.logger.debug(`It took ${Date.now() - startTime}ms `);
 
     return userServers;
+  }
+
+  async getUserGuildsManagable(userId: string, guildId: string) {
+    const guild = await client.guilds.fetch(guildId);
+
+    if (!guild) throw new BadRequestException();
+
+    const member = await guild.members.fetch(userId);
+
+    if (!member) throw new BadRequestException();
+
+    return await this.discordService.canUserManageGuild(guild, member);
   }
 
   async getUserGuild(guildId: string) {

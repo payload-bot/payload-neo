@@ -23,6 +23,7 @@ import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { URLSearchParams } from "url";
+import type { Guild, GuildMember } from "discord.js";
 
 const { client } = container;
 
@@ -76,12 +77,18 @@ export class DiscordService {
     );
   }
 
+  async canUserManageGuild(guild: Guild, member: GuildMember) {
+    if (guild.ownerId === member.id) return true;
+    if (member.permissions.has("ADMINISTRATOR")) return true;
+
+    // @TODO: Allow for owners to add roles to allow dashboard access
+    return false;
+  }
+
   private async filterGuilds(guilds: ConvertedGuild[]) {
     // @TODO: Allow for owners to add roles to allow dashboard access
     return guilds.filter((guild) =>
-      guild.owner
-        ? true
-        : ((guild.permissions as unknown as number) & 0x8) === 0x8
+      guild.owner ? true : (guild.permissions & 0x8) === 0x8
     );
   }
 

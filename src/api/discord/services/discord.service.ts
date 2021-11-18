@@ -1,8 +1,5 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from "@nestjs/common";
+// @ts-nocheck
+import { Injectable, Logger } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import {
   RESTGetAPICurrentUserGuildsResult,
@@ -11,11 +8,21 @@ import {
   RouteBases,
   OAuth2Routes,
 } from "discord-api-types/v9";
-import { catchError, firstValueFrom, map, of, retryWhen, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  filter,
+  firstValueFrom,
+  map,
+  of,
+  retryWhen,
+  tap,
+} from "rxjs";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
+import { URLSearchParams } from "url";
 
 const { client } = container;
 
@@ -30,13 +37,15 @@ export class DiscordService {
   ) {}
 
   async revokeUserTokens(token: string) {
+    const formData = new URLSearchParams();
+
+    formData.append("client_id", this.environment.clientId);
+    formData.append("client_secret", this.environment.clientSecret);
+    formData.append("token", token);
+
     const revoke$ = this.httpService.post(
       OAuth2Routes.tokenRevocationURL,
-      {
-        token: token,
-        client_id: this.environment.clientId,
-        client_secret: this.environment.clientSecret,
-      },
+      formData,
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -111,9 +120,18 @@ export class DiscordService {
         }
       )
       .pipe(
-        retryWhen((errors) =>
-          errors.pipe(tap(this.refreshUserTokens(id, refreshToken)))
-        ),
+        catchError(({ response }) => {
+          this.logger.warn(
+            `Encountered an error while fetching user servers for ${id}`
+          );
+          this.logger.warn(response.data);
+        }),
+        retryWhen((errors) => {
+          return errors.pipe(
+            filter(({ response }) => [401, 400].includes(response.status)),
+            tap(this.refreshUserTokens(id, refreshToken))
+          );
+        }),
         map((res) => res.data)
       );
 
@@ -121,15 +139,17 @@ export class DiscordService {
   }
 
   private refreshUserTokens(id: string, refreshToken: string) {
+    const formData = new URLSearchParams();
+
+    formData.append("client_id", this.environment.clientId);
+    formData.append("client_secret", this.environment.clientSecret);
+    formData.append("grant_type", "refresh_token");
+    formData.append("refresh_token", refreshToken);
+
     return this.httpService
       .post<RESTPostOAuth2RefreshTokenResult>(
         RouteBases.api + Routes.oauth2TokenExchange(),
-        {
-          client_id: this.environment.clientId,
-          client_secret: this.environment.clientSecret,
-          grant_type: "refresh_token",
-          refresh_token: refreshToken,
-        },
+        formData,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -137,19 +157,19 @@ export class DiscordService {
         }
       )
       .pipe(
-        catchError((err) => {
-          this.logger.error(err);
-          throw new InternalServerErrorException();
-        }),
-        tap(async ({ data: { access_token, refresh_token } }) =>
-          of(
+        tap(async ({ data: { access_token, refresh_token } }) => {
+          return of(
             await this.usersService.updateUser(id, {
               accessToken: access_token,
               refreshToken: refresh_token,
             })
-          )
-        ),
-        map((res) => res.data)
+          );
+        }),
+        map((res) => res.data),
+        catchError(({ response }) => {
+          this.logger.error(response.data);
+          return EMPTY;
+        })
       );
   }
 }

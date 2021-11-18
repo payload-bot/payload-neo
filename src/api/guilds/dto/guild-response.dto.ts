@@ -1,3 +1,4 @@
+import type { Webhook } from "#api/webhooks/models/webhook.model";
 import config from "#root/config";
 
 export class GuildResponseDto {
@@ -11,6 +12,8 @@ export class GuildResponseDto {
   public language: string = "en-US";
   public prefix: string = config.PREFIX;
   public pushcartPoints: number = 0;
+
+  public webhook!: Webhook;
 
   constructor(options: Partial<GuildResponseDto>) {
     Object.assign(this, options);

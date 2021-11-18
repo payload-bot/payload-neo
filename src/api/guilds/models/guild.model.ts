@@ -1,6 +1,7 @@
 import { MongooseDocument } from "#api/shared/mongoose.document";
+import { Webhook } from "#api/webhooks/models/webhook.model";
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Exclude } from "class-transformer";
+import { Type } from "class-transformer";
 import { Document, Types } from "mongoose";
 
 @Schema()
@@ -21,7 +22,7 @@ export class Server extends MongooseDocument {
   commandRestrictions!: string[];
 
   @Prop({ ref: "Webhook" })
-  @Exclude({ toPlainOnly: true })
+  @Type(() => Webhook)
   webhook?: Types.ObjectId;
 
   @Prop(

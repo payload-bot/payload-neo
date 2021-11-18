@@ -55,6 +55,7 @@ export class GuildsService {
       enableSnipeForEveryone = false,
       language = "en-US",
       prefix = config.PREFIX,
+      webhook,
       fun,
     } = await this.findOrCreateGuild(guildId);
 
@@ -66,6 +67,7 @@ export class GuildsService {
       prefix,
       language,
       enableSnipeForEveryone,
+      webhook: webhook as unknown as Webhook,
       name: clientGuild.name,
       pushcartPoints: fun?.payloadFeetPushed ?? 0,
       botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
@@ -74,12 +76,7 @@ export class GuildsService {
   }
 
   async getGuildWebhook(guildId: string) {
-    const guild = await this.guildModel
-      .findOne({ id: guildId })
-      .orFail()
-      .lean()
-      .populate("webhook")
-      .exec();
+    const guild = await this.findOrCreateGuild(guildId);
 
     if (!guild?.webhook) {
       throw new NotFoundException();
@@ -94,6 +91,7 @@ export class GuildsService {
       guild = await this.guildModel
         .findOne({ id: guildId })
         .orFail()
+        .populate("webhook")
         .lean()
         .exec();
     } catch (err) {

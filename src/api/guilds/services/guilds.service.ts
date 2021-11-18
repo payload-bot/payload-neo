@@ -1,6 +1,7 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { UserService } from "#api/users/services/user.service";
 import { Webhook } from "#api/webhooks/models/webhook.model";
+import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import config from "#root/config";
 import {
   Injectable,
@@ -15,7 +16,7 @@ import type { Model, UpdateQuery } from "mongoose";
 import { GuildResponseDto } from "../dto/guild-response.dto";
 import { Server, GuildDocument } from "../models/guild.model";
 
-const { client } = container;
+const { client, stores } = container;
 
 @Injectable()
 export class GuildsService {
@@ -56,8 +57,14 @@ export class GuildsService {
       language = "en-US",
       prefix = config.PREFIX,
       webhook,
+      commandRestrictions,
       fun,
     } = await this.findOrCreateGuild(guildId);
+
+    const commands = stores.get("commands");
+    const autoCommands = stores.get(
+      "autoresponses"
+    ) as unknown as AutoResponseStore;
 
     const clientGuild = await client.guilds.fetch(guildId);
     const botMemberInGuild = await clientGuild.members.fetch(client.user!.id);
@@ -72,6 +79,14 @@ export class GuildsService {
       pushcartPoints: fun?.payloadFeetPushed ?? 0,
       botName: botMemberInGuild.nickname ?? botMemberInGuild.user.username,
       icon: clientGuild.iconURL(),
+      channels: clientGuild.channels.cache
+        .filter((c) => c.type === "GUILD_TEXT")
+        .map(({ id, name }) => ({ id, name })),
+      commands: {
+        restrictions: commandRestrictions ?? [],
+        commands: commands.filter((c) => c.enabled).map((c) => c.name),
+        autoResponses: autoCommands.filter((c) => c.enabled).map((c) => c.name),
+      },
     });
   }
 

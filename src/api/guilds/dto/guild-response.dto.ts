@@ -15,7 +15,17 @@ export class GuildResponseDto {
 
   public webhook!: Webhook;
 
+  public channels!: Array<{ id: string; name: string }>;
+
+  public commands!: GuildCommands;
+
   constructor(options: Partial<GuildResponseDto>) {
     Object.assign(this, options);
   }
+}
+
+export interface GuildCommands {
+  restrictions: string[];
+  commands: string[];
+  autoResponses: string[];
 }

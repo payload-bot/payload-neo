@@ -26,11 +26,7 @@ services:
         env_file:
             - ./.env
         ports:
-            - 9091:9091
-        depends_on:
-            - chrome
-        links:
-            - chrome
-
+            - 8080:8080
+            
 networks:
     production:

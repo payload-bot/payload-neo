@@ -6,7 +6,6 @@ import { Server } from "#lib/models/Server";
 import { weightedRandom } from "#utils/random";
 import { User } from "#lib/models/User";
 import { isAfter, add, formatDistanceToNowStrict } from "date-fns";
-import { Client } from "#lib/models/Client";
 import PayloadColors from "#utils/colors";
 import { codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -147,14 +146,19 @@ export class UserCommand extends PayloadCommand {
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const clientLeaderboard = await Client.findOne({ id: 0 }).lean();
+    const MAX_RETURN_LIMIT = 2;
 
-    const top10 = clientLeaderboard!.leaderboard.pushcart.users.slice(0, 10);
+    const leaderboard = await User.aggregate([
+      { $match: { "fun.payload": { $exists: 1 } } },
+      { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
+      { $sort: { pushed: -1 } },
+      { $limit: MAX_RETURN_LIMIT },
+    ]);
 
     let isTop10 = false;
 
     const leaderboardString = await Promise.all(
-      top10.map(async ({ id, pushed }, i) => {
+      leaderboard.map(async ({ id, pushed }, i) => {
         const { tag } = await client.users.fetch(id);
 
         let localIsTop10 = false;
@@ -170,21 +174,28 @@ export class UserCommand extends PayloadCommand {
     );
 
     if (!isTop10) {
-      leaderboardString.push(
-        `...\n> ${
-          clientLeaderboard!.leaderboard.pushcart.users.findIndex(
-            (user) => user.id === msg.author.id
-          ) + 1
-        }: ${Util.escapeMarkdown(msg.author.tag)} (${
-          (
-            clientLeaderboard!.leaderboard.pushcart.users.find(
-              (user) => user.id === msg.author.id
-            ) ?? {
-              pushed: 0,
-            }
-          ).pushed
-        })`
+      const leaderboardSkip10 = await User.aggregate([
+        { $match: { "fun.payload": { $exists: 1 } } },
+        { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
+        { $sort: { pushed: -1 } },
+        { $skip: MAX_RETURN_LIMIT },
+      ]);
+
+      const index = leaderboardSkip10.findIndex(
+        (user) => user.id === msg.author.id
       );
+
+      if (index !== -1) {
+        const { pushed } = leaderboardSkip10.find(
+          (user) => user.id === msg.author.id
+        );
+
+        leaderboardString.push(
+          `...\n> ${index + 1 + MAX_RETURN_LIMIT}: ${Util.escapeMarkdown(
+            msg.author.tag
+          )} (${pushed})`
+        );
+      }
     }
 
     const embeds = [
@@ -199,22 +210,29 @@ export class UserCommand extends PayloadCommand {
   }
 
   async rank(msg: Message, args: PayloadCommand.Args) {
-    const client = await Client.findOne({ id: 0 }).lean();
-
     const targetUser = await args.pick("user").catch(() => msg.author);
 
-    const rank =
-      client!.leaderboard.pushcart.users.findIndex(
-        (user) => user.id == targetUser.id
-      ) + 1;
+    const leaderboardSkip10 = await User.aggregate([
+      { $match: { "fun.payload": { $exists: 1 } } },
+      { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
+      { $sort: { pushed: -1 } },
+    ]);
 
-    const { pushed } = client!.leaderboard.pushcart.users.find(
+    const index = leaderboardSkip10.findIndex(
       (user) => user.id === targetUser.id
-    ) ?? { pushed: 0 };
+    );
+
+    if (index === -1) {
+      return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
+    }
+
+    const { pushed } = leaderboardSkip10.find(
+      (user) => user.id === targetUser.id
+    );
 
     return await send(
       msg,
-      codeBlock("md", `#${rank}: ${targetUser.tag} (${pushed})`)
+      codeBlock("md", `#${index + 1}: ${targetUser.tag} (${pushed})`)
     );
   }
 

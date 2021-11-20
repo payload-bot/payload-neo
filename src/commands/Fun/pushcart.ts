@@ -146,7 +146,7 @@ export class UserCommand extends PayloadCommand {
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const MAX_RETURN_LIMIT = 2;
+    const MAX_RETURN_LIMIT = 10;
 
     const leaderboard = await User.aggregate([
       { $match: { "fun.payload": { $exists: 1 } } },

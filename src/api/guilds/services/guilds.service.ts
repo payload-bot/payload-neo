@@ -6,7 +6,6 @@ import config from "#root/config";
 import {
   BadRequestException,
   Injectable,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -21,8 +20,6 @@ const { client, stores } = container;
 
 @Injectable()
 export class GuildsService {
-  private logger = new Logger(GuildsService.name);
-
   constructor(
     @InjectModel(Server.name)
     private guildModel: Model<GuildDocument>,
@@ -31,9 +28,6 @@ export class GuildsService {
   ) {}
 
   async getUserGuilds(id: string) {
-    this.logger.debug("Fetching user guilds...");
-    const startTime = Date.now();
-
     const { accessToken, refreshToken } =
       await this.usersService.getDiscordTokensForUser(id);
 
@@ -45,9 +39,6 @@ export class GuildsService {
       accessToken!,
       refreshToken!
     );
-
-    this.logger.debug("Done fetching user guilds!");
-    this.logger.debug(`It took ${Date.now() - startTime}ms `);
 
     return userServers;
   }

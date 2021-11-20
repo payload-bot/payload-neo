@@ -24,6 +24,7 @@ import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { URLSearchParams } from "url";
 import { Guild, GuildMember, Permissions } from "discord.js";
+import { Benchmark } from "#api/shared/perf-hook.decorator";
 
 const { client } = container;
 
@@ -57,6 +58,7 @@ export class DiscordService {
     await firstValueFrom(revoke$);
   }
 
+  @Benchmark
   async getSortedUserGuilds(
     id: string,
     accessToken: string,
@@ -122,6 +124,7 @@ export class DiscordService {
     );
   }
 
+  @Benchmark
   private async getAllUserGuilds(
     id: string,
     accessToken: string,
@@ -139,6 +142,11 @@ export class DiscordService {
       .pipe(
         retryWhen((errors) => {
           return errors.pipe(
+            tap(({ response }) =>
+              this.logger.debug(
+                `Error encountered while fetching user (${id}) guilds\nStatus: ${response.status}`
+              )
+            ),
             filter(({ response }) => [401, 400].includes(response.status)),
             tap(this.refreshUserTokens(id, refreshToken))
           );

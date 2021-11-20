@@ -35,7 +35,7 @@ export class UserCommand extends PayloadCommand {
       `http://logs.tf/api/v1/log?limit=1&player=${user.steamId}`
     );
 
-    if (!!data.logs) {
+    if (!data.logs.length) {
       return await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
     }
 
@@ -68,7 +68,7 @@ export class UserCommand extends PayloadCommand {
     const linkButton = new MessageActionRow().addComponents(
       new MessageButton({
         label: args.t(LanguageKeys.Commands.Log.Button),
-        url: `<http://logs.tf/${logID}#${user.steamId}>`,
+        url: `http://logs.tf/${logID}#${user.steamId}`,
         style: "LINK",
       })
     );

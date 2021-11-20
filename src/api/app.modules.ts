@@ -8,6 +8,7 @@ import { GuildsModule } from "./guilds/guilds.module";
 import { UsersModule } from "./users/users.module";
 import { HttpModule } from "@nestjs/axios";
 import { WebhooksModule } from "./webhooks/webhooks.module";
+import { MigrationsModule } from "./migrations/migrations.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WebhooksModule } from "./webhooks/webhooks.module";
     UsersModule,
     GuildsModule,
     WebhooksModule,
+    MigrationsModule,
   ],
 })
 export class AppModule {}

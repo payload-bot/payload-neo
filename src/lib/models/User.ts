@@ -1,12 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import NotificationLevel from "../utils/notificationLevel";
 
 export type UserModel = mongoose.Document & {
   id: string;
 
   steamId?: string;
-
-  webhook?: string;
 
   notificationsLevel?: number;
   latestUpdateNotifcation?: string;
@@ -38,14 +36,9 @@ const userSchema = new mongoose.Schema({
     default: NotificationLevel.NONE,
   },
 
-  webhook: {
-    ref: "Webhook",
-    type: Schema.Types.ObjectId,
-  },
-
   latestUpdateNotifcation: {
     type: String,
-	// @TODO why is this hardcoded?
+    // @TODO why is this hardcoded?
     default: "5.0.0",
   },
 

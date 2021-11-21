@@ -5,6 +5,7 @@ import type {
   InternationalizationContext,
   InternationalizationOptions,
 } from "@sapphire/plugin-i18next";
+import { DurationFormatter } from "@sapphire/time-utilities";
 import {
   ClientOptions,
   Intents,
@@ -12,6 +13,7 @@ import {
   Options,
   PresenceData,
 } from "discord.js";
+import type { FormatFunction } from "i18next";
 
 function cacheOptions() {
   return Options.cacheWithLimits({
@@ -79,6 +81,23 @@ function parseI18N(): InternationalizationOptions {
         escapeValue: false,
         defaultVariables: {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
+        },
+        // @TODO: remove when https://github.com/sapphiredev/plugins/pull/167 is published
+        format: (
+          ...[value, format, _, options]: Parameters<FormatFunction>
+        ) => {
+          switch (format as string) {
+            case "duration": {
+              return new DurationFormatter().format(
+                value,
+                options?.precision ?? 2
+              );
+            }
+
+            default: {
+              return format as string;
+            }
+          }
         },
       },
       // @TODO: uncomment when https://github.com/sapphiredev/plugins/pull/167 is published

@@ -5,7 +5,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
+  BadRequestException,
 } from "@nestjs/common";
 import { container } from "@sapphire/framework";
 import { MessageAttachment, MessageEmbed, TextChannel, User } from "discord.js";
@@ -13,14 +13,18 @@ import type { WebhookTargetType } from "../models/webhook.model";
 
 const { client } = container;
 
+type TargetReturnType = TextChannel | User | null;
+
 @Injectable()
 export class WebhookService {
   private logger = new Logger(WebhookService.name);
 
   async sendLogPreview(scope: WebhookTargetType, id: string, logsId: string) {
-    const target = (await client[scope].fetch(id)) as TextChannel | User;
+    const target = (await client[scope]
+      .fetch(id)
+      .catch(() => null)) as TargetReturnType;
 
-    if (!target) throw new NotFoundException();
+    if (!target) throw new BadRequestException("Bad discord target id");
 
     const logsUrl = `https://logs.tf/${logsId}`;
 
@@ -64,9 +68,11 @@ export class WebhookService {
   }
 
   async sendTest(scope: WebhookTargetType, id: string) {
-    const target = (await client[scope].fetch(id)) as TextChannel | User;
+    const target = (await client[scope]
+      .fetch(id)
+      .catch(() => null)) as TargetReturnType;
 
-    if (!target) throw new NotFoundException();
+    if (!target) throw new BadRequestException("Bad discord target id");
 
     const embed = new MessageEmbed({
       title: "Webhook Test",

@@ -238,3 +238,6 @@
 * BREAKING CHANGE: Restrictions are guild-wide, not channel-specific
 * Mention bot for prefix
 * Updated invite url
+
+### 5.0.1
+* Fix steam connect link parsing bug

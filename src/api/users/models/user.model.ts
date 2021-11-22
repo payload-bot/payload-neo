@@ -15,7 +15,7 @@ export class User extends MongooseDocument {
   @Prop({ enum: NotificationLevel })
   notificationsLevel!: NotificationLevel;
 
-  @Prop({ default: "5.0.0" })
+  @Prop({ default: "5.0.1" })
   latestUpdateNotifcation!: string;
 
   @Exclude()

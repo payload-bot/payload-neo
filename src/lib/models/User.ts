@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   latestUpdateNotifcation: {
     type: String,
     // @TODO why is this hardcoded?
-    default: "5.0.0",
+    default: "5.0.1",
   },
 
   fun: {

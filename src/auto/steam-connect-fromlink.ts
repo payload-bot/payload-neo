@@ -20,8 +20,11 @@ export default class UserAutoCommand extends AutoCommand {
     args: PayloadCommand.Args,
     context: CommandContext
   ) {
-    const connectInfo = context.prefix.toString().trim();
-    const parts = connectInfo.split(";");
+    const parts = context.prefix
+      .toString()
+      .trim()
+      .replace("steam://connect/", "")
+      .split("/");
 
     const ip = parts[0];
     const ipNoPort = ip.split(":")[0];

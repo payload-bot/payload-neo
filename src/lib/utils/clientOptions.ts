@@ -40,7 +40,7 @@ function getPresence(): PresenceData {
   return {
     activities: [
       {
-        name: `payload.tf/invite | v5.0.0`,
+        name: `payload.tf/invite | v5.0.2`,
         type: "PLAYING",
       },
     ],

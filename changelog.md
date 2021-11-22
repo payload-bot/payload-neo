@@ -241,3 +241,6 @@
 
 ### 5.0.1
 * Fix steam connect link parsing bug
+
+### 5.0.2
+* Fix the other steam connect link parsing bug

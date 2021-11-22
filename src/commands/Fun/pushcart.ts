@@ -55,6 +55,8 @@ export class UserCommand extends PayloadCommand {
 
     const result = await this.userPushcart(msg.author.id, randomNumber);
 
+    console.log(result);
+
     const user = await User.findOne({ id: msg.author.id }).lean();
 
     if (result === PayloadPushResult.COOLDOWN) {
@@ -268,7 +270,7 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async userPushcart(id: string, units: number) {
-    const user = await User.findOne({ id }, {}, { upsert: true });
+    const user = await User.findOne({ id });
 
     const fun = user?.fun ?? {
       payload: {
@@ -284,7 +286,7 @@ export class UserCommand extends PayloadCommand {
     fun.payload.pushedToday = fun.payload.pushedToday ?? 0;
 
     const isUnderCooldown = isAfter(
-      add(fun.payload.lastPushed, { seconds: 1 }),
+      add(fun.payload.lastPushed, { seconds: 30 }),
       Date.now()
     );
 

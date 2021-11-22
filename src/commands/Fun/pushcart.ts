@@ -55,8 +55,6 @@ export class UserCommand extends PayloadCommand {
 
     const result = await this.userPushcart(msg.author.id, randomNumber);
 
-    console.log(result);
-
     const user = await User.findOne({ id: msg.author.id }).lean();
 
     if (result === PayloadPushResult.COOLDOWN) {

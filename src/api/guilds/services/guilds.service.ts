@@ -14,6 +14,7 @@ import { container } from "@sapphire/framework";
 import { plainToClass } from "class-transformer";
 import type { Model, UpdateQuery } from "mongoose";
 import { GuildResponseDto } from "../dto/guild-response.dto";
+import type { UpdateGuildDto } from "../dto/update-guild.dto";
 import { Server, GuildDocument } from "../models/guild.model";
 
 const { client, stores } = container;
@@ -128,6 +129,18 @@ export class GuildsService {
       .exec();
 
     return plainToClass(Server, guild);
+  }
+
+  async updateGuildWithClientData(guildId: string, details: UpdateGuildDto) {
+    const { botName, ...toUpdate } = details;
+
+    if (botName) {
+      const guild = await client.guilds.fetch(guildId);
+
+      await guild.me?.setNickname(botName);
+    }
+
+    return await this.updateGuildById(guildId, toUpdate);
   }
 
   async updateGuildById(guildId: string, details: UpdateQuery<Server>) {

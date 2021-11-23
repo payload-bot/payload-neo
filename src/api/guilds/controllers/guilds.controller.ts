@@ -45,6 +45,6 @@ export class GuildsController {
     @Param("guildId") guildId: string,
     @Body() body: UpdateGuildDto
   ) {
-    return await this.guildsService.updateGuildById(guildId, body);
+    return await this.guildsService.updateGuildWithClientData(guildId, body);
   }
 }

@@ -5,7 +5,7 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { Server } from "#lib/models/Server";
 import { weightedRandom } from "#utils/random";
 import { User } from "#lib/models/User";
-import { isAfter, add, formatDistanceToNowStrict } from "date-fns";
+import { isAfter, add, addDays, formatDistanceToNowStrict } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -68,7 +68,7 @@ export class UserCommand extends PayloadCommand {
       );
     } else if (result === PayloadPushResult.CAP) {
       const timeLeft = formatDistanceToNowStrict(
-        user!.fun!.payload.lastActiveDate
+        addDays(user!.fun!.payload.lastActiveDate, 1)
       );
 
       return await send(

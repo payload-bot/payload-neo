@@ -1,6 +1,6 @@
 {
   "name": "payload-neo",
-  "version": "5.0.1",
+  "version": "5.0.3",
   "description": "A bot that does it all.",
   "main": "dist/index.js",
   "imports": {

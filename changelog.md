@@ -244,3 +244,7 @@
 
 ### 5.0.2
 * Fix the other steam connect link parsing bug
+
+### 5.0.2
+* Fix showing the wrong date on pushcart cap message
+* Add environment variables for correct version from package.json

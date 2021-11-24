@@ -110,6 +110,7 @@ function parseI18N(): InternationalizationOptions {
 }
 
 export const CLIENT_OPTIONS: ClientOptions = {
+  caseInsensitivePrefixes: true,
   intents: [
     // Need to parse DMS
     Intents.FLAGS.DIRECT_MESSAGES,

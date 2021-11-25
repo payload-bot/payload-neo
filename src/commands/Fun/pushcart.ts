@@ -268,7 +268,9 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async userPushcart(id: string, units: number) {
-    const user = await User.findOne({ id });
+    let user = await User.findOne({ id });
+
+    if (!user) user = await User.create({ id });
 
     const fun = user?.fun ?? {
       payload: {

@@ -30,5 +30,5 @@ export class UpdateGuildDto {
 
   @IsOptional()
   @IsString({ each: true })
-  restrictions!: string[];
+  commandRestrictions!: string[];
 }

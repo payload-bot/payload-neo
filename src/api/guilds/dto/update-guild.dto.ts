@@ -27,4 +27,8 @@ export class UpdateGuildDto {
   @IsOptional()
   @IsValidLanguage()
   language!: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  restrictions!: string[];
 }

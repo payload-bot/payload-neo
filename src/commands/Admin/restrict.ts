@@ -29,9 +29,9 @@ export class UserCommand extends PayloadCommand {
         { upsert: true }
       ).lean();
 
-      const commands = server?.commandRestrictions ?? null;
+      const commands = server?.commandRestrictions;
 
-      if (!commands) {
+      if (isNullishOrEmpty(commands)) {
         return await msg.channel.send(
           args.t(LanguageKeys.Commands.Restrict.ListRestrictionsEmpty)
         );

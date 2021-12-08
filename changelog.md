@@ -249,3 +249,7 @@
 * Fix showing the wrong date on pushcart cap message
 * Add environment variables for correct version from package.json
 * Case insensitive prefixes
+
+### 5.1.0
+* Allow command restrictions in API
+* Allow for `--list` flag for restrict command (pls restrict --list will list all current restrictions)

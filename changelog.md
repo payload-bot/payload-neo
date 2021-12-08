@@ -253,3 +253,6 @@
 ### 5.1.0
 * Allow command restrictions in API
 * Allow for `--list` flag for restrict command (pls restrict --list will list all current restrictions)
+
+### 5.1.1
+* Fix Payload sending typing when an auto response is restricted 

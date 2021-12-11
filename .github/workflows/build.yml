@@ -21,5 +21,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
       - run: yarn install
       - run: yarn build

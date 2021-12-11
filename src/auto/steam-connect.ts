@@ -43,8 +43,11 @@ export default class UserAutoCommand extends AutoCommand {
     try {
       const { name, maxplayers, players } = await gamedig.query({
         type: "tf2",
+        socketTimeout: 5000,
+        attemptTimeout: 5000,
+        maxAttempts: 2,
         host: ipNoPort,
-        port: parseInt(port),
+        port: parseInt(port, 10),
       });
 
       embed.setColor(EmbedColors.GREEN);

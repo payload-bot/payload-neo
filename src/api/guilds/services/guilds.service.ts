@@ -143,7 +143,7 @@ export class GuildsService {
     return await this.updateGuildById(guildId, toUpdate);
   }
 
-  async updateGuildById(guildId: string, details: UpdateQuery<Server>) {
+  async updateGuildById(guildId: string, details: UpdateQuery<GuildDocument>) {
     const guild = await this.guildModel
       .findOneAndUpdate({ id: guildId }, details, { new: true })
       .orFail()

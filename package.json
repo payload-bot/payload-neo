@@ -67,7 +67,6 @@
     "@types/passport-discord": "^0.1.5",
     "@types/passport-jwt": "^3.0.6",
     "@types/puppeteer": "^5.4.4",
-    "fastify": "^3.24.1",
     "tsc-watch": "^4.5.0",
     "typescript": "^4.5.3"
   },

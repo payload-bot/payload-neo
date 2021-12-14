@@ -1812,29 +1812,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:^3.24.1":
-  version: 3.24.1
-  resolution: "fastify@npm:3.24.1"
-  dependencies:
-    "@fastify/ajv-compiler": ^1.0.0
-    abstract-logging: ^2.0.0
-    avvio: ^7.1.2
-    fast-json-stringify: ^2.5.2
-    fastify-error: ^0.3.0
-    fastify-warning: ^0.2.0
-    find-my-way: ^4.1.0
-    flatstr: ^1.0.12
-    light-my-request: ^4.2.0
-    pino: ^6.13.0
-    proxy-addr: ^2.0.7
-    rfdc: ^1.1.4
-    secure-json-parse: ^2.0.0
-    semver: ^7.3.2
-    tiny-lru: ^7.0.0
-  checksum: d73cd0398989d51df53c892ce5eac3a9e2c194aff7df8b557e8efa95093afca3cf7c9b9cc926249554272d94ff764722272ee0d37dd3f858b728106612a83fe7
-  languageName: node
-  linkType: hard
-
 "fastq@npm:^1.6.1":
   version: 1.13.0
   resolution: "fastq@npm:1.13.0"
@@ -3138,7 +3115,6 @@ __metadata:
     discord-api-types: ^0.25.2
     discord.js: ^13.3.1
     dotenv: ^10.0.0
-    fastify: ^3.24.1
     gamedig: ^3.0.8
     generate-password: ^1.7.0
     html-to-text: ^8.1.0

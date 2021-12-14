@@ -10,13 +10,13 @@ import {
   UseGuards,
   VERSION_NEUTRAL,
 } from "@nestjs/common";
-import type { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
 import { Environment } from "#api/environment/environment";
 import { AuthService } from "../services/auth.service";
 import { AuthContext } from "../interfaces/auth.interface";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { Auth } from "../guards/auth.guard";
+import type { FastifyReply } from "fastify";
 import type { User } from "#api/users/models/user.model";
 
 @Controller({
@@ -37,7 +37,7 @@ export class AuthController {
   @UseGuards(AuthGuard("discord"))
   async callback(
     @CurrentUser() { id }: User,
-    @Res({ passthrough: true }) res: Response
+    @Res({ passthrough: true }) res: FastifyReply
   ) {
     const authToken = await this.authService.generateJwtToken(
       AuthContext.AUTH,
@@ -50,9 +50,12 @@ export class AuthController {
     );
 
     const redirectUrl = this.environment.clientUrl;
-    res.redirect(
-      `${redirectUrl}/login/success?token=${authToken}&refreshToken=${refreshToken}`
-    );
+
+    res
+      .status(302)
+      .redirect(
+        `${redirectUrl}/login/success?token=${authToken}&refreshToken=${refreshToken}`
+      );
   }
 
   @Post("refresh")

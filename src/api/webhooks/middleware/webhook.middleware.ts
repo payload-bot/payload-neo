@@ -3,14 +3,14 @@ import {
   UnauthorizedException,
   NestMiddleware,
 } from "@nestjs/common";
-import type { Request, Response, NextFunction } from "express";
+import type { FastifyRequest, FastifyReply } from "fastify";
 import { WebhookCrudService } from "../services/webhook-crud.service";
 
 @Injectable()
 export class WebhookValidationMiddleware implements NestMiddleware {
   constructor(private webhookService: WebhookCrudService) {}
 
-  async use(req: Request, _: Response, next: NextFunction) {
+  async use(req: FastifyRequest, _: FastifyReply, next: Function) {
     const token = req.headers?.authorization;
 
     if (!token) throw new UnauthorizedException();

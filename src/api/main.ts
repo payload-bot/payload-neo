@@ -25,17 +25,18 @@ export async function bootstrap() {
 
   app.use(
     session({
+      resave: false,
+      saveUninitialized: false,
+      name: "__session",
+      secret: Array.isArray(env.sessionSecret)
+        ? env.sessionSecret
+        : [env.sessionSecret],
       cookie: {
         domain: env.cookieDomain,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: Time.Minute,
+        maxAge: Time.Month,
       },
-      secret: Array.isArray(env.sessionSecret)
-        ? env.sessionSecret
-        : [env.sessionSecret],
-      resave: false,
-      saveUninitialized: false,
     })
   );
 

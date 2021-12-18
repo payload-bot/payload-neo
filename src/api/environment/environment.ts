@@ -37,11 +37,15 @@ export class Environment {
     return this.configService.get<string>("DISCORD_GUILD_BETA_ROLE_ID") as string;
   }
 
-  get jwtAuthSecret() {
-    return this.configService.get<string>("JWT_AUTH_SECRET") as string;
+  get sessionSecret() {
+    return this.configService.get<string>("SESSION_SECRET") as string;
   }
 
-  get jwtRefreshSecret() {
-    return this.configService.get<string>("JWT_REFRESH_SECRET") as string;
+  get cookieDomain() {
+    return this.configService.get<string>("COOKIE_DOMAIN") as string;
+  }
+
+  get cookieSecret() {
+    return this.configService.get<string>("COOKIE_SECRET") as string;
   }
 }

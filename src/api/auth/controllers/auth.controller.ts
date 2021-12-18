@@ -4,41 +4,39 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
   VERSION_NEUTRAL,
 } from "@nestjs/common";
-import type { Response } from "express";
-import { AuthGuard } from "@nestjs/passport";
+import type { Request, Response } from "express";
 import { Environment } from "#api/environment/environment";
-import { AuthService } from "../services/auth.service";
-import { CurrentUser } from "../decorators/current-user.decorator";
 import { Auth } from "../guards/auth.guard";
-import type { User } from "#api/users/models/user.model";
+import { DiscordSessionGuard } from "../guards/session.guard";
 
 @Controller({
   path: "auth",
   version: VERSION_NEUTRAL,
 })
 export class AuthController {
-  constructor(
-    private environment: Environment,
-    private authService: AuthService
-  ) {}
+  // @ts-expect-error
+  constructor(private environment: Environment) {}
 
   @Get()
-  @UseGuards(AuthGuard("discord"))
+  @UseGuards(DiscordSessionGuard)
   login() {}
 
   @Get("/callback")
-  @UseGuards(AuthGuard("discord"))
-  async callback(
-    @CurrentUser() { id }: User,
-    @Res({ passthrough: true }) res: Response
-  ) {}
+  @UseGuards(DiscordSessionGuard)
+  async callback(@Res({ passthrough: true }) res: Response) {
+    res.redirect(`/api/v1/users`);
+  }
 
   @Post("/logout")
   @HttpCode(HttpStatus.NO_CONTENT)
   @Auth()
-  async logout(@CurrentUser() { id, accessToken }: User) {}
+  async logout(@Req() req: Request) {
+    await req.logout();
+    return;
+  }
 }

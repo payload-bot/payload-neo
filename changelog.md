@@ -256,3 +256,6 @@
 
 ### 5.1.1
 * Fix Payload sending typing when an auto response is restricted 
+
+### 5.1.2
+* Fix commands not working in DMs

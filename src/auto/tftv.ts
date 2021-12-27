@@ -29,15 +29,17 @@ export default class UserAutoCommand extends AutoCommand {
 
     const needFindChild = match.split("#")[1].length > 0;
 
+    let $post = $(`#thread-container > .post:nth-child(1)`);
+    let frags = $("#thread-frag-count").text().trim();
+    let body = convert($post.find(".post-body-hidden") as unknown as string);
+    let author = $post.find(".post-header .post-author").text().trim();
+
     if (needFindChild) {
-      // is a specific post
+      $post = $(`#thread-container > .post:nth-child(${match.split("#")[1]})`);
+      frags = $post.find(`.post-frag-count`).text().trim();
+      body = convert($post.find(".post-body-hidden") as unknown as string);
+      author = $post.find(".post-header .post-author").text().trim();
     }
-
-    const $post = $(`#thread-container > .post:nth-child(1)`);
-
-    const frags = $("#thread-frag-count").text().trim();
-    const author = $post.find(".post-header .post-author").text().trim();
-    const body = convert($post.find(".post-body-hidden") as unknown as string);
 
     const dateSelector = $post
       .find(".post-footer .js-date-toggle")

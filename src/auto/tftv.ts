@@ -60,7 +60,6 @@ export default class UserAutoCommand extends AutoCommand {
       $post = $(`#thread-container > .post > a#${postNumber}`).parent();
 
       if (!$post.children().length && page > 1) {
-        console.log("hello?");
         return await msg.channel.send(
           t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url })
         );

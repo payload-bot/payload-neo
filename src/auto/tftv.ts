@@ -13,16 +13,35 @@ import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Tftv.Description,
-  regex: /teamfortress\.tv\/\d+\/[\w-]+(\/\?page=\d)?(#\d+)*/,
+  regex:
+    /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message) {
     const match = this.getMatch(msg);
+    const allMatches = msg.content.match(this.regex)!;
 
-    const url = "https://" + match;
+    const baseUrl = allMatches.groups!.base;
+
+    let page = parseInt(
+      allMatches.groups!.page?.replace("/?page=", "") ?? 0,
+      10
+    );
+
+    let post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
+
+    if (!page && post > 30) {
+      page = Math.floor(post / 30) + 1;
+    }
+
+    const url = `https://${baseUrl}${
+      page > 0 ? `/?page=${page}#${post}` : `#${post}`
+    }`;
+
     const { data } = (await axios(url, {
       responseType: "text",
     })) as AxiosResponse<string>;
+
     const $ = cheerio.load(data);
 
     const title = $(".thread-header-title").text().trim();
@@ -30,6 +49,11 @@ export default class UserAutoCommand extends AutoCommand {
     const needFindChild = !!match.split("#")?.[1] ?? false;
 
     let $post = $(`#thread-container > .post:nth-child(1)`);
+
+    if (!$post.children) {
+      $post = $(`#thread-container > .post:last-child`);
+    }
+
     let frags = $("#thread-frag-count").text().trim();
     let body = convert($post.find(".post-body-hidden") as unknown as string);
     let author = $post.find(".post-header .post-author").text().trim();

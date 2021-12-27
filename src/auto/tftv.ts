@@ -13,7 +13,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Tftv.Description,
-  regex: /teamfortress\.tv\/\d+\/[\w-]+(#\d+)*/,
+  regex: /teamfortress\.tv\/\d+\/[\w-]+(\/\?page=\d)?(#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message) {
@@ -27,7 +27,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const title = $(".thread-header-title").text().trim();
 
-    const needFindChild = match.split("#")[1].length > 0;
+    const needFindChild = !!match.split("#")?.[1] ?? false;
 
     let $post = $(`#thread-container > .post:nth-child(1)`);
     let frags = $("#thread-frag-count").text().trim();
@@ -35,7 +35,8 @@ export default class UserAutoCommand extends AutoCommand {
     let author = $post.find(".post-header .post-author").text().trim();
 
     if (needFindChild) {
-      $post = $(`#thread-container > .post:nth-child(${match.split("#")[1]})`);
+      const postNumber = match.split("#")[1];
+      $post = $(`#thread-container > .post > a#${postNumber}`).parent();
       frags = $post.find(`.post-frag-count`).text().trim();
       body = convert($post.find(".post-body-hidden") as unknown as string);
       author = $post.find(".post-header .post-author").text().trim();

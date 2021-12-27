@@ -10,6 +10,7 @@ import cheerio from "cheerio";
 import { convert } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
+import type { Args } from "@sapphire/framework";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Tftv.Description,
@@ -17,7 +18,7 @@ import { send } from "@sapphire/plugin-editable-commands";
     /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message) {
+  async messageRun(msg: Message, { t }: Args) {
     const match = this.getMatch(msg);
     const allMatches = msg.content.match(this.regex)!;
 
@@ -50,10 +51,6 @@ export default class UserAutoCommand extends AutoCommand {
 
     let $post = $(`#thread-container > .post:nth-child(1)`);
 
-    if (!$post.children) {
-      $post = $(`#thread-container > .post:last-child`);
-    }
-
     let frags = $("#thread-frag-count").text().trim();
     let body = convert($post.find(".post-body-hidden") as unknown as string);
     let author = $post.find(".post-header .post-author").text().trim();
@@ -61,6 +58,18 @@ export default class UserAutoCommand extends AutoCommand {
     if (needFindChild) {
       const postNumber = match.split("#")[1];
       $post = $(`#thread-container > .post > a#${postNumber}`).parent();
+
+      if (!$post.children().length && page > 1) {
+        console.log("hello?");
+        return await msg.channel.send(
+          t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url })
+        );
+      }
+
+      if (!$post.children().length) {
+        $post = $(`#thread-container > .post:last-child`);
+      }
+
       frags = $post.find(`.post-frag-count`).text().trim();
       body = convert($post.find(".post-body-hidden") as unknown as string);
       author = $post.find(".post-header .post-author").text().trim();

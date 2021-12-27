@@ -1,3 +1,4 @@
 {
-  "description": "Renders a preview of a TFTV post"
+  "description": "Renders a preview of a TFTV post",
+  "noPostFound": "Could not find post {{ post }}"
 }

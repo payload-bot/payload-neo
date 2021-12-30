@@ -36,7 +36,7 @@ __metadata:
     ts-mixer: ^6.0.0
     tslib: ^2.3.1
     zod: ^3.11.6
-  checksum: 75278bd4cb2ba09a83e9d308d357e6550fc55af77d7b95d1749ba351d97df80af840144f14f849aa2910966f26a85fcde2271bc1ff5342bbb8ffabe76dd2640c
+  checksum: 7a25b59bb52d2e3695bca27946a99cf2de95b7edd5be424ea9f4707a465524be21263e25e532e12438e99f9f55fb98b033885c760aeb96424b8c12f663f50760
   languageName: node
   linkType: hard
 
@@ -2594,13 +2594,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.isequal@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.isequal@npm:4.5.0"
-  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
-  languageName: node
-  linkType: hard
-
 "lodash.set@npm:4.3.2":
   version: 4.3.2
   resolution: "lodash.set@npm:4.3.2"
@@ -3181,7 +3174,7 @@ __metadata:
     "@types/express-session": ^1.17.4
     "@types/gamedig": ^3.0.1
     "@types/html-to-text": ^8.0.1
-    "@types/node": ^17.0.0
+    "@types/node": ^17.0.5
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
     "@types/puppeteer": ^5.4.4
@@ -3205,7 +3198,7 @@ __metadata:
     mongoose: ^6.1.4
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.0.0
+    puppeteer: ^13.0.1
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.1
     tsc-watch: ^4.6.0

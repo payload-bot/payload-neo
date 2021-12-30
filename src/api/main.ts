@@ -33,6 +33,7 @@ export async function bootstrap() {
         : [env.sessionSecret],
       cookie: {
         domain: env.cookieDomain,
+        sameSite: 'lax',
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: Time.Month,

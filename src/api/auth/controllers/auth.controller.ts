@@ -19,7 +19,6 @@ import { DiscordSessionGuard } from "../guards/session.guard";
   version: VERSION_NEUTRAL,
 })
 export class AuthController {
-  // @ts-expect-error
   constructor(private environment: Environment) {}
 
   @Get()
@@ -29,14 +28,16 @@ export class AuthController {
   @Get("/callback")
   @UseGuards(DiscordSessionGuard)
   async callback(@Res({ passthrough: true }) res: Response) {
-    res.redirect(`/api/v1/users`);
+    const redirectUrl = this.environment.clientUrl;
+
+    res.redirect(`${redirectUrl}/dashboard`);
   }
 
   @Post("/logout")
   @HttpCode(HttpStatus.NO_CONTENT)
   @Auth()
-  async logout(@Req() req: Request) {
-    await req.logout();
+  logout(@Req() req: Request) {
+    req.logout();
     return;
   }
 }

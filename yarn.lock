@@ -1559,6 +1559,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"discord-oauth2@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "discord-oauth2@npm:2.9.0"
+  checksum: 5a3fb5ffadc65ef04c27e72cd95c9da60ef253b3e53b0b65bd4c17440b84865b5a38f78ca36040627fc036940c3dea303435bdf634efe88a3e4213516205c99d
+  languageName: node
+  linkType: hard
+
 "discord.js@npm:^13.5.0":
   version: 13.5.0
   resolution: "discord.js@npm:13.5.0"
@@ -3185,6 +3192,7 @@ __metadata:
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
     discord-api-types: ^0.26.0
+    discord-oauth2: ^2.9.0
     discord.js: ^13.5.0
     dotenv: ^10.0.0
     express: ^4.17.2

@@ -7,6 +7,7 @@ import { container } from "@sapphire/framework";
 import { User, UserDocument } from "../models/user.model";
 import { Environment } from "#api/environment/environment";
 import type { UpdateProfileDto } from "../dto/update-profile.dto";
+import { DiscordService } from "#api/discord/services/discord.service";
 
 export interface CreateUserParams {
   id: string;
@@ -21,6 +22,7 @@ export class UserService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
+    private discordService: DiscordService,
     private environment: Environment
   ) {}
 
@@ -57,6 +59,15 @@ export class UserService {
     return { accessToken, refreshToken };
   }
 
+  async revokeTokens(id: string, authToken: string) {
+    await Promise.all([
+      this.discordService.revokeUserTokens(authToken),
+      this.updateUser(id, { $unset: { accessToken: 1, refreshToken: 1 } }),
+    ]);
+
+    return;
+  }
+
   async findUser(query: FilterQuery<UserDocument>): Promise<User> {
     return plainToClass(
       User,
@@ -71,6 +82,8 @@ export class UserService {
       })
       .lean()
       .exec();
+
+    console.log(updatedUser);
 
     return plainToClass(User, updatedUser);
   }

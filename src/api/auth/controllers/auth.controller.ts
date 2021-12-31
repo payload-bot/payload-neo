@@ -3,7 +3,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Post,
   Req,
   Res,
   UseGuards,
@@ -13,13 +12,19 @@ import type { Request, Response } from "express";
 import { Environment } from "#api/environment/environment";
 import { Auth } from "../guards/auth.guard";
 import { DiscordSessionGuard } from "../guards/session.guard";
+import { UserService } from "#api/users/services/user.service";
+import { CurrentUser } from "../decorators/current-user.decorator";
+import type { User } from "#api/users/models/user.model";
 
 @Controller({
   path: "auth",
   version: VERSION_NEUTRAL,
 })
 export class AuthController {
-  constructor(private environment: Environment) {}
+  constructor(
+    private environment: Environment,
+    private userService: UserService
+  ) {}
 
   @Get()
   @UseGuards(DiscordSessionGuard)
@@ -33,11 +38,13 @@ export class AuthController {
     res.redirect(`${redirectUrl}/dashboard`);
   }
 
-  @Post("/logout")
+  @Get("/logout")
   @HttpCode(HttpStatus.NO_CONTENT)
   @Auth()
-  logout(@Req() req: Request) {
-    req.logout();
+  async logout(@CurrentUser() { id, accessToken }: User, @Req() req: Request) {
+    await this.userService.revokeTokens(id, accessToken!);
+
+    void req.logout();
     return;
   }
 }

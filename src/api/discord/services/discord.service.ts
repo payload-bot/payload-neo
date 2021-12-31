@@ -1,10 +1,12 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { CACHE_MANAGER, Inject, Injectable, Logger } from "@nestjs/common";
 import DiscordOauthService, { type PartialGuild } from "discord-oauth2";
 import { Environment } from "#api/environment/environment";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { Guild, GuildMember, Permissions } from "discord.js";
 import { Benchmark } from "#api/shared/perf-hook.decorator";
+// @ts-expect-error
+import { Cache } from "cache-manager";
 
 const { client } = container;
 
@@ -16,6 +18,8 @@ export class DiscordService {
 
   constructor(
     readonly environment: Environment,
+    @Inject(CACHE_MANAGER) 
+    private cache: Cache 
   ) {
     this.handler = new DiscordOauthService({
       clientId: environment.clientId,
@@ -34,13 +38,22 @@ export class DiscordService {
     accessToken: string,
     _refreshToken: string
   ) {
+    // O__o woozy
+    if (await this.cache.get(id + ":allguilds")) {
+      return await this.cache.get(id + ":allguilds")
+    }
+
     const allGuilds = await this.handler.getUserGuilds(accessToken);
 
     const convertedGuilds = await this.convertGuilds(id, allGuilds);
 
-    return convertedGuilds
+    const sortedAndFiltered = convertedGuilds
       .filter((guild) => guild.canManage)
       .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
+
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, { ttl: 600 });
+
+    return sortedAndFiltered;
   }
 
   async canUserManageGuild(guild: Guild, member: GuildMember) {

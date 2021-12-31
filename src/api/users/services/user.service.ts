@@ -83,8 +83,6 @@ export class UserService {
       .lean()
       .exec();
 
-    console.log(updatedUser);
-
     return plainToClass(User, updatedUser);
   }
 

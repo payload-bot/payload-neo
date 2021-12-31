@@ -1,12 +1,11 @@
 import { Exclude } from "class-transformer";
-import type { GuildFeature } from "discord-api-types/payloads/v9";
 
 export class ConvertedGuild {
   isPayloadIn: boolean = false;
   id!: string;
   name!: string;
   owner: boolean = false;
-  features: GuildFeature[] = [];
+  features: string[] = [];
   permissions!: string;
   icon!: string | null;
 

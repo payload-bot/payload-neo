@@ -1,80 +1,59 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { HttpService } from "@nestjs/axios";
-import {
-  RESTGetAPICurrentUserGuildsResult,
-  RESTPostOAuth2RefreshTokenResult,
-  Routes,
-  RouteBases,
-  OAuth2Routes,
-  RESTAPIPartialCurrentUserGuild,
-} from "discord-api-types/v9";
-import {
-  catchError,
-  EMPTY,
-  filter,
-  firstValueFrom,
-  map,
-  of,
-  retryWhen,
-  tap,
-} from "rxjs";
+import { CACHE_MANAGER, Inject, Injectable, Logger } from "@nestjs/common";
+import DiscordOauthService, { type PartialGuild } from "discord-oauth2";
 import { Environment } from "#api/environment/environment";
-import { UserService } from "#api/users/services/user.service";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
-import { URLSearchParams } from "url";
 import { Guild, GuildMember, Permissions } from "discord.js";
 import { Benchmark } from "#api/shared/perf-hook.decorator";
+// @ts-expect-error
+import { Cache } from "cache-manager";
 
 const { client } = container;
 
 @Injectable()
 export class DiscordService {
+  // @ts-expect-error Logger is needed for debug since reflector :D
   private logger = new Logger(DiscordService.name);
+  private handler: DiscordOauthService;
 
   constructor(
-    private environment: Environment,
-    private httpService: HttpService,
-    private usersService: UserService
-  ) {}
+    readonly environment: Environment,
+    @Inject(CACHE_MANAGER) 
+    private cache: Cache 
+  ) {
+    this.handler = new DiscordOauthService({
+      clientId: environment.clientId,
+      clientSecret: environment.clientSecret,
+      credentials: Buffer.from(`${this.environment.clientId}:${this.environment.clientSecret}`).toString('base64')
+    });
+  }
 
   async revokeUserTokens(token: string) {
-    const formData = new URLSearchParams();
-
-    formData.append("client_id", this.environment.clientId);
-    formData.append("client_secret", this.environment.clientSecret);
-    formData.append("token", token);
-
-    const revoke$ = this.httpService.post(
-      OAuth2Routes.tokenRevocationURL,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-
-    await firstValueFrom(revoke$);
+    await this.handler.revokeToken(token, );
   }
 
   @Benchmark
   async getSortedUserGuilds(
     id: string,
     accessToken: string,
-    refreshToken: string
+    _refreshToken: string
   ) {
-    const allGuilds = await this.getAllUserGuilds(
-      id,
-      accessToken,
-      refreshToken
-    );
+    // O__o woozy
+    if (await this.cache.get(id + ":allguilds")) {
+      return await this.cache.get(id + ":allguilds")
+    }
+
+    const allGuilds = await this.handler.getUserGuilds(accessToken);
 
     const convertedGuilds = await this.convertGuilds(id, allGuilds);
 
-    return convertedGuilds
+    const sortedAndFiltered = convertedGuilds
       .filter((guild) => guild.canManage)
       .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
+
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, { ttl: 600 });
+
+    return sortedAndFiltered;
   }
 
   async canUserManageGuild(guild: Guild, member: GuildMember) {
@@ -85,12 +64,12 @@ export class DiscordService {
     return false;
   }
 
-  private async canManage(id: string, guild: RESTAPIPartialCurrentUserGuild) {
+  private async canManage(id: string, guild: PartialGuild) {
     if (guild.owner) return true;
     const fetchedGuild = await client.guilds.fetch(guild.id).catch(() => null);
 
     if (!fetchedGuild)
-      return new Permissions(BigInt(guild.permissions)).has(
+      return new Permissions(BigInt(guild.permissions!)).has(
         Permissions.FLAGS.MANAGE_GUILD
       );
 
@@ -100,10 +79,8 @@ export class DiscordService {
     return await this.canUserManageGuild(fetchedGuild, member);
   }
 
-  private async convertGuilds(
-    id: string,
-    guilds: RESTGetAPICurrentUserGuildsResult
-  ) {
+  @Benchmark
+  private async convertGuilds(id: string, guilds: PartialGuild[]) {
     return await Promise.all(
       guilds.map(async (guild) => {
         const isPayloadIn = await client.guilds
@@ -117,78 +94,10 @@ export class DiscordService {
         return new ConvertedGuild({
           isPayloadIn: isPayloadIn ? true : false,
           canManage: await this.canManage(id, guild),
-          ...guild,
+          ...(guild as any),
           icon,
         });
       })
     );
-  }
-
-  @Benchmark
-  private async getAllUserGuilds(
-    id: string,
-    accessToken: string,
-    refreshToken: string
-  ): Promise<RESTGetAPICurrentUserGuildsResult> {
-    const userGuilds$ = this.httpService
-      .get<RESTGetAPICurrentUserGuildsResult>(
-        RouteBases.api + Routes.userGuilds(),
-        {
-          headers: {
-            Authorization: "Bearer " + accessToken,
-          },
-        }
-      )
-      .pipe(
-        retryWhen((errors) => {
-          return errors.pipe(
-            tap(({ response }) =>
-              this.logger.debug(
-                `Error encountered while fetching user (${id}) guilds\nStatus: ${response.status}`
-              )
-            ),
-            filter(({ response }) => [401, 400].includes(response.status)),
-            tap(this.refreshUserTokens(id, refreshToken))
-          );
-        }),
-        map((res) => res.data)
-      );
-
-    return await firstValueFrom(userGuilds$);
-  }
-
-  private refreshUserTokens(id: string, refreshToken: string) {
-    const formData = new URLSearchParams();
-
-    formData.append("client_id", this.environment.clientId);
-    formData.append("client_secret", this.environment.clientSecret);
-    formData.append("grant_type", "refresh_token");
-    formData.append("refresh_token", refreshToken);
-
-    return this.httpService
-      .post<RESTPostOAuth2RefreshTokenResult>(
-        RouteBases.api + Routes.oauth2TokenExchange(),
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      )
-      .pipe(
-        tap(async ({ data: { access_token, refresh_token } }) => {
-          return of(
-            await this.usersService.updateUser(id, {
-              accessToken: access_token,
-              refreshToken: refresh_token,
-            })
-          );
-        }),
-        map((res) => res.data),
-        catchError(({ response }) => {
-          this.logger.error(response.data);
-          return EMPTY;
-        })
-      );
   }
 }

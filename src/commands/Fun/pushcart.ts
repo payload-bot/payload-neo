@@ -9,7 +9,7 @@ import { isAfter, add, addDays, formatDistanceToNowStrict } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
-import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
+import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -244,7 +244,7 @@ export class UserCommand extends PayloadCommand {
       .setDescription("Loading...")
       .setColor("RANDOM");
 
-    const paginationEmbed = new LazyPaginatedMessage({
+    const paginationEmbed = new PaginatedMessage({
       template: new MessageEmbed()
         .setColor("BLUE")
         .setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),

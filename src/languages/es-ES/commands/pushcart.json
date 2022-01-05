@@ -6,7 +6,7 @@
   "noTargetUser": "¡Debes especificar a quien le estás dando estos puntos!",
   "notEnoughCreds": "¡No tienes tantos puntos para regalar!",
   "giftSuccess_one": "🎁¡{{ from }} le ha regalado **{{ count }}** punto(s) a {{ to }}!",
-  "giftSuccess_many": "🎁¡{{ from }} le ha regalado **{{ count }}** punto(s) a {{ to }}!",
+  "giftSuccess_other": "🎁¡{{ from }} le ha regalado **{{ count }}** punto(s) a {{ to }}!",
   "leaderboardEmbedTitle": "Leaderboard de Empuja-Carritos",
   "serverEmbedTitle": "Leaderboard de Empuja-Carritos de Servidores"
 }

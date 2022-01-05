@@ -161,6 +161,7 @@ export class UserCommand extends PayloadCommand {
       { $match: { "fun.payload": { $exists: 1 } } },
       { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
       { $sort: { pushed: -1 } },
+      { $limit: 125 },
     ]);
 
     const CHUNK_AMOUNT = 10;
@@ -241,6 +242,7 @@ export class UserCommand extends PayloadCommand {
       { $match: { fun: { $exists: 1 } } },
       { $project: { id: "$id", pushed: "$fun.payloadFeetPushed" } },
       { $sort: { pushed: -1 } },
+      { $limit: 125 },
     ])) as { id: string; pushed: string }[];
 
     const CHUNK_AMOUNT = 5;

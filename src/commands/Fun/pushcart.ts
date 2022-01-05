@@ -147,67 +147,52 @@ export class UserCommand extends PayloadCommand {
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const MAX_RETURN_LIMIT = 10;
+    const loadingEmbed = new MessageEmbed()
+      .setDescription("Loading...")
+      .setColor("RANDOM");
+
+    const paginationEmbed = new PaginatedMessage({
+      template: new MessageEmbed()
+        .setColor("BLUE")
+        .setTitle(args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
+    });
 
     const leaderboard = await User.aggregate([
       { $match: { "fun.payload": { $exists: 1 } } },
       { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
       { $sort: { pushed: -1 } },
-      { $limit: MAX_RETURN_LIMIT },
     ]);
 
-    let isTop10 = false;
+    const CHUNK_AMOUNT = 2;
+    let rank = 1;
+    
+    for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
+      const leaderboardString = await Promise.all(
+        page.map(async ({ id, pushed }, i) => {
+          const { username } = await client.users.fetch(id);
 
-    const leaderboardString = await Promise.all(
-      leaderboard.map(async ({ id, pushed }, i) => {
-        const { tag } = await client.users.fetch(id);
-
-        let localIsTop10 = false;
-        if (msg.author.id === id) {
-          isTop10 = true;
-          localIsTop10 = true;
-        }
-
-        return `${localIsTop10 ? "> " : ""}${i + 1}: ${Util.escapeMarkdown(
-          tag
-        )} (${pushed})`;
-      })
-    );
-
-    if (!isTop10) {
-      const leaderboardSkip10 = await User.aggregate([
-        { $match: { "fun.payload": { $exists: 1 } } },
-        { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
-        { $sort: { pushed: -1 } },
-        { $skip: MAX_RETURN_LIMIT },
-      ]);
-
-      const index = leaderboardSkip10.findIndex(
-        (user) => user.id === msg.author.id
+          return msg.author.username === username
+            ? `> ${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`
+            : `${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`;
+        })
       );
 
-      if (index !== -1) {
-        const { pushed } = leaderboardSkip10.find(
-          (user) => user.id === msg.author.id
-        );
-
-        leaderboardString.push(
-          `...\n> ${index + 1 + MAX_RETURN_LIMIT}: ${Util.escapeMarkdown(
-            msg.author.tag
-          )} (${pushed})`
-        );
-      }
-    }
-
-    const embeds = [
-      new MessageEmbed({
+      const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.USER,
-      }),
-    ];
+      });
 
-    return await send(msg, { embeds });
+      paginationEmbed.addPageEmbed(embed);
+
+      rank += CHUNK_AMOUNT;
+    }
+
+    const response = await msg.channel.send({ embeds: [loadingEmbed] });
+
+    await paginationEmbed.run(response, msg.author);
+
+    return response;
   }
 
   async rank(msg: Message, args: PayloadCommand.Args) {
@@ -256,8 +241,10 @@ export class UserCommand extends PayloadCommand {
       { $sort: { pushed: -1 } },
     ])) as { id: string; pushed: string }[];
 
+    const CHUNK_AMOUNT = 5;
     let rank = 1;
-    for (const page of chunk(leaderboard, 5)) {
+
+    for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
           const { name } = await client.guilds.fetch(id);
@@ -276,7 +263,7 @@ export class UserCommand extends PayloadCommand {
 
       paginationEmbed.addPageEmbed(embed);
 
-      rank += 5;
+      rank += CHUNK_AMOUNT;
     }
 
     const response = await msg.channel.send({ embeds: [loadingEmbed] });

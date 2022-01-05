@@ -165,7 +165,7 @@ export class UserCommand extends PayloadCommand {
 
     const CHUNK_AMOUNT = 2;
     let rank = 1;
-    
+
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {

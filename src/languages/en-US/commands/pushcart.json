@@ -18,7 +18,7 @@
   "noTargetUser": "You need to specify who to gives these points to!",
   "notEnoughCreds": "You don't have that many points to give away!",
   "giftSuccess_one": "🎁 {{ from }} has gifted **{{ count }}** point to {{ to }}!",
-  "giftSuccess_many": "🎁 {{ from }} has gifted **{{ count }}** points to {{ to }}!",
+  "giftSuccess_other": "🎁 {{ from }} has gifted **{{ count }}** points to {{ to }}!",
 
   "leaderboardEmbedTitle": "Pushcart Leaderboard",
   "serverEmbedTitle": "Pushcart Server Leaderboard"

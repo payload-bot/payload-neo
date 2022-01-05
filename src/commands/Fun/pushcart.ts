@@ -7,8 +7,9 @@ import { weightedRandom } from "#utils/random";
 import { User } from "#lib/models/User";
 import { isAfter, add, addDays, formatDistanceToNowStrict } from "date-fns";
 import PayloadColors from "#utils/colors";
-import { codeBlock } from "@sapphire/utilities";
+import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
+import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -239,32 +240,50 @@ export class UserCommand extends PayloadCommand {
   async servers(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const leaderboard = await Server.aggregate([
+    const loadingEmbed = new MessageEmbed()
+      .setDescription("Loading...")
+      .setColor("RANDOM");
+
+    const paginationEmbed = new LazyPaginatedMessage({
+      template: new MessageEmbed()
+        .setColor("BLUE")
+        .setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
+    });
+
+    const leaderboard = (await Server.aggregate([
       { $match: { fun: { $exists: 1 } } },
       { $project: { id: "$id", pushed: "$fun.payloadFeetPushed" } },
       { $sort: { pushed: -1 } },
-      { $limit: 5 },
-    ]);
+    ])) as { id: string; pushed: string }[];
 
-    const leaderboardString = await Promise.all(
-      leaderboard.map(async ({ id, pushed }, i) => {
-        const { name } = await client.guilds.fetch(id);
+    let rank = 1;
+    for (const page of chunk(leaderboard, 5)) {
+      const leaderboardString = await Promise.all(
+        page.map(async ({ id, pushed }, i) => {
+          const { name } = await client.guilds.fetch(id);
 
-        return msg.guild!.name === name
-          ? `> ${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`
-          : `${i + 1}: ${Util.escapeMarkdown(name)} (${pushed})`;
-      })
-    );
+          return msg.guild!.name === name
+            ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`
+            : `${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`;
+        })
+      );
 
-    const embeds = [
-      new MessageEmbed({
+      const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.USER,
-      }),
-    ];
+      });
 
-    return await send(msg, { embeds });
+      paginationEmbed.addPageEmbed(embed);
+
+      rank += 5;
+    }
+
+    const response = await msg.channel.send({ embeds: [loadingEmbed] });
+
+    await paginationEmbed.run(response, msg.author);
+
+    return response;
   }
 
   private async userPushcart(id: string, units: number) {

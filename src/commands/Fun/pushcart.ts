@@ -163,7 +163,7 @@ export class UserCommand extends PayloadCommand {
       { $sort: { pushed: -1 } },
     ]);
 
-    const CHUNK_AMOUNT = 2;
+    const CHUNK_AMOUNT = 10;
     let rank = 1;
 
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {

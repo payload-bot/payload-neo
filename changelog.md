@@ -259,3 +259,7 @@
 
 ### 5.1.2
 * Fix commands not working in DMs
+
+### 5.2.0
+* Pushcart: Leaderboards are now paginated
+* TFTV: You can now preview a non-top level post. Must have a URL that follows the https://www.teamfortress.tv/<num>/<name>/#<num> format.

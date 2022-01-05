@@ -75,7 +75,7 @@ export class UserService {
     );
   }
 
-  async updateUser(id: string, query: UpdateQuery<User>): Promise<User> {
+  async updateUser(id: string, query: UpdateQuery<UserDocument>): Promise<User> {
     const updatedUser = await this.userModel
       .findOneAndUpdate({ id }, query, {
         new: true,

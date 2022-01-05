@@ -8,7 +8,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
 import { isNullishOrEmpty } from "@sapphire/utilities";
 
-const FLAGS = ["all"];
+const FLAGS = ["all", "list"];
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Restrict.Description,
@@ -20,6 +20,29 @@ const FLAGS = ["all"];
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const useAllCommands = args.getFlags("all");
+    const listAllRestrictions = args.getFlags("list");
+
+    if (listAllRestrictions) {
+      const server = await Server.findOne(
+        { id: msg.guildId! },
+        {},
+        { upsert: true }
+      ).lean();
+
+      const commands = server?.commandRestrictions;
+
+      if (isNullishOrEmpty(commands)) {
+        return await msg.channel.send(
+          args.t(LanguageKeys.Commands.Restrict.ListRestrictionsEmpty)
+        );
+      }
+
+      return await msg.channel.send(
+        args.t(LanguageKeys.Commands.Restrict.ListRestrictions, {
+          commands: codeBlock(commands.join(", ")),
+        })
+      );
+    }
 
     if (args.finished && !useAllCommands) {
       return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
@@ -46,7 +69,7 @@ export class UserCommand extends PayloadCommand {
 
     await this.setRestrictions(msg.guildId!, filteredCommands);
 
-    return msg.channel.send(
+    return await msg.channel.send(
       args.t(LanguageKeys.Commands.Restrict.RestrictSuccess, {
         commands: codeBlock(filteredCommands.join(", ")),
       })

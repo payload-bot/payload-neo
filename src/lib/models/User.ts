@@ -38,8 +38,7 @@ const userSchema = new mongoose.Schema({
 
   latestUpdateNotifcation: {
     type: String,
-    // @TODO why is this hardcoded?
-    default: "5.0.2",
+    default: process.env.npm_package_version,
   },
 
   fun: {

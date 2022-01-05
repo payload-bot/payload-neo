@@ -52,7 +52,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
 
     console.log(
       String.raw`
-${line01} ${pad}${blc("Payload Version 5.0.2")}
+${line01} ${pad}${blc(`Payload Version ${process.env.npm_package_version}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] MongoDB
 ${line02} ${pad}[${success}] API

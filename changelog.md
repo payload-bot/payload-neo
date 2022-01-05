@@ -244,3 +244,25 @@
 
 ### 5.0.2
 * Fix the other steam connect link parsing bug
+
+### 5.0.3
+* Fix showing the wrong date on pushcart cap message
+* Add environment variables for correct version from package.json
+* Case insensitive prefixes
+
+### 5.1.0
+* Allow command restrictions in API
+* Allow for `--list` flag for restrict command (pls restrict --list will list all current restrictions)
+
+### 5.1.1
+* Fix Payload sending typing when an auto response is restricted 
+
+### 5.1.2
+* Fix commands not working in DMs
+
+### 5.2.0
+* Pushcart: Leaderboards are now paginated
+* TFTV: You can now preview a non-top level post. Must have a URL that follows the https://www.teamfortress.tv/<num>/<name>/#<num> format.
+
+### 5.2.1
+* Fix error in pushcart

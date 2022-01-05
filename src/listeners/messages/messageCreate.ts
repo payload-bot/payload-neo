@@ -60,6 +60,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         autoResponse,
         { message, command: autoResponse }
       );
+
       if (!localResult.success) {
         this.container.client.emit(Events.CommandDenied, localResult.error, {
           message,
@@ -69,6 +70,8 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         });
         return;
       }
+
+      await message.channel.sendTyping();
 
       return await autoResponse.messageRun(message, args, context);
     }

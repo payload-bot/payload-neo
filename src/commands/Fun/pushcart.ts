@@ -169,7 +169,9 @@ export class UserCommand extends PayloadCommand {
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
-          const { username } = await client.users.fetch(id);
+          const { username } = await client.users
+            .fetch(id)
+            .catch(() => ({ username: "-" }));
 
           return msg.author.username === username
             ? `> ${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`
@@ -247,7 +249,9 @@ export class UserCommand extends PayloadCommand {
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
-          const { name } = await client.guilds.fetch(id);
+          const { name } = await client.guilds
+            .fetch(id)
+            .catch(() => ({ name: "-" }));
 
           return msg.guild!.name === name
             ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`

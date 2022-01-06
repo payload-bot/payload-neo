@@ -1,0 +1,10 @@
+{
+  "description": "Posez une question à la boule magique.",
+  "detailedDescription": {
+    "usages": [
+      "<question>"
+    ],
+    "details": "La question ne doit pas être vide."
+  },
+  "noQuestion": "Vous devez me donner une question!"
+}

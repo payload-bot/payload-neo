@@ -1,0 +1,10 @@
+{
+  "description": "Задай шару-предсказателю вопрос.",
+  "detailedDescription": {
+    "usages": [
+      "<question>"
+    ],
+    "details": "Поле не должно быть пустым."
+  },
+  "noQuestion": "Вам нужно задать у меня вопрос!"
+}

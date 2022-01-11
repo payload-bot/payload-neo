@@ -1,0 +1,9 @@
+{
+  "description": "Информация о Payload",
+  "detailedDescription": {
+    "usages": [],
+    "details": "Основная информация и ссылки для Payload"
+  },
+  "embedTitle": "Обслуживаем {{ users }} пользователей на {{ servers }} серверах!",
+  "embedDescription": "Присоединяйтесь к официальному серверу Discord для помощи и предложений: https://payload.tf/discord\n\nПригласите Payload на ваш сервер: https://payload.tf/invite\nСправка по переводу для Payload: https://crowdin.com/project/payload"
+}

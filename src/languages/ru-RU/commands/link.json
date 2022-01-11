@@ -1,0 +1,12 @@
+{
+  "description": "Прикрепляет ссылку на SteamID пользователя к Payload",
+  "detailedDescription": {
+    "usages": [
+      "[steamid]"
+    ],
+    "details": "Для правильного прикрепления ссылки вы должны предоставить правильный SteamID в любом формате. Если вы хотите, вы также можете опубликовать вашу ссылку Steam Community ID, что-то вроде <https://steamcommunity.com/id/the-steamid"
+  },
+  "missingId": "Вам необходимо предоставить SteamID!",
+  "malformedId": "Похоже, что это не является SteamID!",
+  "success": "Новый SteamID успешно установлен!"
+}

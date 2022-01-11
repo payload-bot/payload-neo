@@ -1,0 +1,20 @@
+{
+  "description": "Управляет вашим префиксом для этого сервера",
+  "detailedDescription": {
+    "usages": [
+      "",
+      "set <new prefix>",
+      "update <new prefix>",
+      "delete",
+      "reset",
+      "view"
+    ],
+    "details": "Управление префиксом вашего сервера. Вы можете сбросить его в любое время, используя команды `delete` или `reset`."
+  },
+  "currentPrefix": "Текущий префикс: {{ prefix }}",
+  "setNeedsArgs": "Пожалуйста, укажите новый префикс!",
+  "setSamePrefix": "Ваш новый префикс такой же, как и старый префикс!",
+  "setPrefixEmbedTitle": "Префикс обновлён пользователем {{ user }}",
+  "setPrefixEmbedDesc": "Префикс обновлён с {{ old }} на {{ new }}",
+  "deleteAlreadyDefault": "Ваш префикс уже используется по умолчанию!"
+}

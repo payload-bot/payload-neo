@@ -1,0 +1,11 @@
+{
+  "description": "Чел",
+  "detailedDescription": {
+    "usages": [
+      "<user>"
+    ],
+    "details": "Если вы упоминаете пользователя в этой команде, его упомянет бот."
+  },
+  "noMention": "чел",
+  "mention": "чел {{ mention }}"
+}

@@ -251,11 +251,11 @@ export class UserCommand extends PayloadCommand {
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
-          const { name } = await client.guilds
+          const { name, id: gid } = await client.guilds
             .fetch(id)
-            .catch(() => ({ name: "-" }));
+            .catch(() => ({ name: "-", id: null }));
 
-          return msg.guild!.name === name
+          return msg.guild!.id === gid
             ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`
             : `${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`;
         })

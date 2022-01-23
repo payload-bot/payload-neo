@@ -6,5 +6,6 @@
   },
   "missingId": "You need to provide a SteamID!",
   "malformedId": "That doesn't appear to be a SteamID!",
-  "success": "New SteamID set successfully!"
+  "success": "New SteamID set successfully!",
+  "delete": "Successfully deleted your SteamID!"
 }

@@ -25,9 +25,7 @@ export async function getSteamIdFromArgs(id: string) {
 
       if (!cssSteamID) return null;
 
-      id = (cssSteamID[0].match(/(765611\d{11})/) as RegExpMatchArray)[0];
-
-      return id;
+      return (cssSteamID[0].match(/(765611\d{11})/) as RegExpMatchArray)[0];
     } catch (err) {
       return null;
     }

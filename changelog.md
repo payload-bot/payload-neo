@@ -266,3 +266,10 @@
 
 ### 5.2.1
 * Fix error in pushcart
+
+### 5.3.0
+* Add min and max to amount of rolls for rtd
+* Fix errors with link
+* You can now unlink your steamid using `pls link -D`
+* Fix pushcart leaderboard
+* Update localization files  

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ID } from "@node-steam/id";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 
 /**
  * Tests and retrieves an ID64 from a string
@@ -7,7 +8,7 @@ import { ID } from "@node-steam/id";
  * @returns {string|null} Result
  */
 export async function getSteamIdFromArgs(id: string) {
-  if (!!id) return null;
+  if (isNullishOrEmpty(id)) return null;
 
   let steamID: ID;
 

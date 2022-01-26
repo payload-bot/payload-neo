@@ -1,3 +1,10 @@
 {
+  "description": "Stellt dem magischen 8-Ball eine Frage.",
+  "detailedDescription": {
+    "usages": [
+      "<question>"
+    ],
+    "details": "Du musst eine Frage angeben."
+  },
   "noQuestion": "Du musst mir eine Frage stellen!"
 }

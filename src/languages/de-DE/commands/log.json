@@ -1,4 +1,11 @@
 {
+  "description": "Ruft einen Log eines Benutzers von logs.tf ab",
+  "detailedDescription": {
+    "usages": [
+      "<user>"
+    ],
+    "details": "Ruft den letzten Log eines Benutzers ab. **Anmerkung**: Der Angegebene Benutzer **muss** zuerst seine SteamID über Payload verknüpft haben."
+  },
   "noIdLinked": "{{ user }} hat seine SteamID nicht verlinkt!",
   "noHistory": "Spieler hat keinen Log-Verlauf!",
   "button": "Besuche Log"

@@ -1,0 +1,10 @@
+{
+  "description": "Wirft einen Würfel",
+  "detailedDescription": {
+    "usages": [
+      "<sides>",
+      "<sides> <amount>"
+    ],
+    "details": "Würfel! Du kannst Einstellen wie viele Seiten die Würfel haben, sowie wie oft sie geworfen werden sollen."
+  }
+}

@@ -1,4 +1,11 @@
 {
+  "description": "Grundlegende Informationen über das Profil eines Benutzers",
+  "detailedDescription": {
+    "usages": [
+      "<user>"
+    ],
+    "details": "Möchtest du grundlegende Informationen über einen Benutzer, wie z.B. deren pushcart Punkte, abrufen? Dann kannst du diesen Befehl verwenden um zu erfahren ob sie dir auch wirklich helfen die Lore zu schieben."
+  },
   "bot": "Bot",
   "points": "Punkte"
 }

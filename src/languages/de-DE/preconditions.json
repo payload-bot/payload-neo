@@ -1,0 +1,14 @@
+{
+  "clientPermissions": "Ich habe nicht genügend Berechtigungen! Ich brauche: {{ missing }}",
+  "cooldown": "Du hast vor kurzem diesen Befehl benutzt. Du kannst diesen Befehlt erneut ausführen in {{ remaining, duration }}.",
+  "dmOnly": "Dieser Befehl kann nur in DM-Kanälen benutzt werden.",
+  "guildNewsOnly": "Dieser Befehl kann nur in Ankündigungs-Kanälen verwendet werden.",
+  "guildNewsThreadOnly": "Dieser Befehl kann nur in Ankündiguns-Thread-Kanälen benutzt werden.",
+  "guildOnly": "Dieser Befehl kann nur in Server-Kanälen benutzt werden.",
+  "guildPrivateThreadOnly": "Dieser Befehl kann nur in privaten Thread-Kanälen benutzt werden.",
+  "guildPublicThreadOnly": "Dieser Befehl kann nur in öffentlichen Thread-Kanälen benutzt werden.",
+  "guildTextOnly": "Dieser Befehl kann nur in Text-Kanälen benutzt werden.",
+  "nsfw": "Du darfst NSFW-Befehle in diesem Kanal nicht verwenden!",
+  "threadOnly": "Dieser Befehl kann nur in Thread-Kanälen benutzt werden.",
+  "userPermissions": "Du hast nicht genügend Berechtigungen! Du brauchst: {{ missing }}"
+}

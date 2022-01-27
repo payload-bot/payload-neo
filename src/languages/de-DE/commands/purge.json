@@ -1,4 +1,11 @@
 {
+  "description": "Löscht Nachrichten in Masse in einem Text-Kanal",
+  "detailedDescription": {
+    "usages": [
+      "<number> [...mentions]"
+    ],
+    "details": "Löscht <number> von Nachrichten, maximal 100, aus dem aktuellen Kanal. **Tipp**: Du kannst auch Benutzer erwähnen die Auswahl zu filtern!"
+  },
   "deleted_one": "🗑 Es wurde **{{ count }}** Nachricht in {{ seconds }} Sekunden gelöscht.",
   "deleted_other": "🗑 Es wurden **{{ count }}** Nachrichten in {{ seconds }} Sekunden gelöscht."
 }

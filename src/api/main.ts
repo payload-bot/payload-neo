@@ -4,7 +4,6 @@ import type { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.modules";
 import { Environment } from "./environment/environment";
 import { DocumentNotFoundFilter } from "./shared/document-not-found.filter";
-
 import session from "express-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
@@ -28,7 +27,7 @@ export async function bootstrap() {
     session({
       resave: false,
       saveUninitialized: false,
-      store: await new SessionStorageFactory(env.nodeEnv).register(),
+      store: await new SessionStorageFactory(env).register(),
       name: "__session",
       secret: Array.isArray(env.sessionSecret)
         ? env.sessionSecret
@@ -37,7 +36,7 @@ export async function bootstrap() {
         domain: env.cookieDomain,
         sameSite: "lax",
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: env.nodeEnv === "production",
         maxAge: Time.Month,
       },
     })

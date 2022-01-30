@@ -13,6 +13,10 @@ export class Environment {
     return this.configService.get<string>("MONGO_URI") as string;
   }
 
+  get redisUrl() {
+    return this.configService.get<string>("REDIS_URL");
+  }
+
   get clientUrl() {
     return this.configService.get<string>("CLIENT_URL") as string;
   }

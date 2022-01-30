@@ -18,7 +18,7 @@ export class SessionStorageFactory {
 
       const RedisStore = (await import("connect-redis")).default(session);
 
-      return new RedisStore({ client, ttl: Time.Month });
+      return new RedisStore({ client, ttl: Time.Month, prefix: "session::" });
     }
 
     this.logger.verbose(`Using ${blue("MEMORY")} as session store`);

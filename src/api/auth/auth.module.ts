@@ -8,7 +8,7 @@ import { SessionSerializer } from "./services/session.serializer";
 import { DiscordStrategy } from "./strategies/discord.strategy";
 
 @Module({
-  imports: [UsersModule, DiscordModule, PassportModule],
+  imports: [UsersModule, DiscordModule, PassportModule.register({})],
   controllers: [AuthController],
   providers: [AuthService, DiscordStrategy, SessionSerializer],
   exports: [AuthService],

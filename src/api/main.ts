@@ -9,6 +9,7 @@ import session from "express-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import { Time } from "@sapphire/time-utilities";
+import { SessionStorageFactory } from "./auth/factories/session-storage.factory";
 
 export async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -27,6 +28,7 @@ export async function bootstrap() {
     session({
       resave: false,
       saveUninitialized: false,
+      store: await new SessionStorageFactory(env.nodeEnv).register(),
       name: "__session",
       secret: Array.isArray(env.sessionSecret)
         ? env.sessionSecret

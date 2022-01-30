@@ -5,6 +5,10 @@ import { ConfigService } from "@nestjs/config";
 export class Environment {
   constructor(private configService: ConfigService) {}
 
+  get nodeEnv() {
+    return this.configService.get<string>("NODE_ENV") as string;
+  }
+
   get mongoDbUri() {
     return this.configService.get<string>("MONGO_URI") as string;
   }
@@ -34,7 +38,9 @@ export class Environment {
   }
 
   get discordBetaRoleId() {
-    return this.configService.get<string>("DISCORD_GUILD_BETA_ROLE_ID") as string;
+    return this.configService.get<string>(
+      "DISCORD_GUILD_BETA_ROLE_ID"
+    ) as string;
   }
 
   get sessionSecret() {

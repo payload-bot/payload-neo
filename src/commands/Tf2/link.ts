@@ -7,13 +7,25 @@ import { getSteamIdFromArgs } from "#utils/getSteamId";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
+const FLAGS = ["D", "d"];
+
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Link.Description,
   detailedDescription: LanguageKeys.Commands.Link.DetailedDescription,
+  flags: FLAGS,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const steamId = await args.pick("string").catch(() => null);
+
+    if (args.getFlags("D") || args.getFlags("d")) {
+      await User.findOneAndUpdate(
+        { id: msg.author.id },
+        { $unset: { steamId: 1 } }
+      );
+
+      return await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
+    }
 
     if (!steamId) {
       return await send(msg, args.t(LanguageKeys.Commands.Link.MissingId));
@@ -21,11 +33,11 @@ export class UserCommand extends PayloadCommand {
 
     const testResult = await getSteamIdFromArgs(steamId);
 
-    if (!testResult) {
+    if (testResult === null) {
       return await send(msg, args.t(LanguageKeys.Commands.Link.MalformedId));
     }
 
-    await User.findOneAndUpdate({ id: msg.author.id }, { steamId });
+    await User.findOneAndUpdate({ id: msg.author.id }, { steamId: testResult });
 
     return await send(msg, args.t(LanguageKeys.Commands.Link.Success));
   }

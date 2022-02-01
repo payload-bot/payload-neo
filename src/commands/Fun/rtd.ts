@@ -13,9 +13,13 @@ import { LanguageKeys } from "#lib/i18n/all";
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: Args) {
-    const sides = await args.pick("number").catch(() => 6);
-    const amount = await args.pick("number").catch(() => 1);
-    
+    const sides = await args
+      .pick("number", { minimum: 1, maximum: 1000 })
+      .catch(() => 6);
+    const amount = await args
+      .pick("number", { minimum: 1, maximum: 1000 })
+      .catch(() => 1);
+      
     const dice: number[] = [];
     for (let i = 0; i < amount; i++) dice.push(random(1, sides));
 

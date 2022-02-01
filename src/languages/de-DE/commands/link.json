@@ -1,5 +1,13 @@
 {
+  "description": "Verknüpft eine SteamID des Benutzers mit Payload",
+  "detailedDescription": {
+    "usages": [
+      "[steamid]"
+    ],
+    "details": "Um dich richtig zu verknüpfen, musst du zuerst eine valide SteamID, in jeglichem Format, angeben. Wenn du willst kannst du auch deinen Steam Community ID link angeben z.B <https://steamcommunity.com/id/die-steamid"
+  },
   "missingId": "Du musst eine SteamID angeben!",
   "malformedId": "Das scheint keine SteamID zu sein!",
-  "success": "Neue SteamID erfolgreich gesetzt!"
+  "success": "Neue SteamID erfolgreich gesetzt!",
+  "delete": "Deine SteamID wurde erfolgreich gelöscht!"
 }

@@ -1,0 +1,9 @@
+{
+  "description": "Zeigt das Profilbild eines Benutzers an",
+  "detailedDescription": {
+    "usages": [
+      "<user>"
+    ],
+    "details": "Erwähne einen Benutzer, oder gebe die ID eines Benutzers an und dieser Befehl wird dessen Avatar zurückgeben. Standardmäßig wird der Autor verwendet, wenn kein Benutzer angeben wird."
+  }
+}

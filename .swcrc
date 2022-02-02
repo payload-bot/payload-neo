@@ -1,0 +1,21 @@
+{
+  "jsc": {
+    "target": "es2020",
+    "baseUrl": "./src",
+    "paths": {
+      "#lib/*": ["./lib/*"]
+    },
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    }
+  },
+
+  "module": {
+    "type": "commonjs"
+  }
+}

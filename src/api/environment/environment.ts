@@ -5,8 +5,16 @@ import { ConfigService } from "@nestjs/config";
 export class Environment {
   constructor(private configService: ConfigService) {}
 
+  get nodeEnv() {
+    return this.configService.get<string>("NODE_ENV") as string;
+  }
+
   get mongoDbUri() {
     return this.configService.get<string>("MONGO_URI") as string;
+  }
+
+  get redisUrl() {
+    return this.configService.get<string>("REDIS_URL");
   }
 
   get clientUrl() {
@@ -34,14 +42,20 @@ export class Environment {
   }
 
   get discordBetaRoleId() {
-    return this.configService.get<string>("DISCORD_GUILD_BETA_ROLE_ID") as string;
+    return this.configService.get<string>(
+      "DISCORD_GUILD_BETA_ROLE_ID"
+    ) as string;
   }
 
-  get jwtAuthSecret() {
-    return this.configService.get<string>("JWT_AUTH_SECRET") as string;
+  get sessionSecret() {
+    return this.configService.get<string>("SESSION_SECRET") as string;
   }
 
-  get jwtRefreshSecret() {
-    return this.configService.get<string>("JWT_REFRESH_SECRET") as string;
+  get cookieDomain() {
+    return this.configService.get<string>("COOKIE_DOMAIN") as string;
+  }
+
+  get cookieSecret() {
+    return this.configService.get<string>("COOKIE_SECRET") as string;
   }
 }

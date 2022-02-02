@@ -1,23 +1,16 @@
 import { DiscordModule } from "#api/discord/discord.module";
 import { UsersModule } from "#api/users/users.module";
 import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
+import { PassportModule } from "@nestjs/passport";
 import { AuthController } from "./controllers/auth.controller";
-import { RefreshToken, RefreshTokenSchema } from "./models/refreshToken.model";
 import { AuthService } from "./services/auth.service";
+import { SessionSerializer } from "./services/session.serializer";
 import { DiscordStrategy } from "./strategies/discord.strategy";
-import { JwtStrategy } from "./strategies/jwt.strategy";
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: RefreshToken.name, schema: RefreshTokenSchema },
-    ]),
-    UsersModule,
-    DiscordModule,
-  ],
+  imports: [UsersModule, DiscordModule, PassportModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, DiscordStrategy],
+  providers: [AuthService, DiscordStrategy, SessionSerializer],
   exports: [AuthService],
 })
 export class AuthModule {}

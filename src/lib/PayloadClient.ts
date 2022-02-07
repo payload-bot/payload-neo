@@ -1,5 +1,4 @@
 import { SapphireClient } from "@sapphire/framework";
-import { Enumerable } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { join } from "path";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
@@ -11,10 +10,8 @@ import type { SnipeCache } from "./interfaces/cache";
 process.env.NODE_ENV ??= "development";
 
 export class PayloadClient extends SapphireClient {
-  @Enumerable(false)
   public dev = process.env.NODE_ENV !== "production";
 
-  @Enumerable(false)
   public cache: SnipeCache = {
     snipe: {},
     pings: {},

@@ -18,18 +18,20 @@ export class DiscordService {
 
   constructor(
     readonly environment: Environment,
-    @Inject(CACHE_MANAGER) 
-    private cache: Cache 
+    @Inject(CACHE_MANAGER)
+    private cache: Cache
   ) {
     this.handler = new DiscordOauthService({
       clientId: environment.clientId,
       clientSecret: environment.clientSecret,
-      credentials: Buffer.from(`${this.environment.clientId}:${this.environment.clientSecret}`).toString('base64')
+      credentials: Buffer.from(
+        `${this.environment.clientId}:${this.environment.clientSecret}`
+      ).toString("base64"),
     });
   }
 
   async revokeUserTokens(token: string) {
-    await this.handler.revokeToken(token, );
+    await this.handler.revokeToken(token);
   }
 
   @Benchmark
@@ -40,7 +42,7 @@ export class DiscordService {
   ) {
     // O__o woozy
     if (await this.cache.get(id + ":allguilds")) {
-      return await this.cache.get(id + ":allguilds")
+      return await this.cache.get(id + ":allguilds");
     }
 
     const allGuilds = await this.handler.getUserGuilds(accessToken);

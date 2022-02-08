@@ -14,7 +14,6 @@ COPY ./src ./src
 
 RUN yarn build
 
-
 # Runner
 FROM node:16-buster-slim
 WORKDIR /opt/app
@@ -35,6 +34,6 @@ COPY --from=build /opt/app/dist ./dist
 COPY changelog.md ./dist
 
 USER node
-CMD ["node", "."]
+CMD ["node", "--enable-source-maps","."]
 
 EXPOSE 8080

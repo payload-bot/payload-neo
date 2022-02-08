@@ -2,7 +2,16 @@
   "name": "payload-neo",
   "version": "5.3.0",
   "description": "A bot that does it all.",
-  "main": "dist/index.js",
+  "homepage": "https://github.com/c43721/payload-neo#readme",
+  "bugs": {
+    "url": "https://github.com/c43721/payload-neo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c43721/payload-neo"
+  },
+  "license": "ISC",
+  "author": "c43721",
   "imports": {
     "#root/*": "./dist/*.js",
     "#api/*": "./dist/api/*.js",
@@ -12,6 +21,13 @@
     "#lib/models/*": "./dist/lib/models/*.js",
     "#lib/i18n/all": "./dist/lib/i18n/all/index.js",
     "#utils/*": "./dist/lib/utils/*.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "dev": "tsc-watch --onSuccess \"node --enable-source-maps ./dist/index.js\"",
+    "migrate": "migrate",
+    "start": "node --enable-source-maps ."
   },
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
@@ -77,21 +93,5 @@
     "tsc-watch": "^4.6.0",
     "typescript": "^4.5.5"
   },
-  "scripts": {
-    "migrate": "migrate",
-    "start": "node .",
-    "build": "tsc --build tsconfig.json",
-    "dev": "tsc-watch --onSuccess \"node ./dist/index.js\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/c43721/payload-neo"
-  },
-  "author": "c43721",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/c43721/payload-neo/issues"
-  },
-  "homepage": "https://github.com/c43721/payload-neo#readme",
   "packageManager": "yarn@3.0.2"
 }

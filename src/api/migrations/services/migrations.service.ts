@@ -11,7 +11,7 @@ import { Connection } from "mongoose";
 
 @Injectable()
 export class MigrationsService implements OnApplicationBootstrap {
-  private logger = new Logger(MigrationsService.name);
+  private logger = new Logger("MigrationsService");
 
   constructor(
     @InjectConnection()

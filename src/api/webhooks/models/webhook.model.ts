@@ -8,11 +8,11 @@ export class Webhook extends MongooseDocument {
   @Prop()
   id!: string;
 
-  @Prop({ index: true, required: true })
+  @Prop({ index: true, required: true, type: String })
   value!: string;
 
   @Exclude({ toPlainOnly: true })
-  @Prop()
+  @Prop({ type: String })
   type!: WebhookTargetType;
 
   @Prop({ type: Date, default: Date.now })

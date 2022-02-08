@@ -5,7 +5,7 @@
     "outDir": "dist",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "baseUrl": "src",
-    "lib": ["DOM", "ES2021"],
+    "lib": ["DOM", "ESNext"],
     "removeComments": true,
     "paths": {
       "#lib/types": ["lib/types"],
@@ -15,5 +15,5 @@
       "#root/*": ["*"]
     }
   },
-  "include": ["src", "src/**/*.json"]
+  "include": ["src", "src/languages/**/*.json"]
 }

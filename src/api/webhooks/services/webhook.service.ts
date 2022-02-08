@@ -17,7 +17,7 @@ type TargetReturnType = TextChannel | User | null;
 
 @Injectable()
 export class WebhookService {
-  private logger = new Logger(WebhookService.name);
+  private logger = new Logger("WebhookService")
 
   async sendLogPreview(scope: WebhookTargetType, id: string, logsId: string) {
     const target = (await client[scope]

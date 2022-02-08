@@ -13,7 +13,7 @@ const { client } = container;
 @Injectable()
 export class DiscordService {
   // @ts-expect-error Logger is needed for debug since reflector :D
-  private logger = new Logger(DiscordService.name);
+  private logger = new Logger("DiscordService");
   private handler: DiscordOauthService;
 
   constructor(

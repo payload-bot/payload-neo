@@ -6,38 +6,38 @@ import type { Document } from "mongoose";
 
 @Schema()
 export class User extends MongooseDocument {
-  @Prop()
-  id!: string;
+  // @Prop()
+  // id!: string;
 
-  @Prop()
-  steamId?: string;
+  // @Prop()
+  // steamId?: string;
 
-  @Prop({ enum: NotificationLevel })
-  notificationsLevel!: NotificationLevel;
+  // @Prop({ enum: NotificationLevel })
+  // notificationsLevel!: NotificationLevel;
 
-  @Prop({ default: process.env.npm_package_version })
-  latestUpdateNotifcation!: string;
+  // @Prop({ default: process.env.npm_package_version })
+  // latestUpdateNotifcation!: string;
 
-  @Exclude()
-  @Prop()
-  accessToken?: string;
+  // @Exclude()
+  // @Prop()
+  // accessToken?: string;
 
-  @Exclude()
-  @Prop()
-  refreshToken?: string;
+  // @Exclude()
+  // @Prop()
+  // refreshToken?: string;
 
-  @Prop(
-    raw({
-      payload: {
-        feetPushed: String,
-        pushing: Boolean,
-        lastPushed: Number,
-        pushedToday: Number,
-        lastActiveDate: Number,
-      },
-    })
-  )
-  fun!: UserPushcartDetails;
+  // @Prop(
+  //   raw({
+  //     payload: {
+  //       feetPushed: String,
+  //       pushing: Boolean,
+  //       lastPushed: Number,
+  //       pushedToday: Number,
+  //       lastActiveDate: Number,
+  //     },
+  //   })
+  // )
+  // fun!: UserPushcartDetails;
 }
 
 export interface UserPushcartDetails {

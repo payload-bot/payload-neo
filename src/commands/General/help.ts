@@ -40,7 +40,7 @@ export class UserCommand extends PayloadCommand {
       .setDetails(translatedCases.moreDetails);
 
     const detailedDescription = args.t(
-      command.detailedDescription
+      command.detailedDescription as any
     ) as LanguageHelpDisplayOptions;
 
     const content = builder.display(

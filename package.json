@@ -73,7 +73,7 @@
     "passport-discord": "^0.1.4",
     "puppeteer": "^13.2.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.2"
+    "rxjs": "^7.5.3"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^3.3.1",

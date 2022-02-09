@@ -1613,6 +1613,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:3.1.5":
+  version: 3.1.5
+  resolution: "cross-fetch@npm:3.1.5"
+  dependencies:
+    node-fetch: 2.6.7
+  checksum: f6b8c6ee3ef993ace6277fd789c71b6acf1b504fd5f5c7128df4ef2f125a429e29cd62dc8c127523f04a5f2fa4771ed80e3f3d9695617f441425045f505cf3bb
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -3756,9 +3765,9 @@ fsevents@~2.3.2:
     mongoose: ^6.2.1
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.2.0
+    puppeteer: ^13.3.0
     reflect-metadata: ^0.1.13
-    rxjs: ^7.5.2
+    rxjs: ^7.5.4
     tsc-watch: ^4.6.0
     typescript: ^4.5.5
   languageName: unknown
@@ -3894,23 +3903,23 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.2.0":
-  version: 13.2.0
-  resolution: "puppeteer@npm:13.2.0"
+"puppeteer@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "puppeteer@npm:13.3.0"
   dependencies:
+    cross-fetch: 3.1.5
     debug: 4.3.3
     devtools-protocol: 0.0.960912
     extract-zip: 2.0.1
     https-proxy-agent: 5.0.0
-    node-fetch: 2.6.7
     pkg-dir: 4.2.0
     progress: 2.0.3
     proxy-from-env: 1.1.0
     rimraf: 3.0.2
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
-    ws: 8.2.3
-  checksum: c2ee44dba61da00e5d7fd12008655d122d6d389459cd10c904ceacc0721f515f32d06b3520bdb0ecead079618b3afef136fcbaa0ddf406fe5375a52ca0b389e7
+    ws: 8.5.0
+  checksum: 87ca7230f15d3040ba21c5d40cf0cc81cc2fe1f6e4e3998e5e4cb003d174db8109e8ddaf19caeda4cefe9f079ad88ac7e3923fdb22613ba5cf9e44f46e86b836
   languageName: node
   linkType: hard
 
@@ -4125,12 +4134,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.2":
-  version: 7.5.2
-  resolution: "rxjs@npm:7.5.2"
+"rxjs@npm:^7.5.4":
+  version: 7.5.4
+  resolution: "rxjs@npm:7.5.4"
   dependencies:
     tslib: ^2.1.0
-  checksum: daf1fe7289de500b25d822fd96cde3c138c7902e8bf0e6aa12a3e70847a5cabeeb4d677f10e19387e1db44b12c5b1be0ff5c79b8cd63ed6ce891d765e566cf4d
+  checksum: 6f55f835f2543bc8214900f9e28b6320e6adc95875011fbca63e80a66eb18c9ff7cfdccb23b2180cbb6412762b98ed158c89fd51cb020799d127c66ea38c3c0e
   languageName: node
   linkType: hard
 
@@ -4807,9 +4816,9 @@ typescript@^4.5.5:
   languageName: node
   linkType: hard
 
-"ws@npm:8.2.3":
-  version: 8.2.3
-  resolution: "ws@npm:8.2.3"
+"ws@npm:8.5.0":
+  version: 8.5.0
+  resolution: "ws@npm:8.5.0"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ^5.0.2
@@ -4818,7 +4827,7 @@ typescript@^4.5.5:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: c869296ccb45f218ac6d32f8f614cd85b50a21fd434caf11646008eef92173be53490810c5c23aea31bc527902261fbfd7b062197eea341b26128d4be56a85e4
+  checksum: 76f2f90e40344bf18fd544194e7067812fb1372b2a37865678d8f12afe4b478ff2ebc0c7c0aff82cd5e6b66fc43d889eec0f1865c2365d8f7a66d92da7744a77
   languageName: node
   linkType: hard
 

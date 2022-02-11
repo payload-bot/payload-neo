@@ -766,10 +766,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.16":
-  version: 17.0.16
-  resolution: "@types/node@npm:17.0.16"
-  checksum: 2d452a9e0ee7ec83d447d66dd2baf4dd05ef2fbcda39b06f73d86b36d5150d86c43a733d534d77467e7782104756944d42a35ed4b64113bda341b8334ee4d01d
+"@types/node@npm:^17.0.17":
+  version: 17.0.17
+  resolution: "@types/node@npm:17.0.17"
+  checksum: 8ddba2829acdf1684fbd8fd248ec13f033efb70ecd1085677b547c40ef8e936a006b95eac3bdc28c47939c62526f3f027afeb4a930e30e4394923bbae4626476
   languageName: node
   linkType: hard
 
@@ -1814,6 +1814,13 @@ __metadata:
   version: 0.26.1
   resolution: "discord-api-types@npm:0.26.1"
   checksum: e53bfa7589b24108e6b403dbe213da34c4592f72e2b8fde6800dcb6c703065887ecbd644e1cdf694e4c7796954bc51462ced868f26ec45dc1e0dc4fa8d3c723c
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:^0.27.0":
+  version: 0.27.0
+  resolution: "discord-api-types@npm:0.27.0"
+  checksum: 5a74a49ad7e57ea24e67d431de30cc7056d6d422b607c7d5a7dd35c683c8b87d70ec35a0d3929971adb411acc3df2bd6a77c1401ce30b29690bd1305e427265c
   languageName: node
   linkType: hard
 
@@ -3739,7 +3746,7 @@ fsevents@~2.3.2:
     "@types/gamedig": ^3.0.1
     "@types/html-to-text": ^8.0.1
     "@types/ioredis": ^4.28.8
-    "@types/node": ^17.0.16
+    "@types/node": ^17.0.17
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
     "@types/puppeteer": ^5.4.4
@@ -3751,7 +3758,7 @@ fsevents@~2.3.2:
     connect-redis: ^6.1.1
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
-    discord-api-types: ^0.26.1
+    discord-api-types: ^0.27.0
     discord-oauth2: ^2.9.0
     discord.js: ^13.6.0
     dotenv: ^16.0.0
@@ -3765,7 +3772,7 @@ fsevents@~2.3.2:
     mongoose: ^6.2.1
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.3.0
+    puppeteer: ^13.3.1
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.4
     tsc-watch: ^4.6.0
@@ -3903,9 +3910,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.3.0":
-  version: 13.3.0
-  resolution: "puppeteer@npm:13.3.0"
+"puppeteer@npm:^13.3.1":
+  version: 13.3.1
+  resolution: "puppeteer@npm:13.3.1"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.3
@@ -3919,7 +3926,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: 87ca7230f15d3040ba21c5d40cf0cc81cc2fe1f6e4e3998e5e4cb003d174db8109e8ddaf19caeda4cefe9f079ad88ac7e3923fdb22613ba5cf9e44f46e86b836
+  checksum: 166736ccb7a00a18896f162549dd92ca8c1b4b8b770b27d3a9254af00688a491174b80588725ef07750300c0cde658d754edc8dc752dc9fbb79fb6dc5bcd92ee
   languageName: node
   linkType: hard
 

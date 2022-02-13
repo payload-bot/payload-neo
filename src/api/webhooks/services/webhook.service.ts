@@ -1,12 +1,7 @@
 import config from "#root/config";
 import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  BadRequestException,
-} from "@nestjs/common";
+import { Injectable, Logger, BadRequestException } from "@nestjs/common";
 import { container } from "@sapphire/framework";
 import { MessageAttachment, MessageEmbed, TextChannel, User } from "discord.js";
 import type { WebhookTargetType } from "../models/webhook.model";
@@ -24,7 +19,9 @@ export class WebhookService {
       .fetch(id)
       .catch(() => null)) as TargetReturnType;
 
-    if (!target) throw new BadRequestException("Bad discord target id");
+    if (!target) {
+      throw new BadRequestException("Bad discord target id");
+    }
 
     const logsUrl = `https://logs.tf/${logsId}`;
 
@@ -64,7 +61,12 @@ export class WebhookService {
       timestamp: new Date(),
     });
 
-    await this.sendWebhook(target, embed, att);
+    try {
+      await this.sendWebhook(target, embed, att);
+    } catch (err) {
+      this.logger.error(err);
+      throw new BadRequestException();
+    }
   }
 
   async sendTest(scope: WebhookTargetType, id: string) {
@@ -72,7 +74,9 @@ export class WebhookService {
       .fetch(id)
       .catch(() => null)) as TargetReturnType;
 
-    if (!target) throw new BadRequestException("Bad discord target id");
+    if (!target) {
+      throw new BadRequestException("Bad discord target id");
+    }
 
     const embed = new MessageEmbed({
       title: "Webhook Test",
@@ -84,7 +88,12 @@ export class WebhookService {
       timestamp: new Date(),
     });
 
-    await this.sendWebhook(target, embed);
+    try {
+      await this.sendWebhook(target, embed);
+    } catch (err) {
+      this.logger.error(err);
+      throw new BadRequestException();
+    }
   }
 
   private async sendWebhook(
@@ -92,14 +101,9 @@ export class WebhookService {
     embed: MessageEmbed,
     attachment?: MessageAttachment
   ) {
-    try {
-      await target.send({
-        embeds: [embed],
-        files: attachment ? [attachment] : undefined,
-      });
-    } catch (_err) {
-      this.logger.error(_err);
-      throw new InternalServerErrorException();
-    }
+    return await target.send({
+      embeds: [embed],
+      files: attachment ? [attachment] : undefined,
+    });
   }
 }

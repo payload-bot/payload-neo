@@ -14,6 +14,10 @@ export function IsValidSteamId(validationOptions?: ValidationOptions) {
       },
       validator: {
         validate(value: any) {
+          if (!value) {
+            return true;
+          }
+
           const steamId = new SteamId(value);
 
           return (

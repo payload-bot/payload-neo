@@ -12,7 +12,6 @@ const { client } = container;
 
 @Injectable()
 export class DiscordService {
-  // @ts-expect-error Logger is needed for debug since reflector :D
   private logger = new Logger(DiscordService.name);
   private handler: DiscordOauthService;
 
@@ -28,6 +27,9 @@ export class DiscordService {
         `${this.environment.clientId}:${this.environment.clientSecret}`
       ).toString("base64"),
     });
+
+    this.handler.on('debug', this.logger.debug);
+    this.handler.on('warn', this.logger.warn);
   }
 
   async revokeUserTokens(token: string) {

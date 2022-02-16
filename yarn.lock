@@ -145,11 +145,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^8.2.6":
-  version: 8.2.6
-  resolution: "@nestjs/common@npm:8.2.6"
+"@nestjs/common@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "@nestjs/common@npm:8.3.0"
   dependencies:
-    axios: 0.24.0
+    axios: 0.26.0
     iterare: 1.2.1
     tslib: 2.3.1
     uuid: 8.3.2
@@ -166,29 +166,29 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 3999376069a9adade0d5a60bdaabd05756195ee5a8621c0d3b9f77353446188e183dfe5ec6ccb5d696c96f24da48b7edaeb3e554d9d5c3e20946ba1b030c8f54
+  checksum: a6e40a0d55807ad052f48d52d007e28dd02f2814c7e3065241866a51aac1f60fa23c27cf7813ccb0a103cda2896a01ab05b76d5926891407c68c73f865729ffd
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:^1.1.7":
-  version: 1.1.7
-  resolution: "@nestjs/config@npm:1.1.7"
+"@nestjs/config@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@nestjs/config@npm:1.2.0"
   dependencies:
-    dotenv: 10.0.0
-    dotenv-expand: 5.1.0
+    dotenv: 16.0.0
+    dotenv-expand: 8.0.1
     lodash: 4.17.21
     uuid: 8.3.2
   peerDependencies:
     "@nestjs/common": ^7.0.0 || ^8.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^6.0.0 || ^7.2.0
-  checksum: eeb6f48b30fa4c5feffb108ef59daea748e8a42788f1f18043d67d04616539c4372c2bf2a260ed7943b9e1efa52480c1d728c597ccab6bf8ffa3111a68fd7d53
+  checksum: f18a4444e85992a0ab33dfdf8f8526711266830cf331eea8d8aa59e349ba40df81e7cabc3c7f87b482eac8cb206bbc59deb3941e3c4c422f34671e59c2f5c27d
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^8.2.6":
-  version: 8.2.6
-  resolution: "@nestjs/core@npm:8.2.6"
+"@nestjs/core@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "@nestjs/core@npm:8.3.0"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -211,7 +211,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: abf275dbe309302a16fa77132e362d30ed275ffbca46e51a93bdafdd99daa12a970af3f903a09f9e034af9f4372fe436b7a68bd09c81e9ea7aab00d939482ff2
+  checksum: 1b3a5a6d2b05a40ce074ecca2962f96ece1834310a09eaf371a1e96c74d48569f85769278c18c90e8d231299c8b0e1dc866ea8d62ae189c82d67a11d53d42a74
   languageName: node
   linkType: hard
 
@@ -228,19 +228,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/passport@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "@nestjs/passport@npm:8.1.0"
+"@nestjs/passport@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@nestjs/passport@npm:8.2.0"
   peerDependencies:
     "@nestjs/common": ^6.0.0 || ^7.0.0 || ^8.0.0
     passport: ^0.4.0 || ^0.5.0
-  checksum: eb6378c5196b3b52bd1f25484a11c83a92be1bce679fefd6fe1bc5ed52c6bffc12367d6a53da4c40a82c36e5d55f7a2271ab8b6e2fb7138d30bc0c220358ae47
+  checksum: fdddfe3a7e9cbc6a4355ebc25b7a577a162f339f157e71570c048014358b90f09091fcf872f93689e771cdb8d62c7eea353db843b14fecba33ca1184b45878dd
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:^8.2.6":
-  version: 8.2.6
-  resolution: "@nestjs/platform-express@npm:8.2.6"
+"@nestjs/platform-express@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "@nestjs/platform-express@npm:8.3.0"
   dependencies:
     body-parser: 1.19.1
     cors: 2.8.5
@@ -250,7 +250,7 @@ __metadata:
   peerDependencies:
     "@nestjs/common": ^8.0.0
     "@nestjs/core": ^8.0.0
-  checksum: 9ac5fce608fd3d2b06c8fb6003e9436e8ddc1b070ec98af7a5787a785c4edbe74fb106efe3e12e558ad1a3cd02ef8867235d086ebc0d1db88f14ad0626c46478
+  checksum: 578aff1ac05335eb5d67e7d2060c47df5bce61ea8794dff34e1899d2fcf902f3d8cfee63ace0b1ea85059e5fd16dfc79c9b6b94bb184fc8f9068f9371f50bfe9
   languageName: node
   linkType: hard
 
@@ -377,12 +377,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/decorators@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "@sapphire/decorators@npm:4.2.3"
+"@sapphire/decorators@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "@sapphire/decorators@npm:4.2.4"
   dependencies:
     tslib: ^2.3.1
-  checksum: 7d71fdf7a5651321e438c1131f734cfe01f1cccf4fa167f60ece4d9fb363c5a6f85de7e4252752d766ee56756274e7e798e20f31e758f267ed577a2ec32d508a
+  checksum: 6af55b91b8d5b33d1fecf6cb6901837e935fe56cf68a7df55c6624625082fdcacf7bcf8586283aa96f13f35f0a353632516d3966db0501edeb9c7f703b3f4d34
   languageName: node
   linkType: hard
 
@@ -392,6 +392,15 @@ __metadata:
   dependencies:
     twemoji-parser: ^13.1.0
   checksum: 3dc418483e2539b4a453eeab570806409154d6ef8c0f11f3c14994a5c81de6e0425ab340b9f1471babf4518131ebc1d5b3a5d0684792f505dfb64cf1969d6ee9
+  languageName: node
+  linkType: hard
+
+"@sapphire/discord-utilities@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "@sapphire/discord-utilities@npm:2.8.0"
+  dependencies:
+    twemoji-parser: ^13.1.0
+  checksum: fc537a40599f41425971b326e2d73abe2b821c3bd268b8c0953b6d1e5cc4884557bf723b85fde134c7000735cc0ae0a1fe15bf65f4b8f1f7bfd2fde5955ca3e0
   languageName: node
   linkType: hard
 
@@ -407,15 +416,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.7.0":
-  version: 4.7.0
-  resolution: "@sapphire/discord.js-utilities@npm:4.7.0"
+"@sapphire/discord.js-utilities@npm:^4.8.0":
+  version: 4.8.0
+  resolution: "@sapphire/discord.js-utilities@npm:4.8.0"
   dependencies:
-    "@sapphire/discord-utilities": ^2.7.0
+    "@sapphire/discord-utilities": ^2.8.0
     "@sapphire/time-utilities": ^1.6.0
     "@sapphire/utilities": ^3.3.0
     tslib: ^2.3.1
-  checksum: 09ba1ac9c9f5aa4395ebccdf05eab5298a9a46fb45986a645885b2631ecb21a6ed5d806cf0c603e3c9d3575bbbc9ff5e721c4d0c1df5f9f9eeae8b2335033a03
+  checksum: 28e98d9e451850b147ef355e876a1e9c9aee653b8dcd5a988619d5a26b3906372a11a81e1aa14a7fbcf56891206c603b037b62cc40e24268c6c3f82e4729f38d
   languageName: node
   linkType: hard
 
@@ -778,10 +787,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.17":
-  version: 17.0.17
-  resolution: "@types/node@npm:17.0.17"
-  checksum: 8ddba2829acdf1684fbd8fd248ec13f033efb70ecd1085677b547c40ef8e936a006b95eac3bdc28c47939c62526f3f027afeb4a930e30e4394923bbae4626476
+"@types/node@npm:^17.0.18":
+  version: 17.0.18
+  resolution: "@types/node@npm:17.0.18"
+  checksum: 6c4edfc2b3ba2342a9c3d56e934c5245948ab752f4dc04bd6790b9603e6ebc53bc4f5befc3662e207f7dba2ddd17ccf657f915e319ea7cdd4f77b851079d1611
   languageName: node
   linkType: hard
 
@@ -1068,15 +1077,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
-  dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
-  languageName: node
-  linkType: hard
-
 "axios@npm:0.25.0":
   version: 0.25.0
   resolution: "axios@npm:0.25.0"
@@ -1086,7 +1086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.26.0":
+"axios@npm:0.26.0, axios@npm:^0.26.0":
   version: 0.26.0
   resolution: "axios@npm:0.26.0"
   dependencies:
@@ -1838,10 +1838,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "discord-api-types@npm:0.27.0"
-  checksum: 5a74a49ad7e57ea24e67d431de30cc7056d6d422b607c7d5a7dd35c683c8b87d70ec35a0d3929971adb411acc3df2bd6a77c1401ce30b29690bd1305e427265c
+"discord-api-types@npm:^0.27.1":
+  version: 0.27.1
+  resolution: "discord-api-types@npm:0.27.1"
+  checksum: 5e3473eb01eb3e7ed2b1313513f165644dc70f1f64fb130a50b40394b41c97b1202f4de00b17df34a9f0916269595a091421955bb1e8dbd8e0475637512f2057
   languageName: node
   linkType: hard
 
@@ -1907,21 +1907,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-expand@npm:5.1.0":
-  version: 5.1.0
-  resolution: "dotenv-expand@npm:5.1.0"
-  checksum: 8017675b7f254384915d55f9eb6388e577cf0a1231a28d54b0ca03b782be9501b0ac90ac57338636d395fa59051e6209e9b44b8ddf169ce6076dffb5dea227d3
+"dotenv-expand@npm:8.0.1":
+  version: 8.0.1
+  resolution: "dotenv-expand@npm:8.0.1"
+  checksum: 872a573d64c5cc1d0773df5822546fa47022124dbbf5d260756e081970dc27adf6b0822db952280b5ba3d175971ca8faf23b64204ee5003588a08152fd5e806e
   languageName: node
   linkType: hard
 
-"dotenv@npm:10.0.0":
-  version: 10.0.0
-  resolution: "dotenv@npm:10.0.0"
-  checksum: f412c5fe8c24fbe313d302d2500e247ba8a1946492db405a4de4d30dd0eb186a88a43f13c958c5a7de303938949c4231c56994f97d05c4bc1f22478d631b4005
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^16.0.0":
+"dotenv@npm:16.0.0, dotenv@npm:^16.0.0":
   version: 16.0.0
   resolution: "dotenv@npm:16.0.0"
   checksum: 664cebb51f0a9a1d1b930f51f0271e72e26d62feaecc9dc03df39453dd494b4e724809ca480fb3ec3213382b1ed3f791aaeb83569a137f9329ce58efd4853dbf
@@ -2222,7 +2215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.7":
+"follow-redirects@npm:^1.14.7":
   version: 1.14.7
   resolution: "follow-redirects@npm:1.14.7"
   peerDependenciesMeta:
@@ -3751,15 +3744,15 @@ fsevents@~2.3.2:
     "@discordjs/builders": ^0.12.0
     "@google-cloud/translate": ^6.3.1
     "@nestjs/axios": ^0.0.5
-    "@nestjs/common": ^8.2.6
-    "@nestjs/config": ^1.1.7
-    "@nestjs/core": ^8.2.6
+    "@nestjs/common": ^8.3.0
+    "@nestjs/config": ^1.2.0
+    "@nestjs/core": ^8.3.0
     "@nestjs/mongoose": ^9.0.2
-    "@nestjs/passport": ^8.1.0
-    "@nestjs/platform-express": ^8.2.6
+    "@nestjs/passport": ^8.2.0
+    "@nestjs/platform-express": ^8.3.0
     "@node-steam/id": ^1.2.0
-    "@sapphire/decorators": ^4.2.3
-    "@sapphire/discord.js-utilities": ^4.7.0
+    "@sapphire/decorators": ^4.2.4
+    "@sapphire/discord.js-utilities": ^4.8.0
     "@sapphire/framework": ^2.4.0
     "@sapphire/plugin-editable-commands": ^1.1.3
     "@sapphire/plugin-i18next": ^2.2.3
@@ -3777,7 +3770,7 @@ fsevents@~2.3.2:
     "@types/gamedig": ^3.0.1
     "@types/html-to-text": ^8.0.1
     "@types/ioredis": ^4.28.8
-    "@types/node": ^17.0.17
+    "@types/node": ^17.0.18
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
     "@types/puppeteer": ^5.4.4
@@ -3789,7 +3782,7 @@ fsevents@~2.3.2:
     connect-redis: ^6.1.1
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
-    discord-api-types: ^0.27.0
+    discord-api-types: ^0.27.1
     discord-oauth2: ^2.9.0
     discord.js: ^13.6.0
     dotenv: ^16.0.0
@@ -3803,7 +3796,7 @@ fsevents@~2.3.2:
     mongoose: ^6.2.1
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.3.1
+    puppeteer: ^13.3.2
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.4
     tsc-watch: ^4.6.0
@@ -3941,9 +3934,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.3.1":
-  version: 13.3.1
-  resolution: "puppeteer@npm:13.3.1"
+"puppeteer@npm:^13.3.2":
+  version: 13.3.2
+  resolution: "puppeteer@npm:13.3.2"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.3
@@ -3957,7 +3950,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: 166736ccb7a00a18896f162549dd92ca8c1b4b8b770b27d3a9254af00688a491174b80588725ef07750300c0cde658d754edc8dc752dc9fbb79fb6dc5bcd92ee
+  checksum: 360a8fb2d3d69469b917554c4b88e4c6cae949d57a83183a0ddf7bd3f5e6ef6b2e41b14c72f6054220c0b18666f72778cfb7fb544d34d4087f3dcc5ac42447ce
   languageName: node
   linkType: hard
 

@@ -16,11 +16,12 @@ export class DiscordService {
   private handler: DiscordOauthService;
 
   constructor(
-    readonly environment: Environment,
     @Inject(CACHE_MANAGER)
-    private cache: Cache
+    private cache: Cache,
+    readonly environment: Environment
   ) {
     this.handler = new DiscordOauthService({
+      version: "v9",
       clientId: environment.clientId,
       clientSecret: environment.clientSecret,
       credentials: Buffer.from(
@@ -28,8 +29,8 @@ export class DiscordService {
       ).toString("base64"),
     });
 
-    this.handler.on('debug', this.logger.debug);
-    this.handler.on('warn', this.logger.warn);
+    this.handler.on("debug", this.logger.debug);
+    this.handler.on("warn", this.logger.warn);
   }
 
   async revokeUserTokens(token: string) {
@@ -42,22 +43,10 @@ export class DiscordService {
     accessToken: string,
     _refreshToken: string
   ) {
-    // O__o woozy
-    if (await this.cache.get(id + ":allguilds")) {
-      return await this.cache.get(id + ":allguilds");
-    }
-
-    const allGuilds = await this.handler.getUserGuilds(accessToken);
-
-    const convertedGuilds = await this.convertGuilds(id, allGuilds);
-
-    const sortedAndFiltered = convertedGuilds
-      .filter((guild) => guild.canManage)
-      .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
-
-    await this.cache.set(id + ":allguilds", sortedAndFiltered, { ttl: 600 });
-
-    return sortedAndFiltered;
+    return (
+      (await this.cache.get<ConvertedGuild[]>(id + ":allguilds")) ??
+      (await this.fetchUserGuildsAndCache(id, accessToken))
+    );
   }
 
   async canUserManageGuild(guild: Guild, member: GuildMember) {
@@ -103,5 +92,20 @@ export class DiscordService {
         });
       })
     );
+  }
+
+  private async fetchUserGuildsAndCache(id: string, accessToken: string) {
+    // FIXME: This is stupid. Catch oauth errors + refresh before throwing
+    const allGuilds = await this.handler.getUserGuilds(accessToken);
+
+    const convertedGuilds = await this.convertGuilds(id, allGuilds);
+
+    const sortedAndFiltered = convertedGuilds
+      .filter((guild) => guild.canManage)
+      .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
+
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, { ttl: 600 });
+
+    return sortedAndFiltered;
   }
 }

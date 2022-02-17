@@ -32,9 +32,13 @@ export class GuildsService {
     const { accessToken, refreshToken } =
       await this.usersService.getDiscordTokensForUser(id);
 
+    // TODO: This should be handled in the controller
     // User must authenticate again
-    if (!accessToken || !refreshToken) throw new UnauthorizedException();
+    if (!accessToken && !refreshToken) {
+      throw new UnauthorizedException();
+    }
 
+    // FIXME: ensure this can never throw unless Discord is down
     const userServers = await this.discordService.getSortedUserGuilds(
       id,
       accessToken!,

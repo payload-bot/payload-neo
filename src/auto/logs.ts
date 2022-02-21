@@ -54,9 +54,9 @@ export default class UserAutoCommand extends AutoCommand {
     embed.setTitle(args.t(LanguageKeys.Auto.Logs.EmbedTitle));
     embed.setURL(url.toString());
     embed.setImage(`attachment://log.png`);
-    embed.setFooter(
-      args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name })
-    );
+    embed.setFooter({
+      text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+    });
     embed.setTimestamp(new Date());
 
     return await msg.channel.send({ embeds: [embed], files: [att] });

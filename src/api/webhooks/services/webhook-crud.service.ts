@@ -1,9 +1,5 @@
 import { GuildsService } from "#api/guilds/services/guilds.service";
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { plainToClass } from "class-transformer";
 import { generate } from "generate-password";
@@ -41,15 +37,10 @@ export class WebhookCrudService {
   async getWebhookBySecret(secret: string) {
     const webhook = await this.webhookModel
       .findOne({ value: secret })
+      .orFail()
       .lean()
       .exec();
 
-    if (!webhook) {
-      throw new UnauthorizedException(
-        "The provided webhook secret is not valid"
-      );
-    }
-    
     return plainToClass(Webhook, webhook);
   }
 

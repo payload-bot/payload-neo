@@ -18,8 +18,13 @@ RUN yarn build
 FROM node:16-buster-slim
 WORKDIR /opt/app
 
+ARG VERSION
+
+RUN echo "Running with version $VERSION"
+
 ENV NODE_ENV=production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
+ENV VERSION=${VERSION}
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases

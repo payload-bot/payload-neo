@@ -1,7 +1,9 @@
 # Builder
 FROM node:16-slim AS build
 WORKDIR /opt/app
+
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
+ENV CI=true
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
@@ -20,8 +22,8 @@ WORKDIR /opt/app
 
 ARG VERSION
 
-RUN echo "Running with version $VERSION"
-
+# Yarn v3
+ENV CI=true
 ENV NODE_ENV=production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 ENV VERSION=${VERSION}

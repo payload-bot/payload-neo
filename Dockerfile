@@ -34,6 +34,6 @@ COPY --from=build /opt/app/dist ./dist
 COPY changelog.md ./dist
 
 USER node
-CMD ["node", "--enable-source-maps","."]
+CMD ["node", "--enable-source-maps", "."]
 
 EXPOSE 8080

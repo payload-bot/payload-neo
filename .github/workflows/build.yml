@@ -38,8 +38,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          build-args: 
-             VERSION: ${{ git rev-parse --short "$GITHUB_SHA" }}
+          build-args: |
+             VERSION=${{ git rev-parse --short "$GITHUB_SHA" }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

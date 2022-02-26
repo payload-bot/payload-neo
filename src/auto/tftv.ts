@@ -5,12 +5,12 @@ import {
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { Message, MessageEmbed } from "discord.js";
-import axios, { AxiosResponse } from "axios";
 import cheerio from "cheerio";
 import { convert } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Args } from "@sapphire/framework";
+import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Tftv.Description,
@@ -39,9 +39,7 @@ export default class UserAutoCommand extends AutoCommand {
       page > 0 ? `/?page=${page}#${post}` : `#${post}`
     }`;
 
-    const { data } = (await axios(url, {
-      responseType: "text",
-    })) as AxiosResponse<string>;
+    const data = await fetch(url, FetchResultTypes.Text);
 
     const $ = cheerio.load(data);
 

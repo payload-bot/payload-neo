@@ -1,4 +1,3 @@
-import axios from "axios";
 import { BucketScope, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, MessageActionRow, MessageButton } from "discord.js";
@@ -8,6 +7,7 @@ import { capturePage } from "#utils/screenshot";
 import { User } from "#lib/models/User";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
+import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,
@@ -31,15 +31,16 @@ export class UserCommand extends PayloadCommand {
       );
     }
 
-    const { data } = await axios.get<{ logs: any }>(
-      `http://logs.tf/api/v1/log?limit=1&player=${user.steamId}`
+    const { logs } = await fetch<any>(
+      `http://logs.tf/api/v1/log?limit=1&player=${user.steamId}`,
+      FetchResultTypes.JSON
     );
 
-    if (!data.logs.length) {
+    if (!logs.length) {
       return await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
     }
 
-    const logID = data.logs[data.logs.length - 1].id;
+    const logID = logs[logs.length - 1].id;
 
     const screenshotBuffer = await capturePage(
       `http://logs.tf/${logID}#${user.steamId}`,

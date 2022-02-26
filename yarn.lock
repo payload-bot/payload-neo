@@ -132,19 +132,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/axios@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@nestjs/axios@npm:0.0.5"
-  dependencies:
-    axios: 0.25.0
-  peerDependencies:
-    "@nestjs/common": ^7.0.0 || ^8.0.0
-    reflect-metadata: ^0.1.12
-    rxjs: ^6.0.0 || ^7.0.0
-  checksum: 24efde4fc548c12cb3de2b805be45cec1ea4edbd2488ddbf65d93caf2f829ed709c571858dd087d18a4b454eb62471afed76fca52e2852ce8a74b4fdf5029350
-  languageName: node
-  linkType: hard
-
 "@nestjs/common@npm:^8.3.0":
   version: 8.3.0
   resolution: "@nestjs/common@npm:8.3.0"
@@ -425,6 +412,15 @@ __metadata:
     "@sapphire/utilities": ^3.3.0
     tslib: ^2.3.1
   checksum: 28e98d9e451850b147ef355e876a1e9c9aee653b8dcd5a988619d5a26b3906372a11a81e1aa14a7fbcf56891206c603b037b62cc40e24268c6c3f82e4729f38d
+  languageName: node
+  linkType: hard
+
+"@sapphire/fetch@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@sapphire/fetch@npm:2.1.0"
+  dependencies:
+    cross-fetch: ^3.1.5
+  checksum: c364ca5c5c0f5e130128681de33617c720174d3927ff2e6f745c66ac6e362c9d68484a8d90cbf4bdc30ce56cf0e92acdb7dfdd450f1fa915f4050cd4d1caccb5
   languageName: node
   linkType: hard
 
@@ -1077,16 +1073,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.25.0":
-  version: 0.25.0
-  resolution: "axios@npm:0.25.0"
-  dependencies:
-    follow-redirects: ^1.14.7
-  checksum: 2a8a3787c05f2a0c9c3878f49782357e2a9f38945b93018fb0c4fd788171c43dceefbb577988628e09fea53952744d1ecebde234b561f1e703aa43e0a598a3ad
-  languageName: node
-  linkType: hard
-
-"axios@npm:0.26.0, axios@npm:^0.26.0":
+"axios@npm:0.26.0":
   version: 0.26.0
   resolution: "axios@npm:0.26.0"
   dependencies:
@@ -1634,7 +1621,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:3.1.5":
+"cross-fetch@npm:3.1.5, cross-fetch@npm:^3.1.5":
   version: 3.1.5
   resolution: "cross-fetch@npm:3.1.5"
   dependencies:
@@ -2212,16 +2199,6 @@ __metadata:
     locate-path: ^5.0.0
     path-exists: ^4.0.0
   checksum: 4c172680e8f8c1f78839486e14a43ef82e9decd0e74145f40707cc42e7420506d5ec92d9a11c22bd2c48fb0c384ea05dd30e10dd152fefeec6f2f75282a8b844
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.14.7":
-  version: 1.14.7
-  resolution: "follow-redirects@npm:1.14.7"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: f6d03e5e30877431065bca0d1b2e3db93949eb799d368a5c07ea8a4b71205f0349a3f8f0191bf13a07c93885522834dca1dc8e527dc99a772c6911fba24edc5f
   languageName: node
   linkType: hard
 
@@ -3743,7 +3720,6 @@ fsevents@~2.3.2:
   dependencies:
     "@discordjs/builders": ^0.12.0
     "@google-cloud/translate": ^6.3.1
-    "@nestjs/axios": ^0.0.5
     "@nestjs/common": ^8.3.0
     "@nestjs/config": ^1.2.0
     "@nestjs/core": ^8.3.0
@@ -3753,6 +3729,7 @@ fsevents@~2.3.2:
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^4.2.4
     "@sapphire/discord.js-utilities": ^4.8.0
+    "@sapphire/fetch": ^2.1.0
     "@sapphire/framework": ^2.4.0
     "@sapphire/plugin-editable-commands": ^1.1.3
     "@sapphire/plugin-i18next": ^2.2.3
@@ -3774,7 +3751,6 @@ fsevents@~2.3.2:
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
     "@types/puppeteer": ^5.4.4
-    axios: ^0.26.0
     cache-manager: ^3.6.0
     cheerio: ^1.0.0-rc.10
     class-transformer: 0.5.1

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { ID } from "@node-steam/id";
 import { isNullishOrEmpty } from "@sapphire/utilities";
 
@@ -16,9 +16,9 @@ export async function getSteamIdFromArgs(id: string) {
     steamID = new ID(id);
   } catch (err) {
     try {
-      const { data } = await axios.get<string>(
+      const data = await fetch(
         `https://steamcommunity.com/id/${id}`,
-        { responseType: "text" }
+        FetchResultTypes.Text
       );
 
       const cssSteamID = data.match(/(765611\d{11})/);

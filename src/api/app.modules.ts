@@ -6,16 +6,12 @@ import { Environment } from "./environment/environment";
 import { EnvironmentModule } from "./environment/environment.module";
 import { GuildsModule } from "./guilds/guilds.module";
 import { UsersModule } from "./users/users.module";
-import { HttpModule } from "@nestjs/axios";
 import { WebhooksModule } from "./webhooks/webhooks.module";
 import { MigrationsModule } from "./migrations/migrations.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    HttpModule.register({
-      timeout: 5000,
-    }),
     MongooseModule.forRootAsync({
       imports: [EnvironmentModule],
       inject: [Environment],

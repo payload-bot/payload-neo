@@ -4,7 +4,7 @@ import cheerio from "cheerio";
 import { format } from "date-fns"
 import { closeBrowser, createOrConnectChrome } from "./screenshot";
 import type { PayloadClient } from "#lib/PayloadClient";
-import axios from "axios";
+import {fetch, FetchResultTypes} from "@sapphire/fetch";
 
 /**
  * Contains the following IDs:
@@ -37,7 +37,7 @@ export async function renderMessage(message: Message): Promise<{ buffer: Buffer,
     const date = message.editedAt || message.createdAt;
     const timestamp = format(date, "MM/dd/yyyy");
 
-    const { data: avatarBuffer } = await axios.get(avatarURL, { responseType: "arraybuffer" });
+    const avatarBuffer = await fetch(avatarURL, FetchResultTypes.Buffer);
 
     $("#gen_avatar").attr("style", `background-image: url('data:image/png;base64,${Buffer.from(avatarBuffer).toString('base64')}');`);
     $("#gen_username").attr("style", "color: " + color).text(username);

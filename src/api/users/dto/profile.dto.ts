@@ -10,7 +10,6 @@ export interface ProfileDto {
   avatar: string;
   pushcartPoints: number;
   notificationsLevel: number;
-  lastUpdate: string;
   steamId?: string;
   roles: string[];
 }

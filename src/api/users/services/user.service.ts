@@ -27,8 +27,7 @@ export class UserService {
   ) {}
 
   async userToProfile(id: string) {
-    const { latestUpdateNotifcation, notificationsLevel, steamId, fun } =
-      await this.findUser({ id });
+    const { notificationsLevel, steamId, fun } = await this.findUser({ id });
 
     const user = await client.users.fetch(id);
 
@@ -42,7 +41,6 @@ export class UserService {
       steamId,
       roles,
       username: user.tag,
-      lastUpdate: latestUpdateNotifcation,
       notificationsLevel: notificationsLevel,
       avatar: user.displayAvatarURL(),
       pushcartPoints: parseInt(fun?.payload?.feetPushed ?? 0, 10),
@@ -75,7 +73,10 @@ export class UserService {
     );
   }
 
-  async updateUser(id: string, query: UpdateQuery<UserDocument>): Promise<User> {
+  async updateUser(
+    id: string,
+    query: UpdateQuery<UserDocument>
+  ): Promise<User> {
     const updatedUser = await this.userModel
       .findOneAndUpdate({ id }, query, {
         new: true,

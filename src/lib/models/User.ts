@@ -36,11 +36,6 @@ const userSchema = new mongoose.Schema({
     default: NotificationLevel.NONE,
   },
 
-  latestUpdateNotifcation: {
-    type: String,
-    default: process.env.npm_package_version,
-  },
-
   fun: {
     payload: {
       feetPushed: Number,

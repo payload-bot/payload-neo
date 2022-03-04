@@ -34,7 +34,7 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
 
-RUN yarn workspaces focus --all --production && yarn cache clean
+RUN yarn workspaces focus --all --production
 
 COPY ./assets ./assets
 COPY ./src/languages ./languages

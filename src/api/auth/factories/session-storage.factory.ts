@@ -3,8 +3,9 @@ import session from "express-session";
 import { red, blue } from "colorette";
 import { Time } from "@sapphire/time-utilities";
 import { Logger } from "@nestjs/common";
-import type { Environment } from "#api/environment/environment";
 import { envParseBoolean } from "#utils/envParser";
+// @ts-ignore I'm not totally convinced on this being an error
+import { Environment } from "#api/environment/environment";
 
 export class SessionStorageFactory {
   private logger = new Logger();

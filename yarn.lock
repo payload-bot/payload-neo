@@ -364,12 +364,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/decorators@npm:^4.2.5":
-  version: 4.2.5
-  resolution: "@sapphire/decorators@npm:4.2.5"
+"@sapphire/decorators@npm:^4.2.6":
+  version: 4.2.6
+  resolution: "@sapphire/decorators@npm:4.2.6"
   dependencies:
     tslib: ^2.3.1
-  checksum: 658041ebdf2ab7e6223b3b8c844ad6d9ebf179518e60d7a85c2e176996ca53d3cbaea11fb410911b44d64a830cfc1950765268dd091181304d9eec5be3a7f16e
+  checksum: 3c3f73bd8934da4532d336b0a054245c57bcd6ff5ed6a546cc4ac843fe6c63aefb857f1356123a233109ac0d4d787c0ca70419c3a4fb83f5f8fdf8faf6c4d617
   languageName: node
   linkType: hard
 
@@ -379,6 +379,15 @@ __metadata:
   dependencies:
     twemoji-parser: ^13.1.0
   checksum: fc537a40599f41425971b326e2d73abe2b821c3bd268b8c0953b6d1e5cc4884557bf723b85fde134c7000735cc0ae0a1fe15bf65f4b8f1f7bfd2fde5955ca3e0
+  languageName: node
+  linkType: hard
+
+"@sapphire/discord-utilities@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "@sapphire/discord-utilities@npm:2.9.0"
+  dependencies:
+    twemoji-parser: ^13.1.0
+  checksum: 1a8258011c53b2df8bd8f8473730ad0cac2157944280be7421d6fc25f12c6fbc6154e99f5b6ca2b00dcee01c0aa81560ed22e619fde32c4cb7fe674d9676a1ff
   languageName: node
   linkType: hard
 
@@ -394,12 +403,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/fetch@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@sapphire/fetch@npm:2.1.0"
+"@sapphire/discord.js-utilities@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@sapphire/discord.js-utilities@npm:4.8.2"
+  dependencies:
+    "@sapphire/discord-utilities": ^2.9.0
+    "@sapphire/time-utilities": ^1.6.0
+    "@sapphire/utilities": ^3.3.0
+    tslib: ^2.3.1
+  checksum: 637c983f1d4cba632c764769bdf95a9b879c1e6603398e00e587a977d7be2b104c0736efd4456422371f1c4e3e7f7621d28e6f3a3c803e9c5c98bf10566dc4bf
+  languageName: node
+  linkType: hard
+
+"@sapphire/fetch@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@sapphire/fetch@npm:2.2.0"
   dependencies:
     cross-fetch: ^3.1.5
-  checksum: c364ca5c5c0f5e130128681de33617c720174d3927ff2e6f745c66ac6e362c9d68484a8d90cbf4bdc30ce56cf0e92acdb7dfdd450f1fa915f4050cd4d1caccb5
+  checksum: c404b206b1a548369fe8d480bef5274f2b7c13200c636dd6d0bc8d2daa8c82f9c3991290e92ac8cffe56c450069012a0ef52dd4422cf9d0d79b2817cbfac73d5
   languageName: node
   linkType: hard
 
@@ -3744,9 +3765,9 @@ fsevents@~2.3.2:
     "@nestjs/passport": ^8.2.1
     "@nestjs/platform-express": ^8.4.0
     "@node-steam/id": ^1.2.0
-    "@sapphire/decorators": ^4.2.5
-    "@sapphire/discord.js-utilities": ^4.8.1
-    "@sapphire/fetch": ^2.1.0
+    "@sapphire/decorators": ^4.2.6
+    "@sapphire/discord.js-utilities": ^4.8.2
+    "@sapphire/fetch": ^2.2.0
     "@sapphire/framework": ^2.4.1
     "@sapphire/plugin-editable-commands": ^1.1.3
     "@sapphire/plugin-i18next": ^2.2.3

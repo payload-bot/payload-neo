@@ -1,6 +1,8 @@
-node_modules
-dist
-.release-it.json
+node_modules/
+dist/
 example-config.ts
 .github
 .migrate
+nest-cli.json
+crowdin.yml
+.editorconfig

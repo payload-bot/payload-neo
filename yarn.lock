@@ -1810,10 +1810,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devtools-protocol@npm:0.0.960912":
-  version: 0.0.960912
-  resolution: "devtools-protocol@npm:0.0.960912"
-  checksum: e14bb94e2d64a4279b53789f6526e7ae1f03e2a0f5650450d97735b91f12aa501bed185b9b97c902063ac9b74e78df25ed973c12c7968ed8163f438d2dec9944
+"devtools-protocol@npm:0.0.969999":
+  version: 0.0.969999
+  resolution: "devtools-protocol@npm:0.0.969999"
+  checksum: c67e2a40864edfbdc892eb6db2b6edf82a277af5bcc070741a6b39ffe052955a3c1fb99a0bb029631b326d290861a79deea423634d5a441b9faeab2884208396
   languageName: node
   linkType: hard
 
@@ -1848,10 +1848,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.27.3":
-  version: 0.27.3
-  resolution: "discord-api-types@npm:0.27.3"
-  checksum: c22d87e787fae6cffd9d23972a3d196d4b43f2fb6deeed50181e7c9d4e823a4fd30a3e1d0e0b3b48a7c284ae2b39fbe960dee988375c7d4072df445f30ac440e
+"discord-api-types@npm:^0.28.0":
+  version: 0.28.0
+  resolution: "discord-api-types@npm:0.28.0"
+  checksum: 6041f55cc6568f84265485c951dd56f225dc8ed172900f4cb69cee3b7da4b57f57e49815dfa0bb595e343121ecf667a1b90a0708c7bf70dac96a103a1b096441
   languageName: node
   linkType: hard
 
@@ -3812,7 +3812,7 @@ fsevents@~2.3.2:
     connect-redis: ^6.1.1
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
-    discord-api-types: ^0.27.3
+    discord-api-types: ^0.28.0
     discord-oauth2: ^2.9.0
     discord.js: ^13.6.0
     dotenv: ^16.0.0
@@ -3826,7 +3826,7 @@ fsevents@~2.3.2:
     mongoose: ^6.2.4
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.4.1
+    puppeteer: ^13.5.0
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.4
     tsc-watch: ^4.6.0
@@ -3964,13 +3964,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.4.1":
-  version: 13.4.1
-  resolution: "puppeteer@npm:13.4.1"
+"puppeteer@npm:^13.5.0":
+  version: 13.5.0
+  resolution: "puppeteer@npm:13.5.0"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.3
-    devtools-protocol: 0.0.960912
+    devtools-protocol: 0.0.969999
     extract-zip: 2.0.1
     https-proxy-agent: 5.0.0
     pkg-dir: 4.2.0
@@ -3980,7 +3980,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: ab6fa2f78d59ba13ff1100e97dd5cc59137b249727efef87193c057ff76ddeb91d5a748ef2775488fa19360c7368fe09cc229e7a28bbb7d63f5037931dd003c9
+  checksum: 775f00950e106ed17db03895c6cb20e05fe234b91646e3978a35d1d5dfc1914beccd47dc901b40059056c056b6064bcbb444674065fb83dfa7a1243a7281fdfc
   languageName: node
   linkType: hard
 

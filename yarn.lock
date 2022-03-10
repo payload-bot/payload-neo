@@ -3335,9 +3335,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.2.4":
-  version: 6.2.4
-  resolution: "mongoose@npm:6.2.4"
+"mongoose@npm:^6.2.5":
+  version: 6.2.5
+  resolution: "mongoose@npm:6.2.5"
   dependencies:
     bson: ^4.2.2
     kareem: 2.3.4
@@ -3346,7 +3346,7 @@ fsevents@~2.3.2:
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 7f163e4cedf7b6cbc19c41501f644db036b8b5272051ecb77b3dd9727fee4b595b6e17e4fd83a012b27eb72d8c1026864fc354fd39ec5830173f7a9b0fbad58a
+  checksum: ab88608ee915ee2206da708081d267ea8ec99a230df650e0e2321a9d88f6bd8386e50f951d83b805438546f3a5798d548139c2de97ca79afe631aaba02fa9245
   languageName: node
   linkType: hard
 
@@ -3823,13 +3823,13 @@ fsevents@~2.3.2:
     html-to-text: ^8.1.0
     ioredis: ^4.28.5
     migrate: ^1.7.0
-    mongoose: ^6.2.4
+    mongoose: ^6.2.5
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.5.0
+    puppeteer: ^13.5.1
     reflect-metadata: ^0.1.13
-    rxjs: ^7.5.4
-    tsc-watch: ^4.6.0
+    rxjs: ^7.5.5
+    tsc-watch: ^4.6.1
     typescript: ^4.6.2
   languageName: unknown
   linkType: soft
@@ -3964,9 +3964,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.5.0":
-  version: 13.5.0
-  resolution: "puppeteer@npm:13.5.0"
+"puppeteer@npm:^13.5.1":
+  version: 13.5.1
+  resolution: "puppeteer@npm:13.5.1"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.3
@@ -3980,7 +3980,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: 775f00950e106ed17db03895c6cb20e05fe234b91646e3978a35d1d5dfc1914beccd47dc901b40059056c056b6064bcbb444674065fb83dfa7a1243a7281fdfc
+  checksum: adf7511977d9300386cc2b2699d83c7f4c2e890fb00a5d7a7b41a11561b599b1f19b26ac4ae9d469ce567c87a22be6362160166f31aca135d94148f68aeff2cc
   languageName: node
   linkType: hard
 
@@ -4195,12 +4195,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.4":
-  version: 7.5.4
-  resolution: "rxjs@npm:7.5.4"
+"rxjs@npm:^7.5.5":
+  version: 7.5.5
+  resolution: "rxjs@npm:7.5.5"
   dependencies:
     tslib: ^2.1.0
-  checksum: 6f55f835f2543bc8214900f9e28b6320e6adc95875011fbca63e80a66eb18c9ff7cfdccb23b2180cbb6412762b98ed158c89fd51cb020799d127c66ea38c3c0e
+  checksum: e034f60805210cce756dd2f49664a8108780b117cf5d0e2281506e9e6387f7b4f1532d974a8c8b09314fa7a16dd2f6cff3462072a5789672b5dcb45c4173f3c6
   languageName: node
   linkType: hard
 
@@ -4635,9 +4635,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"tsc-watch@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "tsc-watch@npm:4.6.0"
+"tsc-watch@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "tsc-watch@npm:4.6.1"
   dependencies:
     cross-spawn: ^7.0.3
     node-cleanup: ^2.1.2
@@ -4648,7 +4648,7 @@ fsevents@~2.3.2:
     typescript: "*"
   bin:
     tsc-watch: index.js
-  checksum: db0066a76246dfa74f95365ab2bd5c563fdce33bc346d3289ba25a2932956f6f464a47295f81391a3ce9e28ad512f7dd326eedfcad0f62d03e321096cb55541b
+  checksum: b779730f3f091e4bdea1f4dcef4f696364546cd7cbcb836b7dfd2c12ca2fb490dd7ca8096f37fcd928f0b67c7dc728543c35ab459e40fb92996cc7ca0e26f353
   languageName: node
   linkType: hard
 

@@ -132,11 +132,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "@nestjs/common@npm:8.4.0"
+"@nestjs/common@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@nestjs/common@npm:8.4.1"
   dependencies:
-    axios: 0.26.0
+    axios: 0.26.1
     iterare: 1.2.1
     tslib: 2.3.1
     uuid: 8.3.2
@@ -153,29 +153,29 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 446f0da7e1b322b9169988923671f70bec9d62456adc593e95a76ad550da0d962e9fc6df2e0a3aa650d422deb488b31abf5ace52974261d1b65d883bb2035180
+  checksum: 8fad73974b5a6a69e6a0de138f369cd80fd216048b6b0cbbfe63599af001971711aa0b70ae994f19ec7c1856071844c649fe1701fa2421a0ef035e91411a4699
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@nestjs/config@npm:1.2.0"
+"@nestjs/config@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@nestjs/config@npm:2.0.0"
   dependencies:
     dotenv: 16.0.0
-    dotenv-expand: 8.0.1
+    dotenv-expand: 8.0.2
     lodash: 4.17.21
     uuid: 8.3.2
   peerDependencies:
     "@nestjs/common": ^7.0.0 || ^8.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^6.0.0 || ^7.2.0
-  checksum: f18a4444e85992a0ab33dfdf8f8526711266830cf331eea8d8aa59e349ba40df81e7cabc3c7f87b482eac8cb206bbc59deb3941e3c4c422f34671e59c2f5c27d
+  checksum: f0aedec1b6a6fd44f686121c05d38b7ff32f3e70c5df1ded91fae788ee73e1371f6f1a6a9223c82f41c5e15a38ccf09aaf6650fc71714c0813452595fb5f3917
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "@nestjs/core@npm:8.4.0"
+"@nestjs/core@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@nestjs/core@npm:8.4.1"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -198,20 +198,20 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 83dc369822f667fafa0ce12626b841be7533fbca846f546e4764f5a285782cff830268bbeac795f21d982d963f5cd3b2d05d533bfdcb159c77e1a7153687960d
+  checksum: 9d6817ba52c051b9cc0c13d5f4655642721e69416a1a1d7048c89bf709a0f253671b4cadcc72fe4388331a6db85b5315732f5b7bb3eba914f4fc43fa3443051b
   languageName: node
   linkType: hard
 
-"@nestjs/mongoose@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "@nestjs/mongoose@npm:9.0.2"
+"@nestjs/mongoose@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@nestjs/mongoose@npm:9.0.3"
   peerDependencies:
     "@nestjs/common": ^6.0.0 || ^7.0.0 || ^8.0.0
     "@nestjs/core": ^6.0.0 || ^7.0.0 || ^8.0.0
     mongoose: ^6.0.2
     reflect-metadata: ^0.1.12
     rxjs: ^6.0.0 || ^7.0.0
-  checksum: 42747563703b0172bdef15a679106cc7a7fdd91429fcf4edb45cd6a19aeb0de388ccc9e076ae9410dca5000fbf8b56d20ee206c13784e8073986f7aeb7020155
+  checksum: 8cc8cdd5af4639e370a8bb7bdd1e0be703f90f402ba55b6f392dde87db33fd477d26bc357dfaa95d2bc5bcb90b527e156270bb363341f4b64893d4341f565f73
   languageName: node
   linkType: hard
 
@@ -225,9 +225,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "@nestjs/platform-express@npm:8.4.0"
+"@nestjs/platform-express@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@nestjs/platform-express@npm:8.4.1"
   dependencies:
     body-parser: 1.19.2
     cors: 2.8.5
@@ -237,7 +237,7 @@ __metadata:
   peerDependencies:
     "@nestjs/common": ^8.0.0
     "@nestjs/core": ^8.0.0
-  checksum: 4c84aba54dc31f20395151da0228daabf9eda988fc1b297facc964d15aadf0b0dd1533229592e6d1c7e76a7013cd51b03ba862f885c4a9f087dc62cf2e756efb
+  checksum: e0051248fb0832068f6d848fdb41d78267ccbef1c9fffce5e4904972eb5ad78d8ee17ffa51680de9e5cd8af42d882dcac228e5c1fd57c9d940f900f63deac44e
   languageName: node
   linkType: hard
 
@@ -750,12 +750,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ioredis@npm:^4.28.8":
-  version: 4.28.8
-  resolution: "@types/ioredis@npm:4.28.8"
+"@types/ioredis@npm:^4.28.9":
+  version: 4.28.9
+  resolution: "@types/ioredis@npm:4.28.9"
   dependencies:
     "@types/node": "*"
-  checksum: 6082208a2a05767bef8dcbeeb33db713f2aef00eddd7466463246bc48ad6960cc110a82704e4e36cf11be50fcac905c1371322f177fc50b68896541c444ac3e5
+  checksum: e6dd5b69d5eac1cd34c50d900215f1b4280814215d5a80fed708ddd15f818eafc865ee3e2d84dcbc745df264c0d994aa6e8665ba7579304056fe59d930747069
   languageName: node
   linkType: hard
 
@@ -1089,12 +1089,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.26.0":
-  version: 0.26.0
-  resolution: "axios@npm:0.26.0"
+"axios@npm:0.26.1":
+  version: 0.26.1
+  resolution: "axios@npm:0.26.1"
   dependencies:
     follow-redirects: ^1.14.8
-  checksum: d7a8b898f4157bedeb2e06c03b16133b91b354c041205bea732ce58b7a21f373d22057b0eea0d482838145ce6ff482b359750d9bcb8dd19d45e3928e3c65c280
+  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
   languageName: node
   linkType: hard
 
@@ -1559,10 +1559,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"connect-redis@npm:^6.1.1":
-  version: 6.1.1
-  resolution: "connect-redis@npm:6.1.1"
-  checksum: c0d5e23cb2b202658374dfb2279c8444e34fd7044e5b0fb738189feb6cb5a9512ed7a227b0812ba04f08974a3d3d409e80a77709fbc775c43e568ddc19a532dd
+"connect-redis@npm:^6.1.3":
+  version: 6.1.3
+  resolution: "connect-redis@npm:6.1.3"
+  checksum: 1f61616e2ae7ad097b6553e45d683eeb309ac2e601ac49d721c6c0069fd96fbcfb46ee1c0e210b264b720dcd385201d30ff55ccf5deb11ee1529810890561b58
   languageName: node
   linkType: hard
 
@@ -1917,10 +1917,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-expand@npm:8.0.1":
-  version: 8.0.1
-  resolution: "dotenv-expand@npm:8.0.1"
-  checksum: 872a573d64c5cc1d0773df5822546fa47022124dbbf5d260756e081970dc27adf6b0822db952280b5ba3d175971ca8faf23b64204ee5003588a08152fd5e806e
+"dotenv-expand@npm:8.0.2":
+  version: 8.0.2
+  resolution: "dotenv-expand@npm:8.0.2"
+  checksum: 4b42b2602478bccf1bfde25c97ecc0fee4059e74df4f8fda7f076b2ef428315e00b301bda43eec3707bfa083837abb284d6fec91571f164449243001ed8eef81
   languageName: node
   linkType: hard
 
@@ -3335,9 +3335,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.2.6":
-  version: 6.2.6
-  resolution: "mongoose@npm:6.2.6"
+"mongoose@npm:^6.2.7":
+  version: 6.2.7
+  resolution: "mongoose@npm:6.2.7"
   dependencies:
     bson: ^4.2.2
     kareem: 2.3.4
@@ -3346,7 +3346,7 @@ fsevents@~2.3.2:
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 95ea67a2c6ff2e0052b4aa738c52ad9e911fe60425e3b3474c5ac5d29defdebcdac57813803339fe527969736d5a61074810570810f03aa83dc849d2f09301aa
+  checksum: 01258cd4371a290077bb3b653c0fc42b846a247367aea0be5f25c32711e94b314d620d81525121a06d93ea86315a7a764517401b92c3a81de8bfcb0249c958b6
   languageName: node
   linkType: hard
 
@@ -3774,12 +3774,12 @@ fsevents@~2.3.2:
   dependencies:
     "@discordjs/builders": ^0.12.0
     "@google-cloud/translate": ^6.3.1
-    "@nestjs/common": ^8.4.0
-    "@nestjs/config": ^1.2.0
-    "@nestjs/core": ^8.4.0
-    "@nestjs/mongoose": ^9.0.2
+    "@nestjs/common": ^8.4.1
+    "@nestjs/config": ^2.0.0
+    "@nestjs/core": ^8.4.1
+    "@nestjs/mongoose": ^9.0.3
     "@nestjs/passport": ^8.2.1
-    "@nestjs/platform-express": ^8.4.0
+    "@nestjs/platform-express": ^8.4.1
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^4.3.1
     "@sapphire/discord.js-utilities": ^4.9.1
@@ -3800,7 +3800,7 @@ fsevents@~2.3.2:
     "@types/express-session": ^1.17.4
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
-    "@types/ioredis": ^4.28.8
+    "@types/ioredis": ^4.28.9
     "@types/node": ^17.0.21
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
@@ -3809,7 +3809,7 @@ fsevents@~2.3.2:
     cheerio: ^1.0.0-rc.10
     class-transformer: 0.5.1
     class-validator: 0.13.2
-    connect-redis: ^6.1.1
+    connect-redis: ^6.1.3
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
     discord-api-types: ^0.29.0
@@ -3823,7 +3823,7 @@ fsevents@~2.3.2:
     html-to-text: ^8.1.0
     ioredis: ^4.28.5
     migrate: ^1.7.0
-    mongoose: ^6.2.6
+    mongoose: ^6.2.7
     passport: ^0.5.2
     passport-discord: ^0.1.4
     puppeteer: ^13.5.1

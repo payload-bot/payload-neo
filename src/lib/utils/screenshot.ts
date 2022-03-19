@@ -79,8 +79,6 @@ export async function generateClipBounds(
 export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
   const environment = process.env.NODE_ENV ?? "development";
 
-  if (!environment) throw new Error("Missing environment flag");
-
   // Use built in chromium browser on development mode
   if (environment === "development") {
     return await puppeteer.launch({

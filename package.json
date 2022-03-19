@@ -84,7 +84,7 @@
     "@types/express-session": "^1.17.4",
     "@types/gamedig": "^3.0.2",
     "@types/html-to-text": "^8.1.0",
-    "@types/ioredis": "^4.28.9",
+    "@types/ioredis": "^4.28.10",
     "@types/node": "^17.0.21",
     "@types/passport": "^1.0.7",
     "@types/passport-discord": "^0.1.5",

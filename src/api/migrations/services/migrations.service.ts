@@ -1,7 +1,4 @@
 import { Injectable, Logger, OnApplicationBootstrap } from "@nestjs/common";
-// @ts-expect-error
-import { MigrationStore } from "../migration.store";
-// @ts-expect-error
 import { load } from "migrate";
 import { resolve as pathResolve } from "path";
 import { getRootData } from "@sapphire/pieces";

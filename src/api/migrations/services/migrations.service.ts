@@ -16,7 +16,7 @@ export class MigrationsService implements OnApplicationBootstrap {
   ) {}
 
   async onApplicationBootstrap() {
-    this.connection.once("connected", this.runMigrations.bind(this));
+    await this.runMigrations();
   }
 
   private async runMigrations() {

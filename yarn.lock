@@ -799,10 +799,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.22":
-  version: 17.0.22
-  resolution: "@types/node@npm:17.0.22"
-  checksum: 72d1fc8bdc37f0c18b1160e7207b52fb569d0e2b459ac9a4cbd3ca40e478ffe1455efc2c6a253c81e0a7a7c7a899716535d9970cd9521f87d6050b7de04b9ba3
+"@types/node@npm:^17.0.23":
+  version: 17.0.23
+  resolution: "@types/node@npm:17.0.23"
+  checksum: a3517554737cbb042e76c30d0e5482192ac4d9bea0eeb086e2622d9cabf460a0eb52a696b99fcd18e7fcc93c96db6cc7ae507f6608f256ef0b5c1d8c87a5a470
   languageName: node
   linkType: hard
 
@@ -3346,9 +3346,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.2.7":
-  version: 6.2.7
-  resolution: "mongoose@npm:6.2.7"
+"mongoose@npm:^6.2.8":
+  version: 6.2.8
+  resolution: "mongoose@npm:6.2.8"
   dependencies:
     bson: ^4.2.2
     kareem: 2.3.4
@@ -3357,7 +3357,7 @@ fsevents@~2.3.2:
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 01258cd4371a290077bb3b653c0fc42b846a247367aea0be5f25c32711e94b314d620d81525121a06d93ea86315a7a764517401b92c3a81de8bfcb0249c958b6
+  checksum: 238fab1829d220d9fae8c8b5c923fabbbeaf0a9784bc6ae2c79241a11b1a8d9707702758939359f5096d1e005bfa1afa61db0d063a3d365cf41b31eaa4080daf
   languageName: node
   linkType: hard
 
@@ -3812,7 +3812,7 @@ fsevents@~2.3.2:
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
     "@types/ioredis": ^4.28.10
-    "@types/node": ^17.0.22
+    "@types/node": ^17.0.23
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
     "@types/puppeteer": ^5.4.5
@@ -3834,7 +3834,7 @@ fsevents@~2.3.2:
     html-to-text: ^8.1.0
     ioredis: ^4.28.5
     migrate: ^1.8.0
-    mongoose: ^6.2.7
+    mongoose: ^6.2.8
     passport: ^0.5.2
     passport-discord: ^0.1.4
     puppeteer: ^13.5.1

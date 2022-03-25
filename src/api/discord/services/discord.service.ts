@@ -49,6 +49,10 @@ export class DiscordService {
     );
   }
 
+  async deleteCachedGuilds(id: string) {
+    await this.cache.del(id + ":allguilds");
+  }
+
   async canUserManageGuild(guild: Guild, member: GuildMember) {
     if (guild.ownerId === member.id) return true;
     if (member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) return true;

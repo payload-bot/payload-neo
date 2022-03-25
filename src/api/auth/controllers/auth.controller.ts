@@ -15,6 +15,7 @@ import { DiscordSessionGuard } from "../guards/session.guard";
 import { UserService } from "#api/users/services/user.service";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import type { User } from "#api/users/models/user.model";
+import { DiscordService } from "#api/discord/services/discord.service";
 
 @Controller({
   path: "auth",
@@ -23,7 +24,8 @@ import type { User } from "#api/users/models/user.model";
 export class AuthController {
   constructor(
     private environment: Environment,
-    private userService: UserService
+    private userService: UserService,
+    private discordService: DiscordService
   ) {}
 
   @Get()
@@ -42,9 +44,12 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Auth()
   async logout(@CurrentUser() { id, accessToken }: User, @Req() req: Request) {
-    await this.userService.revokeTokens(id, accessToken!);
+    await Promise.all([
+      this.userService.revokeTokens(id, accessToken!),
+      this.discordService.deleteCachedGuilds(id),
+    ]);
 
-    void req.logout();
+    req.logout();
     return;
   }
 }

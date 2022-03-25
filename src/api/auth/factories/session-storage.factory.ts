@@ -20,7 +20,7 @@ export class SessionStorageFactory {
       this.logger.verbose(`Using ${red("REDIS")} as session store`);
       const { default: Redis } = await import("ioredis");
 
-      const client = new Redis(this.env.redisUrl);
+      const client = new Redis(this.env.redisUrl!);
 
       const RedisStore = (await import("connect-redis")).default(session);
 

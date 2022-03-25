@@ -132,9 +132,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^8.4.2":
-  version: 8.4.2
-  resolution: "@nestjs/common@npm:8.4.2"
+"@nestjs/common@npm:^8.4.3":
+  version: 8.4.3
+  resolution: "@nestjs/common@npm:8.4.3"
   dependencies:
     axios: 0.26.1
     iterare: 1.2.1
@@ -153,7 +153,7 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 9c82dd0e670fe0158caad26e8568ad7f03a4e0c6632932f02b028d9f07a64a90b79da1686d61eb33077ee3095f43e55e16262da0073bc28b47b4da4059beed7c
+  checksum: a4c1e5f7a69630111910368a88892395002806442b471aac3cd49c569977a72f1373486334a057e45c2bf1b59ab047d29e655f329e70a76ec35ef937020322c2
   languageName: node
   linkType: hard
 
@@ -173,9 +173,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^8.4.2":
-  version: 8.4.2
-  resolution: "@nestjs/core@npm:8.4.2"
+"@nestjs/core@npm:^8.4.3":
+  version: 8.4.3
+  resolution: "@nestjs/core@npm:8.4.3"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -198,7 +198,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 6b271d7595ff9574a66153342c37f904b56e0a0fb9e232ea9b74dbcade0611ab615c185137865bf5e52549f56668bcffaad380a06dd8868d5bf30e85a7bc9279
+  checksum: efdeb7f36f900af6a1c1a365d8792e693b0776f1fa2ba8475248011c39a608ba28c70afb3a1513bb6fae58064cafecdcc33513ae881018abbfc351c5d4200ee3
   languageName: node
   linkType: hard
 
@@ -225,9 +225,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:^8.4.2":
-  version: 8.4.2
-  resolution: "@nestjs/platform-express@npm:8.4.2"
+"@nestjs/platform-express@npm:^8.4.3":
+  version: 8.4.3
+  resolution: "@nestjs/platform-express@npm:8.4.3"
   dependencies:
     body-parser: 1.19.2
     cors: 2.8.5
@@ -237,7 +237,7 @@ __metadata:
   peerDependencies:
     "@nestjs/common": ^8.0.0
     "@nestjs/core": ^8.0.0
-  checksum: ed8a6ac6b4b250a5e58da7873e60a1ad212d722c79501a0c8b20693e7ac502dc1b402a2986fe0440c2313e388980172a88e2317f45a4f8d35f73ac269bdfd367
+  checksum: 0f3d3a432f7ef11247b65d11ae396e67bfb72c8b9831ba6c3cfceb99f807cfd39d700ac418671d5efe7edff2e776733f12da2b6358860c8d0c5b8d85b086a52e
   languageName: node
   linkType: hard
 
@@ -3785,12 +3785,12 @@ fsevents@~2.3.2:
   dependencies:
     "@discordjs/builders": ^0.12.0
     "@google-cloud/translate": ^6.3.1
-    "@nestjs/common": ^8.4.2
+    "@nestjs/common": ^8.4.3
     "@nestjs/config": ^2.0.0
-    "@nestjs/core": ^8.4.2
+    "@nestjs/core": ^8.4.3
     "@nestjs/mongoose": ^9.0.3
     "@nestjs/passport": ^8.2.1
-    "@nestjs/platform-express": ^8.4.2
+    "@nestjs/platform-express": ^8.4.3
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^4.3.3
     "@sapphire/discord.js-utilities": ^4.9.3
@@ -3841,7 +3841,7 @@ fsevents@~2.3.2:
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.5
     tsc-watch: ^4.6.2
-    typescript: ^4.6.2
+    typescript: ^4.6.3
   languageName: unknown
   linkType: soft
 
@@ -4707,6 +4707,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"typescript@npm:^4.6.3":
+  version: 4.6.3
+  resolution: "typescript@npm:4.6.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 255bb26c8cb846ca689dd1c3a56587af4f69055907aa2c154796ea28ee0dea871535b1c78f85a6212c77f2657843a269c3a742d09d81495b97b914bf7920415b
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@^4.6.2#~builtin<compat/typescript>":
   version: 4.6.2
   resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"
@@ -4714,6 +4724,16 @@ fsevents@~2.3.2:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 40b493a71747fb89fa70df104e2c4a5e284b43750af5bea024090a5261cefa387f7a9372411b13030f7bf5555cee4275443d08805642ae5c74ef76740854a4c7
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
+  version: 4.6.3
+  resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=bda367"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 6bf45caf847062420592e711bc9c28bf5f9a9a7fa8245343b81493e4ededae33f1774009d1234d911422d1646a2c839f44e1a23ecb111b40a60ac2ea4c1482a8
   languageName: node
   linkType: hard
 

@@ -132,6 +132,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ioredis/commands@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@ioredis/commands@npm:1.1.0"
+  checksum: 37209f863da970af4e841128d267327ea86d5878b376ec3aac601518b18af1b1dcb87447106bf1c9c965f37055b90b0d63770720ce1f57ae06538ae650c48a2b
+  languageName: node
+  linkType: hard
+
 "@nestjs/common@npm:^8.4.3":
   version: 8.4.3
   resolution: "@nestjs/common@npm:8.4.3"
@@ -747,15 +754,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 80d3dd96acf8c7a329fcc05bd66c201f4836001649f069bc9f675d42ac88b81e4408ed8a907d7a4dde12910eca6cc2ded7fab68c99a803614bd968910e807c75
-  languageName: node
-  linkType: hard
-
-"@types/ioredis@npm:^4.28.10":
-  version: 4.28.10
-  resolution: "@types/ioredis@npm:4.28.10"
-  dependencies:
-    "@types/node": "*"
-  checksum: 0f2788cf25f490d3b345db8c5f8b8ce3f6c92cc99abcf744c8f974f02b9b3875233b3d22098614c462a0d6c41c523bd655509418ea88eb6249db6652290ce7cf
   languageName: node
   linkType: hard
 
@@ -1747,6 +1745,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:^4.3.4":
+  version: 4.3.4
+  resolution: "debug@npm:4.3.4"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 3dbad3f94ea64f34431a9cbf0bafb61853eda57bff2880036153438f50fb5a84f27683ba0d8e5426bf41a8c6ff03879488120cf5b3a761e77953169c0600a708
+  languageName: node
+  linkType: hard
+
 "decompress-response@npm:^6.0.0":
   version: 6.0.0
   resolution: "decompress-response@npm:6.0.0"
@@ -1781,13 +1791,6 @@ __metadata:
   version: 1.0.0
   resolution: "delegates@npm:1.0.0"
   checksum: a51744d9b53c164ba9c0492471a1a2ffa0b6727451bdc89e31627fdf4adda9d51277cfcbfb20f0a6f08ccb3c436f341df3e92631a3440226d93a8971724771fd
-  languageName: node
-  linkType: hard
-
-"denque@npm:^1.1.0":
-  version: 1.5.1
-  resolution: "denque@npm:1.5.1"
-  checksum: 4375ad19d5cea99f90effa82a8cecdaa10f4eb261fbcd7e47cd753ff2737f037aac8f7f4e031cc77f3966314c491c86a0d3b20c128aeee57f791b4662c45108e
   languageName: node
   linkType: hard
 
@@ -2776,22 +2779,20 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^4.28.5":
-  version: 4.28.5
-  resolution: "ioredis@npm:4.28.5"
+"ioredis@npm:next":
+  version: 5.0.0-beta.4
+  resolution: "ioredis@npm:5.0.0-beta.4"
   dependencies:
+    "@ioredis/commands": ^1.1.0
     cluster-key-slot: ^1.1.0
-    debug: ^4.3.1
-    denque: ^1.1.0
+    debug: ^4.3.4
+    denque: ^2.0.1
     lodash.defaults: ^4.2.0
-    lodash.flatten: ^4.4.0
     lodash.isarguments: ^3.1.0
-    p-map: ^2.1.0
-    redis-commands: 1.7.0
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: a8793c3324cd69fa55b4baacbda118ce6724e574260157761276b31411dd3e168c75490f7155c6ce34d79e01488efa98e0cdb162991970fd56da7cbcdafb8fb8
+  checksum: 1ac4cc7db904913015cecda6cd29eb3c6e42061a1e804ed92456fba0fe333f649b80e6feda5cfc29bc52584d0a8f6b20e89ee8a93408964ef2caee1f506c0b1e
   languageName: node
   linkType: hard
 
@@ -2993,13 +2994,6 @@ fsevents@~2.3.2:
   version: 4.2.0
   resolution: "lodash.defaults@npm:4.2.0"
   checksum: 84923258235592c8886e29de5491946ff8c2ae5c82a7ac5cddd2e3cb697e6fbdfbbb6efcca015795c86eec2bb953a5a2ee4016e3735a3f02720428a40efbb8f1
-  languageName: node
-  linkType: hard
-
-"lodash.flatten@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "lodash.flatten@npm:4.4.0"
-  checksum: 0ac34a393d4b795d4b7421153d27c13ae67e08786c9cbb60ff5b732210d46f833598eee3fb3844bb10070e8488efe390ea53bb567377e0cb47e9e630bf0811cb
   languageName: node
   linkType: hard
 
@@ -3633,13 +3627,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"p-map@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "p-map@npm:2.1.0"
-  checksum: 9e3ad3c9f6d75a5b5661bcad78c91f3a63849189737cd75e4f1225bf9ac205194e5c44aac2ef6f09562b1facdb9bd1425584d7ac375bfaa17b3f1a142dab936d
-  languageName: node
-  linkType: hard
-
 "p-map@npm:^4.0.0":
   version: 4.0.0
   resolution: "p-map@npm:4.0.0"
@@ -3811,7 +3798,6 @@ fsevents@~2.3.2:
     "@types/express-session": ^1.17.4
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
-    "@types/ioredis": ^4.28.10
     "@types/node": ^17.0.23
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
@@ -3832,7 +3818,7 @@ fsevents@~2.3.2:
     gamedig: ^4.0.2
     generate-password: ^1.7.0
     html-to-text: ^8.1.0
-    ioredis: ^4.28.5
+    ioredis: next
     migrate: ^1.8.0
     mongoose: ^6.2.8
     passport: ^0.5.2
@@ -4108,13 +4094,6 @@ fsevents@~2.3.2:
   dependencies:
     picomatch: ^2.2.1
   checksum: 1ced032e6e45670b6d7352d71d21ce7edf7b9b928494dcaba6f11fba63180d9da6cd7061ebc34175ffda6ff529f481818c962952004d273178acd70f7059b320
-  languageName: node
-  linkType: hard
-
-"redis-commands@npm:1.7.0":
-  version: 1.7.0
-  resolution: "redis-commands@npm:1.7.0"
-  checksum: d1ff7fbcb5e54768c77f731f1d49679d2a62c3899522c28addb4e2e5813aea8bcac3f22519d71d330224c3f2937f935dfc3d8dc65e90db0f5fe22dc2c1515aa7
   languageName: node
   linkType: hard
 

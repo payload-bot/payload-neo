@@ -49,13 +49,17 @@ export class GuildsService {
   }
 
   async getUserGuildsManagable(userId: string, guildId: string) {
-    const guild = await client.guilds.fetch(guildId);
+    const guild = await client.guilds.fetch(guildId).catch(() => null);
 
-    if (!guild) throw new BadRequestException();
+    if (!guild) {
+      throw new BadRequestException();
+    }
 
-    const member = await guild.members.fetch(userId);
+    const member = await guild.members.fetch(userId).catch(() => null);
 
-    if (!member) throw new BadRequestException();
+    if (!member) {
+      throw new BadRequestException();
+    }
 
     return await this.discordService.canUserManageGuild(guild, member);
   }

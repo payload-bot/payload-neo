@@ -77,19 +77,18 @@ export async function generateClipBounds(
 }
 
 export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
-  const environment = process.env.NODE_ENV ?? "development";
+  const environment = process.env.NODE_ENV;
 
-  // Use built in chromium browser on development mode
-  if (environment === "development") {
-    return await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      ...options,
-    });
-  } else if (environment === "production") {
+  // Use WS in Production - Defer to a docker container
+  // This reduces production bundle size, and should be faster
+  if (environment === "production") {
     return await connect({ browserWSEndpoint: "ws://chrome:9090" });
-  } else {
-    throw new Error("no valid environment for puppeteer");
   }
+
+  return await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    ...options,
+  });
 }
 
 async function createPage(url: string, options?: PuppeteerLaunchOptions) {

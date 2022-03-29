@@ -12,7 +12,7 @@ export class Webhook extends MongooseDocument {
   value!: string;
 
   @Exclude({ toPlainOnly: true })
-  @Prop()
+  @Prop({ type: String })
   type!: WebhookTargetType;
 
   @Prop({ type: Date, default: Date.now })

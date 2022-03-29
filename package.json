@@ -67,7 +67,7 @@
     "html-to-text": "^8.1.0",
     "ioredis": "next",
     "migrate": "^1.8.0",
-    "mongoose": "^6.2.8",
+    "mongoose": "^6.2.9",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
     "puppeteer": "^13.5.1",

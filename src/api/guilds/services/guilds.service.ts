@@ -1,4 +1,5 @@
 import { DiscordService } from "#api/discord/services/discord.service";
+import { Benchmark } from "#api/shared/perf-hook.decorator";
 import { UserService } from "#api/users/services/user.service";
 import { Webhook } from "#api/webhooks/models/webhook.model";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
@@ -28,6 +29,7 @@ export class GuildsService {
     private discordService: DiscordService
   ) {}
 
+  @Benchmark
   async getUserGuilds(id: string) {
     const { accessToken, refreshToken } =
       await this.usersService.getDiscordTokensForUser(id);

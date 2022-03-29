@@ -4,7 +4,6 @@ import { Environment } from "#api/environment/environment";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { Guild, GuildMember, Permissions } from "discord.js";
-import { Benchmark } from "#api/shared/perf-hook.decorator";
 // @ts-expect-error
 import { Cache } from "cache-manager";
 
@@ -37,7 +36,6 @@ export class DiscordService {
     await this.handler.revokeToken(token);
   }
 
-  @Benchmark
   async getSortedUserGuilds(
     id: string,
     accessToken: string,
@@ -76,7 +74,6 @@ export class DiscordService {
     return await this.canUserManageGuild(fetchedGuild, member);
   }
 
-  @Benchmark
   private async convertGuilds(id: string, guilds: PartialGuild[]) {
     return await Promise.all(
       guilds.map(async (guild) => {

@@ -3,7 +3,13 @@ import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
 import { Injectable, Logger, BadRequestException } from "@nestjs/common";
 import { container } from "@sapphire/framework";
-import { MessageAttachment, MessageEmbed, TextChannel, User } from "discord.js";
+import {
+  MessageAttachment,
+  MessageEmbed,
+  Permissions,
+  TextChannel,
+  User,
+} from "discord.js";
 import type { WebhookTargetType } from "../models/webhook.model";
 
 const { client } = container;
@@ -13,6 +19,46 @@ type TargetReturnType = TextChannel | User | null;
 @Injectable()
 export class WebhookService {
   private logger = new Logger(WebhookService.name);
+
+  // FIXME: This is a temporary solution- Move to *actual* discord webhooks
+  async checkTarget(target: WebhookTargetType, id: string) {
+    if (target === "users") {
+      return true;
+    }
+
+    const targetTextChannel = await client.channels.fetch(id).catch(() => null);
+
+    if (!targetTextChannel) {
+      // Targeted channel does not exist
+      return false;
+    }
+
+    // Targeted channel is not a text channel
+    if (!targetTextChannel.isText()) {
+      return false;
+    }
+
+    if (targetTextChannel.type !== "GUILD_TEXT") {
+      return false;
+    }
+
+    const member = (await client.guilds.fetch(targetTextChannel.guild.id)).me;
+
+    // I'm not in this guild?
+    if (!member) {
+      return false;
+    }
+
+    if (
+      !targetTextChannel
+        .permissionsFor(member)
+        .has(Permissions.FLAGS.SEND_MESSAGES)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
 
   async sendLogPreview(scope: WebhookTargetType, id: string, logsId: string) {
     const target = (await client[scope]

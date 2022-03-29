@@ -1,5 +1,9 @@
 import { GuildsService } from "#api/guilds/services/guilds.service";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { plainToClass } from "class-transformer";
 import { generate } from "generate-password";
@@ -9,12 +13,14 @@ import {
   WebhookDocument,
   WebhookTargetType,
 } from "../models/webhook.model";
+import { WebhookService } from "./webhook.service";
 
 @Injectable()
 export class WebhookCrudService {
   constructor(
     @InjectModel(Webhook.name)
     private webhookModel: Model<WebhookDocument>,
+    private webhookService: WebhookService,
     private guildsService: GuildsService
   ) {}
 
@@ -62,6 +68,10 @@ export class WebhookCrudService {
   ) {
     if (await this.webhookModel.findOne({ id })) {
       throw new BadRequestException("You cannot add another webhook");
+    }
+
+    if (!(await this.webhookService.checkTarget(type, id))) {
+      throw new ForbiddenException("You cannot add this webhook");
     }
 
     const createdWebhook = await this.webhookModel.create({

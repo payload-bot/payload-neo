@@ -70,7 +70,7 @@
     "mongoose": "^6.2.9",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
-    "puppeteer": "^13.5.1",
+    "puppeteer": "^13.5.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },

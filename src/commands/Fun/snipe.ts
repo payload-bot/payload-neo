@@ -12,6 +12,7 @@ import { LanguageKeys } from "#lib/i18n/all";
   description: LanguageKeys.Commands.Snipe.Description,
   detailedDescription: LanguageKeys.Commands.Snipe.DetailedDescription,
   runIn: ["GUILD_TEXT"],
+  requiredClientPermissions: ["EMBED_LINKS", "ATTACH_FILES"],
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
@@ -23,7 +24,9 @@ export class UserCommand extends PayloadCommand {
       }
     }
 
-    const number = await args.pick("integer", { minimum: 1, maximum: 5 }).catch(() => 1);
+    const number = await args
+      .pick("integer", { minimum: 1, maximum: 5 })
+      .catch(() => 1);
 
     const client = this.container.client as PayloadClient;
 

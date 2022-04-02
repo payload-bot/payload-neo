@@ -4,8 +4,7 @@ import { Environment } from "#api/environment/environment";
 import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { Guild, GuildMember, Permissions } from "discord.js";
-// @ts-expect-error
-import { Cache } from "cache-manager";
+import type { Cache } from "cache-manager";
 
 const { client } = container;
 

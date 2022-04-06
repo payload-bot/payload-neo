@@ -26,7 +26,7 @@ export class CacheService implements ICacheService {
       this.logger.verbose(`Using ${blue("MEMORY")} for the cache storage`);
       this.instance = memoryCache;
     } else {
-      this.instance = new Redis(this.env.redisUrl!);
+      this.instance = memoryCache;
     }
   }
 

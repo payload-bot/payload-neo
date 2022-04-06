@@ -1,4 +1,5 @@
-import { CacheModule, Module } from "@nestjs/common";
+import { CacheModule } from "#api/cache/cache.module";
+import { Module } from "@nestjs/common";
 import { DiscordService } from "./services/discord.service";
 
 @Module({

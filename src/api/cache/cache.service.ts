@@ -35,18 +35,17 @@ export class CacheService implements ICacheService {
   async set<T>(key: string, value: T, ttl?: number): Promise<void> {
     if (this.instance instanceof Redis) {
       if (typeof ttl === "number") {
-        await this.instance.set(key, value as any, "EX", ttl);
-        return;
+        await this.instance.set(key, JSON.stringify(value), "EX", ttl);
+      } else {
+        await this.instance.set(key, JSON.stringify(value));
       }
-      await this.instance.set(key, value as any);
-      return;
     } else {
       if (typeof ttl === "number") {
         await this.instance.set(key, value, ttl);
         return;
+      } else {
+        await this.instance.set(key, value);
       }
-      await this.instance.set(key, value);
-      return;
     }
   }
 

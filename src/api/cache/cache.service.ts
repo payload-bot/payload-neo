@@ -2,10 +2,9 @@ import { Environment } from "#api/environment/environment";
 import { CACHE_MANAGER, Inject, Injectable, Logger } from "@nestjs/common";
 import { red, blue } from "colorette";
 import type { Cache } from "cache-manager";
-import { CACHE_OPTIONS_KEY } from "./cache.constants";
 import Redis from "ioredis";
 import type { ICacheService } from "./cache.interface";
-import type { CacheModuleOptions } from "./cache.module";
+import { envParseBoolean } from "#utils/envParser";
 
 @Injectable()
 export class CacheService implements ICacheService {
@@ -14,18 +13,17 @@ export class CacheService implements ICacheService {
 
   constructor(
     private env: Environment,
-    @Inject(CACHE_MANAGER) readonly memoryCache: Cache,
-    @Inject(CACHE_OPTIONS_KEY) readonly options: CacheModuleOptions
+    @Inject(CACHE_MANAGER) readonly memoryCache: Cache
   ) {
-    const store = options.store;
+    const shouldUseRedis =
+      ["production", "staging"].includes(this.env.nodeEnv) ||
+      envParseBoolean("OVERRIDE_SESSION_STORAGE", false);
 
-    if (store === "redis") {
+    if (shouldUseRedis) {
       this.logger.verbose(`Using ${red("REDIS")} for the cache storage`);
       this.instance = new Redis(this.env.redisUrl!);
-    } else if (store === "memory") {
-      this.logger.verbose(`Using ${blue("MEMORY")} for the cache storage`);
-      this.instance = memoryCache;
     } else {
+      this.logger.verbose(`Using ${blue("MEMORY")} for the cache storage`);
       this.instance = memoryCache;
     }
   }

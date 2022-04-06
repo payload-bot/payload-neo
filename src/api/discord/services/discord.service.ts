@@ -27,8 +27,8 @@ export class DiscordService {
       ).toString("base64"),
     });
 
-    this.handler.on("debug", this.logger.debug);
-    this.handler.on("warn", this.logger.warn);
+    this.handler.on("debug", (...args) => this.logger.debug(...args));
+    this.handler.on("warn", (...args) => this.logger.warn(...args));
   }
 
   async revokeUserTokens(token: string) {

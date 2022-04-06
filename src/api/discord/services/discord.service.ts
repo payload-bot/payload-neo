@@ -5,6 +5,7 @@ import { container } from "@sapphire/framework";
 import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { Guild, GuildMember, Permissions } from "discord.js";
 import type { Cache } from "cache-manager";
+import type { GuildInfo } from "passport-discord";
 
 const { client } = container;
 
@@ -58,6 +59,19 @@ export class DiscordService {
     return false;
   }
 
+  async cacheUserServers(id: string, guilds: GuildInfo[]) {
+    const convertedGuilds = await this.convertGuilds(
+      id,
+      guilds as PartialGuild[]
+    );
+
+    const sortedAndFiltered = convertedGuilds
+      .filter((guild) => guild.canManage)
+      .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
+
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, { ttl: 600 });
+  }
+
   private async canManage(id: string, guild: PartialGuild) {
     if (guild.owner) return true;
     const fetchedGuild = await client.guilds.fetch(guild.id).catch(() => null);
@@ -95,6 +109,7 @@ export class DiscordService {
   }
 
   private async fetchUserGuildsAndCache(id: string, accessToken: string) {
+    this.logger.verbose("Fetching user guilds");
     // FIXME: This is stupid. Catch oauth errors + refresh before throwing
     const allGuilds = await this.handler.getUserGuilds(accessToken);
 

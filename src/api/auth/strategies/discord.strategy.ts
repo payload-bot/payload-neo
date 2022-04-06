@@ -1,3 +1,4 @@
+import { DiscordService } from "#api/discord/services/discord.service";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
 import { Injectable } from "@nestjs/common";
@@ -9,7 +10,8 @@ import { Strategy, Profile } from "passport-discord";
 export class DiscordStrategy extends PassportStrategy(Strategy) {
   constructor(
     readonly environment: Environment,
-    private userService: UserService
+    private userService: UserService,
+    private discordService: DiscordService
   ) {
     super({
       clientID: environment.clientId,
@@ -23,17 +25,25 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
     try {
       await this.userService.findUser({ id: profile.id });
 
-      return await this.userService.updateUser(profile.id, {
+      const user = await this.userService.updateUser(profile.id, {
         accessToken,
         refreshToken,
       });
+
+      await this.discordService.cacheUserServers(profile.id, profile.guilds!);
+
+      return user;
     } catch (error) {
       if (error instanceof Error.DocumentNotFoundError) {
-        return await this.userService.createUser({
+        const user = await this.userService.createUser({
           id: profile.id,
           accessToken,
           refreshToken,
         });
+
+        await this.discordService.cacheUserServers(profile.id, profile.guilds!);
+
+        return user;
       } else {
         throw error;
       }

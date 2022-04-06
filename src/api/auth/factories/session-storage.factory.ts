@@ -17,7 +17,7 @@ export class SessionStorageFactory {
       ["production", "staging"].includes(this.env.nodeEnv) ||
       envParseBoolean("OVERRIDE_SESSION_STORAGE", false)
     ) {
-      this.logger.verbose(`Using ${red("REDIS")} as session store`);
+      this.logger.verbose(`Using ${red("REDIS")} as the session store`);
       const { default: Redis } = await import("ioredis");
 
       const client = new Redis(this.env.redisUrl!);
@@ -27,7 +27,7 @@ export class SessionStorageFactory {
       return new RedisStore({ client, ttl: Time.Month, prefix: "session::" });
     }
 
-    this.logger.verbose(`Using ${blue("MEMORY")} as session store`);
+    this.logger.verbose(`Using ${blue("MEMORY")} as the session store`);
     return new MemoryStore();
   }
 }

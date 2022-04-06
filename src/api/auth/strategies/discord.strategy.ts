@@ -1,13 +1,15 @@
 import { DiscordService } from "#api/discord/services/discord.service";
 import { Environment } from "#api/environment/environment";
 import { UserService } from "#api/users/services/user.service";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Error } from "mongoose";
 import { Strategy, Profile } from "passport-discord";
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy) {
+  private logger = new Logger(DiscordStrategy.name);
+
   constructor(
     readonly environment: Environment,
     private userService: UserService,
@@ -45,6 +47,10 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
 
         return user;
       } else {
+        this.logger.error(
+          `Unknown exception occured while fetching user ${profile.id}\n${error}`
+        );
+
         throw error;
       }
     }

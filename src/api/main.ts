@@ -23,6 +23,12 @@ export async function bootstrap() {
 
   const env = app.get(Environment);
 
+  const isProduction = env.nodeEnv === "production";
+
+  if (isProduction) {
+    app.set("trust proxy", 1);
+  }
+
   app.use(
     session({
       resave: false,
@@ -36,7 +42,7 @@ export async function bootstrap() {
         domain: env.cookieDomain,
         sameSite: "lax",
         httpOnly: true,
-        secure: env.nodeEnv === "production",
+        secure: isProduction,
         maxAge: Time.Month,
       },
     })

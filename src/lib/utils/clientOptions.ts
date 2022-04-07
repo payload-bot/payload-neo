@@ -25,6 +25,15 @@ function cacheOptions() {
         getComparisonTimestamp: (m) => m.editedTimestamp ?? m.createdTimestamp,
       }),
     },
+    ReactionManager: 0,
+    UserManager: {
+      maxSize: 7500,
+      sweepInterval: 180,
+    },
+    GuildMemberManager: {
+      maxSize: 5000,
+      sweepInterval: 180,
+    },
   });
 }
 

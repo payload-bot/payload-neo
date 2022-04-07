@@ -35,6 +35,7 @@ export async function bootstrap() {
       saveUninitialized: false,
       store: await new SessionStorageFactory(env).register(),
       name: "__session",
+      proxy: isProduction,
       secret: Array.isArray(env.sessionSecret)
         ? env.sessionSecret
         : [env.sessionSecret],

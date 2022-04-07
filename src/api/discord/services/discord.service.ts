@@ -6,6 +6,7 @@ import { ConvertedGuild } from "../dto/converted-guild.dto";
 import { Guild, GuildMember, Permissions } from "discord.js";
 import type { GuildInfo } from "passport-discord";
 import { CacheService } from "#api/cache/cache.service";
+import { Time } from "@sapphire/time-utilities";
 
 const { client } = container;
 
@@ -65,7 +66,7 @@ export class DiscordService {
       .filter((guild) => guild.canManage)
       .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
 
-    await this.cache.set(id + ":allguilds", sortedAndFiltered, 600);
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, Time.Day / 1000);
   }
 
   private async canManage(id: string, guild: PartialGuild) {
@@ -115,7 +116,7 @@ export class DiscordService {
       .filter((guild) => guild.canManage)
       .sort((a, b) => (b.isPayloadIn ? 1 : -1) - (a.isPayloadIn ? 1 : -1));
 
-    await this.cache.set(id + ":allguilds", sortedAndFiltered, 600);
+    await this.cache.set(id + ":allguilds", sortedAndFiltered, Time.Day / 1000);
 
     return sortedAndFiltered;
   }

@@ -141,10 +141,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ioredis/commands@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@ioredis/commands@npm:1.1.0"
-  checksum: 37209f863da970af4e841128d267327ea86d5878b376ec3aac601518b18af1b1dcb87447106bf1c9c965f37055b90b0d63770720ce1f57ae06538ae650c48a2b
+"@ioredis/commands@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@ioredis/commands@npm:1.1.1"
+  checksum: 66a9dc315dc077826fef4057c027c77c5af3fba247e6a5156c6847700fec8968a1b180bca344120ad561f5654cda54ed63119f790a041b0a010cacf02421ecff
   languageName: node
   linkType: hard
 
@@ -2888,11 +2888,11 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ioredis@npm:next":
-  version: 5.0.0-beta.4
-  resolution: "ioredis@npm:5.0.0-beta.4"
+"ioredis@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "ioredis@npm:5.0.3"
   dependencies:
-    "@ioredis/commands": ^1.1.0
+    "@ioredis/commands": ^1.1.1
     cluster-key-slot: ^1.1.0
     debug: ^4.3.4
     denque: ^2.0.1
@@ -2901,7 +2901,7 @@ fsevents@~2.3.2:
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: 1ac4cc7db904913015cecda6cd29eb3c6e42061a1e804ed92456fba0fe333f649b80e6feda5cfc29bc52584d0a8f6b20e89ee8a93408964ef2caee1f506c0b1e
+  checksum: 3d38075c8f48f682997be0336b8e19ed55e2f03238060a0a178f41d05bd505d57cbbf4f7cbf7e9965b390d91c134bdd4fec2624f4d0f443c947951e0c6ec12e9
   languageName: node
   linkType: hard
 
@@ -3950,7 +3950,7 @@ fsevents@~2.3.2:
     gamedig: ^4.0.2
     generate-password: ^1.7.0
     html-to-text: ^8.2.0
-    ioredis: next
+    ioredis: ^5.0.3
     migrate: ^1.8.0
     mongoose: ^6.2.10
     passport: ^0.5.2

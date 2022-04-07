@@ -39,6 +39,7 @@ export class UserListener extends Listener<typeof Events.CommandError> {
           error.constructor.name
         }`
       );
+      logger.info(error.stack);
     }
 
     return undefined;

@@ -1,6 +1,6 @@
 import { Server } from "#lib/models/Server";
 import config from "#root/config";
-import { Logger, LogLevel } from "@sapphire/framework";
+import { LogLevel } from "@sapphire/framework";
 import type {
   InternationalizationContext,
   InternationalizationOptions,
@@ -30,7 +30,6 @@ function cacheOptions() {
 
 function makeLogger() {
   return {
-    instance: new Logger(LogLevel.Debug),
     level:
       process.env.NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
   };

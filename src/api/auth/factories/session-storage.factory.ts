@@ -20,7 +20,10 @@ export class SessionStorageFactory {
       this.logger.verbose(`Using ${red("REDIS")} as the session store`);
       const { default: Redis } = await import("ioredis");
 
-      const client = new Redis(this.env.redisUrl!);
+      const client = new Redis(this.env.redisUrl!, {
+        connectTimeout: 5000,
+        maxLoadingRetryTime: 10,
+      });
 
       const RedisStore = (await import("connect-redis")).default(session);
 

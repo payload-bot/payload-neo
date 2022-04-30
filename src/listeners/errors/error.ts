@@ -20,7 +20,7 @@ export class UserListener extends Listener {
           error.message
         }${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${error.path}]`
       );
-      logger.fatal(error.stack);
+      logger.fatal(error);
     } else {
       logger.error(error);
     }

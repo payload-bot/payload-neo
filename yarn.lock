@@ -402,15 +402,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "@sapphire/discord.js-utilities@npm:4.9.5"
+"@sapphire/discord.js-utilities@npm:^4.9.7":
+  version: 4.9.7
+  resolution: "@sapphire/discord.js-utilities@npm:4.9.7"
   dependencies:
     "@sapphire/discord-utilities": ^2.10.3
     "@sapphire/time-utilities": ^1.7.4
     "@sapphire/utilities": ^3.6.2
-    tslib: ^2.3.1
-  checksum: 58e8e0c285bed4d6e02e67272425ef0313614df33aa7e87c8ee483a226c105fb497a8242780d9e1575ad4bd2ae359929fbc8c0a3bc76abcd27039f70519f7119
+    tslib: ^2.4.0
+  checksum: c174b512c283216c3382fea518ba01ceda5ade39cd7ae8988bc4a9bb1fe37d0a7f7b7a578cd0053c3bcf6230ede2f7cee50810f08082186b311e220117b9ec50
   languageName: node
   linkType: hard
 
@@ -639,12 +639,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cookie-parser@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@types/cookie-parser@npm:1.4.2"
+"@types/cookie-parser@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@types/cookie-parser@npm:1.4.3"
   dependencies:
     "@types/express": "*"
-  checksum: d5b3c0e193cc95289444306ad396b27b92c9ff1ffd0769268b374d09315c8df1ae94de5fe2a81a79c0629560646763136e15c8a4069d3dc5ba5cb6bc185eaccd
+  checksum: f390f3af1b1711190dee2c2ecd9af33af81fbde8d81ee820dadb6fe1e0d80c3faba40af37c6ed36fb88b04b64870f6a021f7e9edceecd17c42fe22abe0af5005
   languageName: node
   linkType: hard
 
@@ -773,10 +773,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.25":
-  version: 17.0.25
-  resolution: "@types/node@npm:17.0.25"
-  checksum: 6a820bd624e69ea772f52a6cdb326484eff5829443dc981939373929ade109f58c21698b9f0a831bd6ceea799e722a75dc49c5fa7a6bc32a81e1cbdfc6507b64
+"@types/node@npm:^17.0.30":
+  version: 17.0.30
+  resolution: "@types/node@npm:17.0.30"
+  checksum: b3cd2db6474aae3ddac5a312f340f6e4ca200429371e62cb74698fe7f23d7414d0200f643204ddfaa797846328539359e3797d7f2baaf3cdd643b159cf53baa6
   languageName: node
   linkType: hard
 
@@ -820,12 +820,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/puppeteer@npm:^5.4.5":
-  version: 5.4.5
-  resolution: "@types/puppeteer@npm:5.4.5"
+"@types/puppeteer@npm:^5.4.6":
+  version: 5.4.6
+  resolution: "@types/puppeteer@npm:5.4.6"
   dependencies:
     "@types/node": "*"
-  checksum: a63fbc8aff0cee957b39fbc64d451c8d37eb9ded7b3575ae36d4b8c901cfe2c217bcdd0ad35045842970cf18297bfa4038eea5e9d8f9379b988080f2546cc7ac
+  checksum: b969230812e95fcc5eee83151731e51b287cc934169f552034d8eea58ce9b5beb4ba09b9ce05b75d9510241a85d244f28e8b0a0a4b9f7dffcad8c37a39288260
   languageName: node
   linkType: hard
 
@@ -1631,6 +1631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie@npm:0.5.0":
+  version: 0.5.0
+  resolution: "cookie@npm:0.5.0"
+  checksum: 1f4bd2ca5765f8c9689a7e8954183f5332139eb72b6ff783d8947032ec1fdf43109852c178e21a953a30c0dd42257828185be01b49d1eb1a67fd054ca588a180
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:~1.0.0":
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
@@ -1826,6 +1833,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"discord-api-types@npm:0.31.2":
+  version: 0.31.2
+  resolution: "discord-api-types@npm:0.31.2"
+  checksum: 928d4f57f4c1ace0baf1d3b2c3ab4a4a5107f100217ce889a6e00ad365115fd328a0b922dbc62af6b6ccac9552ffd7ec3d07f4c8820502c5b55d9f2e5382dfba
+  languageName: node
+  linkType: hard
+
 "discord-api-types@npm:^0.26.0":
   version: 0.26.1
   resolution: "discord-api-types@npm:0.26.1"
@@ -1837,13 +1851,6 @@ __metadata:
   version: 0.31.1
   resolution: "discord-api-types@npm:0.31.1"
   checksum: 5a18e512b549b75d55892b0dbc2dc7c46526bee0d001b73d41d144f4653de847c96b9c57342a32479af738f46acd80ee21686dced9fe0184dcac86b669b31f18
-  languageName: node
-  linkType: hard
-
-"discord-api-types@npm:^0.31.2":
-  version: 0.31.2
-  resolution: "discord-api-types@npm:0.31.2"
-  checksum: 928d4f57f4c1ace0baf1d3b2c3ab4a4a5107f100217ce889a6e00ad365115fd328a0b922dbc62af6b6ccac9552ffd7ec3d07f4c8820502c5b55d9f2e5382dfba
   languageName: node
   linkType: hard
 
@@ -2091,7 +2098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.17.3, express@npm:^4.17.3":
+"express@npm:4.17.3":
   version: 4.17.3
   resolution: "express@npm:4.17.3"
   dependencies:
@@ -2126,6 +2133,45 @@ __metadata:
     utils-merge: 1.0.1
     vary: ~1.1.2
   checksum: 967e53b74a37eafdf9789b9938c8df86102928b4985b1ad5e385c709deeab405a364de95ca744bc2cc5d05b5d9cc1efc69ae2ae17688a462038648d5a924bfad
+  languageName: node
+  linkType: hard
+
+"express@npm:^4.18.1":
+  version: 4.18.1
+  resolution: "express@npm:4.18.1"
+  dependencies:
+    accepts: ~1.3.8
+    array-flatten: 1.1.1
+    body-parser: 1.20.0
+    content-disposition: 0.5.4
+    content-type: ~1.0.4
+    cookie: 0.5.0
+    cookie-signature: 1.0.6
+    debug: 2.6.9
+    depd: 2.0.0
+    encodeurl: ~1.0.2
+    escape-html: ~1.0.3
+    etag: ~1.8.1
+    finalhandler: 1.2.0
+    fresh: 0.5.2
+    http-errors: 2.0.0
+    merge-descriptors: 1.0.1
+    methods: ~1.1.2
+    on-finished: 2.4.1
+    parseurl: ~1.3.3
+    path-to-regexp: 0.1.7
+    proxy-addr: ~2.0.7
+    qs: 6.10.3
+    range-parser: ~1.2.1
+    safe-buffer: 5.2.1
+    send: 0.18.0
+    serve-static: 1.15.0
+    setprototypeof: 1.2.0
+    statuses: 2.0.1
+    type-is: ~1.6.18
+    utils-merge: 1.0.1
+    vary: ~1.1.2
+  checksum: c3d44c92e48226ef32ec978becfedb0ecf0ca21316bfd33674b3c5d20459840584f2325726a4f17f33d9c99f769636f728982d1c5433a5b6fe6eb95b8cf0c854
   languageName: node
   linkType: hard
 
@@ -2189,6 +2235,21 @@ __metadata:
   dependencies:
     to-regex-range: ^5.0.1
   checksum: cc283f4e65b504259e64fd969bcf4def4eb08d85565e906b7d36516e87819db52029a76b6363d0f02d0d532f0033c9603b9e2d943d56ee3b0d4f7ad3328ff917
+  languageName: node
+  linkType: hard
+
+"finalhandler@npm:1.2.0":
+  version: 1.2.0
+  resolution: "finalhandler@npm:1.2.0"
+  dependencies:
+    debug: 2.6.9
+    encodeurl: ~1.0.2
+    escape-html: ~1.0.3
+    on-finished: 2.4.1
+    parseurl: ~1.3.3
+    statuses: 2.0.1
+    unpipe: ~1.0.0
+  checksum: 92effbfd32e22a7dff2994acedbd9bcc3aa646a3e919ea6a53238090e87097f8ef07cced90aa2cc421abdf993aefbdd5b00104d55c7c5479a8d00ed105b45716
   languageName: node
   linkType: hard
 
@@ -2706,7 +2767,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:5.0.0, https-proxy-agent@npm:^5.0.0":
+"https-proxy-agent@npm:5.0.1":
+  version: 5.0.1
+  resolution: "https-proxy-agent@npm:5.0.1"
+  dependencies:
+    agent-base: 6
+    debug: 4
+  checksum: 571fccdf38184f05943e12d37d6ce38197becdd69e58d03f43637f7fa1269cf303a7d228aa27e5b27bbd3af8f09fd938e1c91dcfefff2df7ba77c20ed8dfc765
+  languageName: node
+  linkType: hard
+
+"https-proxy-agent@npm:^5.0.0":
   version: 5.0.0
   resolution: "https-proxy-agent@npm:5.0.0"
   dependencies:
@@ -3798,7 +3869,7 @@ fsevents@~2.3.2:
     "@nestjs/platform-express": ^8.4.4
     "@node-steam/id": ^1.2.0
     "@sapphire/decorators": ^4.3.4
-    "@sapphire/discord.js-utilities": ^4.9.5
+    "@sapphire/discord.js-utilities": ^4.9.7
     "@sapphire/fetch": ^2.3.1
     "@sapphire/framework": ^2.4.1
     "@sapphire/plugin-editable-commands": ^1.2.0
@@ -3810,16 +3881,16 @@ fsevents@~2.3.2:
     "@sapphire/utilities": ^3.6.2
     "@types/cache-manager": ^3.4.3
     "@types/connect-redis": ^0.0.18
-    "@types/cookie-parser": ^1.4.2
+    "@types/cookie-parser": ^1.4.3
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
-    "@types/node": ^17.0.25
+    "@types/node": ^17.0.30
     "@types/passport": ^1.0.7
     "@types/passport-discord": ^0.1.5
-    "@types/puppeteer": ^5.4.5
+    "@types/puppeteer": ^5.4.6
     cache-manager: ^3.6.1
     cheerio: ^1.0.0-rc.10
     class-transformer: 0.5.1
@@ -3827,11 +3898,11 @@ fsevents@~2.3.2:
     connect-redis: ^6.1.3
     cookie-parser: ^1.4.6
     date-fns: ^2.28.0
-    discord-api-types: ^0.31.2
+    discord-api-types: 0.31.2
     discord-oauth2: ^2.10.0
     discord.js: ^13.6.0
     dotenv: ^16.0.0
-    express: ^4.17.3
+    express: ^4.18.1
     express-session: ^1.17.2
     gamedig: ^4.0.4
     generate-password: ^1.7.0
@@ -3841,11 +3912,11 @@ fsevents@~2.3.2:
     mongoose: ^6.3.1
     passport: ^0.5.2
     passport-discord: ^0.1.4
-    puppeteer: ^13.6.0
+    puppeteer: ^13.7.0
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.5
     tsc-watch: ^5.0.3
-    typescript: ^4.6.3
+    typescript: ^4.6.4
   languageName: unknown
   linkType: soft
 
@@ -3979,15 +4050,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^13.6.0":
-  version: 13.6.0
-  resolution: "puppeteer@npm:13.6.0"
+"puppeteer@npm:^13.7.0":
+  version: 13.7.0
+  resolution: "puppeteer@npm:13.7.0"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.4
     devtools-protocol: 0.0.981744
     extract-zip: 2.0.1
-    https-proxy-agent: 5.0.0
+    https-proxy-agent: 5.0.1
     pkg-dir: 4.2.0
     progress: 2.0.3
     proxy-from-env: 1.1.0
@@ -3995,7 +4066,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: 5d9338189627aea2a0c9d273dd73b4cbaa4112b71e5d56792f74df7832f9661986520a10e92b9f56891eb31c03c74615423cb6c35e0619a02d847a7f91065220
+  checksum: 4062b3ac3330e70d58095c1e0c5a46cada39a3fc5608e0e0e204448a400aef4d785a3b21d9e7733b2b2dc8cf686a476abf016f05d2e9108b3753dd41d62b9d1c
   languageName: node
   linkType: hard
 
@@ -4311,6 +4382,27 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"send@npm:0.18.0":
+  version: 0.18.0
+  resolution: "send@npm:0.18.0"
+  dependencies:
+    debug: 2.6.9
+    depd: 2.0.0
+    destroy: 1.2.0
+    encodeurl: ~1.0.2
+    escape-html: ~1.0.3
+    etag: ~1.8.1
+    fresh: 0.5.2
+    http-errors: 2.0.0
+    mime: 1.6.0
+    ms: 2.1.3
+    on-finished: 2.4.1
+    range-parser: ~1.2.1
+    statuses: 2.0.1
+  checksum: 74fc07ebb58566b87b078ec63e5a3e41ecd987e4272ba67b7467e86c6ad51bc6b0b0154133b6d8b08a2ddda360464f71382f7ef864700f34844a76c8027817a8
+  languageName: node
+  linkType: hard
+
 "serve-static@npm:1.14.2":
   version: 1.14.2
   resolution: "serve-static@npm:1.14.2"
@@ -4320,6 +4412,18 @@ fsevents@~2.3.2:
     parseurl: ~1.3.3
     send: 0.17.2
   checksum: d97f3183b1dfcd8ce9c0e37e18e87fd31147ed6c8ee0b2c3a089d795e44ee851ca5061db01574f806d54f4e4b70bc694d9ca64578653514e04a28cbc97a1de05
+  languageName: node
+  linkType: hard
+
+"serve-static@npm:1.15.0":
+  version: 1.15.0
+  resolution: "serve-static@npm:1.15.0"
+  dependencies:
+    encodeurl: ~1.0.2
+    escape-html: ~1.0.3
+    parseurl: ~1.3.3
+    send: 0.18.0
+  checksum: af57fc13be40d90a12562e98c0b7855cf6e8bd4c107fe9a45c212bf023058d54a1871b1c89511c3958f70626fff47faeb795f5d83f8cf88514dbaeb2b724464d
   languageName: node
   linkType: hard
 
@@ -4719,6 +4823,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"tslib@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+  languageName: node
+  linkType: hard
+
 "twemoji-parser@npm:^14.0.0":
   version: 14.0.0
   resolution: "twemoji-parser@npm:14.0.0"
@@ -4753,6 +4864,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"typescript@npm:^4.6.4":
+  version: 4.6.4
+  resolution: "typescript@npm:4.6.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
   version: 4.6.3
   resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=bda367"
@@ -4760,6 +4881,16 @@ fsevents@~2.3.2:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 6bf45caf847062420592e711bc9c28bf5f9a9a7fa8245343b81493e4ededae33f1774009d1234d911422d1646a2c839f44e1a23ecb111b40a60ac2ea4c1482a8
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
+  version: 4.6.4
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
   languageName: node
   linkType: hard
 

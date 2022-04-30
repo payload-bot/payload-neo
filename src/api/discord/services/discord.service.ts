@@ -7,6 +7,7 @@ import { Guild, GuildMember, Permissions } from "discord.js";
 import type { GuildInfo } from "passport-discord";
 import { CacheService } from "#api/cache/cache.service";
 import { Time } from "@sapphire/time-utilities";
+import type { UserService } from "#api/users/services/user.service";
 
 const { client } = container;
 
@@ -15,7 +16,11 @@ export class DiscordService {
   private logger = new Logger(DiscordService.name);
   private handler: DiscordOauthService;
 
-  constructor(private cache: CacheService, readonly environment: Environment) {
+  constructor(
+    private cache: CacheService,
+    private userService: UserService,
+    readonly environment: Environment
+  ) {
     this.handler = new DiscordOauthService({
       version: "v9",
       clientId: environment.clientId,
@@ -36,11 +41,11 @@ export class DiscordService {
   async getSortedUserGuilds(
     id: string,
     accessToken: string,
-    _refreshToken: string
+    refreshToken: string
   ) {
     return (
       (await this.cache.get<ConvertedGuild[]>(id + ":allguilds")) ??
-      (await this.fetchUserGuildsAndCache(id, accessToken))
+      (await this.fetchUserGuildsAndCache(id, accessToken, refreshToken))
     );
   }
 
@@ -85,30 +90,37 @@ export class DiscordService {
   }
 
   private async convertGuilds(id: string, guilds: PartialGuild[]) {
-    return await Promise.all(
-      guilds.map(async (guild) => {
-        const isPayloadIn = await client.guilds
-          .fetch(guild.id)
-          .catch(() => false);
+    const converted: ConvertedGuild[] = [];
 
-        const icon =
-          guild.icon &&
-          `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`;
+    for (const guild of guilds) {
+      const isPayloadIn = await client.guilds
+        .fetch(guild.id)
+        .catch(() => false);
 
-        return new ConvertedGuild({
+      const icon =
+        guild.icon &&
+        `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`;
+
+      converted.push(
+        new ConvertedGuild({
           isPayloadIn: isPayloadIn ? true : false,
           canManage: await this.canManage(id, guild),
           ...(guild as any),
           icon,
-        });
-      })
-    );
+        })
+      );
+    }
+
+    return converted;
   }
 
-  private async fetchUserGuildsAndCache(id: string, accessToken: string) {
+  private async fetchUserGuildsAndCache(
+    id: string,
+    accessToken: string,
+    refreshToken: string
+  ) {
     this.logger.verbose("Fetching user guilds");
-    // FIXME: This is stupid. Catch oauth errors + refresh before throwing
-    const allGuilds = await this.handler.getUserGuilds(accessToken);
+    const allGuilds = await this.getUserGuilds(id, accessToken, refreshToken);
 
     const convertedGuilds = await this.convertGuilds(id, allGuilds);
 
@@ -119,5 +131,45 @@ export class DiscordService {
     await this.cache.set(id + ":allguilds", sortedAndFiltered, Time.Day / 1000);
 
     return sortedAndFiltered;
+  }
+
+  private async getUserGuilds(
+    id: string,
+    accessToken: string,
+    refreshToken: string
+  ) {
+    const guilds = await this.handler
+      .getUserGuilds(accessToken)
+      .catch(() => null);
+
+    // Going to re-auth then re-fetch
+    if (!guilds) {
+      const { access_token, refresh_token } = await this.handler.tokenRequest({
+        grantType: "refresh_token",
+        // :rolling_eyes:
+        scope: [],
+        refreshToken,
+      });
+
+      await this.userService.updateUser(id, {
+        $set: { accessToken: access_token, refreshToken: refresh_token },
+      });
+
+      // Hope this doesn't fail again
+      const guilds = await this.handler
+        .getUserGuilds(accessToken)
+        .catch(() => null);
+
+      if (!guilds) {
+        // Something went wrong
+        this.logger.error(`Failed to fetch user guilds for user ${id}`);
+        // lol enjoy no guilds cus cache
+        return [];
+      }
+
+      return guilds;
+    }
+
+    return guilds;
   }
 }

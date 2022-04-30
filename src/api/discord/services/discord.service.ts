@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { forwardRef, Inject, Injectable, Logger } from "@nestjs/common";
 import DiscordOauthService, { type PartialGuild } from "discord-oauth2";
 import { Environment } from "#api/environment/environment";
 import { container } from "@sapphire/framework";
@@ -7,7 +7,7 @@ import { Guild, GuildMember, Permissions } from "discord.js";
 import type { GuildInfo } from "passport-discord";
 import { CacheService } from "#api/cache/cache.service";
 import { Time } from "@sapphire/time-utilities";
-import type { UserService } from "#api/users/services/user.service";
+import { UserService } from "#api/users/services/user.service";
 
 const { client } = container;
 
@@ -18,6 +18,7 @@ export class DiscordService {
 
   constructor(
     private cache: CacheService,
+    @Inject(forwardRef(() => UserService))
     private userService: UserService,
     readonly environment: Environment
   ) {

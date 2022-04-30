@@ -1,10 +1,10 @@
 import { CacheModule } from "#api/cache/cache.module";
 import { UsersModule } from "#api/users/users.module";
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { DiscordService } from "./services/discord.service";
 
 @Module({
-  imports: [CacheModule.register(), UsersModule],
+  imports: [CacheModule.register(), forwardRef(() => UsersModule)],
   providers: [DiscordService],
   exports: [DiscordService],
 })

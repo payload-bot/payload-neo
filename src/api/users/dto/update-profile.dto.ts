@@ -10,7 +10,7 @@ export class UpdateProfileDto {
 
   @IsOptional()
   @IsNumber()
-  @Min(NotificationLevel.NONE)
-  @Max(NotificationLevel.ALL)
+  @Min(NotificationLevel.None)
+  @Max(NotificationLevel.All)
   notificationsLevel!: number;
 }

@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
 
   notificationsLevel: {
     type: Number,
-    default: NotificationLevel.NONE,
+    default: NotificationLevel.None,
   },
 
   fun: {

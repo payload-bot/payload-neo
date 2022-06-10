@@ -183,7 +183,7 @@ export class UserCommand extends PayloadCommand {
       const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
-        color: PayloadColors.USER,
+        color: PayloadColors.User,
       });
 
       paginationEmbed.addPageEmbed(embed);
@@ -264,7 +264,7 @@ export class UserCommand extends PayloadCommand {
       const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
-        color: PayloadColors.USER,
+        color: PayloadColors.User,
       });
 
       paginationEmbed.addPageEmbed(embed);

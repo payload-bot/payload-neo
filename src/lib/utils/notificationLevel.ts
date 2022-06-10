@@ -1,7 +1,7 @@
 export enum NotificationLevel {
-  NONE = 0,
-  MAJOR,
-  ALL,
+  None = 0,
+  Major,
+  All,
 }
 
 export default NotificationLevel;

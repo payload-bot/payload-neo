@@ -37,7 +37,7 @@ export class UserCommand extends PayloadCommand {
         footer: {
           text: args.t(LanguageKeys.Commands.Translate.EmbedFooter),
         },
-        color: PayloadColors.USER,
+        color: PayloadColors.User,
       });
 
       return await send(msg, { embeds: [embed] });

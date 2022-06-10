@@ -50,7 +50,7 @@ export default class UserAutoCommand extends AutoCommand {
     const att = new MessageAttachment(screenshotBuffer, "log.png");
     const embed = new MessageEmbed();
 
-    embed.setColor(PayloadColors.COMMAND);
+    embed.setColor(PayloadColors.Command);
     embed.setTitle(args.t(LanguageKeys.Auto.Logs.EmbedTitle));
     embed.setURL(url.toString());
     embed.setImage(`attachment://log.png`);

@@ -83,7 +83,7 @@ export default class UserAutoCommand extends AutoCommand {
     const embed = new MessageEmbed({
       title,
       url,
-      color: PayloadColors.USER,
+      color: PayloadColors.User,
       timestamp: new Date(date),
       description: `${author}\n\n${
         body.length > 700

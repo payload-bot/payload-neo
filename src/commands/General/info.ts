@@ -31,7 +31,7 @@ export class UserCommand extends PayloadCommand {
         servers: guildsServing,
       }),
       description: args.t(LanguageKeys.Commands.Info.EmbedDescription),
-      color: PayloadColors.PAYLOAD,
+      color: PayloadColors.Payload,
     });
 
     return await send(msg, { embeds: [embed] });

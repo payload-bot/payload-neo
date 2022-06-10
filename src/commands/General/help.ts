@@ -53,7 +53,7 @@ export class UserCommand extends PayloadCommand {
 
     const embed = new MessageEmbed({
       title: command.name,
-      color: PayloadColors.COMMAND,
+      color: PayloadColors.Command,
       description: content,
     });
 

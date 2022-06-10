@@ -32,7 +32,7 @@ export class UserCommand extends PayloadCommand {
     const embed = new MessageEmbed({
       title: targetUser.tag,
       description,
-      color: PayloadColors.USER,
+      color: PayloadColors.User,
       thumbnail: {
         url: targetUser.displayAvatarURL(),
       },

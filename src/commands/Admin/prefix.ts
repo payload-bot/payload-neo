@@ -67,7 +67,7 @@ export class UserCommand extends PayloadCommand {
         new: inlineCode(prefix),
       }),
       timestamp: new Date(),
-      color: PayloadColors.ADMIN,
+      color: PayloadColors.Admin,
     });
 
     return await send(msg, { embeds: [embed] });
@@ -99,7 +99,7 @@ export class UserCommand extends PayloadCommand {
         new: inlineCode(config.PREFIX),
       }),
       timestamp: new Date(),
-      color: PayloadColors.ADMIN,
+      color: PayloadColors.Admin,
     });
 
     await Server.findOneAndUpdate(

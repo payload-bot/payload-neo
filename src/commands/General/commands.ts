@@ -20,7 +20,7 @@ export class UserCommand extends PayloadCommand {
 
     const embed = new MessageEmbed({
       title: args.t(LanguageKeys.Commands.Commands.EmbedTitle),
-      color: PayloadColors.USER,
+      color: PayloadColors.User,
       fields: [
         {
           name: args.t(LanguageKeys.Commands.Commands.Commands),

@@ -103,7 +103,7 @@ export class WebhookService {
         url: "attachment://log.png",
       },
       url: logsUrl,
-      color: EmbedColors.GREEN,
+      color: EmbedColors.Green,
       timestamp: new Date(),
     });
 
@@ -130,7 +130,7 @@ export class WebhookService {
       footer: {
         text: "Rendered from Webhook",
       },
-      color: EmbedColors.GREEN,
+      color: EmbedColors.Green,
       timestamp: new Date(),
     });
 

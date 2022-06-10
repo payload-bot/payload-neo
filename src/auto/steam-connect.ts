@@ -50,14 +50,14 @@ export default class UserAutoCommand extends AutoCommand {
         port: parseInt(port, 10),
       });
 
-      embed.setColor(EmbedColors.GREEN);
+      embed.setColor(EmbedColors.Green);
       embed.setDescription(
         `${name}\n${players.length}/${maxplayers} ${args.t(
           LanguageKeys.Auto.Connect.Players
         )}`
       );
     } catch (err) {
-      embed.setColor(EmbedColors.RED);
+      embed.setColor(EmbedColors.Red);
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
     }
 

@@ -104,6 +104,7 @@ export async function closeBrowser(browser: Browser) {
   await Promise.all(
     (await browser.pages()).map(async (page) => await page.close())
   );
+  
   await browser.close();
 }
 
@@ -145,9 +146,9 @@ export async function captureSelector(
 
   await page.goto(url);
 
-  const element = (await page.waitForSelector(selector)) as any;
+  const element = await page.waitForSelector(selector);
 
-  const screenshot = (await element.screenshot()) as Buffer;
+  const screenshot = await element!.screenshot();
 
   await closeBrowser(browser);
 

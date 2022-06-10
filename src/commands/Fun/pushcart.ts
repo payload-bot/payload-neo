@@ -161,10 +161,10 @@ export class UserCommand extends PayloadCommand {
       { $match: { "fun.payload": { $exists: 1 } } },
       { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
       { $sort: { pushed: -1 } },
-      { $limit: 125 },
+      { $limit: 25 },
     ]);
 
-    const CHUNK_AMOUNT = 10;
+    const CHUNK_AMOUNT = 5;
     let rank = 1;
 
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {

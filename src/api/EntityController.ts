@@ -8,12 +8,13 @@ import {
 } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
 import type { Model } from "mongoose";
-import type { IEntityRepository } from "./repository/IRepository";
-import { EntityRepository } from "./repository/Repository";
+import type { IEntityRepository } from "./repository/IEntityRepository";
+import { EntityRepository } from "./repository/EntityRepository";
 import { Authenticate } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
   model: string;
+  repository?: any;
 }
 
 export abstract class EntityController<
@@ -27,6 +28,10 @@ export abstract class EntityController<
   public constructor(context: PieceContext, options: EntityControllerOptions) {
     super(context, options as any);
 
+    if (options.repository) {
+      this.repository = new options.repository(options.model);
+    }
+
     this.repository = new EntityRepository(options.model);
   }
 
@@ -35,8 +40,6 @@ export abstract class EntityController<
     const id = request.params.id;
 
     const data = await this.repository.get(id);
-
-    this.#enforce(request, response, data);
 
     return this.notFoundIfNull(data, response);
   }
@@ -65,13 +68,5 @@ export abstract class EntityController<
     } else {
       return response.ok(data);
     }
-  }
-
-  #enforce(_request: ApiRequest, _response: ApiResponse, data: TEntity | null) {
-    if (isNullish(data)) {
-      return;
-    }
-
-    // TODO: enforcement of permissions
   }
 }

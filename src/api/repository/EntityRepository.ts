@@ -1,4 +1,4 @@
-import type { IEntityRepository } from "./IRepository";
+import type { IEntityRepository } from "./IEntityRepository";
 import { Server } from "../../lib/models/Server";
 import { User } from "../../lib/models/User";
 import type { Model } from "mongoose";
@@ -10,6 +10,27 @@ export class EntityRepository<TEntity extends object>
 
   constructor(public model: string) {
     this.#repository = this.#convertToModel(model);
+  }
+
+  preGet(_id: string) {
+    return;
+  }
+
+  prePatch(_obj: TEntity, _obj2: TEntity) {
+    return;
+  }
+
+  preDelete(_obj: TEntity) {
+    return;
+  }
+
+  postGet(_obj: TEntity) {
+  }
+
+  postPatch(_obj: TEntity, _obj2: TEntity) {
+  }
+
+  postDelete(_obj: TEntity) {
   }
 
   public async get(id: string) {

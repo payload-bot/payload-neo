@@ -3,7 +3,7 @@ import { Server } from "../../lib/models/Server";
 import { User } from "../../lib/models/User";
 import type { Model } from "mongoose";
 
-export class EntityRepository<TEntity extends object>
+export class EntityRepository<TEntity extends typeof Model>
   implements IEntityRepository<TEntity>
 {
   #repository: typeof Model;

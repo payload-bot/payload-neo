@@ -12,26 +12,17 @@ export class EntityRepository<TEntity extends object>
     this.#repository = this.#convertToModel(model);
   }
 
-  preGet(_id: string) {
-    return;
-  }
+  preGet(_id: string) {}
 
-  prePatch(_obj: TEntity, _obj2: TEntity) {
-    return;
-  }
+  prePatch(_obj: TEntity, _obj2: TEntity) {}
 
-  preDelete(_obj: TEntity) {
-    return;
-  }
+  preDelete(_obj: TEntity) {}
 
-  postGet(_obj: TEntity) {
-  }
+  postGet(_obj: TEntity) {}
 
-  postPatch(_obj: TEntity, _obj2: TEntity) {
-  }
+  postPatch(_obj: TEntity, _obj2: TEntity) {}
 
-  postDelete(_obj: TEntity) {
-  }
+  postDelete(_obj: TEntity) {}
 
   public async get(id: string) {
     try {

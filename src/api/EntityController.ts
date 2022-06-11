@@ -9,12 +9,17 @@ import {
 import { isNullish } from "@sapphire/utilities";
 import type { IEntityRepository } from "./repository/IRepository";
 import { EntityRepository } from "./repository/Repository";
+import { Authenticate } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
   model: string;
 }
 
-export abstract class EntityController<TEntity extends object> extends Route {
+type EntityType = object;
+
+export abstract class EntityController<
+  TEntity extends EntityType
+> extends Route {
   public logger = this.container.logger;
   public client = this.container.client;
 
@@ -26,12 +31,13 @@ export abstract class EntityController<TEntity extends object> extends Route {
     this.repository = new EntityRepository(options.model);
   }
 
+  @Authenticate()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;
 
-    console.log(id);
-
     const data = await this.repository.get(id);
+
+    this.#enforce(request, response, data);
 
     return this.notFoundIfNull(data, response);
   }
@@ -43,7 +49,7 @@ export abstract class EntityController<TEntity extends object> extends Route {
 
     await this.repository.patch(id, body);
 
-    return this.ok(response);
+    return response.ok(response);
   }
 
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
@@ -51,55 +57,22 @@ export abstract class EntityController<TEntity extends object> extends Route {
 
     await this.repository.delete(id);
 
-    return this.ok(response);
-  }
-
-  public ok(response: ApiResponse) {
-    return response.status(204).respond("");
-  }
-
-  public notFound(response: ApiResponse) {
-    return response.status(404).respond({
-      code: 404,
-      message: "Not found",
-    });
-  }
-
-  public forbidden(response: ApiResponse) {
-    return response.status(403).respond({
-      code: 403,
-      message: "Forbidden",
-    });
-  }
-
-  public unauthorized(response: ApiResponse) {
-    return response.status(401).respond({
-      code: 401,
-      message: "Unauthorized",
-    });
+    return response.ok(response);
   }
 
   public notFoundIfNull<TObj>(data: TObj | null, response: ApiResponse) {
     if (isNullish(data)) {
-      return this.notFound(response);
+      return response.notFound();
     } else {
-      return response.status(200).respond(data);
+      return response.ok(data);
     }
   }
 
-  public internalServerError(response: ApiResponse) {
-    this.logger.error("Internal server error occurred");
+  #enforce(_request: ApiRequest, _response: ApiResponse, data: TEntity | null) {
+    if (isNullish(data)) {
+      return;
+    }
 
-    return response.status(500).respond({
-      code: 500,
-      message: "Internal server error",
-    });
-  }
-
-  public badRequest(response: ApiResponse) {
-    return response.status(400).respond({
-      code: 400,
-      message: "Bad request",
-    });
+    // TODO: enforcement of permissions
   }
 }

@@ -120,7 +120,7 @@ function parseI18N(): InternationalizationOptions {
 
 function parseAPI(): ServerOptions {
   return {
-    prefix: "/api",
+    prefix: "/api/",
     automaticallyConnect: true,
     origin: "*",
     listenOptions: {
@@ -129,6 +129,7 @@ function parseAPI(): ServerOptions {
     auth: {
       id: process.env.CLIENT_ID!,
       secret: process.env.CLIENT_SECRET!,
+      redirect: "http://localhost:8080/api/oauth/callback",
       scopes: ["identify", "guilds"],
       cookie: "__session",
     },

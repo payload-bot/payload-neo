@@ -1,6 +1,7 @@
 import { Server } from "#lib/models/Server";
 import config from "#root/config";
 import { LogLevel } from "@sapphire/framework";
+import type { ServerOptions } from "@sapphire/plugin-api";
 import type {
   InternationalizationContext,
   InternationalizationOptions,
@@ -117,6 +118,23 @@ function parseI18N(): InternationalizationOptions {
   };
 }
 
+function parseAPI(): ServerOptions {
+  return {
+    prefix: "/api",
+    automaticallyConnect: true,
+    origin: "*",
+    listenOptions: {
+      port: parseInt(process.env.PORT ?? "8080", 10),
+    },
+    auth: {
+      id: process.env.CLIENT_ID!,
+      secret: process.env.CLIENT_SECRET!,
+      scopes: ["identify", "guilds"],
+      cookie: "__session",
+    },
+  };
+}
+
 export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
   partials: ["CHANNEL"],
@@ -133,6 +151,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   defaultPrefix: config.PREFIX,
   loadDefaultErrorListeners: false,
   logger: makeLogger(),
+  api: parseAPI(),
   makeCache: cacheOptions(),
   presence: getPresence(),
   i18n: parseI18N(),

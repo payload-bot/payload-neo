@@ -447,6 +447,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/plugin-api@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "@sapphire/plugin-api@npm:3.2.1"
+  dependencies:
+    "@types/node-fetch": 2.6.1
+    "@types/psl": ^1.1.0
+    "@types/ws": ^8.5.3
+    node-fetch: 2.6.7
+    psl: ^1.8.0
+    tslib: ^2.3.1
+  checksum: ed3997d1c488d317a1210766181cbf8aba1f60313cb51e17ec6943ce1175b9ce99c167081dd1224a47bd29364b1443f1a8b74f4698deab4dcc957e6ecfb4e8c8
+  languageName: node
+  linkType: hard
+
 "@sapphire/plugin-editable-commands@npm:^1.2.0":
   version: 1.2.0
   resolution: "@sapphire/plugin-editable-commands@npm:1.2.0"
@@ -746,7 +760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-fetch@npm:^2.6.1":
+"@types/node-fetch@npm:2.6.1, @types/node-fetch@npm:^2.6.1":
   version: 2.6.1
   resolution: "@types/node-fetch@npm:2.6.1"
   dependencies:
@@ -816,6 +830,13 @@ __metadata:
   dependencies:
     "@types/express": "*"
   checksum: 5890c0539336e3d598641c518dae1ac75e1f1a75db574a9e06d70824bac0975a6169b938b9608eb40b49dc26f17023e34ca80985164342f51769a0fa3f52f60d
+  languageName: node
+  linkType: hard
+
+"@types/psl@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@types/psl@npm:1.1.0"
+  checksum: 648a4a40827fb101a05616b9c448b04d40c467db9f09e08099274759fd5e032e7d276013296679765c7d7359f43f0479094c1d8b6a56a8f9445b84b5a9af1263
   languageName: node
   linkType: hard
 
@@ -3899,6 +3920,7 @@ fsevents@~2.3.2:
     "@sapphire/discord.js-utilities": ^4.11.1
     "@sapphire/fetch": ^2.4.0
     "@sapphire/framework": ^2.5.0
+    "@sapphire/plugin-api": ^3.2.1
     "@sapphire/plugin-editable-commands": ^1.2.0
     "@sapphire/plugin-i18next": ^2.5.2
     "@sapphire/plugin-logger": ^2.2.1
@@ -4057,6 +4079,13 @@ fsevents@~2.3.2:
   bin:
     ps-tree: ./bin/ps-tree.js
   checksum: e635dd00f53d30d31696cf5f95b3a8dbdf9b1aeb36d4391578ce8e8cd22949b7c5536c73b0dc18c78615ea3ddd4be96101166be59ca2e3e3cb1e2f79ba3c7f98
+  languageName: node
+  linkType: hard
+
+"psl@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "psl@npm:1.8.0"
+  checksum: 6150048ed2da3f919478bee8a82f3828303bc0fc730fb015a48f83c9977682c7b28c60ab01425a72d82a2891a1681627aa530a991d50c086b48a3be27744bde7
   languageName: node
   linkType: hard
 

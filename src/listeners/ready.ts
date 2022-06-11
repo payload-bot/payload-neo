@@ -16,7 +16,6 @@ import {
   yellow,
 } from "colorette";
 import connectMongo from "#utils/connectMongo";
-import { bootstrap } from "#api/main";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -34,7 +33,6 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
     this.printStoreDebugInformation();
 
     await connectMongo(client);
-    await bootstrap();
   }
 
   private printBanner() {

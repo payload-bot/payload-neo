@@ -7,6 +7,7 @@ import {
   type RouteOptions,
 } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
+import type { Model } from "mongoose";
 import type { IEntityRepository } from "./repository/IRepository";
 import { EntityRepository } from "./repository/Repository";
 import { Authenticate } from "./utils/decorators";
@@ -15,10 +16,8 @@ export interface EntityControllerOptions extends RouteOptions {
   model: string;
 }
 
-type EntityType = object;
-
 export abstract class EntityController<
-  TEntity extends EntityType
+  TEntity extends typeof Model
 > extends Route {
   public logger = this.container.logger;
   public client = this.container.client;

@@ -129,7 +129,7 @@ function parseAPI(): ServerOptions {
     auth: {
       id: process.env.CLIENT_ID!,
       secret: process.env.CLIENT_SECRET!,
-      redirect: "http://localhost:8080/api/oauth/callback",
+      redirect: process.env.REDIRECT_URL!,
       scopes: ["identify", "guilds"],
       cookie: "__session",
     },

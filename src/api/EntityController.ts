@@ -9,6 +9,7 @@ import {
 import { isNullish } from "@sapphire/utilities";
 import type { Model } from "mongoose";
 import { EntityRepository } from "./repository/EntityRepository";
+import { FixKnownErrors } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
   model?: string;
@@ -25,19 +26,17 @@ export abstract class EntityController<
     super(context, options as any);
   }
 
+  @FixKnownErrors
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    try {
-      const id = request.params.id;
-      const repository = this.#createRepository(request, response);
+    const id = request.params.id;
+    const repository = this.#createRepository(request, response);
 
-      const data = await repository.get(id);
+    const data = await repository.get(id);
 
-      return this.notFoundIfNull(data, response);
-    } catch {
-      return response.notFound();
-    }
+    return this.notFoundIfNull(data, response);
   }
 
+  @FixKnownErrors
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const repository = this.#createRepository(request, response);
     const id = request.params.id;
@@ -49,6 +48,7 @@ export abstract class EntityController<
     return response.noContent("");
   }
 
+  @FixKnownErrors
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
     const repository = this.#createRepository(request, response);
     const id = request.params.id;

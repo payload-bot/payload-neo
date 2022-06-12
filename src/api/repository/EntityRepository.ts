@@ -57,7 +57,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   public async delete(id: string) {
     const existing = await this.get(id);
     await this.preDelete(existing);
-    const data = await this.repository.findByIdAndDelete(id).orFail();
+    const data = await this.repository.findByIdAndDelete(id);
     await this.postDelete(existing);
     return data;
   }

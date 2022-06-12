@@ -2,14 +2,28 @@ import type { IEntityRepository } from "./IEntityRepository";
 import { Server } from "../../lib/models/Server";
 import { User } from "../../lib/models/User";
 import type { Model } from "mongoose";
+import type { ApiRequest, ApiResponse, AuthData } from "@sapphire/plugin-api";
+import { container } from "@sapphire/framework";
 
 export class EntityRepository<TEntity extends typeof Model>
   implements IEntityRepository<TEntity>
 {
-  #repository: typeof Model;
+  protected repository: typeof Model;
+  protected request: ApiRequest;
+  protected response: ApiResponse;
+  protected identity: AuthData | null | undefined;
+  protected logger = container.logger;
 
-  constructor(public model: string) {
-    this.#repository = this.#convertToModel(model);
+  constructor(
+    model: string,
+    request: ApiRequest,
+    response: ApiResponse,
+    identity: AuthData
+  ) {
+    this.repository = this.#convertToModel(model);
+    this.request = request;
+    this.response = response;
+    this.identity = identity;
   }
 
   preGet(_id: string) {}
@@ -25,19 +39,29 @@ export class EntityRepository<TEntity extends typeof Model>
   postDelete(_obj: TEntity) {}
 
   public async get(id: string) {
-    try {
-      return await this.#repository.findById(id, {}).orFail().lean();
-    } catch {
-      return null;
-    }
+    await this.preGet(id);
+    const data = await this.repository.findById(id, {}).lean();
+    await this.postGet(data!);
+    return data;
   }
 
   public async patch(id: string, obj: Partial<TEntity>) {
-    return await this.#repository.findByIdAndUpdate(id, obj).orFail().lean();
+    const prevDat = await this.get(id);
+    await this.prePatch(prevDat, { ...prevDat, ...obj });
+    const data = await this.repository
+      .findByIdAndUpdate(id, obj)
+      .orFail()
+      .lean();
+    await this.postPatch(prevDat, data);
+    return data;
   }
 
   public async delete(id: string) {
-    return await this.#repository.findByIdAndDelete(id).orFail();
+    const existing = await this.get(id);
+    await this.preDelete(existing);
+    const data = await this.repository.findByIdAndDelete(id).orFail();
+    await this.postDelete(existing);
+    return data;
   }
 
   #convertToModel(stringifiedModel: string) {

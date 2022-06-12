@@ -8,12 +8,11 @@ import {
 } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
 import type { Model } from "mongoose";
-import type { IEntityRepository } from "./repository/IEntityRepository";
 import { EntityRepository } from "./repository/EntityRepository";
 import { Authenticate } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
-  model: string;
+  model?: string;
   repository?: any;
 }
 
@@ -23,41 +22,36 @@ export abstract class EntityController<
   public logger = this.container.logger;
   public client = this.container.client;
 
-  public repository: IEntityRepository<TEntity>;
-
   public constructor(context: PieceContext, options: EntityControllerOptions) {
     super(context, options as any);
-
-    if (options.repository) {
-      this.repository = new options.repository(options.model);
-    }
-
-    this.repository = new EntityRepository(options.model);
   }
 
   @Authenticate()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;
+    const repository = this.#createRepository(request, response);
 
-    const data = await this.repository.get(id);
+    const data = await repository.get(id);
 
     return this.notFoundIfNull(data, response);
   }
 
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
+    const repository = this.#createRepository(request, response);
     const id = request.params.id;
     // TODO: Validate request body
     const body = request.body as Partial<TEntity>;
 
-    await this.repository.patch(id, body);
+    await repository.patch(id, body);
 
     return response.ok(response);
   }
 
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
+    const repository = this.#createRepository(request, response);
     const id = request.params.id;
 
-    await this.repository.delete(id);
+    await repository.delete(id);
 
     return response.ok(response);
   }
@@ -68,5 +62,17 @@ export abstract class EntityController<
     } else {
       return response.ok(data);
     }
+  }
+
+  #createRepository(request: ApiRequest, response: ApiResponse) {
+    const { repository, model } = this.options as EntityControllerOptions;
+    const identity = request.auth;
+
+    if (repository) {
+      return new (this.options as any).repository(model!, request, response, identity as any);
+    }
+
+
+    return new EntityRepository(model!, request, response, identity as any);
   }
 }

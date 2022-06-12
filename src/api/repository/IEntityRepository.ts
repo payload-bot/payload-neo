@@ -8,6 +8,12 @@ export interface IEntityRepository<TEntity> {
   get(id: string): Awaitable<TEntity | null>;
 
   /**
+   * Gets a list of entities by IDs
+   * @param ids Array of ObjectIds
+   */
+  getMany(ids: string[]): Awaitable<Array<TEntity | null>>;
+
+  /**
    * PATCHes an entity by ID
    * @param id ObjectId
    * @param obj New data to PATCH to TEntity

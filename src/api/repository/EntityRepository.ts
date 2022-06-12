@@ -43,6 +43,18 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     return data;
   }
 
+  public async getMany(ids: string[]) {
+    const preGetPromises = ids.map(async (id) => this.preGet(id));
+    await Promise.all(preGetPromises);
+
+    const data = await this.repository.find({ _id: { $in: ids } });
+
+    const postGetPromises = data.map(async (obj) => this.postGet(obj));
+    await Promise.all(postGetPromises);
+
+    return data;
+  }
+
   public async patch(id: string, obj: Partial<TEntity>) {
     const prevDat = await this.get(id);
     await this.prePatch(prevDat, { ...prevDat, ...obj });

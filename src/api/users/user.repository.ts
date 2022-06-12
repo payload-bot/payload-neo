@@ -1,17 +1,10 @@
 import { EntityRepository } from "#api/repository/EntityRepository";
-import type { User } from "#lib/models/User";
+import type { UserModel } from "#lib/models/User";
 
-export class UserRepository extends EntityRepository<typeof User> {
-  public override async postGet(obj: any) {
-    this.logger.info(this.identity);
-    this.logger.info(obj);
-  }
-
-  public override async postPatch(obj: any, _obj2: any) {
-    this.logger.info(obj);
-  }
-
-  public override async postDelete(obj: any) {
-    this.logger.info(obj);
+export class UserRepository extends EntityRepository<UserModel> {
+  public override async postGet(obj: UserModel) {
+    if (this.identity?.id !== obj.id) {
+      throw this.response.notFound();
+    }
   }
 }

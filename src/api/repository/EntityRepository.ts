@@ -5,9 +5,7 @@ import type { Model } from "mongoose";
 import type { ApiRequest, ApiResponse, AuthData } from "@sapphire/plugin-api";
 import { container } from "@sapphire/framework";
 
-export class EntityRepository<TEntity extends typeof Model>
-  implements IEntityRepository<TEntity>
-{
+export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   protected repository: typeof Model;
   protected request: ApiRequest;
   protected response: ApiResponse;

@@ -9,7 +9,6 @@ import {
 import { isNullish } from "@sapphire/utilities";
 import type { Model } from "mongoose";
 import { EntityRepository } from "./repository/EntityRepository";
-import { Authenticate } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
   model?: string;
@@ -26,7 +25,6 @@ export abstract class EntityController<
     super(context, options as any);
   }
 
-  @Authenticate()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;
     const repository = this.#createRepository(request, response);
@@ -44,7 +42,7 @@ export abstract class EntityController<
 
     await repository.patch(id, body);
 
-    return response.ok(response);
+    return response.noContent("");
   }
 
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
@@ -53,7 +51,7 @@ export abstract class EntityController<
 
     await repository.delete(id);
 
-    return response.ok(response);
+    return response.noContent("");
   }
 
   public notFoundIfNull<TObj>(data: TObj | null, response: ApiResponse) {
@@ -69,9 +67,13 @@ export abstract class EntityController<
     const identity = request.auth;
 
     if (repository) {
-      return new (this.options as any).repository(model!, request, response, identity as any);
+      return new (this.options as any).repository(
+        model!,
+        request,
+        response,
+        identity as any
+      );
     }
-
 
     return new EntityRepository(model!, request, response, identity as any);
   }

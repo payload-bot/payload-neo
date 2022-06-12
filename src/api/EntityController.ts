@@ -26,12 +26,16 @@ export abstract class EntityController<
   }
 
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    const repository = this.#createRepository(request, response);
+    try {
+      const id = request.params.id;
+      const repository = this.#createRepository(request, response);
 
-    const data = await repository.get(id);
+      const data = await repository.get(id);
 
-    return this.notFoundIfNull(data, response);
+      return this.notFoundIfNull(data, response);
+    } catch {
+      return response.notFound();
+    }
   }
 
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {

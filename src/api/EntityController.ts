@@ -12,8 +12,8 @@ import { EntityRepository } from "./repository/EntityRepository";
 import { FixKnownErrors } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
-  model?: string;
-  repository?: any;
+  model?: typeof Model;
+  repository?: new (...args: any[]) => any;
 }
 
 export abstract class EntityController<
@@ -43,7 +43,7 @@ export abstract class EntityController<
     // TODO: Validate request body
     const body = request.body as Partial<TEntity>;
 
-    await repository.patch(id, body);
+    await repository.patch(id, body as any);
 
     return response.noContent("");
   }
@@ -71,14 +71,9 @@ export abstract class EntityController<
     const identity = request.auth;
 
     if (repository) {
-      return new (this.options as any).repository(
-        model!,
-        request,
-        response,
-        identity as any
-      );
+      return new repository(model!, request, response, identity!);
     }
 
-    return new EntityRepository(model!, request, response, identity as any);
+    return new EntityRepository(model!, request, response, identity!);
   }
 }

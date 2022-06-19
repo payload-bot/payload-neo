@@ -1,3 +1,4 @@
+import { transformAuth } from "#lib/api/utils/authTransformer";
 import { Server } from "#lib/models/Server";
 import config from "#root/config";
 import { LogLevel } from "@sapphire/framework";
@@ -127,6 +128,7 @@ function parseAPI(): ServerOptions {
       port: parseInt(process.env.PORT ?? "8080", 10),
     },
     auth: {
+      transformers: [transformAuth],
       id: process.env.CLIENT_ID!,
       secret: process.env.CLIENT_SECRET!,
       redirect: process.env.REDIRECT_URL!,

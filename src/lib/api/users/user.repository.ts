@@ -1,4 +1,4 @@
-import { EntityRepository } from "#api/repository/EntityRepository";
+import { EntityRepository } from "#lib/api/repository/EntityRepository";
 import type { User, UserModel } from "#lib/models/User";
 
 export class UserRepository extends EntityRepository<typeof User, UserModel> {

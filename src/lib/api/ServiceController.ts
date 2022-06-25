@@ -20,9 +20,9 @@ export abstract class ServiceController extends Route {
     }
   }
 
-  protected createRepository(request: ApiRequest, response: ApiResponse, model: typeof Model) {
+  protected createRepository<TModel>(request: ApiRequest, response: ApiResponse, model: typeof Model) {
     const identity = request.auth;
 
-    return new EntityRepository(model, request, response, identity!);
+    return new EntityRepository<TModel>(model as any, request, response, identity!);
   }
 }

@@ -14,7 +14,7 @@ import {
 })
 export class GuildWebhookCreateRoute extends ServiceController {
   @Authenticated()
-  public async [methods.GET](request: ApiRequest, response: ApiResponse) {
+  public async [methods.POST](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;
     if (request.auth?.id !== id) {
       return response.forbidden();

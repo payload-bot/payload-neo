@@ -10,9 +10,9 @@ import {
 } from "@sapphire/plugin-api";
 
 @ApplyOptions<RouteOptions>({
-  route: "webhooks/users/:id",
+  route: "webhooks/guilds/:id",
 })
-export class UsersWebhookRoute extends ServiceController {
+export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;

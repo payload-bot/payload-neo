@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://payload.tf">
-    <img src="https://payload.tf/img/logo.svg" alt="payload.tf logo" width="175" height="175">
+    <img src="https://payload.tf/logo.svg" alt="payload.tf logo" width="175" height="175">
   </a>
 </p>
 

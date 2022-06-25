@@ -1,6 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { User } from "#lib/models";
+import { Server } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import {
   type ApiRequest,
@@ -20,7 +20,7 @@ export class GuildRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Server);
 
     const data = await repository.get(id);
 
@@ -34,7 +34,7 @@ export class GuildRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Server);
     const body = request.body as any;
 
     await repository.patch(id, body as any);
@@ -49,7 +49,7 @@ export class GuildRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Server);
 
     await repository.delete(id);
 

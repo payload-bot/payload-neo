@@ -2,7 +2,7 @@ import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";

@@ -1,6 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { User } from "#lib/models";
+import { Webhook } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import {
   type ApiRequest,
@@ -12,7 +12,7 @@ import {
 @ApplyOptions<RouteOptions>({
   route: "users/:id",
 })
-export class UserRoute extends ServiceController {
+export class UsersWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const id = request.params.id;
@@ -20,7 +20,7 @@ export class UserRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Webhook);
 
     const data = await repository.get(id);
 
@@ -34,7 +34,7 @@ export class UserRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Webhook);
     const body = request.body as any;
 
     await repository.patch(id, body as any);
@@ -49,7 +49,7 @@ export class UserRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository(request, response, Webhook);
 
     await repository.delete(id);
 

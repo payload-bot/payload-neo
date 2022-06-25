@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
 

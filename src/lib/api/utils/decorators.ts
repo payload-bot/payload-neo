@@ -1,7 +1,7 @@
 import { createFunctionPrecondition } from "@sapphire/decorators";
 import { type ApiRequest, ApiResponse, HttpCodes } from "@sapphire/plugin-api";
 
-export const Authenticate = () =>
+export const Authenticated = () =>
   createFunctionPrecondition(
     (request: ApiRequest) => Boolean(request.auth?.token),
     (_request: ApiRequest, response: ApiResponse) =>

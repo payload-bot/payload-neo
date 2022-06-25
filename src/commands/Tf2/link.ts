@@ -2,7 +2,7 @@ import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { User } from "#lib/models/User";
+import { User } from "#lib/models";
 import { getSteamIdFromArgs } from "#utils/getSteamId";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";

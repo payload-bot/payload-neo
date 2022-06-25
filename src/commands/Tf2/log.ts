@@ -4,7 +4,7 @@ import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import { capturePage } from "#utils/screenshot";
-import { User } from "#lib/models/User";
+import { User } from "#lib/models";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";

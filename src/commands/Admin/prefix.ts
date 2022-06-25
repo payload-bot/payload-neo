@@ -6,7 +6,7 @@ import {
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";

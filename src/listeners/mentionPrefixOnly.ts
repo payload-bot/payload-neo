@@ -1,5 +1,5 @@
 import { LanguageKeys } from "#lib/i18n/all";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import config from "#root/config";
 import { inlineCode } from "@discordjs/builders";
 import { Events, Listener } from "@sapphire/framework";

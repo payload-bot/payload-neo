@@ -1,5 +1,5 @@
 import { transformAuth } from "#lib/api/utils/authTransformer";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import config from "#root/config";
 import { LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";

@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { Command, Identifiers, Precondition } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 
 @ApplyOptions<Precondition.Options>({ position: 10 })
 export class UserPrecondition extends Precondition {

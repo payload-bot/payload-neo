@@ -6,11 +6,9 @@ export class UserListener extends Listener<typeof Events.RateLimit> {
     const { logger } = this.container;
 
     logger.warn(
-      `[RATE LIMIT${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${
-        rateLimitData.method
-      } ${rateLimitData.path}] LIMIT: ${rateLimitData.limit}] TIMEOUT: ${
-        rateLimitData.timeout
-      }`
+      `[RATE LIMIT${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.method} ${
+        rateLimitData.path
+      }] LIMIT: ${rateLimitData.limit}] TIMEOUT: ${rateLimitData.timeout}`
     );
   }
 }

@@ -2,12 +2,7 @@ import { ServiceController } from "#lib/api/ServiceController";
 import { sendLogPreview } from "#lib/api/utils/webhook-helper";
 import { Webhook } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  type ApiRequest,
-  type ApiResponse,
-  methods,
-  type RouteOptions,
-} from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
 
 @ApplyOptions<RouteOptions>({

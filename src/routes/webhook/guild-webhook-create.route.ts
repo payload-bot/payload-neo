@@ -3,12 +3,7 @@ import { Authenticated } from "#lib/api/utils/decorators";
 import { canManage } from "#lib/api/utils/helpers";
 import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  type ApiRequest,
-  type ApiResponse,
-  methods,
-  type RouteOptions,
-} from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
 
 @ApplyOptions<RouteOptions>({
@@ -22,16 +17,8 @@ export class GuildWebhookCreateRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const webhookRepo = this.createRepository<WebhookModel>(
-      request,
-      response,
-      Webhook
-    );
-    const serverRepo = this.createRepository<ServerModel>(
-      request,
-      response,
-      Server
-    );
+    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
+    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
 
     const guild = await serverRepo.get(guildId);
 

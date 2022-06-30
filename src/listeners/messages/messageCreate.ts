@@ -15,9 +15,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
     const { client } = this.container;
 
-    const autoResponses = client.stores.get(
-      "autoresponses" as any
-    ) as AutoResponseStore;
+    const autoResponses = client.stores.get("autoresponses" as any) as AutoResponseStore;
 
     // Check auto responses
     // @TODO: Split into listners
@@ -32,11 +30,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         commandPrefix: autoResponse.getMatch(message),
       };
 
-      const args = await autoResponse.preParse(
-        message,
-        message.content,
-        context
-      );
+      const args = await autoResponse.preParse(message, message.content, context);
 
       // Run global preconditions:
       const globalResult = await this.container.stores
@@ -55,11 +49,10 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
       }
 
       // Run command-specific preconditions:
-      const localResult = await autoResponse.preconditions.run(
+      const localResult = await autoResponse.preconditions.run(message, autoResponse, {
         message,
-        autoResponse,
-        { message, command: autoResponse }
-      );
+        command: autoResponse,
+      });
 
       if (!localResult.success) {
         this.container.client.emit(Events.CommandDenied, localResult.error, {

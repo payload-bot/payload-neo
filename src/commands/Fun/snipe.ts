@@ -24,9 +24,7 @@ export class UserCommand extends PayloadCommand {
       }
     }
 
-    const number = await args
-      .pick("integer", { minimum: 1, maximum: 5 })
-      .catch(() => 1);
+    const number = await args.pick("integer", { minimum: 1, maximum: 5 }).catch(() => 1);
 
     const client = this.container.client as PayloadClient;
 
@@ -41,10 +39,7 @@ export class UserCommand extends PayloadCommand {
     const max = cache.size;
 
     if (number > max) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max })
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max }));
     }
 
     const ids = [...cache.keys()];

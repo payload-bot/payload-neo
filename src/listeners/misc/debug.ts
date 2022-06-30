@@ -5,7 +5,7 @@ export class UserListener extends Listener<typeof Events.Debug> {
     if (!this.container.client.dev) {
       return;
     }
-    
+
     const { logger } = this.container;
 
     logger.debug(message);

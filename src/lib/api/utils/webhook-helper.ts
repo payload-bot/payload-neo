@@ -1,23 +1,12 @@
 import config from "#root/config";
 import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
-import {
-  type Client,
-  MessageAttachment,
-  MessageEmbed,
-  type TextChannel,
-  type User,
-  Permissions,
-} from "discord.js";
+import { type Client, MessageAttachment, MessageEmbed, type TextChannel, type User, Permissions } from "discord.js";
 
 type TargetReturnType = TextChannel | User | null;
 type WebhookTargetType = "channels" | "users";
 
-export async function checkTarget(
-  client: Client,
-  target: WebhookTargetType,
-  id: string
-) {
+export async function checkTarget(client: Client, target: WebhookTargetType, id: string) {
   if (target === "users") {
     return true;
   }
@@ -45,26 +34,15 @@ export async function checkTarget(
     return false;
   }
 
-  if (
-    !targetTextChannel
-      .permissionsFor(member)
-      .has(Permissions.FLAGS.SEND_MESSAGES)
-  ) {
+  if (!targetTextChannel.permissionsFor(member).has(Permissions.FLAGS.SEND_MESSAGES)) {
     return false;
   }
 
   return true;
 }
 
-export async function sendLogPreview(
-  client: Client,
-  scope: WebhookTargetType,
-  id: string,
-  logsId: string
-) {
-  const target = (await client[scope]
-    .fetch(id)
-    .catch(() => null)) as TargetReturnType;
+export async function sendLogPreview(client: Client, scope: WebhookTargetType, id: string, logsId: string) {
+  const target = (await client[scope].fetch(id).catch(() => null)) as TargetReturnType;
 
   if (!target) {
     throw new Error("Bad discord target id");
@@ -117,9 +95,7 @@ export async function sendLogPreview(
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {
   console.log(scope, id);
-  const target = (await client[scope]
-    .fetch(id)
-    .catch(() => null)) as TargetReturnType;
+  const target = (await client[scope].fetch(id).catch(() => null)) as TargetReturnType;
 
   if (target == null) {
     throw new Error("Bad discord target id");
@@ -142,11 +118,7 @@ export async function sendTest(client: Client, scope: WebhookTargetType, id: str
   }
 }
 
-async function sendWebhook(
-  target: TextChannel | User,
-  embed: MessageEmbed,
-  attachment?: MessageAttachment
-) {
+async function sendWebhook(target: TextChannel | User, embed: MessageEmbed, attachment?: MessageAttachment) {
   return await target.send({
     embeds: [embed],
     files: attachment ? [attachment] : undefined,

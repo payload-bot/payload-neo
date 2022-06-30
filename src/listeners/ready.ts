@@ -1,20 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  ListenerOptions,
-  Events,
-  Listener,
-  Piece,
-  Store,
-} from "@sapphire/framework";
-import {
-  blue,
-  gray,
-  green,
-  magenta,
-  magentaBright,
-  white,
-  yellow,
-} from "colorette";
+import { ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
+import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
 import connectMongo from "#utils/connectMongo";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
@@ -54,9 +40,7 @@ ${line01} ${pad}${blc(`Payload Version ${process.env.VERSION ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] MongoDB
 ${line02} ${pad}[${success}] API
-${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(
-        dev ? "DEVELOPMENT" : "PRODUCTION"
-      )}`}
+${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(dev ? "DEVELOPMENT" : "PRODUCTION")}`}
 		`.trim()
     );
   }
@@ -71,18 +55,10 @@ ${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(
   }
 
   private styleStore(store: Store<Piece>) {
-    return gray(
-      `${"├─"} Loaded ${this.style(store.size.toString().padEnd(3, " "))} ${
-        store.name
-      }.`
-    );
+    return gray(`${"├─"} Loaded ${this.style(store.size.toString().padEnd(3, " "))} ${store.name}.`);
   }
 
   private styleLanguages(languages: Map<string, TFunction>) {
-    return gray(
-      `└─ Loaded ${this.style(
-        languages.size.toString().padEnd(3, " ")
-      )} languages.`
-    );
+    return gray(`└─ Loaded ${this.style(languages.size.toString().padEnd(3, " "))} languages.`);
   }
 }

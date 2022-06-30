@@ -19,10 +19,7 @@ export class UserCommand extends PayloadCommand {
     const steamId = await args.pick("string").catch(() => null);
 
     if (args.getFlags("D") || args.getFlags("d")) {
-      await User.findOneAndUpdate(
-        { id: msg.author.id },
-        { $unset: { steamId: 1 } }
-      );
+      await User.findOneAndUpdate({ id: msg.author.id }, { $unset: { steamId: 1 } });
 
       return await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
     }

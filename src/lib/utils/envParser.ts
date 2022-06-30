@@ -1,18 +1,12 @@
 import { isNullishOrEmpty } from "@sapphire/utilities";
 
-type EnvKeys =
-  | "OWNERS"
-  | "REDIS_URL"
-  | "REDIS_ENABLED"
-  | "OVERRIDE_SESSION_STORAGE";
+type EnvKeys = "OWNERS" | "REDIS_URL" | "REDIS_ENABLED" | "OVERRIDE_SESSION_STORAGE";
 
 export function envParseArray(key: EnvKeys, defaultValue?: string[]): string[] {
   const value = process.env[key];
   if (isNullishOrEmpty(value)) {
     if (defaultValue === undefined) {
-      throw new Error(
-        `[ENV] ${key} - The key must be an array, but is empty or undefined.`
-      );
+      throw new Error(`[ENV] ${key} - The key must be an array, but is empty or undefined.`);
     }
 
     return defaultValue;
@@ -26,9 +20,7 @@ export function envParseString(key: EnvKeys, defaultValue?: string): string {
 
   if (isNullishOrEmpty(value)) {
     if (defaultValue === undefined) {
-      throw new Error(
-        `[ENV] ${key} - The key must be a string, but is empty or undefined.`
-      );
+      throw new Error(`[ENV] ${key} - The key must be a string, but is empty or undefined.`);
     }
 
     return defaultValue;

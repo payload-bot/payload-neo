@@ -21,10 +21,7 @@ export class UserCommand extends PayloadCommand {
     const useAllCommands = args.getFlags("all");
 
     if (args.finished && !useAllCommands) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Unrestrict.NoCommands)
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
     }
 
     let commands: PayloadCommand[];
@@ -39,14 +36,11 @@ export class UserCommand extends PayloadCommand {
 
     // don't restrict the un/restrict command
     const filteredCommands = commands
-      .map((cmd) => cmd?.name ?? cmd)
-      .filter((name) => !["restrict", "unrestrict"].includes(name));
+      .map(cmd => cmd?.name ?? cmd)
+      .filter(name => !["restrict", "unrestrict"].includes(name));
 
     if (!filteredCommands.length) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Unrestrict.NoCommands)
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
     }
 
     await this.unsetRestrictions(msg.guildId!, filteredCommands);
@@ -59,11 +53,7 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async unsetRestrictions(guildId: string, commands: string[]) {
-    const server = await Server.findOne(
-      { id: guildId },
-      {},
-      { upsert: true }
-    ).lean();
+    const server = await Server.findOne({ id: guildId }, {}, { upsert: true }).lean();
 
     const existingRestrictions = server!.commandRestrictions ?? [];
 
@@ -73,13 +63,8 @@ export class UserCommand extends PayloadCommand {
       if (existingRestrictions.includes(command)) toUnrestrict.push(command);
     }
 
-    const finalRestrictions = existingRestrictions.filter(
-      (curr) => !toUnrestrict.includes(curr)
-    );
+    const finalRestrictions = existingRestrictions.filter(curr => !toUnrestrict.includes(curr));
 
-    await Server.findOneAndUpdate(
-      { id: guildId },
-      { commandRestrictions: finalRestrictions }
-    );
+    await Server.findOneAndUpdate({ id: guildId }, { commandRestrictions: finalRestrictions });
   }
 }

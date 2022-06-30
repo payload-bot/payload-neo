@@ -2,12 +2,7 @@ import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
 import { Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  type ApiRequest,
-  type ApiResponse,
-  methods,
-  type RouteOptions,
-} from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
 import { generate } from "generate-password";
 
@@ -26,11 +21,7 @@ export class UsersWebhookRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.POST](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository<WebhookModel>(
-      request,
-      response,
-      Webhook
-    );
+    const repository = this.createRepository<WebhookModel>(request, response, Webhook);
 
     const data = await repository.get(request.auth!.id);
 

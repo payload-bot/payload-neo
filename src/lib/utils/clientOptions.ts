@@ -3,18 +3,9 @@ import { Server } from "#lib/models";
 import config from "#root/config";
 import { LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
-import type {
-  InternationalizationContext,
-  InternationalizationOptions,
-} from "@sapphire/plugin-i18next";
+import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
-import {
-  ClientOptions,
-  Intents,
-  LimitedCollection,
-  Options,
-  PresenceData,
-} from "discord.js";
+import { ClientOptions, Intents, LimitedCollection, Options, PresenceData } from "discord.js";
 import type { FormatFunction } from "i18next";
 
 function cacheOptions() {
@@ -24,7 +15,7 @@ function cacheOptions() {
       sweepInterval: 180,
       sweepFilter: LimitedCollection.filterByLifetime({
         lifetime: 900,
-        getComparisonTimestamp: (m) => m.editedTimestamp ?? m.createdTimestamp,
+        getComparisonTimestamp: m => m.editedTimestamp ?? m.createdTimestamp,
       }),
     },
     ReactionManager: 0,
@@ -41,8 +32,7 @@ function cacheOptions() {
 
 function makeLogger() {
   return {
-    level:
-      process.env.NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
+    level: process.env.NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
   };
 }
 
@@ -93,15 +83,10 @@ function parseI18N(): InternationalizationOptions {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
         },
         // @TODO: remove when https://github.com/sapphiredev/plugins/pull/167 is published
-        format: (
-          ...[value, format, _, options]: Parameters<FormatFunction>
-        ) => {
+        format: (...[value, format, _, options]: Parameters<FormatFunction>) => {
           switch (format as string) {
             case "duration": {
-              return new DurationFormatter().format(
-                value,
-                options?.precision ?? 2
-              );
+              return new DurationFormatter().format(value, options?.precision ?? 2);
             }
 
             default: {
@@ -112,7 +97,7 @@ function parseI18N(): InternationalizationOptions {
       },
       // @TODO: uncomment when https://github.com/sapphiredev/plugins/pull/167 is published
       // formatters: getAllI18nFormatters(),
-      overloadTranslationOptionHandler: (args) => ({
+      overloadTranslationOptionHandler: args => ({
         defaultValue: args[1] ?? "globals:default",
       }),
     }),

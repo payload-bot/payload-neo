@@ -2,12 +2,7 @@ import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
 import { User } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  type ApiRequest,
-  type ApiResponse,
-  methods,
-  type RouteOptions,
-} from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 
 @ApplyOptions<RouteOptions>({
   route: "users",

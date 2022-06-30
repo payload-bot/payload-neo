@@ -10,12 +10,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   protected identity?: AuthData | null;
   protected logger = container.logger;
 
-  constructor(
-    repository: mongoose.Model<TEntity>,
-    request: ApiRequest,
-    response: ApiResponse,
-    identity: AuthData
-  ) {
+  constructor(repository: mongoose.Model<TEntity>, request: ApiRequest, response: ApiResponse, identity: AuthData) {
     this.repository = repository;
     this.request = request;
     this.response = response;
@@ -50,14 +45,14 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   }
 
   public async getMany(ids: string[]) {
-    const preGetPromises = ids.map(async (id) => this.preGet(id));
+    const preGetPromises = ids.map(async id => this.preGet(id));
     await Promise.all(preGetPromises);
 
     const data = await this.repository.find({
       id: { $in: ids },
     });
 
-    const postGetPromises = data.map(async (obj) => this.postGet(obj!));
+    const postGetPromises = data.map(async obj => this.postGet(obj!));
     await Promise.all(postGetPromises);
 
     return data;
@@ -67,10 +62,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     const prevDat = await this.get(id);
     await this.prePatch(prevDat!, { ...prevDat, ...obj } as any);
 
-    const data = (await this.repository
-      .findOneAndUpdate({ id }, obj)
-      .orFail()
-      .lean()) as TEntity;
+    const data = (await this.repository.findOneAndUpdate({ id }, obj).orFail().lean()) as TEntity;
 
     await this.postPatch(prevDat!, data);
     return data;

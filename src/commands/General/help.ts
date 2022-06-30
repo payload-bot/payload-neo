@@ -5,10 +5,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
-import {
-  BuildCommandHelp,
-  LanguageHelpDisplayOptions,
-} from "#lib/i18n/CommandHelper";
+import { BuildCommandHelp, LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Help.Description,
@@ -16,11 +13,7 @@ import {
   aliases: ["h"],
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
     if (args.finished) {
       // Just send the commands command
       const allCommands = this.container.stores.get("commands");
@@ -39,9 +32,7 @@ export class UserCommand extends PayloadCommand {
       .setUsages(translatedCases.usages)
       .setDetails(translatedCases.moreDetails);
 
-    const detailedDescription = args.t(
-      command.detailedDescription as any
-    ) as LanguageHelpDisplayOptions;
+    const detailedDescription = args.t(command.detailedDescription as any) as LanguageHelpDisplayOptions;
 
     const content = builder.display(
       command.name,

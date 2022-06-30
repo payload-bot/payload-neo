@@ -25,10 +25,7 @@ export class UserCommand extends PayloadCommand {
     const user = await User.findOne({ id }).lean();
 
     if (!user?.steamId) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag })
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag }));
     }
 
     const { logs } = await fetch<any>(
@@ -42,29 +39,26 @@ export class UserCommand extends PayloadCommand {
 
     const logID = logs[logs.length - 1].id;
 
-    const screenshotBuffer = await capturePage(
-      `http://logs.tf/${logID}#${user.steamId}`,
-      {
-        top: {
-          selector: "#log-header",
-          edge: "top",
-        },
-        left: {
-          selector: "#log-header",
-          edge: "left",
-        },
-        right: {
-          selector: "#log-header",
-          edge: "right",
-        },
-        bottom: {
-          selector: "#log-section-players",
-          edge: "bottom",
-        },
+    const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${user.steamId}`, {
+      top: {
+        selector: "#log-header",
+        edge: "top",
+      },
+      left: {
+        selector: "#log-header",
+        edge: "left",
+      },
+      right: {
+        selector: "#log-header",
+        edge: "right",
+      },
+      bottom: {
+        selector: "#log-section-players",
+        edge: "bottom",
+      },
 
-        cssPath: config.files.LOGS_CSS,
-      }
-    );
+      cssPath: config.files.LOGS_CSS,
+    });
 
     const linkButton = new MessageActionRow().addComponents(
       new MessageButton({

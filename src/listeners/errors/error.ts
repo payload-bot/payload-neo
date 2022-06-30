@@ -9,16 +9,16 @@ export class UserListener extends Listener {
 
     if (error instanceof DiscordAPIError) {
       logger.warn(
-        `[API ERROR] [CODE: ${error.code}] ${
-          error.message
-        }${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${error.path}]`
+        `[API ERROR] [CODE: ${error.code}] ${error.message}${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${
+          error.path
+        }]`
       );
       logger.fatal(error.stack);
     } else if (error instanceof HTTPError) {
       logger.warn(
-        `[HTTP ERROR] [CODE: ${error.code}] ${
-          error.message
-        }${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${error.path}]`
+        `[HTTP ERROR] [CODE: ${error.code}] ${error.message}${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${
+          error.path
+        }]`
       );
       logger.fatal(error);
     } else {

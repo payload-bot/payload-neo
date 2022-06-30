@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
@@ -15,16 +12,8 @@ import type { CommandContext } from "@sapphire/framework";
   regex: /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
-    const parts = context.prefix
-      .toString()
-      .trim()
-      .replace("steam://connect/", "")
-      .split("/");
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
+    const parts = context.prefix.toString().trim().replace("steam://connect/", "").split("/");
 
     const ip = parts[0];
     const ipNoPort = ip.split(":")[0];
@@ -47,11 +36,7 @@ export default class UserAutoCommand extends AutoCommand {
       });
 
       embed.setColor(EmbedColors.Green);
-      embed.setDescription(
-        `${name}\n${players.length}/${maxplayers} ${args.t(
-          LanguageKeys.Auto.Connect.Players
-        )}`
-      );
+      embed.setDescription(`${name}\n${players.length}/${maxplayers} ${args.t(LanguageKeys.Auto.Connect.Players)}`);
     } catch (err) {
       embed.setColor(EmbedColors.Red);
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));

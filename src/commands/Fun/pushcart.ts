@@ -23,13 +23,7 @@ const PUSHCART_CAP = 1000;
   description: LanguageKeys.Commands.Pushcart.Description,
   detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
   runIn: ["GUILD_TEXT"],
-  subCommands: [
-    "leaderboard",
-    "rank",
-    "gift",
-    "servers",
-    { input: "push", output: "push", default: true },
-  ],
+  subCommands: ["leaderboard", "rank", "gift", "servers", { input: "push", output: "push", default: true }],
 })
 export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
@@ -59,23 +53,13 @@ export class UserCommand extends PayloadCommand {
     const user = await User.findOne({ id: msg.author.id }).lean();
 
     if (result === PayloadPushResult.COOLDOWN) {
-      const timeLeft = Math.round(
-        (user!.fun!.payload.lastPushed + 1000 * 30 - Date.now()) / 1000
-      );
+      const timeLeft = Math.round((user!.fun!.payload.lastPushed + 1000 * 30 - Date.now()) / 1000);
 
-      return await send(
-        msg,
-        t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: timeLeft })
-      );
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: timeLeft }));
     } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(
-        addDays(user!.fun!.payload.lastActiveDate, 1)
-      );
+      const timeLeft = formatDistanceToNowStrict(addDays(user!.fun!.payload.lastActiveDate, 1));
 
-      return await send(
-        msg,
-        t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft })
-      );
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
 
     const server = await Server.findOneAndUpdate(
@@ -110,24 +94,13 @@ export class UserCommand extends PayloadCommand {
 
     const safeAmount = Math.abs(amount);
 
-    const fromUser = await User.findOne(
-      { id: msg.author.id },
-      {},
-      { upsert: true }
-    );
+    const fromUser = await User.findOne({ id: msg.author.id }, {}, { upsert: true });
 
-    if (
-      !fromUser?.fun?.payload?.feetPushed ||
-      (fromUser.fun.payload.feetPushed < safeAmount ?? true)
-    ) {
+    if (!fromUser?.fun?.payload?.feetPushed || (fromUser.fun.payload.feetPushed < safeAmount ?? true)) {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NotEnoughCreds));
     }
 
-    const toUser = await User.findOne(
-      { id: targetUser.id },
-      {},
-      { upsert: true }
-    );
+    const toUser = await User.findOne({ id: targetUser.id }, {}, { upsert: true });
 
     fromUser.fun.payload.feetPushed -= safeAmount;
     toUser!.fun!.payload!.feetPushed += safeAmount;
@@ -147,9 +120,7 @@ export class UserCommand extends PayloadCommand {
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const loadingEmbed = new MessageEmbed()
-      .setDescription("Loading...")
-      .setColor("RANDOM");
+    const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
 
     const paginationEmbed = new LazyPaginatedMessage({
       template: new MessageEmbed()
@@ -170,9 +141,7 @@ export class UserCommand extends PayloadCommand {
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
-          const { username } = await client.users
-            .fetch(id)
-            .catch(() => ({ username: "-" }));
+          const { username } = await client.users.fetch(id).catch(() => ({ username: "-" }));
 
           return msg.author.username === username
             ? `> ${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`
@@ -207,35 +176,24 @@ export class UserCommand extends PayloadCommand {
       { $sort: { pushed: -1 } },
     ]);
 
-    const index = leaderboardSkip10.findIndex(
-      (user) => user.id === targetUser.id
-    );
+    const index = leaderboardSkip10.findIndex(user => user.id === targetUser.id);
 
     if (index === -1) {
       return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
     }
 
-    const { pushed } = leaderboardSkip10.find(
-      (user) => user.id === targetUser.id
-    );
+    const { pushed } = leaderboardSkip10.find(user => user.id === targetUser.id);
 
-    return await send(
-      msg,
-      codeBlock("md", `#${index + 1}: ${targetUser.tag} (${pushed})`)
-    );
+    return await send(msg, codeBlock("md", `#${index + 1}: ${targetUser.tag} (${pushed})`));
   }
 
   async servers(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const loadingEmbed = new MessageEmbed()
-      .setDescription("Loading...")
-      .setColor("RANDOM");
+    const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
 
     const paginationEmbed = new LazyPaginatedMessage({
-      template: new MessageEmbed()
-        .setColor("BLUE")
-        .setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
+      template: new MessageEmbed().setColor("BLUE").setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
     });
 
     const leaderboard = (await Server.aggregate([
@@ -251,9 +209,7 @@ export class UserCommand extends PayloadCommand {
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
         page.map(async ({ id, pushed }, i) => {
-          const { name, id: gid } = await client.guilds
-            .fetch(id)
-            .catch(() => ({ name: "-", id: null }));
+          const { name, id: gid } = await client.guilds.fetch(id).catch(() => ({ name: "-", id: null }));
 
           return msg.guild!.id === gid
             ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`
@@ -297,15 +253,9 @@ export class UserCommand extends PayloadCommand {
     fun.payload.feetPushed = fun.payload.feetPushed ?? 0;
     fun.payload.pushedToday = fun.payload.pushedToday ?? 0;
 
-    const isUnderCooldown = isAfter(
-      add(fun.payload.lastPushed, { seconds: 30 }),
-      Date.now()
-    );
+    const isUnderCooldown = isAfter(add(fun.payload.lastPushed, { seconds: 30 }), Date.now());
 
-    const shouldRefreshCap = isAfter(
-      Date.now(),
-      add(fun.payload.lastActiveDate, { days: 1 })
-    );
+    const shouldRefreshCap = isAfter(Date.now(), add(fun.payload.lastActiveDate, { days: 1 }));
 
     const hasReachedMaxPoints = fun.payload.pushedToday >= PUSHCART_CAP;
 

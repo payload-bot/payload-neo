@@ -14,10 +14,7 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { client } = this.container;
 
-    const membersServing = client.guilds.cache.reduce(
-      (acc, val) => acc + (val.memberCount ?? 0),
-      0
-    );
+    const membersServing = client.guilds.cache.reduce((acc, val) => acc + (val.memberCount ?? 0), 0);
 
     const guildsServing = client.guilds.cache.size;
 

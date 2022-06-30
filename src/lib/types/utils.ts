@@ -9,8 +9,6 @@ export type CustomFunctionGet<K extends string, TArgs, TReturn> = K & {
   __return__: TReturn;
 };
 
-export function FT<TArgs, TReturn = string>(
-  k: string
-): CustomFunctionGet<string, TArgs, TReturn> {
+export function FT<TArgs, TReturn = string>(k: string): CustomFunctionGet<string, TArgs, TReturn> {
   return k as CustomFunctionGet<string, TArgs, TReturn>;
 }

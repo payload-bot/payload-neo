@@ -3,12 +3,7 @@ import { Authenticated } from "#lib/api/utils/decorators";
 import { canManage } from "#lib/api/utils/helpers";
 import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  type ApiRequest,
-  type ApiResponse,
-  methods,
-  type RouteOptions,
-} from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/guilds/:id",
@@ -17,7 +12,7 @@ export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!await canManage(request.auth?.id, guildId)) {
+    if (!(await canManage(request.auth?.id, guildId))) {
       return response.forbidden();
     }
 
@@ -42,7 +37,7 @@ export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!await canManage(request.auth?.id, guildId)) {
+    if (!(await canManage(request.auth?.id, guildId))) {
       return response.forbidden();
     }
 
@@ -67,7 +62,7 @@ export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!await canManage(request.auth?.id, guildId)) {
+    if (!(await canManage(request.auth?.id, guildId))) {
       return response.forbidden();
     }
 

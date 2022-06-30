@@ -24,29 +24,22 @@ export class UserRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
-      return response.forbidden();
-    }
-
     const repository = this.createRepository(request, response, User);
     const body = request.body as any;
 
-    await repository.patch(id, body as any);
+    await repository.patch(request.auth!.id, body as any);
 
     return response.noContent("");
   }
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
-      return response.forbidden();
-    }
-
     const repository = this.createRepository(request, response, User);
 
-    await repository.delete(id);
+    await repository.delete(request.auth!.id);
+
+    // nom nom nom
+    response.cookies.delete("__session");
 
     return response.noContent("");
   }

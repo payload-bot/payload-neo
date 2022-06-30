@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { Message, MessageEmbed } from "discord.js";
@@ -14,8 +11,7 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Tftv.Description,
-  regex:
-    /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
+  regex: /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message, { t }: Args) {
@@ -24,10 +20,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const baseUrl = allMatches.groups!.base;
 
-    let page = parseInt(
-      allMatches.groups!.page?.replace("/?page=", "") ?? 0,
-      10
-    );
+    let page = parseInt(allMatches.groups!.page?.replace("/?page=", "") ?? 0, 10);
 
     let post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
 
@@ -35,9 +28,7 @@ export default class UserAutoCommand extends AutoCommand {
       page = Math.floor(post / 30) + 1;
     }
 
-    const url = `https://${baseUrl}${
-      page > 0 ? `/?page=${page}#${post}` : `#${post}`
-    }`;
+    const url = `https://${baseUrl}${page > 0 ? `/?page=${page}#${post}` : `#${post}`}`;
 
     const data = await fetch(url, FetchResultTypes.Text);
 
@@ -58,9 +49,7 @@ export default class UserAutoCommand extends AutoCommand {
       $post = $(`#thread-container > .post > a#${postNumber}`).parent();
 
       if (!$post.children().length && page > 1) {
-        return await msg.channel.send(
-          t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url })
-        );
+        return await msg.channel.send(t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url }));
       }
 
       if (!$post.children().length) {
@@ -72,24 +61,16 @@ export default class UserAutoCommand extends AutoCommand {
       author = $post.find(".post-header .post-author").text().trim();
     }
 
-    const dateSelector = $post
-      .find(".post-footer .js-date-toggle")
-      .attr("title");
+    const dateSelector = $post.find(".post-footer .js-date-toggle").attr("title");
 
-    const date = dateSelector
-      ? dateSelector.replace(/at (\d+:\d+).+$/, "$1")
-      : "N/A";
+    const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
     const embed = new MessageEmbed({
       title,
       url,
       color: PayloadColors.User,
       timestamp: new Date(date),
-      description: `${author}\n\n${
-        body.length > 700
-          ? `${body.slice(0, 700)}...\n[read more](${url})`
-          : body
-      }`,
+      description: `${author}\n\n${body.length > 700 ? `${body.slice(0, 700)}...\n[read more](${url})` : body}`,
       footer: {
         text: `${frags} frags`,
       },

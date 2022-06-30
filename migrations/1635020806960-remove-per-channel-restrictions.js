@@ -9,9 +9,9 @@ module.exports.up = function (next) {
   config();
 
   MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
-    .then((c) => c.db())
-    .then((db) => db.collection("servers"))
-    .then((collection) =>
+    .then(c => c.db())
+    .then(db => db.collection("servers"))
+    .then(collection =>
       collection.updateMany(
         {
           commandRestrictions: {

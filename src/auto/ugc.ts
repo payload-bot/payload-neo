@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
@@ -18,11 +15,7 @@ import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
   regex: /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
     const url = context.prefix;
 
     // Needed hight and width to not have wierdo mobile views

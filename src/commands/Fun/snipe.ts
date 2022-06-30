@@ -2,7 +2,7 @@ import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
@@ -24,9 +24,7 @@ export class UserCommand extends PayloadCommand {
       }
     }
 
-    const number = await args
-      .pick("integer", { minimum: 1, maximum: 5 })
-      .catch(() => 1);
+    const number = await args.pick("integer", { minimum: 1, maximum: 5 }).catch(() => 1);
 
     const client = this.container.client as PayloadClient;
 
@@ -41,10 +39,7 @@ export class UserCommand extends PayloadCommand {
     const max = cache.size;
 
     if (number > max) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max })
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max }));
     }
 
     const ids = [...cache.keys()];

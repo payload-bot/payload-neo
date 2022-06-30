@@ -15,17 +15,10 @@ type ElementBasedBound = {
   edge: "top" | "bottom" | "left" | "right";
 };
 
-type PuppeteerLaunchOptions = LaunchOptions &
-  BrowserLaunchArgumentOptions &
-  BrowserConnectOptions;
+type PuppeteerLaunchOptions = LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions;
 
 interface CaptureOptions {
-  [index: string]:
-    | string
-    | number
-    | Array<string>
-    | ElementBasedBound
-    | undefined;
+  [index: string]: string | number | Array<string> | ElementBasedBound | undefined;
 
   waitFor?: string | Array<string>;
   top: number | ElementBasedBound;
@@ -35,11 +28,8 @@ interface CaptureOptions {
   cssPath?: string;
 }
 
-export async function generateClipBounds(
-  options: SerializableOrJSHandle,
-  page: Page
-) {
-  return await page.evaluate((options) => {
+export async function generateClipBounds(options: SerializableOrJSHandle, page: Page) {
+  return await page.evaluate(options => {
     let bounds = {
       x: 0,
       y: 0,
@@ -47,7 +37,7 @@ export async function generateClipBounds(
       height: document.body.clientHeight,
     };
 
-    ["top", "left", "bottom", "right"].forEach((edge) => {
+    ["top", "left", "bottom", "right"].forEach(edge => {
       const currentOption = options[edge];
       if (!currentOption) return;
 
@@ -57,18 +47,15 @@ export async function generateClipBounds(
         if (edge == "bottom") bounds.height = currentOption - bounds.y;
         if (edge == "right") bounds.width = currentOption - bounds.x;
       } else if (typeof currentOption == "object") {
-        if (!document.querySelector(currentOption.selector))
-          throw new Error("Top element not found.");
+        if (!document.querySelector(currentOption.selector)) throw new Error("Top element not found.");
 
         const element = document.querySelector(currentOption.selector);
         const boundingClientRect = element.getBoundingClientRect();
 
         if (edge == "top") bounds.y = boundingClientRect[currentOption.edge];
         if (edge == "left") bounds.x = boundingClientRect[currentOption.edge];
-        if (edge == "bottom")
-          bounds.height = boundingClientRect[currentOption.edge] - bounds.y;
-        if (edge == "right")
-          bounds.width = boundingClientRect[currentOption.edge] - bounds.x;
+        if (edge == "bottom") bounds.height = boundingClientRect[currentOption.edge] - bounds.y;
+        if (edge == "right") bounds.width = boundingClientRect[currentOption.edge] - bounds.x;
       }
     });
 
@@ -101,26 +88,19 @@ async function createPage(url: string, options?: PuppeteerLaunchOptions) {
 }
 
 export async function closeBrowser(browser: Browser) {
-  await Promise.all(
-    (await browser.pages()).map(async (page) => await page.close())
-  );
-  
+  await Promise.all((await browser.pages()).map(async page => await page.close()));
+
   await browser.close();
 }
 
-export async function capturePage(
-  url: string,
-  options: CaptureOptions = { left: 0, top: 0 }
-): Promise<Buffer> {
+export async function capturePage(url: string, options: CaptureOptions = { left: 0, top: 0 }): Promise<Buffer> {
   const { page, browser } = await createPage(url);
 
   if (options.cssPath) await page.addStyleTag({ path: options.cssPath });
 
   if (options.waitFor) {
     if (Array.isArray(options.waitFor)) {
-      await Promise.all(
-        options.waitFor.map((selector) => page.waitForSelector(selector))
-      );
+      await Promise.all(options.waitFor.map(selector => page.waitForSelector(selector)));
     } else {
       await page.waitForSelector(options.waitFor);
     }
@@ -137,11 +117,7 @@ export async function capturePage(
   return screenshotBuffer as Buffer;
 }
 
-export async function captureSelector(
-  url: string,
-  selector: string,
-  options?: PuppeteerLaunchOptions
-) {
+export async function captureSelector(url: string, selector: string, options?: PuppeteerLaunchOptions) {
   const { page, browser } = await createPage(url, options);
 
   await page.goto(url);

@@ -2,7 +2,7 @@ import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { User } from "#lib/models/User";
+import { User } from "#lib/models";
 import { getSteamIdFromArgs } from "#utils/getSteamId";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -19,10 +19,7 @@ export class UserCommand extends PayloadCommand {
     const steamId = await args.pick("string").catch(() => null);
 
     if (args.getFlags("D") || args.getFlags("d")) {
-      await User.findOneAndUpdate(
-        { id: msg.author.id },
-        { $unset: { steamId: 1 } }
-      );
+      await User.findOneAndUpdate({ id: msg.author.id }, { $unset: { steamId: 1 } });
 
       return await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
     }

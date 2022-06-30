@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
@@ -15,11 +12,7 @@ import { LanguageKeys } from "#lib/i18n/all";
   regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
     const connectInfo = context.prefix.toString().trim();
     const parts = connectInfo.split(";");
 
@@ -51,11 +44,7 @@ export default class UserAutoCommand extends AutoCommand {
       });
 
       embed.setColor(EmbedColors.Green);
-      embed.setDescription(
-        `${name}\n${players.length}/${maxplayers} ${args.t(
-          LanguageKeys.Auto.Connect.Players
-        )}`
-      );
+      embed.setDescription(`${name}\n${players.length}/${maxplayers} ${args.t(LanguageKeys.Auto.Connect.Players)}`);
     } catch (err) {
       embed.setColor(EmbedColors.Red);
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));

@@ -32,21 +32,17 @@ export class UserCommand extends PayloadCommand {
     });
 
     if (targetedUsersToRemove.size) {
-      channelMessages = channelMessages.filter((foundMsg) => {
-        return msg.mentions.users
-          .map((user) => user.id)
-          .includes(foundMsg.author.id);
+      channelMessages = channelMessages.filter(foundMsg => {
+        return msg.mentions.users.map(user => user.id).includes(foundMsg.author.id);
       });
     }
 
-    channelMessages = channelMessages.filter((channelMessage) => {
+    channelMessages = channelMessages.filter(channelMessage => {
       return Date.now() - channelMessage.createdTimestamp < twoWeeks;
     });
 
     const deletedMessages = await (msg.channel as TextChannel).bulkDelete(
-      channelMessages
-        .map((channelMessage) => channelMessage.id)
-        .slice(0, amount)
+      channelMessages.map(channelMessage => channelMessage.id).slice(0, amount)
     );
 
     return await send(

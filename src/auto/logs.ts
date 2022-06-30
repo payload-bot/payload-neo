@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
@@ -19,11 +16,7 @@ import { LanguageKeys } from "#lib/i18n/all";
   regex: /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    context: CommandContext
-  ) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
     const url = context.prefix;
 
     const screenshotBuffer = await capturePage(url.toString(), {

@@ -16,10 +16,7 @@ export async function getSteamIdFromArgs(id: string) {
     steamID = new ID(id);
   } catch (err) {
     try {
-      const data = await fetch(
-        `https://steamcommunity.com/id/${id}`,
-        FetchResultTypes.Text
-      );
+      const data = await fetch(`https://steamcommunity.com/id/${id}`, FetchResultTypes.Text);
 
       const cssSteamID = data.match(/(765611\d{11})/);
 

@@ -24,11 +24,11 @@ export class UserCommand extends PayloadCommand {
       fields: [
         {
           name: args.t(LanguageKeys.Commands.Commands.Commands),
-          value: commands.map((c) => inlineCode(c.name)).join(", "),
+          value: commands.map(c => inlineCode(c.name)).join(", "),
         },
         {
           name: args.t(LanguageKeys.Commands.Commands.AutoCommands),
-          value: autoCommands.map((ac) => inlineCode(ac.name)).join(", "),
+          value: autoCommands.map(ac => inlineCode(ac.name)).join(", "),
         },
       ],
     });

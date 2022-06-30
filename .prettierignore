@@ -1,0 +1,7 @@
+.github/
+.yarn/
+assets/
+dist/
+node_modules/
+src/languages
+changelog.md

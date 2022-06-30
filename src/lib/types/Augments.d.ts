@@ -30,10 +30,7 @@ declare module "i18next" {
   export interface TFunction {
     ns?: string;
 
-    <K extends string, TReturn>(
-      key: CustomGet<K, TReturn>,
-      options?: TOptionsBase | string
-    ): TReturn;
+    <K extends string, TReturn>(key: CustomGet<K, TReturn>, options?: TOptionsBase | string): TReturn;
 
     <K extends string, TReturn>(
       key: CustomGet<K, TReturn>,

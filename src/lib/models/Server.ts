@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-export type ServerModel = Document & {
+export type ServerModel = {
   id: string;
   prefix?: string;
   language?: string;

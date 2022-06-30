@@ -1,12 +1,8 @@
-import {
-  ApplyOptions,
-  RequiresGuildContext,
-  RequiresUserPermissions,
-} from "@sapphire/decorators";
+import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { Server } from "#lib/models/Server";
+import { Server } from "#lib/models";
 import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
@@ -80,10 +76,7 @@ export class UserCommand extends PayloadCommand {
     const { t } = args;
 
     if (server?.prefix === config.PREFIX) {
-      return await send(
-        msg,
-        t(LanguageKeys.Commands.Prefix.DeleteAlreadyDefault)
-      );
+      return await send(msg, t(LanguageKeys.Commands.Prefix.DeleteAlreadyDefault));
     }
 
     const embed = new MessageEmbed({
@@ -102,10 +95,7 @@ export class UserCommand extends PayloadCommand {
       color: PayloadColors.Admin,
     });
 
-    await Server.findOneAndUpdate(
-      { id: msg.guild!.id },
-      { prefix: config.PREFIX }
-    );
+    await Server.findOneAndUpdate({ id: msg.guild!.id }, { prefix: config.PREFIX });
 
     return await send(msg, { embeds: [embed] });
   }

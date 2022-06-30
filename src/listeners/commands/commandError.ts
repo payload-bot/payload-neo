@@ -1,11 +1,4 @@
-import {
-  Args,
-  ArgumentError,
-  CommandErrorPayload,
-  Events,
-  Listener,
-  UserError,
-} from "@sapphire/framework";
+import { Args, ArgumentError, CommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
 import type { TFunction } from "@sapphire/plugin-i18next";
@@ -13,32 +6,22 @@ import { mapIdentifier } from "#lib/i18n/mapping";
 import { cutText } from "@sapphire/utilities";
 import { send } from "@skyra/editable-commands";
 
-const ignoredCodes = [
-  RESTJSONErrorCodes.UnknownChannel,
-  RESTJSONErrorCodes.UnknownMessage,
-];
+const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 
 export class UserListener extends Listener<typeof Events.CommandError> {
   async run(error: Error, { message, args }: CommandErrorPayload) {
     const { client, logger } = this.container;
 
-    if (typeof error === "string")
-      return this.container.logger.error(`Unhandled string error:\n${error}`);
-    if (error instanceof ArgumentError)
-      return await this.argumentError(message, args.t, error);
-    if (error instanceof UserError)
-      return await this.userError(message, args.t, error);
+    if (typeof error === "string") return this.container.logger.error(`Unhandled string error:\n${error}`);
+    if (error instanceof ArgumentError) return await this.argumentError(message, args.t, error);
+    if (error instanceof UserError) return await this.userError(message, args.t, error);
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
       if (this.isSilencedError(args, error)) return;
       client.emit(Events.Error, error);
     } else {
-      logger.warn(
-        `${this.getWarnError(message)} (${message.author.id}) | ${
-          error.constructor.name
-        }`
-      );
+      logger.warn(`${this.getWarnError(message)} (${message.author.id}) | ${error.constructor.name}`);
       logger.info(error.stack);
     }
 
@@ -55,20 +38,14 @@ export class UserListener extends Listener<typeof Events.CommandError> {
   }
 
   private getWarnError(message: Message) {
-    return `ERROR: /${
-      message.guild
-        ? `${message.guild.id}/${message.channel.id}`
-        : `DM/${message.author.id}`
-    }/${message.id}`;
+    return `ERROR: /${message.guild ? `${message.guild.id}/${message.channel.id}` : `DM/${message.author.id}`}/${
+      message.id
+    }`;
   }
 
-  private isDirectMessageReplyAfterBlock(
-    args: Args,
-    error: DiscordAPIError | HTTPError
-  ) {
+  private isDirectMessageReplyAfterBlock(args: Args, error: DiscordAPIError | HTTPError) {
     // When sending a message to a user who has blocked the bot, Discord replies with 50007 "Cannot send messages to this user":
-    if (error.code !== RESTJSONErrorCodes.CannotSendMessagesToThisUser)
-      return false;
+    if (error.code !== RESTJSONErrorCodes.CannotSendMessagesToThisUser) return false;
 
     // If it's not a Direct Message, return false:
     if (args.message.guild !== null) return false;
@@ -77,11 +54,7 @@ export class UserListener extends Listener<typeof Events.CommandError> {
     return error.path === `/channels/${args.message.channel.id}/messages`;
   }
 
-  private async argumentError(
-    message: Message,
-    t: TFunction,
-    error: ArgumentError<unknown>
-  ) {
+  private async argumentError(message: Message, t: TFunction, error: ArgumentError<unknown>) {
     const argument = error.argument.name;
     const identifier = mapIdentifier(error.identifier);
     const parameter = error.parameter.replaceAll("`", "῾");

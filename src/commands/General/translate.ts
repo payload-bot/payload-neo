@@ -42,10 +42,7 @@ export class UserCommand extends PayloadCommand {
 
       return await send(msg, { embeds: [embed] });
     } catch (err) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Translate.ErrorTranslating)
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Translate.ErrorTranslating));
     }
   }
 }

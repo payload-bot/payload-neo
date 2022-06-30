@@ -6,8 +6,6 @@ const OWNERS = envParseArray("OWNERS");
 
 export class UserPrecondition extends Precondition {
   public async run(message: Message) {
-    return OWNERS.includes(message.author.id)
-      ? this.ok()
-      : this.error({ context: { silent: true } });
+    return OWNERS.includes(message.author.id) ? this.ok() : this.error({ context: { silent: true } });
   }
 }

@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
@@ -18,15 +15,8 @@ import { BucketScope, CommandContext } from "@sapphire/framework";
   regex: /etf2l.org\/teams\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(
-    msg: Message,
-    args: PayloadCommand.Args,
-    { prefix: url }: CommandContext
-  ) {
-    const screenshotBuffer = await captureSelector(
-      `https://${url}`,
-      "#content > div > div > table.pls"
-    );
+  async messageRun(msg: Message, args: PayloadCommand.Args, { prefix: url }: CommandContext) {
+    const screenshotBuffer = await captureSelector(`https://${url}`, "#content > div > div > table.pls");
 
     const att = new MessageAttachment(screenshotBuffer, "team.png");
 

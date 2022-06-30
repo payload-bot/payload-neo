@@ -16,19 +16,13 @@ export class UserCommand extends PayloadCommand {
     const version = await args.pick("string").catch(() => null);
 
     if (!version) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Changelog.InvalidVersion)
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Changelog.InvalidVersion));
     }
 
     const changeLog = await getChangelog(version);
 
     if (!changeLog) {
-      return await send(
-        msg,
-        args.t(LanguageKeys.Commands.Changelog.InvalidFormat)
-      );
+      return await send(msg, args.t(LanguageKeys.Commands.Changelog.InvalidFormat));
     }
 
     return await send(msg, {

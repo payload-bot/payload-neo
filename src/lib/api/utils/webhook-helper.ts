@@ -116,11 +116,12 @@ export async function sendLogPreview(
 }
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {
+  console.log(scope, id);
   const target = (await client[scope]
     .fetch(id)
     .catch(() => null)) as TargetReturnType;
 
-  if (!target) {
+  if (target == null) {
     throw new Error("Bad discord target id");
   }
 

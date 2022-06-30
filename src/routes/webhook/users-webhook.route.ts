@@ -8,6 +8,8 @@ import {
   methods,
   type RouteOptions,
 } from "@sapphire/plugin-api";
+import { isNullish } from "@sapphire/utilities";
+import { generate } from "generate-password";
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/users",
@@ -32,11 +34,20 @@ export class UsersWebhookRoute extends ServiceController {
 
     const data = await repository.get(request.auth!.id);
 
-    if (data == null) {
+    if (!isNullish(data)) {
       return response.badRequest("You can only have one webhook");
     }
+    const newWebhook = await repository.post(request.auth!.id, {
+      id: request.auth!.id,
+      type: "users",
+      value: generate({
+        length: 40,
+        numbers: true,
+        strict: true,
+      }),
+    });
 
-    return this.notFoundIfNull(data, response);
+    return response.ok(newWebhook);
   }
 
   @Authenticated()

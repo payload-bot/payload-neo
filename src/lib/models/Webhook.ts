@@ -1,8 +1,8 @@
-import { model, Document, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
-export type WebhookModel = Document & {
+export type WebhookModel = {
   value: string;
-  createdAt: Date;
+  createdAt?: Date;
   type: "users" | "channels";
   id: string;
 };

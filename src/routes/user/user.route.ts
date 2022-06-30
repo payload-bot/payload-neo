@@ -15,14 +15,9 @@ import {
 export class UserRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
-      return response.forbidden();
-    }
-
     const repository = this.createRepository(request, response, User);
 
-    const data = await repository.get(id);
+    const data = await repository.get(request.auth!.id);
 
     return this.notFoundIfNull(data, response);
   }

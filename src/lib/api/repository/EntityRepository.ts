@@ -37,9 +37,15 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   public async get(id: string) {
     await this.preGet(id);
 
-    const data = (await this.repository.findById(id, {}).lean()) as TEntity;
+    const data = (await this.repository.findOne({ id }, {}).lean()) as TEntity;
 
     await this.postGet(data!);
+    return data;
+  }
+
+  public async post(id: string, obj: TEntity) {
+    const data = await this.repository.create({ id, ...obj });
+
     return data;
   }
 
@@ -48,7 +54,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     await Promise.all(preGetPromises);
 
     const data = await this.repository.find({
-      _id: { $in: ids },
+      id: { $in: ids },
     });
 
     const postGetPromises = data.map(async (obj) => this.postGet(obj!));
@@ -62,7 +68,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     await this.prePatch(prevDat!, { ...prevDat, ...obj } as any);
 
     const data = (await this.repository
-      .findByIdAndUpdate(id, obj)
+      .findOneAndUpdate({ id }, obj)
       .orFail()
       .lean()) as TEntity;
 
@@ -74,7 +80,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     const existing = await this.get(id);
     await this.preDelete(existing!);
 
-    await this.repository.findByIdAndDelete(id);
+    await this.repository.findOneAndDelete({ id });
 
     await this.postDelete(existing!);
     return true;

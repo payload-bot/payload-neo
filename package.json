@@ -18,7 +18,7 @@
     "#lib/*": "./dist/lib/*.js",
     "#lib/utils/*": "./dist/lib/utils/*.js",
     "#lib/types": "./dist/lib/types/index.js",
-    "#lib/models/*": "./dist/lib/models/*.js",
+    "#lib/models": "./dist/lib/models/index.js",
     "#lib/i18n/all": "./dist/lib/i18n/all/index.js",
     "#utils/*": "./dist/lib/utils/*.js"
   },
@@ -57,7 +57,8 @@
     "migrate": "^1.8.0",
     "mongoose": "^6.3.6",
     "puppeteer": "^14.3.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^3.3.4",

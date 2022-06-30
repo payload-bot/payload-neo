@@ -1,5 +1,4 @@
-import { Server } from "#lib/models";
-import { User } from "#lib/models";
+import { Server, User } from "#lib/models";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import config from "#root/config";
 import { container } from "@sapphire/framework";

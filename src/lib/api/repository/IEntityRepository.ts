@@ -2,10 +2,17 @@ import type { Awaitable } from "@sapphire/utilities";
 
 export interface IEntityRepository<TEntity> {
   /**
-   * Gets an entity by ID
+   * Gets an entity by Discord ID
    * @param id ObjectId
    */
   get(id: string): Awaitable<TEntity | null>;
+
+  /**
+   * Creates a {TEntity}
+   * @param id ObjectId
+   * @param obj TEntity
+   */
+  post(id: string, obj: TEntity): Awaitable<TEntity>;
 
   /**
    * Gets a list of entities by IDs

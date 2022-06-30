@@ -1,6 +1,7 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { Webhook } from "#lib/models";
+import { canManage } from "#lib/api/utils/helpers";
+import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import {
   type ApiRequest,
@@ -15,15 +16,26 @@ import {
 export class GuildWebhookCreateRoute extends ServiceController {
   @Authenticated()
   public async [methods.POST](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
+    const guildId = request.params.id;
+    if (!await canManage(request.auth?.id, guildId)) {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, Webhook);
+    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
+    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
 
-    const data = await repository.get(id);
+    const guild = await serverRepo.get(guildId);
 
-    return this.notFoundIfNull(data, response);
+    if (!guild) {
+      return response.notFound();
+    }
+
+    const { id, ...rest } = request.body as any;
+
+    const newWebhook = await webhookRepo.post(id, rest);
+
+    await serverRepo.patch(guildId, { webhook: newWebhook.id });
+
+    return response.noContent("");
   }
 }

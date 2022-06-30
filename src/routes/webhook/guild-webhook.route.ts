@@ -1,7 +1,7 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
 import { canManage } from "#lib/api/utils/helpers";
-import { Webhook } from "#lib/models";
+import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import {
   type ApiRequest,
@@ -21,11 +21,22 @@ export class GuildWebhookRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, Webhook);
+    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
+    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
 
-    const data = await repository.get(id);
+    const guild = await serverRepo.get(guildId);
 
-    return this.notFoundIfNull(data, response);
+    if (!guild) {
+      return response.notFound();
+    }
+
+    if (guild.webhook == null) {
+      return response.notFound();
+    }
+
+    const webhook = await webhookRepo.get(guild.webhook);
+
+    return this.notFoundIfNull(webhook, response);
   }
 
   @Authenticated()
@@ -35,10 +46,20 @@ export class GuildWebhookRoute extends ServiceController {
       return response.forbidden();
     }
 
-    const repository = this.createRepository(request, response, Webhook);
-    const body = request.body as any;
+    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
+    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
 
-    await repository.patch(id, body as any);
+    const guild = await serverRepo.get(guildId);
+
+    if (!guild) {
+      return response.notFound();
+    }
+
+    if (guild.webhook == null) {
+      return response.notFound();
+    }
+
+    await webhookRepo.patch(guild.webhook, request.body as any);
 
     return response.noContent("");
   }
@@ -50,10 +71,20 @@ export class GuildWebhookRoute extends ServiceController {
       return response.forbidden();
     }
 
+    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
+    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
 
-    const repository = this.createRepository(request, response, Webhook);
+    const guild = await serverRepo.get(guildId);
 
-    await repository.delete(id);
+    if (!guild) {
+      return response.notFound();
+    }
+
+    if (guild.webhook == null) {
+      return response.notFound();
+    }
+
+    await webhookRepo.delete(guild.webhook);
 
     return response.noContent("");
   }

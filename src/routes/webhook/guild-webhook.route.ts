@@ -1,5 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
+import { canManage } from "#lib/api/utils/helpers";
 import { Webhook } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import {
@@ -15,8 +16,8 @@ import {
 export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
+    const guildId = request.params.id;
+    if (!await canManage(request.auth?.id, guildId)) {
       return response.forbidden();
     }
 
@@ -29,8 +30,8 @@ export class GuildWebhookRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
+    const guildId = request.params.id;
+    if (!await canManage(request.auth?.id, guildId)) {
       return response.forbidden();
     }
 
@@ -44,10 +45,11 @@ export class GuildWebhookRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    const id = request.params.id;
-    if (request.auth?.id !== id) {
+    const guildId = request.params.id;
+    if (!await canManage(request.auth?.id, guildId)) {
       return response.forbidden();
     }
+
 
     const repository = this.createRepository(request, response, Webhook);
 

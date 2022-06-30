@@ -10,7 +10,7 @@ import {
 } from "@sapphire/plugin-api";
 
 @ApplyOptions<RouteOptions>({
-  route: "users/:id",
+  route: "users",
 })
 export class UserRoute extends ServiceController {
   @Authenticated()

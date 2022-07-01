@@ -41,7 +41,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   public async post(id: string, obj: TEntity) {
     const data = await this.repository.create({ id, ...obj });
 
-    return data;
+    return data as unknown as TEntity;
   }
 
   public async getMany(ids: string[]) {

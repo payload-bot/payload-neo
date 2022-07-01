@@ -1,5 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
-import { Authenticated } from "#lib/api/utils/decorators";
+import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
 import { canManage } from "#lib/api/utils/helpers";
 import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
@@ -15,11 +15,9 @@ const schema = s.object({
 })
 export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
+  @GuildAuth()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.forbidden();
-    }
 
     const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
     const serverRepo = this.createRepository<ServerModel>(request, response, Server);

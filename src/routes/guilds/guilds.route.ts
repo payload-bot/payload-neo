@@ -1,6 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
-import { Authenticated } from "#lib/api/utils/decorators";
-import { canManage } from "#lib/api/utils/helpers";
+import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
 import { Server, ServerModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
@@ -18,12 +17,9 @@ const schema = s.object({
 })
 export class GuildRoute extends ServiceController {
   @Authenticated()
+  @GuildAuth()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.notFound();
-    }
-
     const repository = this.createRepository(request, response, Server);
 
     const data = await repository.get(guildId);
@@ -32,13 +28,11 @@ export class GuildRoute extends ServiceController {
   }
 
   @Authenticated()
+  @GuildAuth()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.notFound();
-    }
-
     const repository = this.createRepository<ServerModel>(request, response, Server);
+    
     const { success, value } = schema.run(request.body);
 
     if (!success) {

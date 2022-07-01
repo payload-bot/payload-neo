@@ -4,6 +4,11 @@ import { Webhook } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
+import { s } from "@sapphire/shapeshift";
+
+const schema = s.object({
+  logsId: s.number.or(s.string),
+});
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/logs",
@@ -22,10 +27,14 @@ export class WebhookExecutionRoute extends ServiceController {
       return response.notFound();
     }
 
-    // FIXME: validate body
-    const body = request.body as any;
+    const { success, value } = schema.run(request.body);
 
-    await sendLogPreview(this.client, webhook.type, webhook.id, body?.logsId);
+    if (!success) {
+      return response.badRequest("Bad request");
+    }
+
+    // safety: value is nullchecked above
+    await sendLogPreview(this.client, webhook.type, webhook.id, value!.logsId.toString());
 
     return response.noContent();
   }

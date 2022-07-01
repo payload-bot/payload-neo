@@ -4,6 +4,11 @@ import { canManage } from "#lib/api/utils/helpers";
 import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
+import { s } from "@sapphire/shapeshift";
+
+const schema = s.object({
+  channelId: s.string,
+});
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/guilds/:id",
@@ -54,7 +59,13 @@ export class GuildWebhookRoute extends ServiceController {
       return response.notFound();
     }
 
-    await webhookRepo.patch(guild.webhook, request.body as any);
+    const { success, value } = schema.run(request.body);
+
+    if (!success) {
+      return response.badRequest("Bad request");
+    }
+
+    await webhookRepo.patch(guild.webhook, value as any);
 
     return response.noContent("");
   }

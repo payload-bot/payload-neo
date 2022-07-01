@@ -1,11 +1,11 @@
 import {
   connect,
   Page,
-  SerializableOrJSHandle,
   Browser,
-  LaunchOptions,
-  BrowserConnectOptions,
-  BrowserLaunchArgumentOptions,
+  type LaunchOptions,
+  type BrowserConnectOptions,
+  type BrowserLaunchArgumentOptions,
+  type ElementHandle,
 } from "puppeteer";
 
 import puppeteer from "puppeteer";
@@ -28,7 +28,7 @@ interface CaptureOptions {
   cssPath?: string;
 }
 
-export async function generateClipBounds(options: SerializableOrJSHandle, page: Page) {
+export async function generateClipBounds(options: ElementHandle, page: Page) {
   return await page.evaluate(options => {
     let bounds = {
       x: 0,
@@ -37,8 +37,8 @@ export async function generateClipBounds(options: SerializableOrJSHandle, page: 
       height: document.body.clientHeight,
     };
 
-    ["top", "left", "bottom", "right"].forEach(edge => {
-      const currentOption = options[edge];
+    (["top", "left", "bottom", "right"] as const).forEach(edge => {
+      const currentOption = (options as any)[edge];
       if (!currentOption) return;
 
       if (typeof currentOption == "number") {
@@ -52,10 +52,10 @@ export async function generateClipBounds(options: SerializableOrJSHandle, page: 
         const element = document.querySelector(currentOption.selector);
         const boundingClientRect = element.getBoundingClientRect();
 
-        if (edge == "top") bounds.y = boundingClientRect[currentOption.edge];
-        if (edge == "left") bounds.x = boundingClientRect[currentOption.edge];
-        if (edge == "bottom") bounds.height = boundingClientRect[currentOption.edge] - bounds.y;
-        if (edge == "right") bounds.width = boundingClientRect[currentOption.edge] - bounds.x;
+        if (edge === "top") bounds.y = boundingClientRect[currentOption.edge];
+        if (edge === "left") bounds.x = boundingClientRect[currentOption.edge];
+        if (edge === "bottom") bounds.height = boundingClientRect[currentOption.edge] - bounds.y;
+        if (edge === "right") bounds.width = boundingClientRect[currentOption.edge] - bounds.x;
       }
     });
 

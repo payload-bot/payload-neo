@@ -1,20 +1,23 @@
 import { ServiceController } from "#lib/api/ServiceController";
-import { Authenticated } from "#lib/api/utils/decorators";
+import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
 import { canManage } from "#lib/api/utils/helpers";
 import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
+import { s } from "@sapphire/shapeshift";
+
+const schema = s.object({
+  channelId: s.string,
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/guilds/:id",
 })
 export class GuildWebhookRoute extends ServiceController {
   @Authenticated()
+  @GuildAuth()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.forbidden();
-    }
 
     const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
     const serverRepo = this.createRepository<ServerModel>(request, response, Server);
@@ -54,7 +57,13 @@ export class GuildWebhookRoute extends ServiceController {
       return response.notFound();
     }
 
-    await webhookRepo.patch(guild.webhook, request.body as any);
+    const { success, value } = schema.run(request.body);
+
+    if (!success) {
+      return response.badRequest("Bad request");
+    }
+
+    await webhookRepo.patch(guild.webhook, value as any);
 
     return response.noContent("");
   }

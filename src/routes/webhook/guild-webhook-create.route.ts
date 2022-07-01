@@ -5,6 +5,11 @@ import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
+import { s } from "@sapphire/shapeshift";
+
+const schema = s.object({
+  channelId: s.string,
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/guilds",
@@ -26,10 +31,14 @@ export class GuildWebhookCreateRoute extends ServiceController {
       return response.notFound();
     }
 
-    const { id } = request.body as any;
+    const { success, value } = schema.run(request.body);
 
-    const newWebhook = await webhookRepo.post(id, {
-      id,
+    if (!success) {
+      return response.badRequest("Bad request");
+    }
+
+    const newWebhook = await webhookRepo.post(value!.channelId, {
+      id: value!.channelId,
       type: "channels",
       value: generate({
         length: 40,

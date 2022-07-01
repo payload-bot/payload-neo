@@ -1,8 +1,13 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { User } from "#lib/models";
+import { User, UserModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
+import { s } from "@sapphire/shapeshift";
+
+const schema = s.object({
+  steamId: s.string.optional,
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "users",
@@ -10,26 +15,32 @@ import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@
 export class UserRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository<UserModel>(request, response, User);
 
-    const data = await repository.get(request.auth!.id);
+    const { steamId, fun = null } = await repository.get(request.auth!.id);
 
-    return this.notFoundIfNull(data, response);
+    return response.ok({ steamId, pushed: fun?.payload?.feetPushed ?? 0 });
   }
 
   @Authenticated()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, User);
-    const body = request.body as any;
+    const repository = this.createRepository<UserModel>(request, response, User);
+    const { success, value } = schema.run(request.body);
 
-    await repository.patch(request.auth!.id, body as any);
+    this.logger.debug(success, value);
+
+    if (!success) {
+      return response.badRequest("Bad request");
+    }
+
+    await repository.patch(request.auth!.id, value as any);
 
     return response.noContent("");
   }
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, User);
+    const repository = this.createRepository<UserModel>(request, response, User);
 
     await repository.delete(request.auth!.id);
 

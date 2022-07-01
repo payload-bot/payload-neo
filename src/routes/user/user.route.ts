@@ -7,7 +7,7 @@ import { s } from "@sapphire/shapeshift";
 
 const schema = s.object({
   steamId: s.string.optional,
-});
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "users",
@@ -26,6 +26,8 @@ export class UserRoute extends ServiceController {
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const repository = this.createRepository<UserModel>(request, response, User);
     const { success, value } = schema.run(request.body);
+
+    this.logger.debug(success, value);
 
     if (!success) {
       return response.badRequest("Bad request");

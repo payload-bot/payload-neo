@@ -10,7 +10,7 @@ const schema = s.object({
   commandRestrictions: s.array(s.string.lengthGreaterThan(0)).optional,
   enableSnipeForEveryone: s.boolean.optional,
   language: s.enum("en-US", "pl-PL", "es-ES", "fi-FI", "de-DE", "ru-RU").optional,
-});
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "guilds/:id",

@@ -8,7 +8,7 @@ import { s } from "@sapphire/shapeshift";
 
 const schema = s.object({
   channelId: s.string,
-});
+}).strict;
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/guilds/:id",

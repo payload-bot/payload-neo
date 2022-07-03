@@ -18,7 +18,6 @@ model Guild {
 
   enableSnipeForEveryone Boolean  @default(false)
   commandRestrictions    String[] @default([])
-
 }
 
 model User {

@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
-import connectMongo from "#utils/connectMongo";
+import connectDatabase from "#utils/connectDatabase";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -13,12 +13,10 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private readonly style = dev ? yellow : blue;
 
   async run() {
-    const { client } = this.container;
-
+    await connectDatabase();
+    
     this.printBanner();
     this.printStoreDebugInformation();
-
-    await connectMongo(client);
   }
 
   private printBanner() {
@@ -38,7 +36,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
       String.raw`
 ${line01} ${pad}${blc(`Payload Version ${process.env.VERSION ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
-${line02} ${pad}[${success}] MongoDB
+${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API
 ${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(dev ? "DEVELOPMENT" : "PRODUCTION")}`}
 		`.trim()

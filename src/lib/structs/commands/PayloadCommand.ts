@@ -8,6 +8,8 @@ import { PayloadArgs } from "./PayloadArgs";
 export abstract class PayloadCommand extends SubCommandPluginCommand<PayloadCommand.Args, PayloadCommand> {
   public readonly hidden: boolean;
 
+  protected database = this.container.database;
+
   public constructor(context: PieceContext, options: PayloadCommand.Options) {
     super(context, { ...options });
 

@@ -2,9 +2,20 @@ import { container } from "@sapphire/pieces";
 import { Prisma, PrismaClient } from "@prisma/client";
 
 export default async function connectPrisma() {
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({
+    log: [
+      {
+        emit: "event",
+        level: "query",
+      },
+    ],
+  });
 
   prisma.$use(logger);
+
+  prisma.$on("query", e => {
+    container.logger.debug("Query: " + e.query);
+  });
 
   await prisma.$connect();
 
@@ -18,8 +29,8 @@ const logger: Prisma.Middleware<any> = async (params, next) => {
 
   const after = Date.now();
 
-  container.logger.debug(`Query ${params.model}.${params.action} took ${after - before}ms`);
-  container.logger.debug(JSON.stringify(params.args));
+  container.logger.trace(`Query ${params.model}.${params.action} took ${after - before}ms`);
+  container.logger.trace(JSON.stringify(params.args));
 
   return result;
 };

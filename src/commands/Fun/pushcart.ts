@@ -3,12 +3,12 @@ import { Message, MessageEmbed, Util } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { weightedRandom } from "#utils/random";
-import { isAfter, add, addDays, formatDistanceToNowStrict } from "date-fns";
+import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
-import type { User } from ".prisma/client";
+import type { User } from "@prisma/client";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -50,9 +50,9 @@ export class UserCommand extends PayloadCommand {
     const { result, lastActive } = await this.userPushcart(msg.author.id, randomNumber);
 
     if (result === PayloadPushResult.COOLDOWN) {
-      const timeLeft = Math.round((lastActive.getMilliseconds() + 1000 * 30 - Date.now()) / 1000);
+      const secondsLeft = differenceInSeconds(addSeconds(lastActive, 30), new Date());
 
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: timeLeft }));
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft }));
     } else if (result === PayloadPushResult.CAP) {
       const timeLeft = formatDistanceToNowStrict(addDays(lastActive, 1));
 
@@ -189,16 +189,16 @@ export class UserCommand extends PayloadCommand {
   async rank(msg: Message, args: PayloadCommand.Args) {
     const targetUser = await args.pick("user").catch(() => msg.author);
 
-    const userRank = await this.database.$queryRaw<(User & { rank: number }) | null>`
-      SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed FROM users WHERE id = ${targetUser.id}
-    `;
+    const [userRank] = await this.database.$queryRaw<
+      Array<(User & { rank: number }) | null>
+    >`SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed FROM "public"."User" WHERE id = ${targetUser.id}`;
 
     if (userRank == null) {
       // TODO: make this a different message
       return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
     }
 
-    return await send(msg, codeBlock("md", `#${userRank.rank}: ${targetUser.tag} (${userRank.pushed})`));
+    return await send(msg, codeBlock("md", `#${userRank.rank.toString()}: ${targetUser.tag} (${userRank.pushed})`));
   }
 
   async servers(msg: Message, args: PayloadCommand.Args) {

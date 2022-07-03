@@ -140,31 +140,20 @@ export class UserCommand extends PayloadCommand {
         .setTitle(args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
-    const leaderboard = await this.database.user.findMany({
-      where: {
-        NOT: {
-          pushed: { lt: 1 },
-        },
-      },
-      select: {
-        id: true,
-        pushed: true,
-      },
-      orderBy: [{ pushed: "desc" }],
-      take: 25,
-    });
+    const userLeaderboard = await this.database.$queryRaw<
+      Array<User & { rank: number }>
+    >`SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed, id FROM "public"."User" WHERE pushed > 0 ORDER BY pushed DESC LIMIT 25`;
 
     const CHUNK_AMOUNT = 5;
-    let rank = 1;
 
-    for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
+    for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
-        page.map(async ({ id, pushed }, i) => {
+        page.map(async ({ rank, id, pushed }) => {
           const { username } = await client.users.fetch(id).catch(() => ({ username: "-" }));
 
-          return msg.author.username === username
-            ? `> ${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`
-            : `${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`;
+          return msg.author.id === id
+            ? `> ${rank}: ${Util.escapeMarkdown(username)} (${pushed})`
+            : `${rank}: ${Util.escapeMarkdown(username)} (${pushed})`;
         })
       );
 
@@ -175,8 +164,6 @@ export class UserCommand extends PayloadCommand {
       });
 
       paginationEmbed.addPageEmbed(embed);
-
-      rank += CHUNK_AMOUNT;
     }
 
     const response = await msg.channel.send({ embeds: [loadingEmbed] });

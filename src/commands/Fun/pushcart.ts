@@ -2,14 +2,13 @@ import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
 import { Message, MessageEmbed, Util } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { Server } from "#lib/models";
 import { weightedRandom } from "#utils/random";
-import { User } from "#lib/models";
-import { isAfter, add, addDays, formatDistanceToNowStrict } from "date-fns";
+import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
+import type { User } from "@prisma/client";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -48,31 +47,32 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const result = await this.userPushcart(msg.author.id, randomNumber);
-
-    const user = await User.findOne({ id: msg.author.id }).lean();
+    const { result, lastActive } = await this.userPushcart(msg.author.id, randomNumber);
 
     if (result === PayloadPushResult.COOLDOWN) {
-      const timeLeft = Math.round((user!.fun!.payload.lastPushed + 1000 * 30 - Date.now()) / 1000);
+      const secondsLeft = differenceInSeconds(addSeconds(lastActive, 30), new Date());
 
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: timeLeft }));
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft }));
     } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(addDays(user!.fun!.payload.lastActiveDate, 1));
+      const timeLeft = formatDistanceToNowStrict(addDays(lastActive, 1));
 
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
 
-    const server = await Server.findOneAndUpdate(
-      { id: msg.guild!.id },
-      { $inc: { "fun.payloadFeetPushed": randomNumber } },
-      { upsert: true, new: true }
-    );
+    const { pushed } = await this.database.guild.upsert({
+      where: { id: msg.guildId! },
+      create: { id: msg.guildId!, pushed: randomNumber },
+      update: { pushed: { increment: randomNumber } },
+      select: {
+        pushed: true,
+      },
+    });
 
     return await send(
       msg,
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
-        total: server!.fun!.payloadFeetPushed,
+        total: pushed,
       })
     );
   }
@@ -94,18 +94,30 @@ export class UserCommand extends PayloadCommand {
 
     const safeAmount = Math.abs(amount);
 
-    const fromUser = await User.findOne({ id: msg.author.id }, {}, { upsert: true });
+    const fromUser = await this.database.user.findUnique({
+      where: { id: msg.author.id },
+      select: {
+        pushed: true,
+      },
+    });
 
-    if (!fromUser?.fun?.payload?.feetPushed || (fromUser.fun.payload.feetPushed < safeAmount ?? true)) {
+    if (!fromUser?.pushed || (fromUser.pushed < safeAmount ?? true)) {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NotEnoughCreds));
     }
 
-    const toUser = await User.findOne({ id: targetUser.id }, {}, { upsert: true });
-
-    fromUser.fun.payload.feetPushed -= safeAmount;
-    toUser!.fun!.payload!.feetPushed += safeAmount;
-
-    await Promise.all([fromUser.save(), toUser!.save()]);
+    await Promise.all([
+      this.database.user.upsert({
+        where: { id: targetUser.id },
+        create: { id: msg.author.id, pushed: safeAmount },
+        update: { pushed: { increment: safeAmount } },
+      }),
+      this.database.user.update({
+        where: { id: msg.author.id },
+        data: {
+          pushed: { decrement: safeAmount },
+        },
+      }),
+    ]);
 
     return await send(
       msg,
@@ -128,24 +140,24 @@ export class UserCommand extends PayloadCommand {
         .setTitle(args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
-    const leaderboard = await User.aggregate([
-      { $match: { "fun.payload": { $exists: 1 } } },
-      { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
-      { $sort: { pushed: -1 } },
-      { $limit: 25 },
-    ]);
+    const userLeaderboard = await this.database.$queryRaw<
+      Array<User & { rank: number }>
+    >`SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed, id FROM "public"."User" WHERE pushed > 0 ORDER BY pushed DESC LIMIT 25`;
+
+    if (userLeaderboard.length === 0) {
+      return;
+    }
 
     const CHUNK_AMOUNT = 5;
-    let rank = 1;
 
-    for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
+    for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {
       const leaderboardString = await Promise.all(
-        page.map(async ({ id, pushed }, i) => {
+        page.map(async ({ rank, id, pushed }) => {
           const { username } = await client.users.fetch(id).catch(() => ({ username: "-" }));
 
-          return msg.author.username === username
-            ? `> ${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`
-            : `${rank + i}: ${Util.escapeMarkdown(username)} (${pushed})`;
+          return msg.author.id === id
+            ? `> ${rank}: ${Util.escapeMarkdown(username)} (${pushed})`
+            : `${rank}: ${Util.escapeMarkdown(username)} (${pushed})`;
         })
       );
 
@@ -156,8 +168,6 @@ export class UserCommand extends PayloadCommand {
       });
 
       paginationEmbed.addPageEmbed(embed);
-
-      rank += CHUNK_AMOUNT;
     }
 
     const response = await msg.channel.send({ embeds: [loadingEmbed] });
@@ -170,21 +180,16 @@ export class UserCommand extends PayloadCommand {
   async rank(msg: Message, args: PayloadCommand.Args) {
     const targetUser = await args.pick("user").catch(() => msg.author);
 
-    const leaderboardSkip10 = await User.aggregate([
-      { $match: { "fun.payload": { $exists: 1 } } },
-      { $project: { id: "$id", pushed: "$fun.payload.feetPushed" } },
-      { $sort: { pushed: -1 } },
-    ]);
+    const [userRank] = await this.database.$queryRaw<
+      Array<(User & { rank: number }) | null>
+    >`SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed FROM "public"."User" WHERE id = ${targetUser.id}`;
 
-    const index = leaderboardSkip10.findIndex(user => user.id === targetUser.id);
-
-    if (index === -1) {
+    if (userRank == null) {
+      // TODO: make this a different message
       return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
     }
 
-    const { pushed } = leaderboardSkip10.find(user => user.id === targetUser.id);
-
-    return await send(msg, codeBlock("md", `#${index + 1}: ${targetUser.tag} (${pushed})`));
+    return await send(msg, codeBlock("md", `#${userRank.rank.toString()}: ${targetUser.tag} (${userRank.pushed})`));
   }
 
   async servers(msg: Message, args: PayloadCommand.Args) {
@@ -196,12 +201,19 @@ export class UserCommand extends PayloadCommand {
       template: new MessageEmbed().setColor("BLUE").setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
     });
 
-    const leaderboard = (await Server.aggregate([
-      { $match: { fun: { $exists: 1 } } },
-      { $project: { id: "$id", pushed: "$fun.payloadFeetPushed" } },
-      { $sort: { pushed: -1 } },
-      { $limit: 125 },
-    ])) as { id: string; pushed: string }[];
+    const leaderboard = await this.database.guild.findMany({
+      where: {
+        NOT: {
+          pushed: { lt: 1 },
+        },
+      },
+      select: {
+        id: true,
+        pushed: true,
+      },
+      orderBy: [{ pushed: "desc" }],
+      take: 25,
+    });
 
     const CHUNK_AMOUNT = 5;
     let rank = 1;
@@ -211,7 +223,7 @@ export class UserCommand extends PayloadCommand {
         page.map(async ({ id, pushed }, i) => {
           const { name, id: gid } = await client.guilds.fetch(id).catch(() => ({ name: "-", id: null }));
 
-          return msg.guild!.id === gid
+          return msg.guildId! === gid
             ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`
             : `${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`;
         })
@@ -236,42 +248,46 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async userPushcart(id: string, units: number) {
-    let user = await User.findOne({ id });
-
-    if (!user) user = await User.create({ id });
-
-    const fun = user?.fun ?? {
-      payload: {
-        feetPushed: 0,
-        pushing: false,
-        lastPushed: Date.now(),
-        pushedToday: 0,
-        lastActiveDate: Date.now(),
+    const { lastActive, pushedToday } = await this.database.user.upsert({
+      where: { id },
+      create: { id },
+      update: {},
+      select: {
+        lastActive: true,
+        pushedToday: true,
       },
-    };
+    });
 
-    fun.payload.feetPushed = fun.payload.feetPushed ?? 0;
-    fun.payload.pushedToday = fun.payload.pushedToday ?? 0;
+    const isUnderCooldown = isAfter(add(lastActive, { seconds: 30 }), Date.now());
 
-    const isUnderCooldown = isAfter(add(fun.payload.lastPushed, { seconds: 30 }), Date.now());
+    const shouldRefreshCap = isAfter(Date.now(), add(lastActive, { days: 1 }));
 
-    const shouldRefreshCap = isAfter(Date.now(), add(fun.payload.lastActiveDate, { days: 1 }));
+    const hasReachedMaxPoints = pushedToday >= PUSHCART_CAP;
+    let needsResetPushedToday = false;
 
-    const hasReachedMaxPoints = fun.payload.pushedToday >= PUSHCART_CAP;
-
-    if (isUnderCooldown) return PayloadPushResult.COOLDOWN;
-    else if (hasReachedMaxPoints) {
-      if (shouldRefreshCap) fun.payload.pushedToday = 0;
-      else return PayloadPushResult.CAP;
+    if (isUnderCooldown && pushedToday !== 0) {
+      return { result: PayloadPushResult.COOLDOWN, lastActive };
+    } else if (hasReachedMaxPoints) {
+      if (shouldRefreshCap) {
+        needsResetPushedToday = true;
+      } else {
+        return { result: PayloadPushResult.CAP, lastActive };
+      }
     }
 
-    fun.payload.feetPushed += units;
-    fun.payload.pushedToday += units;
-    fun.payload.lastPushed = Date.now();
-    fun.payload.lastActiveDate = Date.now();
+    const pushedTodayQuery = needsResetPushedToday ? 0 : { increment: units };
+    const newDate = new Date();
+    const newLastActiveDate = needsResetPushedToday ? newDate : lastActive;
 
-    await user!.save();
+    await this.database.user.update({
+      where: { id },
+      data: {
+        pushed: { increment: units },
+        pushedToday: pushedTodayQuery,
+        lastActive: newDate,
+      },
+    });
 
-    return PayloadPushResult.SUCCESS;
+    return { result: PayloadPushResult.SUCCESS, lastActive: newLastActiveDate };
   }
 }

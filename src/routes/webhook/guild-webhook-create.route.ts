@@ -1,34 +1,33 @@
 import { ServiceController } from "#lib/api/ServiceController";
-import { Authenticated } from "#lib/api/utils/decorators";
-import { canManage } from "#lib/api/utils/helpers";
-import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
+import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
 import { s } from "@sapphire/shapeshift";
+import { WebhookType } from "@prisma/client";
 
 const schema = s.object({
   channelId: s.string,
 }).strict;
 
 @ApplyOptions<RouteOptions>({
-  route: "webhooks/guilds",
+  route: "webhooks/guilds/:id",
 })
 export class GuildWebhookCreateRoute extends ServiceController {
   @Authenticated()
+  @GuildAuth()
   public async [methods.POST](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.forbidden();
-    }
 
-    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
-    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
+    const guild = await this.database.guild.findUnique({
+      where: { id: guildId },
+      select: {
+        webhookId: true,
+      },
+    });
 
-    const guild = await serverRepo.get(guildId);
-
-    if (!guild) {
-      return response.notFound();
+    if (guild?.webhookId != null) {
+      return response.badRequest("You can only have 1 guild webhook at a time");
     }
 
     const { success, value } = schema.run(request.body);
@@ -37,17 +36,22 @@ export class GuildWebhookCreateRoute extends ServiceController {
       return response.badRequest("Bad request");
     }
 
-    const newWebhook = await webhookRepo.post(value!.channelId, {
-      id: value!.channelId,
-      type: "channels",
-      value: generate({
-        length: 40,
-        numbers: true,
-        strict: true,
-      }),
+    await this.database.guild.update({
+      where: { id: guildId },
+      data: {
+        webhook: {
+          create: {
+            id: value!.channelId,
+            type: WebhookType.channels,
+            value: generate({
+              length: 40,
+              numbers: true,
+              strict: true,
+            }),
+          },
+        },
+      },
     });
-
-    await serverRepo.patch(guildId, { webhook: newWebhook.id });
 
     return response.noContent("");
   }

@@ -15,6 +15,7 @@ COPY tsconfig.json .
 COPY tsup.config.ts .
 COPY ./src ./src
 
+RUN yarn prisma generate
 RUN yarn build
 
 # Runner

@@ -1,6 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { sendTest } from "#lib/api/utils/webhook-helper";
-import { Webhook } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
@@ -16,7 +15,10 @@ export class WebhookTestRoute extends ServiceController {
       return response.unauthorized();
     }
 
-    const webhook = await Webhook.findOne({ value: headerAuth }).lean().exec();
+    const webhook = await this.database.webhook.findUnique({
+      where: { value: headerAuth },
+      select: { type: true, id: true },
+    });
 
     if (webhook == null) {
       return response.notFound();

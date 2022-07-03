@@ -1,9 +1,8 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { Webhook, WebhookModel } from "#lib/models";
+import { Prisma, WebhookType } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
-import { isNullish } from "@sapphire/utilities";
 import { generate } from "generate-password";
 
 @ApplyOptions<RouteOptions>({
@@ -12,51 +11,66 @@ import { generate } from "generate-password";
 export class UsersWebhookRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, Webhook);
+    const user = await this.database.user.findUnique({
+      where: { id: request.auth!.id },
+      include: { webhook: true },
+    });
 
-    const data = await repository.get(request.auth!.id);
-
-    return this.notFoundIfNull(data, response);
+    return this.notFoundIfNull(user?.webhook, response);
   }
 
   @Authenticated()
   public async [methods.POST](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository<WebhookModel>(request, response, Webhook);
-
-    const data = await repository.get(request.auth!.id);
-
-    if (!isNullish(data)) {
-      return response.badRequest("You can only have one webhook");
-    }
-    const newWebhook = await repository.post(request.auth!.id, {
-      id: request.auth!.id,
-      type: "users",
-      value: generate({
-        length: 40,
-        numbers: true,
-        strict: true,
-      }),
+    const user = await this.database.user.findUnique({
+      where: { id: request.auth!.id },
+      select: {
+        webhookId: true,
+      },
     });
 
-    return response.ok(newWebhook);
-  }
+    if (user?.webhookId != null) {
+      return response.badRequest("You can only have one webhook at a time");
+    }
 
-  @Authenticated()
-  public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, Webhook);
-    const body = request.body as any;
+    await this.database.user.update({
+      where: { id: request.auth!.id },
+      data: {
+        webhook: {
+          create: {
+            id: request.auth!.id,
+            type: WebhookType.users,
+            value: generate({
+              length: 40,
+              numbers: true,
+              strict: true,
+            }),
+          },
+        },
+      },
+    });
 
-    await repository.patch(request.auth!.id, body as any);
-
-    return response.noContent("");
+    return response.created("");
   }
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository(request, response, Webhook);
+    try {
+      await this.database.user.update({
+        where: { id: request.auth!.id },
+        data: {
+          webhook: {
+            delete: true,
+          },
+        },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
+        return response.badRequest();
+      }
 
-    await repository.delete(request.auth!.id);
+      throw e;
+    }
 
-    return response.noContent("");
+    return response.noContent();
   }
 }

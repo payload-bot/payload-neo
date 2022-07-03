@@ -2,6 +2,7 @@ import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import type { PrismaClient } from "@prisma/client";
 
 export type O = object;
 
@@ -23,7 +24,9 @@ declare module "@sapphire/framework" {
 }
 
 declare module "@sapphire/pieces" {
-  interface Container {}
+  interface Container {
+    database: PrismaClient;
+  }
 }
 
 declare module "i18next" {

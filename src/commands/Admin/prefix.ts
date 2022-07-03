@@ -2,7 +2,6 @@ import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sa
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { Server } from "#lib/models";
 import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
@@ -23,7 +22,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   async view(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();
+    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
 
     const content = args.t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
       prefix: inlineCode(server?.prefix ?? config.PREFIX),
@@ -35,7 +34,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async set(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();
+    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
     const prefix = await args.pick("string").catch(() => null);
 
     const { t } = args;
@@ -48,7 +47,11 @@ export class UserCommand extends PayloadCommand {
       return await send(msg, t(LanguageKeys.Commands.Prefix.SetSamePrefix));
     }
 
-    await Server.findOneAndUpdate({ id: msg.guild!.id }, { prefix });
+    await this.database.guild.upsert({
+      where: { id: msg.guildId! },
+      update: { prefix },
+      create: { id: msg.guildId!, prefix },
+    });
 
     const embed = new MessageEmbed({
       author: {
@@ -72,7 +75,7 @@ export class UserCommand extends PayloadCommand {
   @RequiresGuildContext()
   @RequiresUserPermissions(["ADMINISTRATOR"])
   async delete(msg: Message, args: PayloadCommand.Args) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();
+    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
     const { t } = args;
 
     if (server?.prefix === config.PREFIX) {
@@ -95,7 +98,11 @@ export class UserCommand extends PayloadCommand {
       color: PayloadColors.Admin,
     });
 
-    await Server.findOneAndUpdate({ id: msg.guild!.id }, { prefix: config.PREFIX });
+    await this.database.guild.upsert({
+      where: { id: msg.guildId! },
+      update: { prefix: config.PREFIX },
+      create: { id: msg.guildId! },
+    });
 
     return await send(msg, { embeds: [embed] });
   }

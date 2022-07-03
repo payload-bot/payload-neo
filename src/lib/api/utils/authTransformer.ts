@@ -1,4 +1,3 @@
-import { Server, User } from "#lib/models";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import config from "#root/config";
 import { container } from "@sapphire/framework";
@@ -15,7 +14,7 @@ export async function transformAuth({ user, guilds }: LoginData) {
 
   // @ts-ignore
   const [dbUser, fetchedDiscordUser] = await Promise.all([
-    User.findOne({ id: user.id }).lean(),
+    container.database.user.upsert({ where: { id: user.id }, create: { id: user.id }, update: {} }),
     client.users.fetch(user.id),
   ]);
 
@@ -23,7 +22,7 @@ export async function transformAuth({ user, guilds }: LoginData) {
     user: {
       ...user,
       avatar: fetchedDiscordUser.displayAvatarURL(),
-      pushcartPoints: dbUser?.fun?.payload?.feetPushed ?? 0,
+      pushcartPoints: dbUser?.pushed ?? 0,
     },
     guilds: await Promise.all(guilds.map(g => transformGuild(user.id, g))),
   };
@@ -54,7 +53,7 @@ async function transformGuild(userId: string, data: RESTAPIPartialCurrentUserGui
   const commands = stores.get("commands");
   const autoCommands = stores.get("autoresponses") as unknown as AutoResponseStore;
 
-  const dbGuild = (await Server.findOne({ id: data.id }).populate("webhook")) as any;
+  const dbGuild = await container.database.guild.findUnique({ where: { id: data.id } });
 
   const clientGuild = client.guilds.cache.get(data.id);
 
@@ -63,13 +62,12 @@ async function transformGuild(userId: string, data: RESTAPIPartialCurrentUserGui
     prefix: dbGuild?.prefix ?? config.PREFIX,
     language: dbGuild?.language ?? "en-US",
     enableSnipeForEveryone: dbGuild?.enableSnipeForEveryone ?? false,
-    webhook: dbGuild?.webhook ?? null,
     isInGuild,
     id: data.id,
-    managable: getManageable(userId, data, clientGuild),
+    managable: await getManageable(userId, data, clientGuild),
     icon: clientGuild?.iconURL() as any,
     permissions: data.permissions,
-    pushcartPoints: dbGuild?.fun?.payloadFeetPushed ?? 0,
+    pushcartPoints: dbGuild?.pushed ?? 0,
     channels: clientGuild?.channels.cache.filter(c => c.type === "GUILD_TEXT").map(({ id, name }) => ({ id, name })),
     commands: {
       restrictions: dbGuild?.commandRestrictions ?? [],

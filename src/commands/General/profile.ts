@@ -3,7 +3,6 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import { MessageEmbed, Message } from "discord.js";
 import PayloadColors from "#utils/colors";
-import { User } from "#lib/models";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 
@@ -17,7 +16,10 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const user = await User.findOne({ id: targetUser.id }).lean();
+    const user = await this.database.user.findUnique({
+      where: { id: targetUser.id },
+      select: { steamId: true, pushed: true },
+    });
 
     const botT = t(LanguageKeys.Commands.Profile.Bot);
     const pointsT = t(LanguageKeys.Commands.Profile.Points);
@@ -26,7 +28,7 @@ export class UserCommand extends PayloadCommand {
       ${botT}: ${targetUser.bot ? "Yes" : "No"}
       ID: ${targetUser.id}
       Steam ID: ${user?.steamId || "NOT SET"}
-      ${pointsT}: ${user?.fun?.payload?.feetPushed ?? 0}
+      ${pointsT}: ${user?.pushed ?? 0}
     `;
 
     const embed = new MessageEmbed({

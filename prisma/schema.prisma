@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id       String @id
+  prefix   String @default("pls ")
+  language String @default("en-US")
+  pushed   Int    @default(0)
+
+  webhookId String?
+  webhook   Webhook? @relation(fields: [webhookId], references: [id])
+
+  enableSnipeForEveryone Boolean  @default(false)
+  commandRestrictions    String[] @default([])
+}
+
+model User {
+  id String @id
+
+  steamId String?
+
+  webhookId String?
+  webhook   Webhook? @relation(fields: [webhookId], references: [id])
+
+  pushed      Int      @default(0)
+  pushedToday Int      @default(0)
+  lastActive  DateTime @default(now())
+}
+
+model Webhook {
+  id    String @id
+  value String @unique
+
+  type  WebhookType
+  Guild Guild[]
+  User  User[]
+
+  createdAt DateTime @default(now())
+}
+
+enum WebhookType {
+  users
+  channels
+}

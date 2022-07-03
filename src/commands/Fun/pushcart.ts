@@ -144,6 +144,10 @@ export class UserCommand extends PayloadCommand {
       Array<User & { rank: number }>
     >`SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, pushed, id FROM "public"."User" WHERE pushed > 0 ORDER BY pushed DESC LIMIT 25`;
 
+    if (userLeaderboard.length === 0) {
+      return;
+    }
+
     const CHUNK_AMOUNT = 5;
 
     for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {

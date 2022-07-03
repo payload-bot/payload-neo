@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@discordjs/builders": "^0.15.0",
-    "@google-cloud/translate": "^7.0.0",
     "@node-steam/id": "^1.2.0",
     "@sapphire/decorators": "^4.3.6",
     "@sapphire/discord.js-utilities": "^4.11.3",

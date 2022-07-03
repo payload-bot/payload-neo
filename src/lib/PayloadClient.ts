@@ -1,8 +1,7 @@
-import { SapphireClient } from "@sapphire/framework";
+import { container, SapphireClient } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { join } from "path";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
-import { Server } from "./models/Server";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
 import type { SnipeCache } from "./interfaces/cache";
@@ -25,7 +24,10 @@ export class PayloadClient extends SapphireClient {
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const server = await Server.findOne({ id: msg.guildId }).lean();
+      const server = await container.database.guild.findUnique({
+        where: { id: msg.guildId },
+        select: { prefix: true },
+      });
 
       return server?.prefix ?? config.PREFIX;
     }

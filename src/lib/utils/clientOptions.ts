@@ -1,7 +1,6 @@
 import { transformAuth } from "#lib/api/utils/authTransformer";
-import { Server } from "#lib/models";
 import config from "#root/config";
-import { LogLevel } from "@sapphire/framework";
+import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
@@ -63,7 +62,10 @@ function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
-        const server = await Server.findOne({ id: msg.guild.id }).lean();
+        const server = await container.database.guild.findUnique({
+          where: { id: msg.guild.id },
+          select: { language: true },
+        });
 
         return server?.language ?? "en-US";
       }

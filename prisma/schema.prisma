@@ -9,11 +9,12 @@ datasource db {
 
 model Guild {
   id       String @id
-  prefix   String
+  prefix   String @default("pls ")
   language String @default("en-US")
   pushed   Int    @default(0)
 
-  webhook Webhook?
+  webhookId String?
+  webhook   Webhook? @relation(fields: [webhookId], references: [id])
 
   enableSnipeForEveryone Boolean  @default(false)
   commandRestrictions    String[] @default([])
@@ -25,6 +26,9 @@ model User {
 
   steamId String?
 
+  webhookId String?
+  webhook   Webhook? @relation(fields: [webhookId], references: [id])
+
   pushed      Int      @default(0)
   pushedToday Int      @default(0)
   lastActive  DateTime @default(now())
@@ -34,13 +38,14 @@ model Webhook {
   id    String @id
   value String @unique
 
-  type WebhookType
+  type  WebhookType
+  Guild Guild[]
+  User  User[]
 
-  Guild     Guild    @relation(fields: [id], references: [id])
   createdAt DateTime @default(now())
 }
 
 enum WebhookType {
-  Users
-  Channels
+  users
+  channels
 }

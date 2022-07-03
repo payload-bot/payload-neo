@@ -1,16 +1,17 @@
+// @ts-nocheck
 import type { IEntityRepository } from "./IEntityRepository";
 import type { ApiRequest, ApiResponse, AuthData } from "@sapphire/plugin-api";
 import { container } from "@sapphire/framework";
-import type mongoose from "mongoose";
+import type { Entity } from "../ServiceController";
 
-export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
-  protected repository: mongoose.Model<TEntity>;
+export class EntityRepository<TEntity extends Entity> implements IEntityRepository<TEntity> {
+  protected repository: TEntity;
   protected request: ApiRequest;
   protected response: ApiResponse;
-  protected identity?: AuthData | null;
+  protected identity?: AuthData | null | undefined;
   protected logger = container.logger;
 
-  constructor(repository: mongoose.Model<TEntity>, request: ApiRequest, response: ApiResponse, identity: AuthData) {
+  constructor(repository: TEntity, request: ApiRequest, response: ApiResponse, identity: AuthData | null | undefined) {
     this.repository = repository;
     this.request = request;
     this.response = response;
@@ -19,7 +20,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
 
   preGet(_id: string) {}
 
-  prePatch(_obj: TEntity, _obj2: TEntity) {}
+  prePatch(_obj: Entity, _obj2: TEntity) {}
 
   preDelete(_obj: TEntity) {}
 
@@ -32,14 +33,18 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
   public async get(id: string) {
     await this.preGet(id);
 
-    const data = (await this.repository.findOne({ id }, {}).lean()) as TEntity;
+    const data = await this.repository.findUnique({ where: { id } });
 
     await this.postGet(data!);
     return data;
   }
 
   public async post(id: string, obj: TEntity) {
-    const data = await this.repository.create({ id, ...obj });
+    const data = await this.repository.upsert({
+      where: { id },
+      create: { id, ...obj },
+      update: { ...obj },
+    });
 
     return data as unknown as TEntity;
   }
@@ -48,8 +53,8 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     const preGetPromises = ids.map(async id => this.preGet(id));
     await Promise.all(preGetPromises);
 
-    const data = await this.repository.find({
-      id: { $in: ids },
+    const data = await this.repository.findMany({
+      where: { id: { in: ids } },
     });
 
     const postGetPromises = data.map(async obj => this.postGet(obj!));
@@ -62,7 +67,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     const prevDat = await this.get(id);
     await this.prePatch(prevDat!, { ...prevDat, ...obj } as any);
 
-    const data = (await this.repository.findOneAndUpdate({ id }, obj).orFail().lean()) as TEntity;
+    const data = await this.repository.update({ where: { id }, data: { ...obj } });
 
     await this.postPatch(prevDat!, data);
     return data;
@@ -72,7 +77,7 @@ export class EntityRepository<TEntity> implements IEntityRepository<TEntity> {
     const existing = await this.get(id);
     await this.preDelete(existing!);
 
-    await this.repository.findOneAndDelete({ id });
+    await this.repository.delete({ where: { id } });
 
     await this.postDelete(existing!);
     return true;

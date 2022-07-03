@@ -1,5 +1,4 @@
 import { LanguageKeys } from "#lib/i18n/all";
-import { Server } from "#lib/models";
 import config from "#root/config";
 import { inlineCode } from "@discordjs/builders";
 import { Events, Listener } from "@sapphire/framework";
@@ -9,7 +8,10 @@ import type { Message } from "discord.js";
 
 export class UserListener extends Listener<typeof Events.MentionPrefixOnly> {
   public async run(msg: Message) {
-    const server = await Server.findOne({ id: msg.guild!.id }).lean();
+    const server = await this.container.database.guild.findUnique({
+      where: { id: msg.guildId! },
+      select: { prefix: true },
+    });
 
     const t = await fetchT(msg);
 

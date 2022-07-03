@@ -1,7 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
-import { canManage } from "#lib/api/utils/helpers";
-import { Server, ServerModel, Webhook, WebhookModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { s } from "@sapphire/shapeshift";
@@ -19,76 +17,53 @@ export class GuildWebhookRoute extends ServiceController {
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
 
-    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
-    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
+    const guild = await this.database.guild.findUnique({
+      where: { id: guildId },
+      include: { webhook: true },
+    });
 
-    const guild = await serverRepo.get(guildId);
-
-    if (!guild) {
-      return response.notFound();
-    }
-
-    if (guild.webhook == null) {
-      return response.notFound();
-    }
-
-    const webhook = await webhookRepo.get(guild.webhook);
-
-    return this.notFoundIfNull(webhook, response);
+    return this.notFoundIfNull(guild?.webhook, response);
   }
 
   @Authenticated()
+  @GuildAuth()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.forbidden();
-    }
-
-    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
-    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
-
-    const guild = await serverRepo.get(guildId);
-
-    if (!guild) {
-      return response.notFound();
-    }
-
-    if (guild.webhook == null) {
-      return response.notFound();
-    }
-
     const { success, value } = schema.run(request.body);
 
     if (!success) {
       return response.badRequest("Bad request");
     }
 
-    await webhookRepo.patch(guild.webhook, value as any);
+    await this.database.guild.update({
+      where: { id: guildId },
+      data: {
+        webhook: {
+          update: {
+            id: value!.channelId,
+          },
+        },
+      },
+      select: {},
+    });
 
     return response.noContent("");
   }
 
   @Authenticated()
+  @GuildAuth()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    if (!(await canManage(request.auth?.id, guildId))) {
-      return response.forbidden();
-    }
 
-    const webhookRepo = this.createRepository<WebhookModel>(request, response, Webhook);
-    const serverRepo = this.createRepository<ServerModel>(request, response, Server);
-
-    const guild = await serverRepo.get(guildId);
-
-    if (!guild) {
-      return response.notFound();
-    }
-
-    if (guild.webhook == null) {
-      return response.notFound();
-    }
-
-    await webhookRepo.delete(guild.webhook);
+    await this.database.guild.update({
+      where: { id: guildId },
+      data: {
+        webhook: {
+          delete: true,
+        },
+      },
+      select: {},
+    });
 
     return response.noContent("");
   }

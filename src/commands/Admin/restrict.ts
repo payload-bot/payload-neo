@@ -3,7 +3,6 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
-import { Server } from "#lib/models";
 import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
 import { isNullishOrEmpty } from "@sapphire/utilities";
@@ -23,7 +22,10 @@ export class UserCommand extends PayloadCommand {
     const listAllRestrictions = args.getFlags("list");
 
     if (listAllRestrictions) {
-      const server = await Server.findOne({ id: msg.guildId! }, {}, { upsert: true }).lean();
+      const server = await this.database.guild.findUnique({
+        where: { id: msg.guildId! },
+        select: { commandRestrictions: true },
+      });
 
       const commands = server?.commandRestrictions;
 
@@ -71,12 +73,20 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async setRestrictions(guildId: string, commands: string[]) {
-    const server = await Server.findOne({ id: guildId }, {}, { upsert: true }).lean();
+    const server = await this.database.guild.findUnique({
+      where: { id: guildId },
+      select: { commandRestrictions: true },
+    });
 
-    const existingRestrictions = server!.commandRestrictions ?? [];
+    const existingRestrictions = server!.commandRestrictions;
 
     const toRestrict = [...new Set([...existingRestrictions, ...commands])];
 
-    await Server.findOneAndUpdate({ id: guildId }, { commandRestrictions: toRestrict });
+    await this.database.guild.upsert({
+      where: { id: guildId! },
+      update: { commandRestrictions: toRestrict },
+      create: { id: guildId!, commandRestrictions: toRestrict },
+      select: {},
+    });
   }
 }

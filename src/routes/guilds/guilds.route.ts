@@ -1,6 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
-import { Server, ServerModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { s } from "@sapphire/shapeshift";
@@ -20,26 +19,29 @@ export class GuildRoute extends ServiceController {
   @GuildAuth()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    const repository = this.createRepository(request, response, Server);
 
-    const data = await repository.get(guildId);
+    const guild = await this.database.guild.findUnique({
+      where: { id: guildId },
+    });
 
-    return this.notFoundIfNull(data, response);
+    return this.notFoundIfNull(guild, response);
   }
 
   @Authenticated()
   @GuildAuth()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
-    const repository = this.createRepository<ServerModel>(request, response, Server);
-    
     const { success, value } = schema.run(request.body);
 
     if (!success) {
       return response.badRequest("Bad request");
     }
 
-    await repository.patch(guildId, value as any);
+    await this.database.guild.update({
+      where: { id: guildId },
+      data: value,
+      select: {},
+    });
 
     return response.noContent("");
   }

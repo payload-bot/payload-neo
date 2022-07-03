@@ -2,7 +2,6 @@ import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
-import { Server } from "#lib/models";
 import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
@@ -16,9 +15,12 @@ import { LanguageKeys } from "#lib/i18n/all";
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
-    const guildSetting = await Server.findOne({ id: msg.guild!.id }).lean();
+    const guildSetting = await this.database.guild.findUnique({
+      where: { id: msg.guildId! },
+      select: { enableSnipeForEveryone: true },
+    });
 
-    if (!guildSetting?.enableSnipeForEveryone) {
+    if (guildSetting?.enableSnipeForEveryone == null || !guildSetting.enableSnipeForEveryone) {
       if (!msg.member!.permissions.has("MANAGE_MESSAGES")) {
         return;
       }

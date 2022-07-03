@@ -4,7 +4,6 @@ import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import { capturePage } from "#utils/screenshot";
-import { User } from "#lib/models";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
@@ -22,9 +21,9 @@ export class UserCommand extends PayloadCommand {
 
     await msg.channel.sendTyping();
 
-    const user = await User.findOne({ id }).lean();
+    const user = await this.database.user.findUnique({ where: { id }, select: { steamId: true } });
 
-    if (!user?.steamId) {
+    if (user?.steamId == null) {
       return await send(msg, args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag }));
     }
 

@@ -3,7 +3,6 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
-import { Server } from "#lib/models";
 import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
 
@@ -53,9 +52,12 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async unsetRestrictions(guildId: string, commands: string[]) {
-    const server = await Server.findOne({ id: guildId }, {}, { upsert: true }).lean();
+    const server = await this.database.guild.findUnique({
+      where: { id: guildId },
+      select: { commandRestrictions: true },
+    });
 
-    const existingRestrictions = server!.commandRestrictions ?? [];
+    const existingRestrictions = server!.commandRestrictions;
 
     const toUnrestrict: string[] = [];
 
@@ -65,6 +67,11 @@ export class UserCommand extends PayloadCommand {
 
     const finalRestrictions = existingRestrictions.filter(curr => !toUnrestrict.includes(curr));
 
-    await Server.findOneAndUpdate({ id: guildId }, { commandRestrictions: finalRestrictions });
+    await this.database.guild.upsert({
+      where: { id: guildId! },
+      update: { commandRestrictions: finalRestrictions },
+      create: { id: guildId!, commandRestrictions: finalRestrictions },
+      select: {},
+    });
   }
 }

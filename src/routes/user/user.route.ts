@@ -1,6 +1,5 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { User, UserModel } from "#lib/models";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { s } from "@sapphire/shapeshift";
@@ -15,34 +14,38 @@ const schema = s.object({
 export class UserRoute extends ServiceController {
   @Authenticated()
   public async [methods.GET](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository<UserModel>(request, response, User);
+    const user = await this.database.user.findUnique({
+      where: { id: request.auth!.id },
+      include: { webhook: true },
+    });
 
-    const { steamId, fun = null } = await repository.get(request.auth!.id);
-
-    return response.ok({ steamId, pushed: fun?.payload?.feetPushed ?? 0 });
+    return response.ok({ steamId: user?.steamId, pushed: user?.pushed, webhook: user?.webhook });
   }
 
   @Authenticated()
   public async [methods.PATCH](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository<UserModel>(request, response, User);
     const { success, value } = schema.run(request.body);
-
-    this.logger.debug(success, value);
 
     if (!success) {
       return response.badRequest("Bad request");
     }
 
-    await repository.patch(request.auth!.id, value as any);
+    await this.database.user.update({
+      where: { id: request.auth!.id },
+      data: {
+        ...value,
+      },
+      select: {},
+    });
 
     return response.noContent("");
   }
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    const repository = this.createRepository<UserModel>(request, response, User);
-
-    await repository.delete(request.auth!.id);
+    await this.database.user.delete({
+      where: { id: request.auth!.id },
+    });
 
     // nom nom nom
     response.cookies.delete("__session");

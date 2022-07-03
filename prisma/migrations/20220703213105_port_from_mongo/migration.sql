@@ -40,7 +40,7 @@ CREATE TABLE "Webhook" (
 CREATE UNIQUE INDEX "Webhook_value_key" ON "Webhook"("value");
 
 -- AddForeignKey
-ALTER TABLE "Guild" ADD CONSTRAINT "Guild_webhookId_fkey" FOREIGN KEY ("webhookId") REFERENCES "Webhook"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Guild" ADD CONSTRAINT "Guild_webhookId_fkey" FOREIGN KEY ("webhookId") REFERENCES "Webhook"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_webhookId_fkey" FOREIGN KEY ("webhookId") REFERENCES "Webhook"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_webhookId_fkey" FOREIGN KEY ("webhookId") REFERENCES "Webhook"("id") ON DELETE SET NULL ON UPDATE CASCADE;

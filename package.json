@@ -25,7 +25,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsup --onSuccess \"cp -r src/languages dist \"",
-    "dev": "tsup --onSuccess \"cp -r languages/. dist/languages/ && node --enable-source-maps ./dist/index.js\"",
+    "dev": "tsup --onSuccess \"cp -r src/languages dist && node --enable-source-maps ./dist/index.js\"",
     "lint:fix": "prettier --write .",
     "migrate": "migrate",
     "start": "node --enable-source-maps ."

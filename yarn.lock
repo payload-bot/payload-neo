@@ -436,6 +436,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/utilities@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "@sapphire/utilities@npm:3.7.0"
+  checksum: 3b574586242f015859e913123a5311774ad2d6cb79241c2a3d447a585282bdb04cddcd8e086f757a8ae5d2c49f4a25b4f848d63cebe605c7641364b51c3cfa11
+  languageName: node
+  linkType: hard
+
 "@selderee/plugin-htmlparser2@npm:^0.6.0":
   version: 0.6.0
   resolution: "@selderee/plugin-htmlparser2@npm:0.6.0"
@@ -565,10 +572,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.0.0":
-  version: 18.0.0
-  resolution: "@types/node@npm:18.0.0"
-  checksum: aab2b325727a2599f6d25ebe0dedf58c40fb66a51ce4ca9c0226ceb70fcda2d3afccdca29db5942eb48b158ee8585a274a1e3750c718bbd5399d7f41d62dfdcc
+"@types/node@npm:^18.0.1":
+  version: 18.0.1
+  resolution: "@types/node@npm:18.0.1"
+  checksum: be14b251c54cc2b4ca78ac6eadf2fe5e831e487f2e17848f21d576295945b538271dcc674d0bba582b3f8d95b84f6826e99b6ba4710c76f165a8bdd4d4f0618e
   languageName: node
   linkType: hard
 
@@ -2650,9 +2657,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.4.1":
-  version: 6.4.1
-  resolution: "mongoose@npm:6.4.1"
+"mongoose@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "mongoose@npm:6.4.2"
   dependencies:
     bson: ^4.6.2
     kareem: 2.4.1
@@ -2661,7 +2668,7 @@ fsevents@~2.3.2:
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.0
-  checksum: cfbd727328cf17e628b6eafe6162cdacbe73e93092f490ed7646c00d6f1cc2b10bd7d52630f9102a925fe2137e4093155d70729547295bbdb7eb5c42dd0c4702
+  checksum: 16945de7f4f5aa1aedacba937a6f41dad0b7bd3016fc6f55957f01c0478bc9b062c3b5285d18ed642f52815c1bd6d01f9e055e899eddf5ca6aaeab38ece97894
   languageName: node
   linkType: hard
 
@@ -2981,10 +2988,10 @@ fsevents@~2.3.2:
     "@sapphire/shapeshift": ^3.4.0
     "@sapphire/time-utilities": ^1.7.4
     "@sapphire/ts-config": ^3.3.4
-    "@sapphire/utilities": ^3.6.2
+    "@sapphire/utilities": ^3.7.0
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
-    "@types/node": ^18.0.0
+    "@types/node": ^18.0.1
     "@types/puppeteer": ^5.4.6
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.28.0
@@ -2996,9 +3003,9 @@ fsevents@~2.3.2:
     html-to-text: ^8.2.0
     ioredis: ^5.1.0
     migrate: ^1.8.0
-    mongoose: ^6.4.1
+    mongoose: ^6.4.2
     prettier: ^2.7.1
-    puppeteer: ^15.2.0
+    puppeteer: ^15.3.0
     reflect-metadata: ^0.1.13
     tsc-watch: ^5.0.3
     tslib: ^2.4.0
@@ -3168,9 +3175,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^15.2.0":
-  version: 15.2.0
-  resolution: "puppeteer@npm:15.2.0"
+"puppeteer@npm:^15.3.0":
+  version: 15.3.0
+  resolution: "puppeteer@npm:15.3.0"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.4
@@ -3184,7 +3191,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.8.0
-  checksum: bf266d71850d84f517438f1b06981c1ce166d86f13995cd64a7b54db253fd661870e868b70889978130808dedfeeeab254cf678d0db619b588b13c846e82b351
+  checksum: 69881dcdb5f81e7335b5ee3333326339e71cb4487646b690fa5da4f2c3542197f0d22178720704eb36a4f4d159ddc6eee92cb409d739352591aa3bd7cc253681
   languageName: node
   linkType: hard
 

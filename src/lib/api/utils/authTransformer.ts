@@ -14,7 +14,7 @@ export async function transformAuth({ user, guilds }: LoginData) {
 
   // @ts-ignore
   const [dbUser, fetchedDiscordUser] = await Promise.all([
-    container.database.user.findUnique({ where: { id: user.id } }),
+    container.database.user.upsert({ where: { id: user.id }, create: { id: user.id }, update: {} }),
     client.users.fetch(user.id),
   ]);
 

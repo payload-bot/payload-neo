@@ -39,7 +39,6 @@ RUN yarn workspaces focus --all --production
 
 COPY ./assets ./assets
 COPY ./src/languages ./languages
-COPY ./migrations ./migrations
 COPY --from=build /opt/app/dist ./dist
 COPY changelog.md ./dist
 

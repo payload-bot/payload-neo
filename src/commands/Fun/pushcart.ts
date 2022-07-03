@@ -105,18 +105,19 @@ export class UserCommand extends PayloadCommand {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NotEnoughCreds));
     }
 
-    await this.database.user.upsert({
-      where: { id: targetUser.id },
-      create: { id: msg.author.id, pushed: safeAmount },
-      update: { pushed: { increment: safeAmount } },
-    });
-
-    await this.database.user.update({
-      where: { id: msg.author.id },
-      data: {
-        pushed: { decrement: safeAmount },
-      },
-    });
+    await Promise.all([
+      this.database.user.upsert({
+        where: { id: targetUser.id },
+        create: { id: msg.author.id, pushed: safeAmount },
+        update: { pushed: { increment: safeAmount } },
+      }),
+      this.database.user.update({
+        where: { id: msg.author.id },
+        data: {
+          pushed: { decrement: safeAmount },
+        },
+      }),
+    ]);
 
     return await send(
       msg,
@@ -274,7 +275,7 @@ export class UserCommand extends PayloadCommand {
     let needsResetPushedToday = false;
 
     if (isUnderCooldown) {
-      return { result: PayloadPushResult.CAP, lastActive };
+      return { result: PayloadPushResult.COOLDOWN, lastActive };
     } else if (hasReachedMaxPoints) {
       if (shouldRefreshCap) {
         needsResetPushedToday = true;

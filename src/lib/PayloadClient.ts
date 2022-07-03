@@ -5,6 +5,7 @@ import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
 import type { SnipeCache } from "./interfaces/cache";
+import connectDatabase from "#utils/connectDatabase";
 
 process.env.NODE_ENV ??= "development";
 
@@ -36,6 +37,8 @@ export class PayloadClient extends SapphireClient {
   };
 
   public async login(token?: string) {
+    await connectDatabase();
+
     const response = await super.login(token);
 
     return response;

@@ -44,7 +44,6 @@ export class GuildWebhookRoute extends ServiceController {
           },
         },
       },
-      select: {},
     });
 
     return response.noContent("");
@@ -62,7 +61,6 @@ export class GuildWebhookRoute extends ServiceController {
           delete: true,
         },
       },
-      select: {},
     });
 
     return response.noContent("");

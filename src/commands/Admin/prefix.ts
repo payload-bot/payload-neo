@@ -51,7 +51,6 @@ export class UserCommand extends PayloadCommand {
       where: { id: msg.guildId! },
       update: { prefix },
       create: { id: msg.guildId!, prefix },
-      select: {},
     });
 
     const embed = new MessageEmbed({
@@ -103,7 +102,6 @@ export class UserCommand extends PayloadCommand {
       where: { id: msg.guildId! },
       update: { prefix: config.PREFIX },
       create: { id: msg.guildId! },
-      select: {},
     });
 
     return await send(msg, { embeds: [embed] });

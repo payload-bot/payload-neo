@@ -35,7 +35,6 @@ export class UserRoute extends ServiceController {
       data: {
         ...value,
       },
-      select: {},
     });
 
     return response.noContent("");

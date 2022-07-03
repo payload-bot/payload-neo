@@ -71,7 +71,6 @@ export class UserCommand extends PayloadCommand {
       where: { id: guildId! },
       update: { commandRestrictions: finalRestrictions },
       create: { id: guildId!, commandRestrictions: finalRestrictions },
-      select: {},
     });
   }
 }

@@ -1,3 +1,4 @@
+import type { PrismaClient } from "@prisma/client";
 import { CommandContext, PieceContext, UserError } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { SubCommandPluginCommand } from "@sapphire/plugin-subcommands";
@@ -7,13 +8,13 @@ import { PayloadArgs } from "./PayloadArgs";
 
 export abstract class PayloadCommand extends SubCommandPluginCommand<PayloadCommand.Args, PayloadCommand> {
   public readonly hidden: boolean;
-
-  protected database = this.container.database;
+  protected database: PrismaClient;
 
   public constructor(context: PieceContext, options: PayloadCommand.Options) {
     super(context, { ...options });
 
     this.hidden = options.hidden ?? false;
+    this.database = this.container.database;
   }
 
   /**

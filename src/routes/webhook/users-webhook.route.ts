@@ -59,7 +59,6 @@ export class UsersWebhookRoute extends ServiceController {
           delete: true,
         },
       },
-      select: {},
     });
 
     return response.noContent("");

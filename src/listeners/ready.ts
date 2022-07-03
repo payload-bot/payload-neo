@@ -1,7 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
-import connectDatabase from "#utils/connectDatabase";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -12,9 +11,7 @@ const dev = process.env.NODE_ENV !== "production";
 export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private readonly style = dev ? yellow : blue;
 
-  async run() {
-    await connectDatabase();
-    
+  async run() {    
     this.printBanner();
     this.printStoreDebugInformation();
   }

@@ -37,7 +37,6 @@ export class UserCommand extends PayloadCommand {
       where: { id: msg.author.id },
       update: { steamId: testResult },
       create: { id: msg.author.id, steamId: testResult },
-      select: {},
     });
 
     return await send(msg, args.t(LanguageKeys.Commands.Link.Success));

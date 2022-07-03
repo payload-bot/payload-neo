@@ -109,7 +109,6 @@ export class UserCommand extends PayloadCommand {
       where: { id: targetUser.id },
       create: { id: msg.author.id, pushed: safeAmount },
       update: { pushed: { increment: safeAmount } },
-      select: {},
     });
 
     await this.database.user.update({
@@ -117,7 +116,6 @@ export class UserCommand extends PayloadCommand {
       data: {
         pushed: { decrement: safeAmount },
       },
-      select: {},
     });
 
     return await send(
@@ -296,7 +294,6 @@ export class UserCommand extends PayloadCommand {
         pushedToday: pushedTodayQuery,
         lastActive: newDate,
       },
-      select: {},
     });
 
     return { result: PayloadPushResult.SUCCESS, lastActive: newLastActiveDate };

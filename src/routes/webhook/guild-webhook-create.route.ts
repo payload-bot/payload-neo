@@ -11,7 +11,7 @@ const schema = s.object({
 }).strict;
 
 @ApplyOptions<RouteOptions>({
-  route: "webhooks/guilds",
+  route: "webhooks/guilds/:id",
 })
 export class GuildWebhookCreateRoute extends ServiceController {
   @Authenticated()
@@ -27,7 +27,7 @@ export class GuildWebhookCreateRoute extends ServiceController {
     });
 
     if (guild?.webhookId != null) {
-      return response.notFound();
+      return response.badRequest("You can only have 1 guild webhook at a time");
     }
 
     const { success, value } = schema.run(request.body);

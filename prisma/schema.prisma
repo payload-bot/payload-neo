@@ -14,7 +14,7 @@ model Guild {
   pushed   Int    @default(0)
 
   webhookId String?
-  webhook   Webhook? @relation(fields: [webhookId], references: [id])
+  webhook   Webhook? @relation(fields: [webhookId], references: [id], onDelete: Cascade)
 
   enableSnipeForEveryone Boolean  @default(false)
   commandRestrictions    String[] @default([])
@@ -27,7 +27,7 @@ model User {
   steamId String?
 
   webhookId String?
-  webhook   Webhook? @relation(fields: [webhookId], references: [id])
+  webhook   Webhook? @relation(fields: [webhookId], references: [id], onDelete: Cascade)
 
   pushed      Int      @default(0)
   pushedToday Int      @default(0)

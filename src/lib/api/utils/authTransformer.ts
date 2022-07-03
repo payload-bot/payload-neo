@@ -53,7 +53,7 @@ async function transformGuild(userId: string, data: RESTAPIPartialCurrentUserGui
   const commands = stores.get("commands");
   const autoCommands = stores.get("autoresponses") as unknown as AutoResponseStore;
 
-  const dbGuild = await container.database.guild.findUnique({ where: { id: data.id }, include: { webhook: true } });
+  const dbGuild = await container.database.guild.findUnique({ where: { id: data.id } });
 
   const clientGuild = client.guilds.cache.get(data.id);
 
@@ -62,10 +62,9 @@ async function transformGuild(userId: string, data: RESTAPIPartialCurrentUserGui
     prefix: dbGuild?.prefix ?? config.PREFIX,
     language: dbGuild?.language ?? "en-US",
     enableSnipeForEveryone: dbGuild?.enableSnipeForEveryone ?? false,
-    webhook: dbGuild?.webhook ?? null,
     isInGuild,
     id: data.id,
-    managable: getManageable(userId, data, clientGuild),
+    managable: await getManageable(userId, data, clientGuild),
     icon: clientGuild?.iconURL() as any,
     permissions: data.permissions,
     pushcartPoints: dbGuild?.pushed ?? 0,

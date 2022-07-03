@@ -12,6 +12,7 @@ COPY .yarn/plugins .yarn/plugins
 RUN yarn install --immutable
 
 COPY tsconfig.json .
+COPY tsup.config.ts .
 COPY ./src ./src
 
 RUN yarn build

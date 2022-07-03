@@ -120,7 +120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:4":
+"@prisma/client@npm:^4.0.0":
   version: 4.0.0
   resolution: "@prisma/client@npm:4.0.0"
   dependencies:
@@ -2639,7 +2639,7 @@ fsevents@~2.3.2:
   dependencies:
     "@discordjs/builders": ^0.15.0
     "@node-steam/id": ^1.2.0
-    "@prisma/client": 4
+    "@prisma/client": ^4.0.0
     "@sapphire/decorators": ^4.3.6
     "@sapphire/discord.js-utilities": ^4.11.3
     "@sapphire/fetch": ^2.4.0
@@ -2668,7 +2668,7 @@ fsevents@~2.3.2:
     html-to-text: ^8.2.0
     ioredis: ^5.1.0
     prettier: ^2.7.1
-    prisma: 4
+    prisma: ^4.0.0
     puppeteer: ^15.3.0
     reflect-metadata: ^0.1.13
     tsc-watch: ^5.0.3
@@ -2735,7 +2735,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"prisma@npm:4":
+"prisma@npm:^4.0.0":
   version: 4.0.0
   resolution: "prisma@npm:4.0.0"
   dependencies:

@@ -265,7 +265,7 @@ export class UserCommand extends PayloadCommand {
     const hasReachedMaxPoints = pushedToday >= PUSHCART_CAP;
     let needsResetPushedToday = false;
 
-    if (isUnderCooldown) {
+    if (isUnderCooldown && pushedToday !== 0) {
       return { result: PayloadPushResult.COOLDOWN, lastActive };
     } else if (hasReachedMaxPoints) {
       if (shouldRefreshCap) {

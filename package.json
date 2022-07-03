@@ -14,7 +14,7 @@
   "author": "c43721",
   "imports": {
     "#root/*": "./dist/*.js",
-    "#api/*": "./dist/api/*.js",
+    "#api/*": "./dist/lib/api/*.js",
     "#lib/*": "./dist/lib/*.js",
     "#lib/utils/*": "./dist/lib/utils/*.js",
     "#lib/types": "./dist/lib/types/index.js",
@@ -60,7 +60,6 @@
     "generate-password": "^1.7.0",
     "html-to-text": "^8.2.0",
     "ioredis": "^5.1.0",
-    "migrate": "^1.8.0",
     "mongoose": "^6.4.2",
     "puppeteer": "^15.3.0",
     "reflect-metadata": "^0.1.13",

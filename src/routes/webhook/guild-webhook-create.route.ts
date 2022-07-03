@@ -21,10 +21,12 @@ export class GuildWebhookCreateRoute extends ServiceController {
 
     const guild = await this.database.guild.findUnique({
       where: { id: guildId },
-      include: { webhook: true },
+      select: {
+        webhookId: true,
+      },
     });
 
-    if (guild == null) {
+    if (guild?.webhookId != null) {
       return response.notFound();
     }
 

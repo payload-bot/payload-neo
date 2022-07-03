@@ -1,6 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { WebhookType } from "@prisma/client";
+import { Prisma, WebhookType } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
@@ -21,12 +21,14 @@ export class UsersWebhookRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.POST](request: ApiRequest, response: ApiResponse) {
-    const hasWebhook = await this.database.user.findUnique({
+    const user = await this.database.user.findUnique({
       where: { id: request.auth!.id },
-      include: { webhook: true },
+      select: {
+        webhookId: true,
+      },
     });
 
-    if (hasWebhook != null) {
+    if (user?.webhookId != null) {
       return response.badRequest("You can only have one webhook at a time");
     }
 
@@ -52,15 +54,23 @@ export class UsersWebhookRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    await this.database.user.update({
-      where: { id: request.auth!.id },
-      data: {
-        webhook: {
-          delete: true,
+    try {
+      await this.database.user.update({
+        where: { id: request.auth!.id },
+        data: {
+          webhook: {
+            delete: true,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
+        return response.badRequest();
+      }
 
-    return response.noContent("");
+      throw e;
+    }
+
+    return response.noContent();
   }
 }

@@ -1,5 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated, GuildAuth } from "#lib/api/utils/decorators";
+import { Prisma } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { s } from "@sapphire/shapeshift";
@@ -54,14 +55,22 @@ export class GuildWebhookRoute extends ServiceController {
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
     const guildId = request.params.id;
 
-    await this.database.guild.update({
-      where: { id: guildId },
-      data: {
-        webhook: {
-          delete: true,
+    try {
+      await this.database.guild.update({
+        where: { id: guildId },
+        data: {
+          webhook: {
+            delete: true,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
+        return response.badRequest();
+      }
+
+      throw e;
+    }
 
     return response.noContent("");
   }

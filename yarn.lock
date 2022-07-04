@@ -1031,10 +1031,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:0.36.0":
-  version: 0.36.0
-  resolution: "discord-api-types@npm:0.36.0"
-  checksum: f81993764c28f0c817d8c90f0bee46d779a429dc903af77d0de1e27b76938cf2b4b3465998e5b9146647f8cad7884bff1d677dcecff1c26edb5d40be5751286e
+"discord-api-types@npm:0.36.1":
+  version: 0.36.1
+  resolution: "discord-api-types@npm:0.36.1"
+  checksum: 6f9cae3d855a5c8fe6585f5f827795260683038d7b66ba9f1633e96005047d4c0d07bc084eb7bfbb967c5b99a0257b03cb94634fe7cd8a4975fce12bba89b306
   languageName: node
   linkType: hard
 
@@ -2608,7 +2608,7 @@ fsevents@~2.3.2:
     "@types/puppeteer": ^5.4.6
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.28.0
-    discord-api-types: 0.36.0
+    discord-api-types: 0.36.1
     discord.js: ^13.8.1
     dotenv: ^16.0.1
     gamedig: ^4.0.4

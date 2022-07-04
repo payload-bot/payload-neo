@@ -1,5 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
+import { Prisma } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { s } from "@sapphire/shapeshift";
@@ -42,13 +43,21 @@ export class UserRoute extends ServiceController {
 
   @Authenticated()
   public async [methods.DELETE](request: ApiRequest, response: ApiResponse) {
-    await this.database.user.delete({
-      where: { id: request.auth!.id },
-    });
+    try {
+      await this.database.user.delete({
+        where: { id: request.auth!.id },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        this.logger.error(e);
+        return response.error("Internal server error");
+      }
+    }
 
-    // nom nom nom
-    response.cookies.delete("__session");
+    // Revoke tokens and do a "logout" 
+    const routes = this.container.stores.get("routes");
+    const endpoint = routes.get("logout");
 
-    return response.noContent("");
+    return await endpoint!.methods.first()!.call(endpoint!, request, response);
   }
 }

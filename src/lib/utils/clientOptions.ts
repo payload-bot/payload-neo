@@ -145,4 +145,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   makeCache: cacheOptions(),
   presence: getPresence(),
   i18n: parseI18N(),
+  hmr: {
+    enabled: process.env.NODE_ENV === "development",
+  },
 };

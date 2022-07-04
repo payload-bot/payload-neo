@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  clean: true,
+  clean: false,
   bundle: false,
   dts: false,
   entry: ["src/**/*.ts", "!src/**/*.d.ts", "!src/languages/*"],

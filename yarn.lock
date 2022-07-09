@@ -295,10 +295,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/shapeshift@npm:^3.1.0, @sapphire/shapeshift@npm:^3.4.0":
+"@sapphire/shapeshift@npm:^3.1.0":
   version: 3.4.0
   resolution: "@sapphire/shapeshift@npm:3.4.0"
   checksum: fede7cc81c360e4222328278a4cd5fb21b5dd79d3d3bd7365a1f9582215032dc8b7c75a3713d047254f69f327f7259f912605c23444bca1a3db9ea9ab0211269
+  languageName: node
+  linkType: hard
+
+"@sapphire/shapeshift@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "@sapphire/shapeshift@npm:3.4.1"
+  checksum: 97006b34941136c26dd1a8259c1838df08e7e15e869e515a3e4e844d2c5757c4bb92d79eeec72c73ff856e9be00876c88bf71142d11f4b55e043ec76153365cd
   languageName: node
   linkType: hard
 
@@ -436,10 +443,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.0.1":
+"@types/node@npm:*":
   version: 18.0.1
   resolution: "@types/node@npm:18.0.1"
   checksum: be14b251c54cc2b4ca78ac6eadf2fe5e831e487f2e17848f21d576295945b538271dcc674d0bba582b3f8d95b84f6826e99b6ba4710c76f165a8bdd4d4f0618e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.0.3":
+  version: 18.0.3
+  resolution: "@types/node@npm:18.0.3"
+  checksum: 5dec59fbbc1186c808b53df1ca717dad034dbd6a901c75f5b052c845618b531b05f27217122c6254db99529a68618e4cfc534ae3dbf4e88754e9e572df80defa
   languageName: node
   linkType: hard
 
@@ -3094,13 +3108,13 @@ fsevents@~2.3.2:
     "@sapphire/plugin-logger": ^2.2.1
     "@sapphire/plugin-subcommands": ^2.2.0
     "@sapphire/ratelimits": ^2.4.4
-    "@sapphire/shapeshift": ^3.4.0
+    "@sapphire/shapeshift": ^3.4.1
     "@sapphire/time-utilities": ^1.7.4
     "@sapphire/ts-config": ^3.3.4
     "@sapphire/utilities": ^3.7.0
     "@types/gamedig": ^3.0.2
     "@types/html-to-text": ^8.1.0
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     "@types/puppeteer": ^5.4.6
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.28.0
@@ -3114,7 +3128,7 @@ fsevents@~2.3.2:
     npm-run-all: ^4.1.5
     prettier: ^2.7.1
     prisma: ^4.0.0
-    puppeteer: ^15.3.0
+    puppeteer: ^15.3.2
     reflect-metadata: ^0.1.13
     tslib: ^2.4.0
     tsup: ^6.1.3
@@ -3269,9 +3283,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^15.3.0":
-  version: 15.3.0
-  resolution: "puppeteer@npm:15.3.0"
+"puppeteer@npm:^15.3.2":
+  version: 15.3.2
+  resolution: "puppeteer@npm:15.3.2"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.4
@@ -3285,7 +3299,7 @@ fsevents@~2.3.2:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.8.0
-  checksum: 69881dcdb5f81e7335b5ee3333326339e71cb4487646b690fa5da4f2c3542197f0d22178720704eb36a4f4d159ddc6eee92cb409d739352591aa3bd7cc253681
+  checksum: c1dab2b958e36961bedae08bde907c3298c5decb731eec42d459078d6e305391b3f9529ab3c7f1ae282ae24cf4ad232d21e64e5bf62d59ac5e8aa637bc1cd305
   languageName: node
   linkType: hard
 

@@ -8,6 +8,7 @@ ENV CI=true
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
+COPY prisma prisma
 
 RUN yarn install --immutable
 
@@ -35,6 +36,7 @@ ENV BUILT_AT=${BUILT_AT}
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
+COPY prisma prisma
 
 RUN yarn workspaces focus --all --production
 

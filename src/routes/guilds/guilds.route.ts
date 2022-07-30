@@ -39,7 +39,7 @@ export class GuildRoute extends ServiceController {
 
     await this.database.guild.update({
       where: { id: guildId },
-      data: value,
+      data: value as any,
     });
 
     return response.noContent("");

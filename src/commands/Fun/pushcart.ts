@@ -105,7 +105,7 @@ export class UserCommand extends PayloadCommand {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NotEnoughCreds));
     }
 
-    await Promise.all([
+    await this.database.$transaction([
       this.database.user.upsert({
         where: { id: targetUser.id },
         create: { id: msg.author.id, pushed: safeAmount },

@@ -1,5 +1,5 @@
 # Builder
-FROM node:16-slim AS build
+FROM node:16 AS build
 WORKDIR /opt/app
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
@@ -20,7 +20,7 @@ RUN yarn prisma generate
 RUN yarn build
 
 # Runner
-FROM node:16-buster-slim
+FROM node:16
 WORKDIR /opt/app
 
 ARG VERSION

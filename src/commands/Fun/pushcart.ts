@@ -47,14 +47,14 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const { result, lastActive } = await this.userPushcart(msg.author.id, randomNumber);
+    const { result, lastPushed } = await this.userPushcart(msg.author.id, randomNumber);
 
     if (result === PayloadPushResult.COOLDOWN) {
-      const secondsLeft = differenceInSeconds(addSeconds(lastActive, 30), new Date());
+      const secondsLeft = differenceInSeconds(addSeconds(lastPushed, 30), new Date());
 
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft }));
     } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(addDays(lastActive, 1));
+      const timeLeft = formatDistanceToNowStrict(addDays(lastPushed, 1));
 
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
@@ -151,15 +151,13 @@ export class UserCommand extends PayloadCommand {
     const CHUNK_AMOUNT = 5;
 
     for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {
-      const leaderboardString = await Promise.all(
-        page.map(async ({ rank, id, pushed }) => {
-          const { username } = await client.users.fetch(id).catch(() => ({ username: "-" }));
+      const leaderboardString = page.map(async ({ rank, id, pushed }) => {
+        const user = client.users.cache.get(id) ?? null;
 
-          return msg.author.id === id
-            ? `> ${rank}: ${Util.escapeMarkdown(username)} (${pushed})`
-            : `${rank}: ${Util.escapeMarkdown(username)} (${pushed})`;
-        })
-      );
+        return msg.author.id === id
+          ? `> ${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`
+          : `${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
+      });
 
       const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
@@ -248,46 +246,46 @@ export class UserCommand extends PayloadCommand {
   }
 
   private async userPushcart(id: string, units: number) {
-    const { lastActive, pushedToday } = await this.database.user.upsert({
+    const { lastPushed, pushedToday } = await this.database.user.upsert({
       where: { id },
       create: { id },
       update: {},
       select: {
-        lastActive: true,
+        lastPushed: true,
         pushedToday: true,
       },
     });
 
-    const isUnderCooldown = isAfter(add(lastActive, { seconds: 30 }), Date.now());
+    const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now());
 
-    const shouldRefreshCap = isAfter(Date.now(), add(lastActive, { days: 1 }));
+    const shouldRefreshCap = isAfter(Date.now(), add(lastPushed, { days: 1 }));
 
     const hasReachedMaxPoints = pushedToday >= PUSHCART_CAP;
     let needsResetPushedToday = false;
 
     if (isUnderCooldown && pushedToday !== 0) {
-      return { result: PayloadPushResult.COOLDOWN, lastActive };
+      return { result: PayloadPushResult.COOLDOWN, lastPushed };
     } else if (hasReachedMaxPoints) {
       if (shouldRefreshCap) {
         needsResetPushedToday = true;
       } else {
-        return { result: PayloadPushResult.CAP, lastActive };
+        return { result: PayloadPushResult.CAP, lastPushed };
       }
     }
 
     const pushedTodayQuery = needsResetPushedToday ? 0 : { increment: units };
     const newDate = new Date();
-    const newLastActiveDate = needsResetPushedToday ? newDate : lastActive;
+    const newLastActiveDate = needsResetPushedToday ? newDate : lastPushed;
 
     await this.database.user.update({
       where: { id },
       data: {
         pushed: { increment: units },
         pushedToday: pushedTodayQuery,
-        lastActive: newDate,
+        lastPushed: newDate,
       },
     });
 
-    return { result: PayloadPushResult.SUCCESS, lastActive: newLastActiveDate };
+    return { result: PayloadPushResult.SUCCESS, lastPushed: newLastActiveDate };
   }
 }

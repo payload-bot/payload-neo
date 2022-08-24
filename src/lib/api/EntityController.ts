@@ -1,16 +1,15 @@
 import type { PieceContext } from "@sapphire/framework";
 import { type ApiRequest, type ApiResponse, methods, Route, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
-import type { Model } from "mongoose";
 import { EntityRepository } from "./repository/EntityRepository";
 import { FixKnownErrors } from "./utils/decorators";
 
 export interface EntityControllerOptions extends RouteOptions {
-  model?: typeof Model;
+  model?: any;
   repository?: new (...args: any[]) => any;
 }
 
-export abstract class EntityController<TEntity extends typeof Model> extends Route {
+export abstract class EntityController<TEntity> extends Route {
   public logger = this.container.logger;
   public client = this.container.client;
 

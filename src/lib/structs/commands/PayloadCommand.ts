@@ -4,7 +4,7 @@ import { fetchT } from "@sapphire/plugin-i18next";
 import { SubCommandPluginCommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";
 import * as Lexure from "lexure";
-import { PayloadArgs } from "./PayloadArgs";
+import { PayloadArgs } from "./PayloadArgs.js";
 
 export abstract class PayloadCommand extends SubCommandPluginCommand<PayloadCommand.Args, PayloadCommand> {
   public readonly hidden: boolean;

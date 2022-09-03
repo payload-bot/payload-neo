@@ -1,5 +1,5 @@
 import { Identifiers } from "@sapphire/framework";
-import { LanguageKeys } from "./all";
+import { LanguageKeys } from "./all/index.js";
 
 export function mapIdentifier(identifier: string): string {
   switch (identifier) {

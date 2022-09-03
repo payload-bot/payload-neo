@@ -1,4 +1,4 @@
-import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
+import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponse.jsStore";
 import config from "#root/config";
 import { container } from "@sapphire/framework";
 import type { LoginData } from "@sapphire/plugin-api";

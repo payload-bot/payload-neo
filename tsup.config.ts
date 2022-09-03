@@ -8,7 +8,7 @@ export default defineConfig({
   format: ["esm"],
   minify: false,
   tsconfig: "tsconfig.json",
-  target: "es2022",
+  target: "esnext",
   splitting: false,
   skipNodeModulesBundle: true,
   sourcemap: true,

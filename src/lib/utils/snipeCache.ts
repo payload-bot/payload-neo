@@ -2,7 +2,7 @@ import { Message, Collection } from "discord.js";
 import type { ElementHandle } from "puppeteer";
 import cheerio from "cheerio";
 import { format } from "date-fns";
-import { closeBrowser, createOrConnectChrome } from "./screenshot";
+import { closeBrowser, createOrConnectChrome } from "./screenshot.js";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 

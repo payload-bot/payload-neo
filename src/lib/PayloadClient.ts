@@ -1,11 +1,11 @@
 import { container, SapphireClient } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { join } from "path";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
-import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore";
-import type { SnipeCache } from "./interfaces/cache";
+import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
+import type { SnipeCache } from "./interfaces/cache.js";
 import connectDatabase from "#utils/connectDatabase";
+import { join } from "node:path";
 
 process.env.NODE_ENV ??= "development";
 
@@ -19,8 +19,7 @@ export class PayloadClient extends SapphireClient {
 
   constructor() {
     super(CLIENT_OPTIONS);
-
-    this.stores.register(new AutoResponseStore().registerPath(join(__dirname, "..", "auto")));
+    this.stores.register(new AutoResponseStore().registerPath(join("../auto", import.meta.url)));
   }
 
   public fetchPrefix = async (msg: Message) => {

@@ -1,4 +1,4 @@
-import { join } from "path";
+import { URL } from 'node:url';
 
 const config = {
   /**
@@ -10,7 +10,7 @@ const config = {
    * Static files for CSS or other assets
    */
   files: {
-    LOGS_CSS: join(__dirname, "../assets/dark-logs.css"),
+    LOGS_CSS: new URL("../assets/dark-logs.css", import.meta.url).toString(),
   },
 } as const;
 

@@ -1,5 +1,5 @@
-export * as Etf2l from "./etf2l";
-export * as Logs from "./logs";
-export * as UGC from "./ugc";
-export * as Tftv from "./tftv";
-export * as Connect from "./connect";
+export * as Etf2l from "./etf2l.js";
+export * as Logs from "./logs.js";
+export * as UGC from "./ugc.js";
+export * as Tftv from "./tftv.js";
+export * as Connect from "./connect.js";

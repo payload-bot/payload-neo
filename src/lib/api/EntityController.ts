@@ -1,8 +1,8 @@
 import type { PieceContext } from "@sapphire/framework";
 import { type ApiRequest, type ApiResponse, methods, Route, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullish } from "@sapphire/utilities";
-import { EntityRepository } from "./repository/EntityRepository";
-import { FixKnownErrors } from "./utils/decorators";
+import { EntityRepository } from "./repository/EntityRepository.js";
+import { FixKnownErrors } from "./utils/decorators.js";
 
 export interface EntityControllerOptions extends RouteOptions {
   model?: any;

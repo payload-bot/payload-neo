@@ -1,7 +1,7 @@
 import { createFunctionPrecondition } from "@sapphire/decorators";
 import { type ApiRequest, ApiResponse, HttpCodes } from "@sapphire/plugin-api";
 import { isNullishOrEmpty } from "@sapphire/utilities";
-import { canManage } from "./helpers";
+import { canManage } from "./helpers.js";
 
 export const Authenticated = () =>
   createFunctionPrecondition(

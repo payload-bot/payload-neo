@@ -23,6 +23,7 @@
     "#utils/*": "./dist/lib/utils/*.js"
   },
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "dev": "run-p watch start",
     "build": "tsup --onSuccess \"cp -r src/languages dist \"",

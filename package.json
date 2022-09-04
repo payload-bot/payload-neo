@@ -26,8 +26,8 @@
   "type": "module",
   "scripts": {
     "dev": "run-p watch start",
-    "build": "tsup --onSuccess \"cp -r src/languages dist \"",
-    "watch": "tsup --watch --onSuccess \"cp -r src/languages dist\"",
+    "build": "tsup --onSuccess \"node scripts/copy-i18n.mjs \"",
+    "watch": "tsup --watch --onSuccess \"node scripts/copy-i18n.mjs\"",
     "lint:fix": "prettier --write .",
     "start": "node --enable-source-maps .",
     "clean": "node scripts/clean.mjs"

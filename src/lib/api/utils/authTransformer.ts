@@ -1,5 +1,3 @@
-import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
-import config from "#root/config";
 import { container } from "@sapphire/framework";
 import type { LoginData } from "@sapphire/plugin-api";
 import type { RESTAPIPartialCurrentUserGuild } from "discord-api-types/v9";
@@ -46,33 +44,18 @@ export async function getManageable(id: string, oauthGuild: RESTAPIPartialCurren
 }
 
 async function transformGuild(userId: string, data: RESTAPIPartialCurrentUserGuild) {
-  const { client, stores } = container;
+  const { client } = container;
 
   const isInGuild = client.guilds.cache.get(data.id);
-
-  const commands = stores.get("commands");
-  const autoCommands = stores.get("autoresponses") as unknown as AutoResponseStore;
-
-  const dbGuild = await container.database.guild.findUnique({ where: { id: data.id } });
 
   const clientGuild = client.guilds.cache.get(data.id);
 
   return {
     ...data,
-    prefix: dbGuild?.prefix ?? config.PREFIX,
-    language: dbGuild?.language ?? "en-US",
-    enableSnipeForEveryone: dbGuild?.enableSnipeForEveryone ?? false,
     isInGuild,
     id: data.id,
     managable: await getManageable(userId, data, clientGuild),
     icon: clientGuild?.iconURL() as any,
     permissions: data.permissions,
-    pushcartPoints: dbGuild?.pushed ?? 0,
-    channels: clientGuild?.channels.cache.filter(c => c.type === "GUILD_TEXT").map(({ id, name }) => ({ id, name })),
-    commands: {
-      restrictions: dbGuild?.commandRestrictions ?? [],
-      commands: commands.filter(c => c.enabled).map(c => c.name),
-      autoResponses: autoCommands.filter(c => c.enabled).map(c => c.name),
-    },
   };
 }

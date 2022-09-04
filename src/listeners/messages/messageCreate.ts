@@ -1,4 +1,4 @@
-import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponse.jsStore";
+import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import { Events, Listener } from "@sapphire/framework";
 import type { Message } from "discord.js";
 

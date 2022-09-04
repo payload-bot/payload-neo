@@ -6,6 +6,7 @@ import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
 import type { SnipeCache } from "./interfaces/cache.js";
 import connectDatabase from "#utils/connectDatabase";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 process.env.NODE_ENV ??= "development";
 
@@ -19,7 +20,9 @@ export class PayloadClient extends SapphireClient {
 
   constructor() {
     super(CLIENT_OPTIONS);
-    this.stores.register(new AutoResponseStore().registerPath(join("../auto", import.meta.url)));
+    this.stores.register(
+      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto")))
+    );
   }
 
   public fetchPrefix = async (msg: Message) => {

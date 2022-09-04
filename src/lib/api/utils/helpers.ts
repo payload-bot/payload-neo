@@ -13,7 +13,7 @@ export async function canManage(userId: string | undefined, guildId: string) {
   }
 
   const member = guild.members.cache.get(userId);
-  
+
   if (member == null) {
     return false;
   }

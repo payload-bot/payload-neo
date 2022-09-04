@@ -54,7 +54,7 @@ export class UserRoute extends ServiceController {
       }
     }
 
-    // Revoke tokens and do a "logout" 
+    // Revoke tokens and do a "logout"
     const routes = this.container.stores.get("routes");
     const endpoint = routes.get("logout");
 

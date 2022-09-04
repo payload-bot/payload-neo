@@ -55,7 +55,6 @@ declare module "i18next" {
   }
 }
 
-
 declare module "@skyra/env-utilities" {
   interface Env {
     /**
@@ -84,7 +83,7 @@ declare module "@skyra/env-utilities" {
      * @deprecated
      */
     CLIENT_ID: string;
-    
+
     /**
      * @deprecated
      */

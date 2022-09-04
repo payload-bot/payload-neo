@@ -11,7 +11,7 @@ const dev = process.env.NODE_ENV !== "production";
 export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private readonly style = dev ? yellow : blue;
 
-  async run() {    
+  async run() {
     this.printBanner();
     this.printStoreDebugInformation();
   }

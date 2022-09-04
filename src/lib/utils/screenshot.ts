@@ -10,6 +10,12 @@ import {
 
 import puppeteer from "puppeteer";
 
+const ENVIRONMENT = process.env.NODE_ENV;
+
+if (typeof ENVIRONMENT !== "string") {
+  throw new Error("NODE_ENV variable is not set");
+}
+
 type ElementBasedBound = {
   selector: string;
   edge: "top" | "bottom" | "left" | "right";
@@ -64,11 +70,9 @@ export async function generateClipBounds(options: ElementHandle, page: Page) {
 }
 
 export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
-  const environment = process.env.NODE_ENV;
-
   // Use WS in Production - Defer to a docker container
   // This reduces production bundle size, and should be faster
-  if (environment === "production") {
+  if (ENVIRONMENT === "production") {
     return await connect({ browserWSEndpoint: "ws://chrome:9090" });
   }
 

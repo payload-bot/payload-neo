@@ -63,7 +63,7 @@
     "generate-password": "^1.7.0",
     "html-to-text": "^8.2.1",
     "ioredis": "^5.2.2",
-    "puppeteer": "^16.1.0",
+    "puppeteer": "^17.1.0",
     "reflect-metadata": "^0.1.13",
     "tslib": "^2.4.0"
   },

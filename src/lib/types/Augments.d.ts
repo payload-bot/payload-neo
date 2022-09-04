@@ -3,6 +3,7 @@ import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import type { PrismaClient } from "@prisma/client";
+import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
 
 export type O = object;
 
@@ -54,7 +55,6 @@ declare module "i18next" {
   }
 }
 
-import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
 
 declare module "@skyra/env-utilities" {
   interface Env {
@@ -78,7 +78,7 @@ declare module "@skyra/env-utilities" {
     /**
      * The port to run the HTTP server
      */
-    PORT: NumberString;
+    PORT: IntegerString;
 
     /**
      * @deprecated

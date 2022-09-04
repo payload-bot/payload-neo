@@ -117,6 +117,7 @@ function parseAPI(): ServerOptions {
     },
     auth: {
       transformers: [transformAuth],
+      domainOverwrite: envParseString("COOKIE_DOMAIN"),
       id: envParseString("CLIENT_ID"),
       secret: envParseString("CLIENT_SECRET"),
       redirect: envParseString("REDIRECT_URL"),

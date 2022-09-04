@@ -82,6 +82,11 @@ declare module "@skyra/env-utilities" {
     /**
      * @deprecated
      */
+    COOKIE_DOMAIN: string;
+
+    /**
+     * @deprecated
+     */
     CLIENT_ID: string;
 
     /**

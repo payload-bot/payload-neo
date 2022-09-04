@@ -8,7 +8,6 @@ ENV CI=true
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
 COPY .yarn/plugins .yarn/plugins
-COPY prisma prisma
 
 RUN yarn install --immutable
 
@@ -16,7 +15,6 @@ COPY tsconfig.json .
 COPY tsup.config.ts .
 COPY ./src ./src
 
-RUN yarn prisma generate
 RUN yarn build
 
 # Runner
@@ -39,6 +37,8 @@ COPY .yarn/plugins .yarn/plugins
 COPY prisma prisma
 
 RUN yarn workspaces focus --all --production
+
+RUN npx prisma generate
 
 COPY ./assets ./assets
 COPY ./src/languages ./languages

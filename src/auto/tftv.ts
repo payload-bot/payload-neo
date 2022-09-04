@@ -41,7 +41,7 @@ export default class UserAutoCommand extends AutoCommand {
     let $post = $(`#thread-container > .post:nth-child(1)`);
 
     let frags = $("#thread-frag-count").text().trim();
-    let body = convert($post.find(".post-body-hidden") as unknown as string);
+    let body = convert($post.find(".post-body") as unknown as string);
     let author = $post.find(".post-header .post-author").text().trim();
 
     if (needFindChild) {
@@ -57,7 +57,7 @@ export default class UserAutoCommand extends AutoCommand {
       }
 
       frags = $post.find(`.post-frag-count`).text().trim();
-      body = convert($post.find(".post-body-hidden") as unknown as string);
+      body = convert($post.find(".post-body") as unknown as string);
       author = $post.find(".post-header .post-author").text().trim();
     }
 

@@ -4,8 +4,8 @@ import "@sapphire/plugin-editable-commands/register";
 import "@sapphire/plugin-logger/register";
 import "@sapphire/plugin-i18next/register";
 import "@sapphire/plugin-api/register";
-import '@sapphire/plugin-hmr/register';
+import "@sapphire/plugin-hmr/register";
 
-import dotenv from "dotenv";
+import { setup } from "@skyra/env-utilities";
 
-dotenv.config();
+setup(new URL("../../../.env", import.meta.url));

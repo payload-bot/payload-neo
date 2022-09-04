@@ -53,3 +53,46 @@ declare module "i18next" {
     ): TReturn;
   }
 }
+
+import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
+
+declare module "@skyra/env-utilities" {
+  interface Env {
+    /**
+     * The list of bot owners
+     * @deprecated Fetch from application owners instead
+     */
+    OWNERS: ArrayString;
+
+    /**
+     * The URL to a Redis connection
+     * @remarks This is only used in PRODUCTION
+     */
+    REDIS_URL: string;
+
+    /**
+     * A boolean indicating if Redis should be used
+     */
+    REDIS_ENABLED: BooleanString;
+
+    /**
+     * The port to run the HTTP server
+     */
+    PORT: NumberString;
+
+    /**
+     * @deprecated
+     */
+    CLIENT_ID: string;
+    
+    /**
+     * @deprecated
+     */
+    CLIENT_SECRET: string;
+
+    /**
+     * @deprecated
+     */
+    REDIRECT_URL: string;
+  }
+}

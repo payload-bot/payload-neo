@@ -4,6 +4,7 @@ import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
+import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import { ClientOptions, Intents, LimitedCollection, Options, PresenceData } from "discord.js";
 import type { FormatFunction } from "i18next";
 
@@ -112,13 +113,13 @@ function parseAPI(): ServerOptions {
     automaticallyConnect: true,
     origin: "*",
     listenOptions: {
-      port: parseInt(process.env.PORT ?? "8080", 10),
+      port: envParseInteger("PORT", 8080),
     },
     auth: {
       transformers: [transformAuth],
-      id: process.env.CLIENT_ID!,
-      secret: process.env.CLIENT_SECRET!,
-      redirect: process.env.REDIRECT_URL!,
+      id: envParseString("CLIENT_ID"),
+      secret: envParseString("CLIENT_SECRET"),
+      redirect: envParseString("REDIRECT_URL"),
       scopes: ["identify", "guilds"],
       cookie: "__session",
     },

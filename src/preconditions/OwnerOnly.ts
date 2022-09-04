@@ -1,6 +1,6 @@
 import { Precondition } from "@sapphire/framework";
+import { envParseArray } from "@skyra/env-utilities";
 import type { Message } from "discord.js";
-import { envParseArray } from "#utils/envParser";
 
 const OWNERS = envParseArray("OWNERS");
 

@@ -8,8 +8,6 @@ import connectDatabase from "#utils/connectDatabase";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-process.env.NODE_ENV ??= "development";
-
 export class PayloadClient extends SapphireClient {
   public dev = process.env.NODE_ENV !== "production";
 

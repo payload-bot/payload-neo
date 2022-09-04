@@ -40,13 +40,13 @@ export default class UserAutoCommand extends AutoCommand {
       cssPath: config.files.LOGS_CSS,
     });
 
-    const att = new MessageAttachment(screenshotBuffer, "log.png");
+    const att = new MessageAttachment(screenshotBuffer, "log.webp");
     const embed = new MessageEmbed();
 
     embed.setColor(PayloadColors.Command);
     embed.setTitle(args.t(LanguageKeys.Auto.Logs.EmbedTitle));
     embed.setURL(url.toString());
-    embed.setImage(`attachment://log.png`);
+    embed.setImage(`attachment://log.webp`);
     embed.setFooter({
       text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
     });

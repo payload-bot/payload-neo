@@ -114,6 +114,8 @@ export async function capturePage(url: string, options: CaptureOptions = { left:
 
   const screenshotBuffer = await page.screenshot({
     clip,
+    type: "webp",
+    encoding: "binary",
   });
 
   await closeBrowser(browser);

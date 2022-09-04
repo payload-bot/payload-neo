@@ -14,7 +14,7 @@ function cacheOptions() {
     MessageManager: {
       sweepInterval: 180,
       sweepFilter: LimitedCollection.filterByLifetime({
-        lifetime: 900,
+        lifetime: 300,
         getComparisonTimestamp: m => m.editedTimestamp ?? m.createdTimestamp,
       }),
     },

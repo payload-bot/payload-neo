@@ -88,7 +88,8 @@ export class UserCommand extends PayloadCommand {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NoAmount));
     }
 
-    if (!targetUser) {
+    // no target user or if the author is the target user, big no no
+    if (!targetUser || targetUser.id === msg.member!.id) {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NoTargetUser));
     }
 

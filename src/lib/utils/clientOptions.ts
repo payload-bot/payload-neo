@@ -129,6 +129,12 @@ function parseAPI(): ServerOptions {
 
 export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
+  caseInsensitiveCommands: true,
+  loadMessageCommandListeners: true,
+  enableLoaderTraceLoggings: false,
+  loadDefaultErrorListeners: false,
+  preventFailedToFetchLogForGuilds: true,
+  defaultPrefix: config.PREFIX,
   partials: ["CHANNEL"],
   intents: [
     // Need to parse DMS
@@ -140,8 +146,6 @@ export const CLIENT_OPTIONS: ClientOptions = {
     // General guilds
     Intents.FLAGS.GUILDS,
   ],
-  defaultPrefix: config.PREFIX,
-  loadDefaultErrorListeners: false,
   logger: makeLogger(),
   api: parseAPI(),
   makeCache: cacheOptions(),

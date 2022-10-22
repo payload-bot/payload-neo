@@ -5,8 +5,9 @@ import { capturePage } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import config from "#root/config";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { BucketScope, CommandContext } from "@sapphire/framework";
+import { BucketScope } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
+import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Logs.Description,
@@ -16,7 +17,7 @@ import { LanguageKeys } from "#lib/i18n/all";
   regex: /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: any) {
     const url = context.prefix;
 
     const screenshotBuffer = await capturePage(url.toString(), {
@@ -52,6 +53,6 @@ export default class UserAutoCommand extends AutoCommand {
     });
     embed.setTimestamp(new Date());
 
-    return await msg.channel.send({ embeds: [embed], files: [att] });
+    await send(msg, { embeds: [embed], files: [att] });
   }
 }

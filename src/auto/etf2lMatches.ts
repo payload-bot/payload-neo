@@ -5,14 +5,14 @@ import { capturePage } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { CommandContext } from "@sapphire/framework";
+import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Etf2l.Etf2lMatchesDescription,
   regex: /etf2l.org\/matches\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: any) {
     const url = context.prefix;
 
     const screenshotBuffer = await capturePage(`https://${url}`, {
@@ -46,6 +46,6 @@ export default class UserAutoCommand extends AutoCommand {
     });
     embed.setTimestamp(new Date());
 
-    return await msg.channel.send({ embeds: [embed], files: [att] });
+    await send(msg, { embeds: [embed], files: [att] });
   }
 }

@@ -4,8 +4,9 @@ import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
 import { Message, MessageAttachment, MessageEmbed } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
-import { BucketScope, CommandContext } from "@sapphire/framework";
+import { BucketScope, } from "@sapphire/framework";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.UGC.Description,
@@ -15,7 +16,7 @@ import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
   regex: /www\.ugcleague\.com\/team_page\.cfm\?clan_id=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: any) {
     const url = context.prefix;
 
     // Needed hight and width to not have wierdo mobile views
@@ -42,6 +43,6 @@ export default class UserAutoCommand extends AutoCommand {
     });
     embed.setTimestamp(new Date());
 
-    return await msg.channel.send({ embeds: [embed], files: [att] });
+    await send(msg, { embeds: [embed], files: [att] });
   }
 }

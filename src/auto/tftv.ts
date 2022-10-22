@@ -49,7 +49,7 @@ export default class UserAutoCommand extends AutoCommand {
       $post = $(`#thread-container > .post > a#${postNumber}`).parent();
 
       if (!$post.children().length && page > 1) {
-        return await msg.channel.send(t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url }));
+        await send(msg, t(LanguageKeys.Auto.Tftv.NoPostFound, { post: url }));
       }
 
       if (!$post.children().length) {
@@ -76,6 +76,6 @@ export default class UserAutoCommand extends AutoCommand {
       },
     });
 
-    return await send(msg, { embeds: [embed] });
+    await send(msg, { embeds: [embed] });
   }
 }

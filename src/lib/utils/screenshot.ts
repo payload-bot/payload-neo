@@ -9,8 +9,10 @@ import {
 } from "puppeteer";
 
 import puppeteer from "puppeteer";
+import { envParseString } from "@skyra/env-utilities";
 
 const ENVIRONMENT = process.env.NODE_ENV;
+const WS_URL = envParseString("CHROME_WS_URL", "");
 
 if (typeof ENVIRONMENT !== "string") {
   throw new Error("NODE_ENV variable is not set");
@@ -73,7 +75,7 @@ export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
   // Use WS in Production - Defer to a docker container
   // This reduces production bundle size, and should be faster
   if (ENVIRONMENT === "production") {
-    return await connect({ browserWSEndpoint: "ws://chrome:9090" });
+    return await connect({ browserWSEndpoint: WS_URL });
   }
 
   return await puppeteer.launch({

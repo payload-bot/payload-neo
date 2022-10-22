@@ -64,6 +64,12 @@ declare module "@skyra/env-utilities" {
     OWNERS: ArrayString;
 
     /**
+     * The URL to a Chrome websocket connection
+     * @remarks This is only used in PRODUCTION
+     */
+     CHROME_WS_URL: string;
+
+    /**
      * The URL to a Redis connection
      * @remarks This is only used in PRODUCTION
      */

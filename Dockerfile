@@ -41,7 +41,7 @@ RUN yarn workspaces focus --all --production
 RUN npx prisma generate
 
 COPY ./assets ./assets
-COPY ./src/languages ./languages
+COPY ./src/languages /opt/app/dist/languages
 COPY --from=build /opt/app/dist ./dist
 COPY changelog.md ./dist
 

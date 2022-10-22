@@ -12,7 +12,7 @@ import type { CommandInteraction, ContextMenuInteraction, Message } from "discor
 @ApplyOptions<Precondition.Options>({ position: 10 })
 export class UserPrecondition extends AllFlowsPrecondition {
   public override async messageRun(message: Message, command: Command, context: Precondition.Context) {
-    return message.guild ? this.runGuild(message.guildId!, command, context) : this.runDM(command, context);
+    return message.guild ? await this.runGuild(message.guildId!, command, context) : await this.runDM(command, context);
   }
 
   public override async chatInputRun(
@@ -20,7 +20,7 @@ export class UserPrecondition extends AllFlowsPrecondition {
     command: ChatInputCommand,
     context: Precondition.Context
   ) {
-    return interaction.guild ? this.runGuild(interaction.guildId!, command, context) : this.runDM(command, context);
+    return interaction.guild ? await this.runGuild(interaction.guildId!, command, context) : await this.runDM(command, context);
   }
 
   public override async contextMenuRun(
@@ -28,7 +28,7 @@ export class UserPrecondition extends AllFlowsPrecondition {
     command: ContextMenuCommand,
     context: Precondition.Context
   ) {
-    return interaction.guild ? this.runGuild(interaction.guildId!, command, context) : this.runDM(command, context);
+    return interaction.guild ? await this.runGuild(interaction.guildId!, command, context) : await this.runDM(command, context);
   }
 
   private runDM(command: Command, context: Precondition.Context): Precondition.Result {

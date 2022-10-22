@@ -1,12 +1,12 @@
 import type { PrismaClient } from "@prisma/client";
-import { CommandContext, PieceContext, UserError } from "@sapphire/framework";
+import { MessageCommand, PieceContext, UserError } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { SubCommandPluginCommand } from "@sapphire/plugin-subcommands";
+import { Subcommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";
-import * as Lexure from "lexure";
+import { Parser, ArgumentStream } from "@sapphire/lexure";
 import { PayloadArgs } from "./PayloadArgs.js";
 
-export abstract class PayloadCommand extends SubCommandPluginCommand<PayloadCommand.Args, PayloadCommand> {
+export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
   protected database: PrismaClient;
 
@@ -17,17 +17,15 @@ export abstract class PayloadCommand extends SubCommandPluginCommand<PayloadComm
     this.database = this.container.database;
   }
 
-  /**
-   * The pre-parse method. This method can be overridden by plugins to define their own argument parser.
-   * @param message The message that triggered the command.
-   * @param parameters The raw parameters as a single string.
-   * @param context The command-context used in this execution.
-   */
-  public async preParse(message: Message, parameters: string, context: CommandContext): Promise<PayloadCommand.Args> {
-    const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
-    const args = new Lexure.Args(parser.parse());
+  public override async messagePreParse(
+    message: Message,
+    parameters: string,
+    context: MessageCommand.RunContext
+  ): Promise<PayloadCommand.Args> {
+    const parser = new Parser(this.strategy);
+    const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
 
-    return new PayloadArgs(message, this, args, context, await fetchT(message));
+    return new PayloadArgs(message, this as any, args, context, await fetchT(message));
   }
 
   protected error(identifier: string | UserError, context?: unknown): never {
@@ -43,10 +41,10 @@ export namespace PayloadCommand {
   /**
    * The PayloadCommand Options
    */
-  export type Options = SubCommandPluginCommand.Options & {
+  export type Options = Subcommand.Options & {
     hidden?: boolean;
   };
 
   export type Args = PayloadArgs;
-  export type Context = CommandContext;
+  export type Context = Subcommand.Context;
 }

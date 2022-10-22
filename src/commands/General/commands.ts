@@ -6,6 +6,7 @@ import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Commands.Description,
@@ -15,8 +16,18 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { stores } = this.container;
 
+    const restrictions = await this.container.database.guild.findUnique({
+      where: { id: msg.guildId! },
+      select: { commandRestrictions: true },
+    });
+
     const commands = [...stores.get("commands").values()];
     const autoCommands = [...stores.get("autoresponses" as any).values()];
+
+    if (!isNullishOrEmpty(restrictions)) {
+      commands.filter(cmd => restrictions.commandRestrictions.includes(cmd.name));
+      autoCommands.filter(cmd => restrictions.commandRestrictions.includes(cmd.name));
+    }
 
     const embed = new MessageEmbed({
       title: args.t(LanguageKeys.Commands.Commands.EmbedTitle),

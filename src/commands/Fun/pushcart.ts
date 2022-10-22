@@ -152,15 +152,13 @@ export class UserCommand extends PayloadCommand {
     const CHUNK_AMOUNT = 5;
 
     for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {
-      const leaderboardString = await Promise.all(
-        page.map(async ({ rank, id, pushed }) => {
-          const user = client.users.cache.get(id) ?? null;
+      const leaderboardString = page.map(({ rank, id, pushed }) => {
+        const user = client.users.cache.get(id) ?? null;
 
-          return msg.author.id === id
-            ? `> ${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`
-            : `${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
-        })
-      );
+        return msg.author.id === id
+          ? `> ${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`
+          : `${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
+      });
 
       const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
@@ -220,15 +218,13 @@ export class UserCommand extends PayloadCommand {
     let rank = 1;
 
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
-      const leaderboardString = await Promise.all(
-        page.map(async ({ id, pushed }, i) => {
-          const { name, id: gid } = await client.guilds.fetch(id).catch(() => ({ name: "-", id: null }));
+      const leaderboardString = page.map(async ({ id, pushed }, i) => {
+        const server = client.guilds.cache.get(id);
 
-          return msg.guildId! === gid
-            ? `> ${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`
-            : `${rank + i}: ${Util.escapeMarkdown(name)} (${pushed})`;
-        })
-      );
+        return msg.guildId! === server?.id
+          ? `> ${rank + i}: ${Util.escapeMarkdown(server?.name ?? "N/A")} (${pushed})`
+          : `${rank + i}: ${Util.escapeMarkdown(server?.name ?? "N/A")} (${pushed})`;
+      });
 
       const embed = new MessageEmbed({
         title: args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),

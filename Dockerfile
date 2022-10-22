@@ -11,6 +11,7 @@ COPY .yarn/plugins .yarn/plugins
 
 RUN yarn install --immutable
 
+COPY ./scripts .
 COPY tsconfig.json .
 COPY tsup.config.ts .
 COPY ./src ./src
@@ -41,7 +42,8 @@ RUN yarn workspaces focus --all --production
 RUN npx prisma generate
 
 COPY ./assets ./assets
-COPY ./src/languages /opt/app/dist/languages
+COPY ./src/languages ./dist/languages
+COPY ./scripts ./scripts
 COPY --from=build /opt/app/dist ./dist
 COPY changelog.md ./dist
 

@@ -6,7 +6,6 @@ import cheerio from "cheerio";
 import { convert } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
-import type { Args } from "@sapphire/framework";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
 @ApplyOptions<AutoCommandOptions>({
@@ -14,7 +13,7 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
   regex: /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, { t }: Args) {
+  async messageRun(msg: Message, { t }: AutoCommand.Args) {
     const match = this.getMatch(msg);
     const allMatches = msg.content.match(this.regex)!;
 

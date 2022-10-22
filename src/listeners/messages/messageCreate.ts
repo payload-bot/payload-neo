@@ -26,6 +26,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       const context = {
         commandName: autoResponse.name,
+        matched: autoResponse.getMatch(message),
         prefix: autoResponse.getMatch(message),
         commandPrefix: autoResponse.getMatch(message),
       };

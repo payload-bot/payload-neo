@@ -4,7 +4,6 @@ import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
 import { Message, MessageEmbed } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
@@ -12,8 +11,9 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: any) {
-    const parts = context.prefix.toString().trim().replace("steam://connect/", "").split("/");
+  // @ts-ignore
+  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+    const parts = matched.trim().replace("steam://connect/", "").split("/");
 
     const ip = parts[0];
     const ipNoPort = ip.split(":")[0];

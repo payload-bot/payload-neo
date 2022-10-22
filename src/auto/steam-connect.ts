@@ -3,7 +3,6 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
 import { Message, MessageEmbed } from "discord.js";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 
@@ -12,8 +11,9 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: any) {
-    const connectInfo = context.prefix.toString().trim();
+  // @ts-ignore
+  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+    const connectInfo = matched.trim();
     const parts = connectInfo.split(";");
 
     const ip = parts[0].replace(/^connect (https?:\/\/)?/, "");

@@ -13,7 +13,7 @@ export class UserListener extends Listener {
           error.path
         }]`
       );
-      logger.fatal(error.stack);
+      logger.fatal(error.stack ? error.stack : error.cause ? error.cause : error);
     } else if (error instanceof HTTPError) {
       logger.warn(
         `[HTTP ERROR] [CODE: ${error.code}] ${error.message}${NEWLINE}${" ".repeat(12)}[PATH: ${error.method} ${

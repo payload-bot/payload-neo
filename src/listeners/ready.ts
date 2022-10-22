@@ -3,13 +3,12 @@ import { ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/frame
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
-const dev = process.env.NODE_ENV !== "production";
-
 @ApplyOptions<ListenerOptions>({
   once: true,
 })
 export class ReadyEvent extends Listener<typeof Events.ClientReady> {
-  private readonly style = dev ? yellow : blue;
+  private readonly DEV = this.container.client.dev;
+  private readonly style = this.DEV ? yellow : blue;
 
   async run() {
     this.printBanner();
@@ -19,8 +18,8 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private printBanner() {
     const success = green("+");
 
-    const llc = dev ? magentaBright : white;
-    const blc = dev ? magenta : blue;
+    const llc = this.DEV ? magentaBright : white;
+    const blc = this.DEV ? magenta : blue;
 
     const line01 = llc("");
     const line02 = llc("");
@@ -35,7 +34,7 @@ ${line01} ${pad}${blc(`Payload Version ${process.env.VERSION ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API
-${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(dev ? "DEVELOPMENT" : "PRODUCTION")}`}
+${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(this.DEV ? "DEVELOPMENT" : "PRODUCTION")}`}
 		`.trim()
     );
   }

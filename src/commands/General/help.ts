@@ -1,4 +1,4 @@
-import type { CommandContext, CommandOptions } from "@sapphire/framework";
+import type { MessageCommandContext, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
@@ -13,13 +13,14 @@ import { BuildCommandHelp, LanguageHelpDisplayOptions } from "#lib/i18n/CommandH
   aliases: ["h"],
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
+  async messageRun(msg: Message, args: PayloadCommand.Args, context: MessageCommandContext) {
     if (args.finished) {
       // Just send the commands command
       const allCommands = this.container.stores.get("commands");
-      const runCommand = allCommands.get("commands");
+      const runCommand = allCommands.get("commands") as PayloadCommand;
 
-      return runCommand?.messageRun(msg, args, context);
+      await runCommand.messageRun(msg, args, context);
+      return;
     }
 
     const command = await args.pick("commandName");
@@ -48,7 +49,7 @@ export class UserCommand extends PayloadCommand {
       description: content,
     });
 
-    return await send(msg, { embeds: [embed] });
+    await send(msg, { embeds: [embed] });
   }
 
   private getAliases(command: PayloadCommand) {

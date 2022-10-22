@@ -1,18 +1,19 @@
-import type { CommandOptions } from "@sapphire/framework";
+import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
 import { LanguageKeys } from "#lib/i18n/all";
 import { codeBlock } from "@discordjs/builders";
+import { PermissionFlagsBits } from "discord-api-types/v9";
 
 const FLAGS = ["all"];
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Unrestrict.Description,
   detailedDescription: LanguageKeys.Commands.Unrestrict.DetailedDescription,
-  requiredUserPermissions: ["MANAGE_MESSAGES"],
-  runIn: ["GUILD_TEXT"],
+  requiredUserPermissions: [PermissionFlagsBits.ManageMessages],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
   flags: FLAGS,
 })
 export class UserCommand extends PayloadCommand {
@@ -20,7 +21,8 @@ export class UserCommand extends PayloadCommand {
     const useAllCommands = args.getFlags("all");
 
     if (args.finished && !useAllCommands) {
-      return await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
+      await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
+      return;
     }
 
     let commands: PayloadCommand[];
@@ -39,12 +41,14 @@ export class UserCommand extends PayloadCommand {
       .filter(name => !["restrict", "unrestrict"].includes(name));
 
     if (!filteredCommands.length) {
-      return await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
+      await send(msg, args.t(LanguageKeys.Commands.Unrestrict.NoCommands));
+      return;
     }
 
     await this.unsetRestrictions(msg.guildId!, filteredCommands);
 
-    return msg.channel.send(
+    await send(
+      msg,
       args.t(LanguageKeys.Commands.Unrestrict.UnrestrictSuccess, {
         commands: codeBlock(filteredCommands.join(", ")),
       })

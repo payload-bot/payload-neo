@@ -20,17 +20,20 @@ export class UserCommand extends PayloadCommand {
     if (args.getFlags("D") || args.getFlags("d")) {
       await this.database.user.update({ where: { id: msg.author.id }, data: { steamId: null } });
 
-      return await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
+      await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
+      return;
     }
 
     if (!steamId) {
-      return await send(msg, args.t(LanguageKeys.Commands.Link.MissingId));
+      await send(msg, args.t(LanguageKeys.Commands.Link.MissingId));
+      return;
     }
 
     const testResult = await getSteamIdFromArgs(steamId);
 
     if (testResult === null) {
-      return await send(msg, args.t(LanguageKeys.Commands.Link.MalformedId));
+      await send(msg, args.t(LanguageKeys.Commands.Link.MalformedId));
+      return;
     }
 
     await this.database.user.upsert({
@@ -39,6 +42,6 @@ export class UserCommand extends PayloadCommand {
       create: { id: msg.author.id, steamId: testResult },
     });
 
-    return await send(msg, args.t(LanguageKeys.Commands.Link.Success));
+    await send(msg, args.t(LanguageKeys.Commands.Link.Success));
   }
 }

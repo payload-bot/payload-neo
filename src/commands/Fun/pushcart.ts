@@ -9,6 +9,8 @@ import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
 import type { User } from "@prisma/client";
+import { CommandOptionsRunTypeEnum } from "@sapphire/framework";
+import type { SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -21,10 +23,38 @@ const PUSHCART_CAP = 1000;
 @ApplyOptions<PayloadCommand.Options>({
   description: LanguageKeys.Commands.Pushcart.Description,
   detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
-  subCommands: ["leaderboard", "rank", "gift", "servers", { input: "push", output: "push", default: true }],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
+  readonly subcommandMappings: SubcommandMappingArray = [
+    {
+      name: "push",
+      type: "method",
+      messageRun: (msg, args) => this.push(msg, args),
+      default: true,
+    },
+    {
+      name: "leaderboard",
+      type: "method",
+      messageRun: (msg, args) => this.leaderboard(msg, args),
+    },
+    {
+      name: "servers",
+      type: "method",
+      messageRun: (msg, args) => this.servers(msg, args),
+    },
+    {
+      name: "rank",
+      type: "method",
+      messageRun: (msg, args) => this.rank(msg, args),
+    },
+    {
+      name: "gift",
+      type: "method",
+      messageRun: (msg, args) => this.gift(msg, args),
+    },
+  ];
+
   @RequiresGuildContext()
   async push(msg: Message, args: PayloadCommand.Args) {
     const randomNumber = weightedRandom([

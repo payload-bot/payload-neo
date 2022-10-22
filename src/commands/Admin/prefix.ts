@@ -6,20 +6,44 @@ import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
+import type { SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { CommandOptionsRunTypeEnum } from "@sapphire/framework";
 
 @ApplyOptions<PayloadCommand.Options>({
   description: LanguageKeys.Commands.Prefix.Description,
   detailedDescription: LanguageKeys.Commands.Prefix.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
-  subCommands: [
-    "set",
-    "delete",
-    { input: "update", output: "set" },
-    { input: "remove", output: "delete" },
-    { input: "view", output: "view", default: true },
-  ],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
+  readonly subcommandMappings: SubcommandMappingArray = [
+    {
+      name: "view",
+      type: "method",
+      messageRun: (msg, args) => this.view(msg, args),
+      default: true,
+    },
+    {
+      name: "set",
+      type: "method",
+      messageRun: (msg, args) => this.set(msg, args),
+    },
+    {
+      name: "update",
+      type: "method",
+      messageRun: (msg, args) => this.set(msg, args),
+    },
+    {
+      name: "delete",
+      type: "method",
+      messageRun: (msg, args) => this.delete(msg, args),
+    },
+    {
+      name: "remove",
+      type: "method",
+      messageRun: (msg, args) => this.delete(msg, args),
+    },
+  ];
+
   @RequiresGuildContext()
   async view(msg: Message, args: PayloadCommand.Args) {
     const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });

@@ -13,14 +13,15 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: Args) {
     const mention = await args.pick("user").catch(() => null);
 
-    if (mention)
-      return await send(
+    if (mention) {
+      await send(
         msg,
         args.t(LanguageKeys.Commands.Bruh.Mention, {
           mention: mention.toString(),
         })
       );
-
-    return await send(msg, args.t(LanguageKeys.Commands.Bruh.NoMention));
+    } else {
+      await send(msg, args.t(LanguageKeys.Commands.Bruh.NoMention));
+    }
   }
 }

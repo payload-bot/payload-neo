@@ -16,17 +16,17 @@ export class UserCommand extends PayloadCommand {
     const options = await args.repeat("string").catch(() => null);
 
     if (!options || options.length === 0) {
-      return await send(msg, args.t(LanguageKeys.Commands.Choose.NoOptions));
+      await send(msg, args.t(LanguageKeys.Commands.Choose.NoOptions));
+      return;
     }
 
     const chosen = [];
-
     for (let i = 0; i < amount; i++) {
       const chosenIndex = random(0, options.length - 1);
       chosen.push(options.splice(chosenIndex, 1));
     }
 
-    return await send(
+    await send(
       msg,
       args.t(LanguageKeys.Commands.Choose.Chosen, {
         count: chosen.length,

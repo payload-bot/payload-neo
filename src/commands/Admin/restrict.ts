@@ -1,4 +1,4 @@
-import type { CommandOptions } from "@sapphire/framework";
+import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
@@ -13,7 +13,7 @@ const FLAGS = ["all", "list"];
   description: LanguageKeys.Commands.Restrict.Description,
   detailedDescription: LanguageKeys.Commands.Restrict.DetailedDescription,
   requiredUserPermissions: ["MANAGE_MESSAGES"],
-  runIn: ["GUILD_TEXT"],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
   flags: FLAGS,
 })
 export class UserCommand extends PayloadCommand {
@@ -30,18 +30,20 @@ export class UserCommand extends PayloadCommand {
       const commands = server?.commandRestrictions;
 
       if (isNullishOrEmpty(commands)) {
-        return await msg.channel.send(args.t(LanguageKeys.Commands.Restrict.ListRestrictionsEmpty));
+        await send(msg, args.t(LanguageKeys.Commands.Restrict.ListRestrictionsEmpty));
+      } else {
+        await send(
+          msg,
+          args.t(LanguageKeys.Commands.Restrict.ListRestrictions, {
+            commands: codeBlock(commands.join(", ")),
+          })
+        );
       }
-
-      return await msg.channel.send(
-        args.t(LanguageKeys.Commands.Restrict.ListRestrictions, {
-          commands: codeBlock(commands.join(", ")),
-        })
-      );
     }
 
     if (args.finished && !useAllCommands) {
-      return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
+      await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
+      return;
     }
 
     let commands: PayloadCommand[];
@@ -60,16 +62,20 @@ export class UserCommand extends PayloadCommand {
       .filter(name => !["restrict", "unrestrict"].includes(name));
 
     if (isNullishOrEmpty(filteredCommands)) {
-      return await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
+      await send(msg, args.t(LanguageKeys.Commands.Restrict.NoCommands));
+      return;
     }
 
     await this.setRestrictions(msg.guildId!, filteredCommands);
 
-    return await msg.channel.send(
+    await send(
+      msg,
       args.t(LanguageKeys.Commands.Restrict.RestrictSuccess, {
         commands: codeBlock(filteredCommands.join(", ")),
       })
     );
+
+    return;
   }
 
   private async setRestrictions(guildId: string, commands: string[]) {

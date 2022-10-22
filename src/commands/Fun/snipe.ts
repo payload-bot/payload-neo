@@ -1,4 +1,4 @@
-import type { CommandOptions } from "@sapphire/framework";
+import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
@@ -6,12 +6,13 @@ import { channelCacheExists, getCache, renderMessage } from "#utils/snipeCache";
 import type { PayloadClient } from "#lib/PayloadClient";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
+import { PermissionFlagsBits } from "discord-api-types/v9";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Snipe.Description,
   detailedDescription: LanguageKeys.Commands.Snipe.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
-  requiredClientPermissions: ["EMBED_LINKS", "ATTACH_FILES"],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
+  requiredClientPermissions: [PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles],
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
@@ -31,7 +32,8 @@ export class UserCommand extends PayloadCommand {
     const client = this.container.client as PayloadClient;
 
     if (!channelCacheExists(client, msg) || getCache(client, msg).size == 0) {
-      return await send(msg, args.t(LanguageKeys.Commands.Snipe.NoMessages));
+      await send(msg, args.t(LanguageKeys.Commands.Snipe.NoMessages));
+      return;
     }
 
     await msg.channel.sendTyping();
@@ -41,7 +43,8 @@ export class UserCommand extends PayloadCommand {
     const max = cache.size;
 
     if (number > max) {
-      return await send(msg, args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max }));
+      await send(msg, args.t(LanguageKeys.Commands.Snipe.AboveCacheAmount, { count: max }));
+      return;
     }
 
     const ids = [...cache.keys()];
@@ -56,7 +59,5 @@ export class UserCommand extends PayloadCommand {
     if (snipeData.attachments || snipeData.links) {
       await msg.channel.send(snipeData.attachments + "\n" + snipeData.links);
     }
-
-    return true;
   }
 }

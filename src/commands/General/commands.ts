@@ -49,6 +49,6 @@ export class UserCommand extends PayloadCommand {
       ],
     });
 
-    return await send(msg, { embeds: [embed] });
+    await send(msg, { embeds: [embed] });
   }
 }

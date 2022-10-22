@@ -13,6 +13,6 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const mention = await args.pick("user").catch(() => msg.author);
 
-    return await send(msg, mention.displayAvatarURL());
+    await send(msg, mention.displayAvatarURL());
   }
 }

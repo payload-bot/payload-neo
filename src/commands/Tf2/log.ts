@@ -24,7 +24,8 @@ export class UserCommand extends PayloadCommand {
     const user = await this.database.user.findUnique({ where: { id }, select: { steamId: true } });
 
     if (user?.steamId == null) {
-      return await send(msg, args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag }));
+      await send(msg, args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag }));
+      return;
     }
 
     const { logs } = await fetch<any>(
@@ -33,7 +34,8 @@ export class UserCommand extends PayloadCommand {
     );
 
     if (!logs.length) {
-      return await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
+      await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
+      return;
     }
 
     const logID = logs[logs.length - 1].id;
@@ -71,7 +73,5 @@ export class UserCommand extends PayloadCommand {
       files: [screenshotBuffer],
       components: [linkButton],
     });
-
-    return true;
   }
 }

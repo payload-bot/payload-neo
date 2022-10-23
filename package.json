@@ -6,10 +6,7 @@
   "bugs": {
     "url": "https://github.com/c43721/payload-neo/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/c43721/payload-neo"
-  },
+  "repository": "git+https://github.com/c43721/payload-neo",
   "license": "ISC",
   "author": "c43721",
   "imports": {
@@ -79,5 +76,5 @@
     "tsup": "^6.3.0",
     "typescript": "^4.8.4"
   },
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@3.2.4"
 }

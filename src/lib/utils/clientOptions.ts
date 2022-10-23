@@ -132,11 +132,15 @@ export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitiveCommands: true,
   loadMessageCommandListeners: true,
   enableLoaderTraceLoggings: false,
+  loadSubcommandErrorListeners: false,
   loadDefaultErrorListeners: false,
   preventFailedToFetchLogForGuilds: true,
   defaultPrefix: config.PREFIX,
   partials: ["CHANNEL"],
   intents: [
+    // Message content
+    Intents.FLAGS.MESSAGE_CONTENT,
+
     // Need to parse DMS
     Intents.FLAGS.DIRECT_MESSAGES,
 

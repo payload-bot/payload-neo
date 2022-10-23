@@ -334,16 +334,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/plugin-i18next@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@sapphire/plugin-i18next@npm:3.1.0"
+"@sapphire/plugin-i18next@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@sapphire/plugin-i18next@npm:4.0.0"
   dependencies:
     "@sapphire/utilities": ^3.11.0
-    "@skyra/i18next-backend": ^1.1.0
+    "@skyra/i18next-backend": ^2.0.0
     chokidar: ^3.5.3
-    i18next: ^21.10.0
+    i18next: ^22.0.2
     tslib: ^2.4.0
-  checksum: 4a39f330eca6442ce239afecb9c0864c91428de5a1967b16a0962b01c9d26c5f67f35e1188badfa40eb8b1e96b346418e537db427e364e8e0f98840dae37c209
+  checksum: 3a902faa4902abda9643f8796cf76000a5069a3b7801caaefe025857dd359a7deba6291db199544c332f4c6efbb53b7f19d29617d4df5ff8398e6f51f7b2066e
   languageName: node
   linkType: hard
 
@@ -479,12 +479,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@skyra/i18next-backend@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@skyra/i18next-backend@npm:1.1.0"
+"@skyra/i18next-backend@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@skyra/i18next-backend@npm:2.0.0"
   dependencies:
     tslib: ^2.4.0
-  checksum: 1e89ac67b672e70fc16731da127c46d913222feae12208f621524cff67000c4d530673b11f6797d05f821a0c8705073a3d93eed6ccf865c55235ecbc917b0f1b
+  checksum: 20443db52a8b85fae133dcbba1d9b390b8d50e97c2e3a41652875658c7fdb87cfccc834eade143f0c0690be010f6e6476ed70037deb814fd98700594a5219882
   languageName: node
   linkType: hard
 
@@ -2233,12 +2233,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^21.10.0":
-  version: 21.10.0
-  resolution: "i18next@npm:21.10.0"
+"i18next@npm:^22.0.2":
+  version: 22.0.2
+  resolution: "i18next@npm:22.0.2"
   dependencies:
     "@babel/runtime": ^7.17.2
-  checksum: f997985e2d4d15a62a0936a82ff6420b97f3f971e776fe685bdd50b4de0cb4dc2198bc75efe6b152844794ebd5040d8060d6d152506a687affad534834836d81
+  checksum: d779ea7f8e35ad8fd9d38521b670dab9440c6f51eab4347800058ee311a5e55abacac7e55cb1ff9f6898b4222a5f2aac72175f0dc1faeffbf3b4b37800f8f924
   languageName: node
   linkType: hard
 
@@ -3243,7 +3243,7 @@ __metadata:
     "@sapphire/plugin-api": ^4.0.1
     "@sapphire/plugin-editable-commands": ^2.0.1
     "@sapphire/plugin-hmr": ^2.0.0
-    "@sapphire/plugin-i18next": ^3.1.0
+    "@sapphire/plugin-i18next": ^4.0.0
     "@sapphire/plugin-logger": ^3.0.1
     "@sapphire/plugin-subcommands": ^3.2.3
     "@sapphire/ratelimits": ^2.4.5

@@ -1,11 +1,7 @@
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
-import { ApplyOptions } from "@sapphire/decorators";
-import { Events, Listener, ListenerOptions } from "@sapphire/framework";
+import { Events, Listener } from "@sapphire/framework";
 import type { Message } from "discord.js";
 
-@ApplyOptions<ListenerOptions>({
-  name: "autoresponse-messagecreate"
-})
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
     // If the message was sent by a webhook, return:
@@ -16,8 +12,6 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
     // If the message was sent by a bot, return:
     if (message.author.bot) return;
-
-    console.log(message.content);
 
     const { client } = this.container;
 
@@ -42,14 +36,14 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         .get("preconditions")
         .messageRun(message, autoResponse, { message, command: autoResponse });
 
-      globalResult.mapErr(err => {
-        this.container.client.emit(Events.MessageCommandDenied, err, {
+      if (globalResult.isErr()) {
+        this.container.client.emit(Events.MessageCommandDenied, globalResult.unwrapErr(), {
           message,
           command: autoResponse,
           context,
           parameters: "",
         });
-      });
+      }
 
       // Run command-specific preconditions:
       const localResult = await autoResponse.preconditions.messageRun(message, autoResponse, {
@@ -57,14 +51,16 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         command: autoResponse,
       });
 
-      localResult.mapErr(err => {
-        this.container.client.emit(Events.MessageCommandDenied, err, {
+      if (localResult.isErr()) {
+        this.container.client.emit(Events.MessageCommandDenied, localResult.unwrapErr(), {
           message,
           command: autoResponse,
           context,
           parameters: "",
         });
-      });
+
+        return;
+      }
 
       await message.channel.sendTyping();
 

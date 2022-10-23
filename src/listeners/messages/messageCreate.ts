@@ -1,7 +1,11 @@
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
-import { Events, Listener } from "@sapphire/framework";
+import { ApplyOptions } from "@sapphire/decorators";
+import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import type { Message } from "discord.js";
 
+@ApplyOptions<ListenerOptions>({
+  name: "autoresponse-messagecreate"
+})
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
     // If the message was sent by a webhook, return:
@@ -12,6 +16,8 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
     // If the message was sent by a bot, return:
     if (message.author.bot) return;
+
+    console.log(message.content);
 
     const { client } = this.container;
 
@@ -30,8 +36,6 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         prefix: autoResponse.getMatch(message),
         commandPrefix: autoResponse.getMatch(message),
       };
-
-      const args = await autoResponse.messagePreParse(message, message.content, context);
 
       // Run global preconditions:
       const globalResult = await this.container.stores
@@ -63,6 +67,8 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
       });
 
       await message.channel.sendTyping();
+
+      const args = await autoResponse.messagePreParse(message, message.content, context);
 
       return await autoResponse.messageRun(message, args, context);
     }

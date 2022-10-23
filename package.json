@@ -57,7 +57,7 @@
     "@skyra/env-utilities": "^1.1.0",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.29.3",
-    "discord-api-types": "0.37.14",
+    "discord-api-types": "0.33.5",
     "discord.js": "13.12.0",
     "gamedig": "^4.0.5",
     "generate-password": "^1.7.0",

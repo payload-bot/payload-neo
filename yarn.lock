@@ -1257,14 +1257,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:0.37.14, discord-api-types@npm:^0.37.12":
-  version: 0.37.14
-  resolution: "discord-api-types@npm:0.37.14"
-  checksum: 8f45f202e66acfd7b25624c8f4d225b363d9d8991d766959bcf246761548b99e21c12d9f7eafe00903913af66058595e5e56329dfb219eab8bb75a84f6413983
-  languageName: node
-  linkType: hard
-
-"discord-api-types@npm:^0.33.5":
+"discord-api-types@npm:0.33.5, discord-api-types@npm:^0.33.5":
   version: 0.33.5
   resolution: "discord-api-types@npm:0.33.5"
   checksum: 6dcaad640c5693a69c9a4f5e444e739dde11ba835164ae6fd3dd5a1ab7b4d7f96cd022ed653eeaff2c8051ead0d998a5d502a2915cfacdde596364b82d9e3b3f
@@ -1275,6 +1268,13 @@ __metadata:
   version: 0.36.3
   resolution: "discord-api-types@npm:0.36.3"
   checksum: 3089c0fb37425dc5df03c76d82988d43fcc272699b06a02fc830d0a3bef550009aaebdf6d646529e8a7ccea76ae3f43b099d736ea5ef37a0be143142ab49871d
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:^0.37.12":
+  version: 0.37.14
+  resolution: "discord-api-types@npm:0.37.14"
+  checksum: 8f45f202e66acfd7b25624c8f4d225b363d9d8991d766959bcf246761548b99e21c12d9f7eafe00903913af66058595e5e56329dfb219eab8bb75a84f6413983
   languageName: node
   linkType: hard
 
@@ -3258,7 +3258,7 @@ fsevents@~2.3.2:
     "@types/puppeteer": ^5.4.7
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.29.3
-    discord-api-types: 0.37.14
+    discord-api-types: 0.33.5
     discord.js: 13.12.0
     gamedig: ^4.0.5
     generate-password: ^1.7.0

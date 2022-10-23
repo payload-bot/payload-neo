@@ -14,7 +14,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
     const { client, logger } = this.container;
     const t = (args as PayloadArgs).t;
 
-    if (typeof error === "string") return this.container.logger.error(`Unhandled string error:\n${error}`);
+    if (typeof error === "string") return logger.error(`Unhandled string error:\n${error}`);
     if (error instanceof ArgumentError) return await this.argumentError(message, t, error);
     if (error instanceof UserError) return await this.userError(message, t, error);
 

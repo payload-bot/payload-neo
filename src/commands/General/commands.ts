@@ -16,17 +16,22 @@ export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { stores } = this.container;
 
-    const restrictions = await this.container.database.guild.findUnique({
-      where: { id: msg.guildId! },
-      select: { commandRestrictions: true },
-    });
+    let restrictions: string[] = [];
+    if (msg.guild != null) {
+      const fetchedRestructions = await this.container.database.guild.findUnique({
+        where: { id: msg.guildId! },
+        select: { commandRestrictions: true },
+      });
+
+      restrictions = fetchedRestructions?.commandRestrictions ?? [];
+    }
 
     const commands = [...stores.get("commands").values()];
     const autoCommands = [...stores.get("autoresponses" as any).values()];
 
     if (!isNullishOrEmpty(restrictions)) {
-      commands.filter(cmd => restrictions.commandRestrictions.includes(cmd.name));
-      autoCommands.filter(cmd => restrictions.commandRestrictions.includes(cmd.name));
+      commands.filter(cmd => restrictions.includes(cmd.name));
+      autoCommands.filter(cmd => restrictions.includes(cmd.name));
     }
 
     const embed = new MessageEmbed({

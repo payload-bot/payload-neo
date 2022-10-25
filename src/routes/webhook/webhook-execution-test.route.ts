@@ -5,7 +5,7 @@ import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@
 import { isNullish } from "@sapphire/utilities";
 
 @ApplyOptions<RouteOptions>({
-  name: "webhooktest",
+  name: "webhooktestv2",
   route: "webhooks/test",
 })
 export class WebhookTestRoute extends ServiceController {

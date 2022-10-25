@@ -10,7 +10,7 @@ const schema = s.object({
 }).strict;
 
 @ApplyOptions<RouteOptions>({
-  name: "webhooklogs",
+  name: "webhooklogs-v2",
   route: "webhooks/logs",
 })
 export class WebhookExecutionRoute extends ServiceController {
@@ -44,7 +44,7 @@ export class WebhookExecutionRoute extends ServiceController {
 }
 
 @ApplyOptions<RouteOptions>({
-  name: "webhooklogs",
+  name: "webhooklogs-v1",
   route: "v1/webhooks/logs",
 })
 export class WebhookExecutionv1Route extends ServiceController {

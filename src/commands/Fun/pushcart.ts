@@ -218,7 +218,7 @@ export class UserCommand extends PayloadCommand {
     let rank = 1;
 
     for (const page of chunk(leaderboard, CHUNK_AMOUNT)) {
-      const leaderboardString = page.map(async ({ id, pushed }, i) => {
+      const leaderboardString = page.map(({ id, pushed }, i) => {
         const server = client.guilds.cache.get(id);
 
         return msg.guildId! === server?.id

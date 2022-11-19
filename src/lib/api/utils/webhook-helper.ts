@@ -1,10 +1,27 @@
 import config from "#root/config";
 import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
-import { type Client, MessageAttachment, MessageEmbed, type TextChannel, type User, Permissions } from "discord.js";
+import {
+  type Client,
+  MessageAttachment,
+  MessageEmbed,
+  type TextChannel,
+  type User,
+  Permissions,
+  MessageComponent,
+  MessageButton,
+  MessageActionRow,
+} from "discord.js";
 
 type TargetReturnType = TextChannel | User | null;
 type WebhookTargetType = "channels" | "users";
+
+type LogPreviewArgs = {
+  webhookTarget: WebhookTargetType;
+  targetId: string;
+  logsId: string;
+  demosId?: string | null;
+};
 
 export async function checkTarget(client: Client, target: WebhookTargetType, id: string) {
   if (target === "users") {
@@ -41,8 +58,8 @@ export async function checkTarget(client: Client, target: WebhookTargetType, id:
   return true;
 }
 
-export async function sendLogPreview(client: Client, scope: WebhookTargetType, id: string, logsId: string) {
-  const target = (await client[scope].fetch(id).catch(() => null)) as TargetReturnType;
+export async function sendLogPreview(client: Client, { logsId, targetId, demosId, webhookTarget }: LogPreviewArgs) {
+  const target = (await client[webhookTarget].fetch(targetId).catch(() => null)) as TargetReturnType;
 
   if (!target) {
     throw new Error("Bad discord target id");
@@ -86,8 +103,20 @@ export async function sendLogPreview(client: Client, scope: WebhookTargetType, i
     timestamp: new Date(),
   });
 
+  let components = [];
+
+  if (demosId != null) {
+    const demosTfUrl = `https://demos.tf/${logsId}`;
+
+    components.push(
+      new MessageActionRow().addComponents([
+        new MessageButton().setURL(demosTfUrl).setLabel("Link to Demo").setStyle("LINK").toJSON(),
+      ])
+    );
+  }
+
   try {
-    await sendWebhook(target, embed, att);
+    await sendWebhook(target, embed, att, components);
   } catch (err) {
     throw err;
   }
@@ -112,15 +141,21 @@ export async function sendTest(client: Client, scope: WebhookTargetType, id: str
   });
 
   try {
-    await sendWebhook(target, embed);
+    await sendWebhook(target, embed, null, null);
   } catch (err) {
     throw err;
   }
 }
 
-async function sendWebhook(target: TextChannel | User, embed: MessageEmbed, attachment?: MessageAttachment) {
+async function sendWebhook(
+  target: TextChannel | User,
+  embed: MessageEmbed,
+  attachment: MessageAttachment | null,
+  components: MessageComponent[] | null
+) {
   return await target.send({
     embeds: [embed],
     files: attachment ? [attachment] : undefined,
+    components: components as any,
   });
 }

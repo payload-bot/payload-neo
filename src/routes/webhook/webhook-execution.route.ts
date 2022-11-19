@@ -7,6 +7,7 @@ import { s } from "@sapphire/shapeshift";
 
 const schema = s.object({
   logsId: s.number.or(s.string),
+  demosId: s.string,
 }).strict;
 
 @ApplyOptions<RouteOptions>({
@@ -37,7 +38,12 @@ export class WebhookExecutionRoute extends ServiceController {
     }
 
     // safety: value is nullchecked above
-    await sendLogPreview(this.client, webhook.type, webhook.id, value!.logsId.toString());
+    await sendLogPreview(this.client, {
+      demosId: value?.demosId,
+      logsId: value!.logsId as string,
+      targetId: webhook.id,
+      webhookTarget: webhook.type,
+    });
 
     return response.noContent();
   }
@@ -73,9 +79,13 @@ export class WebhookExecutionv1Route extends ServiceController {
     this.container.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
 
     // safety: value is nullchecked above
-    await sendLogPreview(this.client, webhook.type, webhook.id, value!.logsId.toString());
+    await sendLogPreview(this.client, {
+      demosId: value?.demosId,
+      logsId: value!.logsId as string,
+      targetId: webhook.id,
+      webhookTarget: webhook.type,
+    });
 
     return response.noContent();
   }
 }
-

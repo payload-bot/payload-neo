@@ -174,7 +174,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^4.5.0":
+"@prisma/client@npm:^4.6.1":
   version: 4.6.1
   resolution: "@prisma/client@npm:4.6.1"
   dependencies:
@@ -336,7 +336,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/plugin-i18next@npm:^4.0.0":
+"@sapphire/plugin-i18next@npm:^4.0.1":
   version: 4.0.1
   resolution: "@sapphire/plugin-i18next@npm:4.0.1"
   dependencies:
@@ -544,7 +544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.3":
+"@types/node@npm:*, @types/node@npm:^18.11.9":
   version: 18.11.9
   resolution: "@types/node@npm:18.11.9"
   checksum: cc0aae109e9b7adefc32eecb838d6fad931663bb06484b5e9cbbbf74865c721b03d16fd8d74ad90e31dbe093d956a7c2c306ba5429ba0c00f3f7505103d7a496
@@ -565,12 +565,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/puppeteer@npm:^5.4.7":
-  version: 5.4.7
-  resolution: "@types/puppeteer@npm:5.4.7"
+"@types/puppeteer@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "@types/puppeteer@npm:7.0.4"
   dependencies:
-    "@types/node": "*"
-  checksum: 491c0ca2d879b72e869f5152a9ea7de1356a66f44ef6210fdd5c5036d893b4ee2956212e2f3353c7045b9e56d1a4cea408f41a26d7cf3708774c4d6c19a7c654
+    puppeteer: "*"
+  checksum: c84a44b054454c13935a9cf0f8983166e238532397af4f321c918d89b43a91f854460e3d0dda122f72c258b444dbcdc04ada950e35adc1938ff3b7831c6fd7a4
   languageName: node
   linkType: hard
 
@@ -2326,7 +2326,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^5.2.3":
+"ioredis@npm:^5.2.4":
   version: 5.2.4
   resolution: "ioredis@npm:5.2.4"
   dependencies:
@@ -3237,7 +3237,7 @@ __metadata:
   dependencies:
     "@discordjs/builders": ^1.3.0
     "@node-steam/id": ^1.2.0
-    "@prisma/client": ^4.5.0
+    "@prisma/client": ^4.6.1
     "@sapphire/decorators": ^5.0.0
     "@sapphire/discord.js-utilities": ^5.1.1
     "@sapphire/fetch": ^2.4.1
@@ -3245,7 +3245,7 @@ __metadata:
     "@sapphire/plugin-api": ^4.0.1
     "@sapphire/plugin-editable-commands": ^2.0.1
     "@sapphire/plugin-hmr": ^2.0.0
-    "@sapphire/plugin-i18next": ^4.0.0
+    "@sapphire/plugin-i18next": ^4.0.1
     "@sapphire/plugin-logger": ^3.0.1
     "@sapphire/plugin-subcommands": ^3.2.3
     "@sapphire/ratelimits": ^2.4.5
@@ -3256,8 +3256,8 @@ __metadata:
     "@skyra/env-utilities": ^1.1.0
     "@types/gamedig": ^4.0.0
     "@types/html-to-text": ^8.1.1
-    "@types/node": ^18.11.3
-    "@types/puppeteer": ^5.4.7
+    "@types/node": ^18.11.9
+    "@types/puppeteer": ^7.0.4
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.29.3
     discord-api-types: 0.33.5
@@ -3265,14 +3265,14 @@ __metadata:
     gamedig: ^4.0.5
     generate-password: ^1.7.0
     html-to-text: ^8.2.1
-    ioredis: ^5.2.3
+    ioredis: ^5.2.4
     npm-run-all: ^4.1.5
     prettier: ^2.7.1
-    prisma: ^4.5.0
-    puppeteer: ^19.1.0
+    prisma: ^4.6.1
+    puppeteer: ^19.2.2
     reflect-metadata: ^0.1.13
-    tslib: ^2.4.0
-    tsup: ^6.3.0
+    tslib: ^2.4.1
+    tsup: ^6.5.0
     typescript: ^4.8.4
   languageName: unknown
   linkType: soft
@@ -3341,7 +3341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^4.5.0":
+"prisma@npm:^4.6.1":
   version: 4.6.1
   resolution: "prisma@npm:4.6.1"
   dependencies:
@@ -3433,7 +3433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^19.1.0":
+"puppeteer@npm:*, puppeteer@npm:^19.2.2":
   version: 19.2.2
   resolution: "puppeteer@npm:19.2.2"
   dependencies:
@@ -4161,14 +4161,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.x, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
+"tslib@npm:2.x, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
   version: 2.4.1
   resolution: "tslib@npm:2.4.1"
   checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.3.0":
+"tsup@npm:^6.5.0":
   version: 6.5.0
   resolution: "tsup@npm:6.5.0"
   dependencies:

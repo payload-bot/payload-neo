@@ -36,7 +36,7 @@
   "dependencies": {
     "@discordjs/builders": "^1.3.0",
     "@node-steam/id": "^1.2.0",
-    "@prisma/client": "^4.5.0",
+    "@prisma/client": "^4.6.1",
     "@sapphire/decorators": "^5.0.0",
     "@sapphire/discord.js-utilities": "^5.1.1",
     "@sapphire/fetch": "^2.4.1",
@@ -44,7 +44,7 @@
     "@sapphire/plugin-api": "^4.0.1",
     "@sapphire/plugin-editable-commands": "^2.0.1",
     "@sapphire/plugin-hmr": "^2.0.0",
-    "@sapphire/plugin-i18next": "^4.0.0",
+    "@sapphire/plugin-i18next": "^4.0.1",
     "@sapphire/plugin-logger": "^3.0.1",
     "@sapphire/plugin-subcommands": "^3.2.3",
     "@sapphire/ratelimits": "^2.4.5",
@@ -59,21 +59,21 @@
     "gamedig": "^4.0.5",
     "generate-password": "^1.7.0",
     "html-to-text": "^8.2.1",
-    "ioredis": "^5.2.3",
-    "puppeteer": "^19.1.0",
+    "ioredis": "^5.2.4",
+    "puppeteer": "^19.2.2",
     "reflect-metadata": "^0.1.13",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^3.3.4",
     "@types/gamedig": "^4.0.0",
     "@types/html-to-text": "^8.1.1",
-    "@types/node": "^18.11.3",
-    "@types/puppeteer": "^5.4.7",
+    "@types/node": "^18.11.9",
+    "@types/puppeteer": "^7.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "prisma": "^4.5.0",
-    "tsup": "^6.3.0",
+    "prisma": "^4.6.1",
+    "tsup": "^6.5.0",
     "typescript": "^4.8.4"
   },
   "packageManager": "yarn@3.2.4"

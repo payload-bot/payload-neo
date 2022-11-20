@@ -114,6 +114,7 @@ function parseAPI(): ServerOptions {
 
 export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
+  enableLoaderTraceLoggings: false,
   partials: ["CHANNEL"],
   intents: [
     // Need to parse DMS

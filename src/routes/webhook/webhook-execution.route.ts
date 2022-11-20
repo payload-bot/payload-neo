@@ -7,7 +7,7 @@ import { s } from "@sapphire/shapeshift";
 
 const schema = s.object({
   logsId: s.number.or(s.string),
-  demosId: s.string,
+  demosId: s.string.nullable,
 }).strict;
 
 @ApplyOptions<RouteOptions>({

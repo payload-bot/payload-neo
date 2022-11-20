@@ -86,6 +86,11 @@ declare module "@skyra/env-utilities" {
     PORT: IntegerString;
 
     /**
+     * The header value for metrics
+     */
+    METRICS_HEADER_KEY: string;
+
+    /**
      * @deprecated
      */
     COOKIE_DOMAIN: string;

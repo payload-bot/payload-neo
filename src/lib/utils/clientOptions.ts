@@ -6,7 +6,6 @@ import type { InternationalizationContext, InternationalizationOptions } from "@
 import { DurationFormatter } from "@sapphire/time-utilities";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import { ClientOptions, Intents, LimitedCollection, Options, PresenceData } from "discord.js";
-import type { FormatFunction } from "i18next";
 
 function cacheOptions() {
   return Options.cacheWithLimits({
@@ -47,17 +46,16 @@ function getPresence(): PresenceData {
   };
 }
 
-// see below
-// function getAllI18nFormatters() {
-//   return [
-//     {
-//       name: "duration",
-//       format: (value, _lng, options) => {
-//         return new DurationFormatter().format(value, options?.duration ?? 2);
-//       },
-//     },
-//   ];
-// }
+function getAllI18nFormatters() {
+  return [
+    {
+      name: "duration",
+      format: (value: any, _lng: string, options: any) => {
+        return new DurationFormatter().format(value, options?.duration ?? 2);
+      },
+    },
+  ];
+}
 
 function parseI18N(): InternationalizationOptions {
   return {
@@ -85,21 +83,8 @@ function parseI18N(): InternationalizationOptions {
         defaultVariables: {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
         },
-        // @TODO: remove when https://github.com/sapphiredev/plugins/pull/167 is published
-        format: (...[value, format, _, options]: Parameters<FormatFunction>) => {
-          switch (format as string) {
-            case "duration": {
-              return new DurationFormatter().format(value, options?.precision ?? 2);
-            }
-
-            default: {
-              return format as string;
-            }
-          }
-        },
       },
-      // @TODO: uncomment when https://github.com/sapphiredev/plugins/pull/167 is published
-      // formatters: getAllI18nFormatters(),
+      formatters: getAllI18nFormatters(),
       overloadTranslationOptionHandler: args => ({
         defaultValue: args[1] ?? "globals:default",
       }),

@@ -8,7 +8,7 @@ import { PayloadArgs } from "./PayloadArgs.js";
 
 export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
-  protected database: PrismaClient;
+  protected readonly database: PrismaClient;
 
   public constructor(context: PieceContext, options: PayloadCommand.Options) {
     super(context, { ...options });
@@ -30,10 +30,6 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
 
   protected error(identifier: string | UserError, context?: unknown): never {
     throw typeof identifier === "string" ? new UserError({ identifier, context }) : identifier;
-  }
-
-  protected parseConstructorPreConditions(options: PayloadCommand.Options): void {
-    super.parseConstructorPreConditions(options);
   }
 }
 

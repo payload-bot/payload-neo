@@ -1,5 +1,5 @@
 # Builder
-FROM node:16 AS build
+FROM node:18.12.1 AS build
 WORKDIR /opt/app
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
@@ -19,7 +19,7 @@ COPY ./src ./src
 RUN yarn build
 
 # Runner
-FROM node:16
+FROM node:18.12.1
 WORKDIR /opt/app
 
 ARG VERSION
@@ -49,5 +49,6 @@ COPY changelog.md ./dist
 
 USER node
 CMD ["node", "--enable-source-maps", "."]
+HEALTHCHECK --interval=60s --timeout=5s --start-period=60s --retries=2 CMD node scripts/healthcheck.js
 
 EXPOSE 8080

@@ -47,6 +47,6 @@ COPY changelog.md ./dist
 
 USER node
 CMD ["node", "--enable-source-maps", "."]
-HEALTHCHECK --interval=60s --timeout=5s --start-period=60s --retries=2 CMD node scripts/healthcheck.js
+HEALTHCHECK --interval=60s --timeout=5s --start-period=15s --retries=2 CMD node scripts/healthcheck.js
 
 EXPOSE 8080

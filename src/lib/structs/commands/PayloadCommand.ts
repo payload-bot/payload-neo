@@ -11,7 +11,7 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
   protected readonly database: PrismaClient;
 
   public constructor(context: PieceContext, options: PayloadCommand.Options) {
-    super(context, { ...options });
+    super(context, options);
 
     this.hidden = options.hidden ?? false;
     this.database = this.container.database;

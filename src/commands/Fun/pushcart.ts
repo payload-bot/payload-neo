@@ -26,32 +26,31 @@ const PUSHCART_CAP = 1000;
   runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
-  readonly subcommandMappings: SubcommandMappingArray = [
+  public readonly subcommandMappings: SubcommandMappingArray = [
     {
       name: "push",
       type: "method",
-      messageRun: (msg, args) => this.push(msg, args),
-      default: true,
+      messageRun: async (msg, args) => await this.push(msg, args),
     },
     {
       name: "leaderboard",
       type: "method",
-      messageRun: (msg, args) => this.leaderboard(msg, args),
+      messageRun: async (msg, args) => await this.leaderboard(msg, args),
     },
     {
       name: "servers",
       type: "method",
-      messageRun: (msg, args) => this.servers(msg, args),
+      messageRun: async (msg, args) => await this.servers(msg, args),
     },
     {
       name: "rank",
       type: "method",
-      messageRun: (msg, args) => this.rank(msg, args),
+      messageRun: async (msg, args) => await this.rank(msg, args),
     },
     {
       name: "gift",
       type: "method",
-      messageRun: (msg, args) => this.gift(msg, args),
+      messageRun: async (msg, args) => await this.gift(msg, args),
     },
   ];
 
@@ -161,6 +160,7 @@ export class UserCommand extends PayloadCommand {
   }
 
   async leaderboard(msg: Message, args: PayloadCommand.Args) {
+    console.log("LEADERBOARD")
     const { client } = this.container;
 
     const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");

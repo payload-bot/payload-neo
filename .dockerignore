@@ -1,8 +1,13 @@
 node_modules/
 dist/
-example-config.ts
 .github
-.migrate
-nest-cli.json
 crowdin.yml
 .editorconfig
+changelog.md
+.prettierignore
+.prettierrc
+LICENSE
+README.md
+THIRD-PARTY-LICENSE
+.gitignore
+.gitattributes

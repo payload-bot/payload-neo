@@ -23,7 +23,7 @@ export class UserCommand extends Subcommand {
     {
       name: "view",
       type: "method",
-      messageRun: (msg, args) => this.view(msg, args),
+      messageRun: (msg) => this.view(msg),
       default: true,
     },
     {
@@ -49,10 +49,11 @@ export class UserCommand extends Subcommand {
   ];
 
   @RequiresGuildContext()
-  async view(msg: Message, args: Args) {
+  async view(msg: Message) {
     const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
+    const t = await this.t(msg);
 
-    const content = args.t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
+    const content = t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
       prefix: inlineCode(server?.prefix ?? config.PREFIX),
     });
 

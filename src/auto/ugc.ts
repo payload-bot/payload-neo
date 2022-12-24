@@ -1,4 +1,4 @@
-import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";

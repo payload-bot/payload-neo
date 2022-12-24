@@ -1,4 +1,4 @@
-import { AutoCommand, AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";

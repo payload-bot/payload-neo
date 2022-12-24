@@ -1,8 +1,10 @@
-# Builder
-FROM node:18.12.1 AS build
-WORKDIR /opt/app
+# Dependencies
+FROM node:18.12.1-alpine3.17 AS deps
+WORKDIR /app
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
+ENV VERSION=${VERSION}
+ENV BUILT_AT=${BUILT_AT}
 ENV CI=true
 
 COPY package.json yarn.lock .yarnrc.yml ./
@@ -11,44 +13,31 @@ COPY .yarn/plugins .yarn/plugins
 
 RUN yarn install --immutable
 
-COPY ./scripts ./scripts
-COPY tsconfig.json .
-COPY tsup.config.ts .
-COPY ./src ./src
+# Build Source
+FROM node:18.12.1-alpine3.17 AS build
+WORKDIR /app
+ENV CI=true
+
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
 
 RUN yarn build
-
-# Runner
-FROM node:18.12.1
-WORKDIR /opt/app
-
-ARG VERSION
-ARG BUILT_AT
-
-# Yarn v3
-ENV CI=true
-ENV NODE_ENV=production
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
-ENV VERSION=${VERSION}
-ENV BUILT_AT=${BUILT_AT}
-
-COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn/releases .yarn/releases
-COPY .yarn/plugins .yarn/plugins
-COPY prisma prisma
+RUN npx prisma generate
 
 RUN yarn workspaces focus --all --production
 
-RUN npx prisma generate
-
-COPY ./assets ./assets
-COPY ./scripts ./scripts
-COPY ./src/languages ./dist/languages
-COPY --from=build /opt/app/dist ./dist
-COPY changelog.md ./dist
-
+# Runner
+FROM node:18.12.1-alpine3.17
+WORKDIR /app
 USER node
-CMD ["node", "--enable-source-maps", "."]
-HEALTHCHECK --interval=60s --timeout=5s --start-period=60s --retries=2 CMD node scripts/healthcheck.js
+EXPOSE 3000
 
-EXPOSE 8080
+ENV NODE_ENV=production
+
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+
+HEALTHCHECK --interval=60s --timeout=5s --start-period=15s --retries=1 CMD node scripts/healthcheck.mjs
+
+CMD ["node", "--enable-source-maps", "."]

@@ -213,8 +213,8 @@ export class UserCommand extends Subcommand {
     const targetUser = await args.pick("user").catch(() => msg.author);
 
     const [userRank] = await this.database.$queryRaw<Array<(User & { rank: number }) | null>>/* sql */ `
-    WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, id, pushed FROM "public"."User")
-    SELECT * from leaderboard WHERE id = ${targetUser.id}`;
+      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, id, pushed FROM "public"."User")
+      SELECT * from leaderboard WHERE id = ${targetUser.id}`;
 
     if (userRank == null) {
       // TODO: make this a different message

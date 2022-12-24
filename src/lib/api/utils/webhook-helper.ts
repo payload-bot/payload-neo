@@ -106,7 +106,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
   let components = [];
 
   if (demosId != null) {
-    const demosTfUrl = `https://demos.tf/${logsId}`;
+    const demosTfUrl = `https://demos.tf/${demosId}`;
 
     components.push(
       new MessageActionRow().addComponents([

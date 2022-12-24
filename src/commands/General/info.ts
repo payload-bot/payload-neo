@@ -31,6 +31,6 @@ export class UserCommand extends PayloadCommand {
       color: PayloadColors.Payload,
     });
 
-    return await send(msg, { embeds: [embed] });
+    await send(msg, { embeds: [embed] });
   }
 }

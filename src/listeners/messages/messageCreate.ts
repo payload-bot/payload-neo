@@ -26,45 +26,45 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       const context = {
         commandName: autoResponse.name,
+        matched: autoResponse.getMatch(message),
         prefix: autoResponse.getMatch(message),
         commandPrefix: autoResponse.getMatch(message),
       };
 
-      const args = await autoResponse.preParse(message, message.content, context);
-
       // Run global preconditions:
       const globalResult = await this.container.stores
         .get("preconditions")
-        .run(message, autoResponse, { message, command: autoResponse });
+        .messageRun(message, autoResponse, { message, command: autoResponse });
 
-      if (!globalResult.success) {
-        this.container.client.emit(Events.CommandDenied, globalResult.error, {
+      if (globalResult.isErr()) {
+        this.container.client.emit(Events.MessageCommandDenied, globalResult.unwrapErr(), {
           message,
           command: autoResponse,
           context,
           parameters: "",
         });
-
-        return;
       }
 
       // Run command-specific preconditions:
-      const localResult = await autoResponse.preconditions.run(message, autoResponse, {
+      const localResult = await autoResponse.preconditions.messageRun(message, autoResponse, {
         message,
         command: autoResponse,
       });
 
-      if (!localResult.success) {
-        this.container.client.emit(Events.CommandDenied, localResult.error, {
+      if (localResult.isErr()) {
+        this.container.client.emit(Events.MessageCommandDenied, localResult.unwrapErr(), {
           message,
           command: autoResponse,
           context,
           parameters: "",
         });
+
         return;
       }
 
       await message.channel.sendTyping();
+
+      const args = await autoResponse.messagePreParse(message, message.content, context);
 
       return await autoResponse.messageRun(message, args, context);
     }

@@ -1,14 +1,16 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
 import { Message, MessageEmbed, Util } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { chunk, codeBlock } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
-import { LazyPaginatedMessage } from "@sapphire/discord.js-utilities";
+import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import type { User } from "@prisma/client";
+import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
+import { Subcommand, SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { fetchT } from "@sapphire/plugin-i18next";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -18,15 +20,46 @@ enum PayloadPushResult {
 
 const PUSHCART_CAP = 1000;
 
-@ApplyOptions<PayloadCommand.Options>({
+@ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Pushcart.Description,
   detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
-  subCommands: ["leaderboard", "rank", "gift", "servers", { input: "push", output: "push", default: true }],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
-export class UserCommand extends PayloadCommand {
+export class UserCommand extends Subcommand {
+  private readonly database = this.container.database;
+  private readonly t = async (msg: Message) => await fetchT(msg);
+
+  public readonly subcommandMappings: SubcommandMappingArray = [
+    {
+      name: "push",
+      type: "method",
+      messageRun: async msg => await this.push(msg),
+      default: true,
+    },
+    {
+      name: "leaderboard",
+      type: "method",
+      messageRun: async msg => await this.leaderboard(msg),
+    },
+    {
+      name: "servers",
+      type: "method",
+      messageRun: async msg => await this.servers(msg),
+    },
+    {
+      name: "rank",
+      type: "method",
+      messageRun: async (msg, args) => await this.rank(msg, args),
+    },
+    {
+      name: "gift",
+      type: "method",
+      messageRun: async (msg, args) => await this.gift(msg, args),
+    },
+  ];
+
   @RequiresGuildContext()
-  async push(msg: Message, args: PayloadCommand.Args) {
+  async push(msg: Message) {
     const randomNumber = weightedRandom([
       { number: 3, weight: 2 },
       { number: 4, weight: 3 },
@@ -45,14 +78,14 @@ export class UserCommand extends PayloadCommand {
       { number: 17, weight: 2 },
     ]);
 
-    const { t } = args;
+    const t = await this.t(msg);
 
     const { result, lastPushed } = await this.userPushcart(msg.author.id, randomNumber);
 
     if (result === PayloadPushResult.COOLDOWN) {
       const secondsLeft = differenceInSeconds(addSeconds(lastPushed, 30), new Date());
 
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft }));
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft })!);
     } else if (result === PayloadPushResult.CAP) {
       const timeLeft = formatDistanceToNowStrict(addDays(lastPushed, 1));
 
@@ -73,16 +106,16 @@ export class UserCommand extends PayloadCommand {
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
         total: pushed,
-      })
+      })!
     );
   }
 
   @RequiresGuildContext()
-  async gift(msg: Message, args: PayloadCommand.Args) {
+  async gift(msg: Message, args: Args) {
     const targetUser = await args.pick("member").catch(() => null);
     const amount = await args.pick("number").catch(() => 0);
 
-    const { t } = args;
+    const t = await this.t(msg);
 
     if (amount === 0) {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NoAmount));
@@ -130,15 +163,15 @@ export class UserCommand extends PayloadCommand {
     );
   }
 
-  async leaderboard(msg: Message, args: PayloadCommand.Args) {
+  async leaderboard(msg: Message) {
     const { client } = this.container;
 
     const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
 
-    const paginationEmbed = new LazyPaginatedMessage({
-      template: new MessageEmbed()
-        .setColor("BLUE")
-        .setTitle(args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
+    const t = await this.t(msg);
+
+    const paginationEmbed = new PaginatedMessage({
+      template: new MessageEmbed().setColor("BLUE").setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
     const userLeaderboard = await this.database.$queryRaw<
@@ -161,7 +194,7 @@ export class UserCommand extends PayloadCommand {
       });
 
       const embed = new MessageEmbed({
-        title: args.t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
+        title: t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,
       });
@@ -176,7 +209,7 @@ export class UserCommand extends PayloadCommand {
     return response;
   }
 
-  async rank(msg: Message, args: PayloadCommand.Args) {
+  async rank(msg: Message, args: Args) {
     const targetUser = await args.pick("user").catch(() => msg.author);
 
     const [userRank] = await this.database.$queryRaw<Array<(User & { rank: number }) | null>>/* sql */ `
@@ -191,13 +224,14 @@ export class UserCommand extends PayloadCommand {
     return await send(msg, codeBlock("md", `#${userRank.rank.toString()}: ${targetUser.tag} (${userRank.pushed})`));
   }
 
-  async servers(msg: Message, args: PayloadCommand.Args) {
+  async servers(msg: Message) {
     const { client } = this.container;
+    const t = await this.t(msg);
 
     const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
 
-    const paginationEmbed = new LazyPaginatedMessage({
-      template: new MessageEmbed().setColor("BLUE").setTitle(args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
+    const paginationEmbed = new PaginatedMessage({
+      template: new MessageEmbed().setColor("BLUE").setTitle(t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
     });
 
     const leaderboard = await this.database.guild.findMany({
@@ -227,7 +261,7 @@ export class UserCommand extends PayloadCommand {
       });
 
       const embed = new MessageEmbed({
-        title: args.t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
+        title: t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,
       });

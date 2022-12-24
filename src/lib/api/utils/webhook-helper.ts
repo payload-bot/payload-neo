@@ -123,7 +123,6 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 }
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {
-  console.log(scope, id);
   const target = (await client[scope].fetch(id).catch(() => null)) as TargetReturnType;
 
   if (target == null) {

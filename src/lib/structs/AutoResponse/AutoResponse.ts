@@ -1,10 +1,6 @@
-import type { PieceContext } from "@sapphire/framework";
+import type { MessageCommandContext, PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "../commands/PayloadCommand.js";
-
-export interface AutoCommandOptions extends PayloadCommand.Options {
-  regex: RegExp;
-}
 
 export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;
@@ -15,7 +11,7 @@ export abstract class AutoCommand extends PayloadCommand {
   }
 
   /**
-   *
+   * Returns whether or not this command should handle this message
    * @param msg Message
    * @returns {Boolean}
    * @description Returns if this command should run or not
@@ -25,7 +21,7 @@ export abstract class AutoCommand extends PayloadCommand {
   }
 
   /**
-   *
+   * Gets the resulting match for the command's regex
    * @param msg Message
    * @returns {string | null}
    * @description Gets the resulting match of the Regex defined in the command
@@ -33,4 +29,18 @@ export abstract class AutoCommand extends PayloadCommand {
   public getMatch(msg: Message): string {
     return msg.content.match(this.regex)![0];
   }
+}
+
+export interface AutoCommandContext extends Pick<MessageCommandContext, "commandName"> {
+  matched: string;
+}
+
+export interface AutoCommandOptions extends PayloadCommand.Options {
+  regex: RegExp;
+}
+
+export namespace AutoCommand {
+  export type Options = AutoCommandOptions;
+  export type Args = PayloadCommand.Args;
+  export type Context = AutoCommandContext;
 }

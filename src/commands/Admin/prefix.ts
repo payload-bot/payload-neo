@@ -1,30 +1,59 @@
 import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
 import { Message, MessageEmbed } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
+import { Subcommand, SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
+import { fetchT } from "@sapphire/plugin-i18next";
+import { PermissionFlagsBits } from "discord-api-types/v9";
 
-@ApplyOptions<PayloadCommand.Options>({
+@ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Prefix.Description,
   detailedDescription: LanguageKeys.Commands.Prefix.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
-  subCommands: [
-    "set",
-    "delete",
-    { input: "update", output: "set" },
-    { input: "remove", output: "delete" },
-    { input: "view", output: "view", default: true },
-  ],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
-export class UserCommand extends PayloadCommand {
-  @RequiresGuildContext()
-  async view(msg: Message, args: PayloadCommand.Args) {
-    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
+export class UserCommand extends Subcommand {
+  private readonly database = this.container.database;
+  private readonly t = async (msg: Message) => await fetchT(msg);
 
-    const content = args.t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
+  readonly subcommandMappings: SubcommandMappingArray = [
+    {
+      name: "view",
+      type: "method",
+      messageRun: (msg) => this.view(msg),
+      default: true,
+    },
+    {
+      name: "set",
+      type: "method",
+      messageRun: (msg, args) => this.set(msg, args),
+    },
+    {
+      name: "update",
+      type: "method",
+      messageRun: (msg, args) => this.set(msg, args),
+    },
+    {
+      name: "delete",
+      type: "method",
+      messageRun: msg => this.delete(msg),
+    },
+    {
+      name: "remove",
+      type: "method",
+      messageRun: msg => this.delete(msg),
+    },
+  ];
+
+  @RequiresGuildContext()
+  async view(msg: Message) {
+    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
+    const t = await this.t(msg);
+
+    const content = t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
       prefix: inlineCode(server?.prefix ?? config.PREFIX),
     });
 
@@ -32,12 +61,12 @@ export class UserCommand extends PayloadCommand {
   }
 
   @RequiresGuildContext()
-  @RequiresUserPermissions(["ADMINISTRATOR"])
-  async set(msg: Message, args: PayloadCommand.Args) {
+  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
+  async set(msg: Message, args: Args) {
     const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
     const prefix = await args.pick("string").catch(() => null);
 
-    const { t } = args;
+    const t = await this.t(msg);
 
     if (!prefix) {
       return await send(msg, t(LanguageKeys.Commands.Prefix.SetNeedsArgs));
@@ -73,10 +102,10 @@ export class UserCommand extends PayloadCommand {
   }
 
   @RequiresGuildContext()
-  @RequiresUserPermissions(["ADMINISTRATOR"])
-  async delete(msg: Message, args: PayloadCommand.Args) {
+  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
+  async delete(msg: Message) {
     const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { prefix: true } });
-    const { t } = args;
+    const t = await this.t(msg);
 
     if (server?.prefix === config.PREFIX) {
       return await send(msg, t(LanguageKeys.Commands.Prefix.DeleteAlreadyDefault));

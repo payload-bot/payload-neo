@@ -20,6 +20,6 @@ export class UserCommand extends PayloadCommand {
     for (let i = 0; i < amount; i++) dice.push(random(1, sides));
 
     const rolls = dice.map(roll => bold(roll.toString())).join(" | ");
-    return await send(msg, `🎲 ${rolls}`);
+    await send(msg, `🎲 ${rolls}`);
   }
 }

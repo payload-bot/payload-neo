@@ -1,4 +1,4 @@
-import type { CommandOptions } from "@sapphire/framework";
+import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message, TextChannel } from "discord.js";
@@ -13,7 +13,7 @@ const twoWeeks = 1000 * 60 * 60 * 24 * 14;
   detailedDescription: LanguageKeys.Commands.Purge.DetailedDescription,
   requiredUserPermissions: ["MANAGE_MESSAGES"],
   requiredClientPermissions: ["MANAGE_MESSAGES"],
-  runIn: ["GUILD_TEXT"],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
@@ -45,7 +45,7 @@ export class UserCommand extends PayloadCommand {
       channelMessages.map(channelMessage => channelMessage.id).slice(0, amount)
     );
 
-    return await send(
+    await send(
       msg,
       args.t(LanguageKeys.Commands.Purge.Deleted, {
         count: deletedMessages.size,

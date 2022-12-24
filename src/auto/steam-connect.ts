@@ -3,17 +3,17 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
 import { Message, MessageEmbed } from "discord.js";
-import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { CommandContext } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
+import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Connect.LinkDescription,
   regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: CommandContext) {
-    const connectInfo = context.prefix.toString().trim();
+  // @ts-ignore
+  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+    const connectInfo = matched.trim();
     const parts = connectInfo.split(";");
 
     const ip = parts[0].replace(/^connect (https?:\/\/)?/, "");
@@ -31,7 +31,7 @@ export default class UserAutoCommand extends AutoCommand {
       title: title.length > 250 ? title.slice(0, 250) : title,
     });
 
-    const connectInfoEmbed = await msg.channel.send({ embeds: [embed] });
+    const connectInfoEmbed = await send(msg, { embeds: [embed] });
 
     try {
       const { name, maxplayers, players } = await gamedig.query({
@@ -50,6 +50,6 @@ export default class UserAutoCommand extends AutoCommand {
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
     }
 
-    return await connectInfoEmbed.edit({ embeds: [embed] });
+    await connectInfoEmbed.edit({ embeds: [embed] });
   }
 }

@@ -23,7 +23,7 @@ export class UserCommand extends PayloadCommand {
       }),
     ]);
 
-    return await send(msg, {
+    await send(msg, {
       content: args.t(LanguageKeys.Commands.Invite.Description),
       components: [component],
     });

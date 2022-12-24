@@ -1,4 +1,4 @@
-import type { CommandOptions } from "@sapphire/framework";
+import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
 import type { Message } from "discord.js";
@@ -10,7 +10,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.FindPing.Description,
   detailedDescription: LanguageKeys.Commands.FindPing.DetailedDescription,
-  runIn: ["GUILD_TEXT"],
+  runIn: [CommandOptionsRunTypeEnum.GuildText],
   aliases: ["ping"],
 })
 export class UserCommand extends PayloadCommand {
@@ -18,7 +18,8 @@ export class UserCommand extends PayloadCommand {
     const client = this.container.client as PayloadClient;
 
     if (!pingChannelCacheExists(client, msg) || getPingCache(client, msg).size == 0) {
-      return await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
+      await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
+      return;
     }
 
     await msg.channel.sendTyping();
@@ -28,7 +29,8 @@ export class UserCommand extends PayloadCommand {
     );
 
     if (targetMessages.size < 1) {
-      return await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
+      await send(msg, args.t(LanguageKeys.Commands.FindPing.NoPings));
+      return;
     }
 
     const targetMessage = targetMessages.last()!;
@@ -42,7 +44,5 @@ export class UserCommand extends PayloadCommand {
     if (msgData.attachments || msgData.links) {
       await msg.channel.send(msgData.attachments + "\n" + msgData.links);
     }
-
-    return true;
   }
 }

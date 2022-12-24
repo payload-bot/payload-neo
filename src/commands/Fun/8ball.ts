@@ -41,10 +41,11 @@ export class UserCommand extends PayloadCommand {
     const question = await args.rest("string").catch(() => null);
 
     if (!question) {
-      return await send(msg, args.t(LanguageKeys.Commands.EightBall.NoQuestion));
+      await send(msg, args.t(LanguageKeys.Commands.EightBall.NoQuestion));
+      return;
     }
     const response = responses[random(0, responses.length - 1)];
 
-    return await send(msg, `🎱 ${bold(response)}`);
+    await send(msg, `🎱 ${bold(response)}`);
   }
 }

@@ -1,24 +1,26 @@
-import { Args, ArgumentError, CommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { Args, ArgumentError, MessageCommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
 import type { TFunction } from "@sapphire/plugin-i18next";
 import { mapIdentifier } from "#lib/i18n/mapping";
 import { cutText } from "@sapphire/utilities";
 import { send } from "@skyra/editable-commands";
+import type { PayloadArgs } from "#lib/structs/commands/PayloadArgs";
 
 const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 
-export class UserListener extends Listener<typeof Events.CommandError> {
-  async run(error: Error, { message, args }: CommandErrorPayload) {
+export class UserListener extends Listener<typeof Events.MessageCommandError> {
+  async run(error: Error, { message, args }: MessageCommandErrorPayload) {
     const { client, logger } = this.container;
+    const t = (args as PayloadArgs).t;
 
-    if (typeof error === "string") return this.container.logger.error(`Unhandled string error:\n${error}`);
-    if (error instanceof ArgumentError) return await this.argumentError(message, args.t, error);
-    if (error instanceof UserError) return await this.userError(message, args.t, error);
+    if (typeof error === "string") return logger.error(`Unhandled string error:\n${error}`);
+    if (error instanceof ArgumentError) return await this.argumentError(message, t, error);
+    if (error instanceof UserError) return await this.userError(message, t, error);
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
-      if (this.isSilencedError(args, error)) return;
+      if (this.isSilencedError(args as any, error)) return;
       client.emit(Events.Error, error);
     } else {
       logger.warn(`${this.getWarnError(message)} (${message.author.id}) | ${error.constructor.name}`);

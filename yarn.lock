@@ -519,10 +519,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/html-to-text@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "@types/html-to-text@npm:8.1.1"
-  checksum: 7c609b33599bace4add06c33688d21048befdaa4ab1679de777ee5ea59a5509f0ae63de0348a92e505eca527d5bbcaff9448c3c23aa3099708e0a7ba23f918eb
+"@types/html-to-text@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@types/html-to-text@npm:9.0.0"
+  checksum: 2ba21524f6e2ec9d097df9e575355ce6e228c32b3bca3721ecf745cfab1827f79c4df42b0775ec1e5072f6a2e90b64493494a12675c207549b4cb316e2f5da3d
   languageName: node
   linkType: hard
 
@@ -536,10 +536,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.17":
+"@types/node@npm:*":
   version: 18.11.17
   resolution: "@types/node@npm:18.11.17"
   checksum: 1933afd068d5c75c068c6c4df6d10edb3b0b2bb6503d544e2f0496ac007c90596e6a5e284a8ef032451bc16f871b7e46719d7d2bea60e9b25d13a77d52161cac
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.11.18":
+  version: 18.11.18
+  resolution: "@types/node@npm:18.11.18"
+  checksum: 03f17f9480f8d775c8a72da5ea7e9383db5f6d85aa5fefde90dd953a1449bd5e4ffde376f139da4f3744b4c83942166d2a7603969a6f8ea826edfb16e6e3b49d
   languageName: node
   linkType: hard
 
@@ -3182,8 +3189,8 @@ __metadata:
     "@sapphire/utilities": ^3.11.0
     "@skyra/env-utilities": ^1.1.0
     "@types/gamedig": ^4.0.0
-    "@types/html-to-text": ^8.1.1
-    "@types/node": ^18.11.17
+    "@types/html-to-text": ^9.0.0
+    "@types/node": ^18.11.18
     "@types/puppeteer": ^7.0.4
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.29.3

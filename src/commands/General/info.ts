@@ -1,6 +1,6 @@
 import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -18,7 +18,7 @@ export class UserCommand extends PayloadCommand {
 
     const guildsServing = client.guilds.cache.size;
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       author: {
         name: client.user!.username,
         iconURL: client.user!.displayAvatarURL(),

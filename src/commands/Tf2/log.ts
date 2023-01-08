@@ -1,6 +1,6 @@
 import { BucketScope, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { Message, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import { capturePage } from "#utils/screenshot";
@@ -61,11 +61,11 @@ export class UserCommand extends PayloadCommand {
       cssPath: config.files.LOGS_CSS,
     });
 
-    const linkButton = new MessageActionRow().addComponents(
-      new MessageButton({
+    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder({
         label: args.t(LanguageKeys.Commands.Log.Button),
         url: `http://logs.tf/${logID}#${user.steamId}`,
-        style: "LINK",
+        style: ButtonStyle.Link,
       })
     );
 

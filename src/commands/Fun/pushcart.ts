@@ -1,5 +1,5 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message, MessageEmbed, Util } from "discord.js";
+import { Message, EmbedBuilder, escapeMarkdown, Colors } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
@@ -166,12 +166,14 @@ export class UserCommand extends Subcommand {
   async leaderboard(msg: Message) {
     const { client } = this.container;
 
-    const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
+    const loadingEmbed = new EmbedBuilder().setDescription("Loading...").setColor(Colors.Gold);
 
     const t = await this.t(msg);
 
     const paginationEmbed = new PaginatedMessage({
-      template: new MessageEmbed().setColor("BLUE").setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
+      template: new EmbedBuilder()
+        .setColor(Colors.Blue)
+        .setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
     const userLeaderboard = await this.database.$queryRaw<
@@ -189,11 +191,11 @@ export class UserCommand extends Subcommand {
         const user = client.users.cache.get(id) ?? null;
 
         return msg.author.id === id
-          ? `> ${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`
-          : `${rank}: ${Util.escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
+          ? `> ${rank}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})`
+          : `${rank}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
       });
 
-      const embed = new MessageEmbed({
+      const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,
@@ -228,10 +230,10 @@ export class UserCommand extends Subcommand {
     const { client } = this.container;
     const t = await this.t(msg);
 
-    const loadingEmbed = new MessageEmbed().setDescription("Loading...").setColor("RANDOM");
+    const loadingEmbed = new EmbedBuilder().setDescription("Loading...").setColor(Colors.Gold);
 
     const paginationEmbed = new PaginatedMessage({
-      template: new MessageEmbed().setColor("BLUE").setTitle(t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
+      template: new EmbedBuilder().setColor(Colors.Blue).setTitle(t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle)),
     });
 
     const leaderboard = await this.database.guild.findMany({
@@ -256,11 +258,11 @@ export class UserCommand extends Subcommand {
         const server = client.guilds.cache.get(id);
 
         return msg.guildId! === server?.id
-          ? `> ${rank + i}: ${Util.escapeMarkdown(server?.name ?? "N/A")} (${pushed})`
-          : `${rank + i}: ${Util.escapeMarkdown(server?.name ?? "N/A")} (${pushed})`;
+          ? `> ${rank + i}: ${escapeMarkdown(server?.name ?? "N/A")} (${pushed})`
+          : `${rank + i}: ${escapeMarkdown(server?.name ?? "N/A")} (${pushed})`;
       });
 
-      const embed = new MessageEmbed({
+      const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Pushcart.ServerEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,

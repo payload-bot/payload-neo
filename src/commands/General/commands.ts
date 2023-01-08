@@ -1,6 +1,6 @@
 import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
@@ -34,7 +34,7 @@ export class UserCommand extends PayloadCommand {
       autoCommands.filter(cmd => restrictions.includes(cmd.name));
     }
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       title: args.t(LanguageKeys.Commands.Commands.EmbedTitle),
       color: PayloadColors.User,
       fields: [

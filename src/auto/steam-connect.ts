@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
 import gamedig from "gamedig";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 
@@ -27,7 +27,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const title = `steam://connect/${ip}/${encodeURIComponent(password)}`;
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
     });
 

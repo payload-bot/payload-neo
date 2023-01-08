@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { Message, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -12,10 +12,10 @@ import { CommandOptionsRunTypeEnum } from "@sapphire/framework";
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
-    const component = new MessageActionRow().addComponents([
-      new MessageButton({
+    const component = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder({
         url: `https://payload.tf/dashboard/${msg.guild!.id}`,
-        style: "LINK",
+        style: ButtonStyle.Link,
         label: args.t(LanguageKeys.Commands.Dashboard.Button),
       }),
     ]);

@@ -22,7 +22,7 @@ export class UserCommand extends PayloadCommand {
     });
 
     if (guildSetting?.enableSnipeForEveryone == null || !guildSetting.enableSnipeForEveryone) {
-      if (!msg.member!.permissions.has("MANAGE_MESSAGES")) {
+      if (!msg.member!.permissions.has(PermissionFlagsBits.ManageMessages)) {
         return;
       }
     }

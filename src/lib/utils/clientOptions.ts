@@ -5,29 +5,7 @@ import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
-import { ClientOptions, Intents, LimitedCollection, Options, PresenceData } from "discord.js";
-
-function cacheOptions() {
-  return Options.cacheWithLimits({
-    ...Options.defaultMakeCacheSettings,
-    MessageManager: {
-      sweepInterval: 180,
-      sweepFilter: LimitedCollection.filterByLifetime({
-        lifetime: 300,
-        getComparisonTimestamp: m => m.editedTimestamp ?? m.createdTimestamp,
-      }),
-    },
-    ReactionManager: 0,
-    UserManager: {
-      maxSize: 7500,
-      sweepInterval: 180,
-    },
-    GuildMemberManager: {
-      maxSize: 5000,
-      sweepInterval: 180,
-    },
-  });
-}
+import { ActivityType, ClientOptions, GatewayIntentBits, OAuth2Scopes, Partials, PresenceData } from "discord.js";
 
 function makeLogger() {
   return {
@@ -40,7 +18,7 @@ function getPresence(): PresenceData {
     activities: [
       {
         name: `payload.tf/invite`,
-        type: "PLAYING",
+        type: ActivityType.Playing,
       },
     ],
   };
@@ -106,7 +84,7 @@ function parseAPI(): ServerOptions {
       id: envParseString("CLIENT_ID"),
       secret: envParseString("CLIENT_SECRET"),
       redirect: envParseString("REDIRECT_URL"),
-      scopes: ["identify", "guilds"],
+      scopes: [OAuth2Scopes.Identify, OAuth2Scopes.Guilds],
       cookie: "__session",
     },
   };
@@ -121,23 +99,22 @@ export const CLIENT_OPTIONS: ClientOptions = {
   loadDefaultErrorListeners: false,
   preventFailedToFetchLogForGuilds: true,
   defaultPrefix: config.PREFIX,
-  partials: ["CHANNEL"],
+  partials: [Partials.Channel],
   intents: [
     // Message content
-    Intents.FLAGS.MESSAGE_CONTENT,
+    GatewayIntentBits.MessageContent,
 
     // Need to parse DMS
-    Intents.FLAGS.DIRECT_MESSAGES,
+    GatewayIntentBits.DirectMessages,
 
     // Regex commands
-    Intents.FLAGS.GUILD_MESSAGES,
+    GatewayIntentBits.GuildMessages,
 
     // General guilds
-    Intents.FLAGS.GUILDS,
+    GatewayIntentBits.Guilds,
   ],
   logger: makeLogger(),
   api: parseAPI(),
-  makeCache: cacheOptions(),
   presence: getPresence(),
   i18n: parseI18N(),
   hmr: {

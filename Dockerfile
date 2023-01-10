@@ -17,6 +17,7 @@ RUN yarn install --immutable
 FROM node:18.12.1-alpine3.17 AS build
 WORKDIR /app
 ENV CI=true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules

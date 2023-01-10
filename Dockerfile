@@ -36,6 +36,7 @@ ENV NODE_ENV=production
 
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/assets ./assets
 COPY --from=build /app/dist ./dist
 
 HEALTHCHECK --interval=60s --timeout=5s --start-period=15s --retries=1 CMD node scripts/healthcheck.mjs

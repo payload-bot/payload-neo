@@ -1,13 +1,21 @@
-export abstract class LeagueApiProvider {
-  constructor(public type: string) {}
+import type { LeagueProfile } from "#lib/types/playercheck/leagueProfile.js";
+import { RESOLVER } from "awilix";
+
+export class PlayerCheckProvider {
+  static [RESOLVER] = {};
+
+  constructor(private etf2lApiProvider: LeagueInformationProvider, private rglApiProvider: LeagueInformationProvider) {}
+
+  async getPlayerInformation(steamId: string): Promise<Array<LeagueProfile | null>> {
+    const combinedProfiles = await Promise.all([
+      this.etf2lApiProvider.getPlayerInformation(steamId),
+      this.rglApiProvider.getPlayerInformation(steamId),
+    ]);
+
+    return combinedProfiles;
+  }
 }
 
-export type BanResult = {
-  isBanned: boolean;
-  reason: string | null;
-  bannedUntil: Date | null;
-};
-
-export interface LeagueBanProvider {
-  getPlayerBans(steamId: string): Promise<BanResult>;
+export interface LeagueInformationProvider {
+  getPlayerInformation(steamId: string): Promise<LeagueProfile | null>;
 }

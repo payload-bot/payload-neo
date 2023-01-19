@@ -1,24 +1,38 @@
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { BanResult, LeagueApiProvider, LeagueBanProvider } from "../leagueApis.js";
+import { RESOLVER } from "awilix";
+import type { LeagueInformationProvider } from "../leagueApis";
 
-export class Etf2lApiIntegration extends LeagueApiProvider implements LeagueBanProvider {
+export class Etf2lApiIntegration implements LeagueInformationProvider {
+  static [RESOLVER] = {};
+
   #baseUrl = "https://api-v2.etf2l.org";
+  #provider = "rgl";
 
-  constructor() {
-    super("ETF2L");
-  }
+  constructor() {}
 
-  async getPlayerBans(steamId: string): Promise<BanResult> {
+  async getPlayerInformation(steamId: string) {
     const url = `${this.#baseUrl}/player/${steamId}`;
 
     const headers = new Headers([["User-Agent", "Payload Client (version 1.0.0)"]]);
 
-    const response = await fetch<Etf2lProfileResponse>(url, { headers }, FetchResultTypes.JSON);
+    const response = await fetch(url, { headers }, FetchResultTypes.Result);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as Etf2lProfileResponse;
 
     return {
-      bannedUntil: null,
-      isBanned: response.bans != null,
-      reason: null,
+      steamId,
+      alias: data.name,
+      avatar: data.steam.avatar,
+      provider: this.#provider,
+      banInformation: {
+        endsAt: null,
+        isBanned: data.bans != null,
+        reason: null,
+      },
     };
   }
 }

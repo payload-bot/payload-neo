@@ -1,24 +1,38 @@
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { BanResult, LeagueApiProvider, LeagueBanProvider } from "../leagueApis.js";
+import { RESOLVER } from "awilix";
+import type { LeagueInformationProvider } from "../leagueApis";
 
-export class RglApiIntegration extends LeagueApiProvider implements LeagueBanProvider {
+export class RglApiIntegration implements LeagueInformationProvider {
+  static [RESOLVER] = {};
+
   #baseUrl = "https://api.rgl.gg/v0";
+  #provider = "rgl";
 
-  constructor() {
-    super("RGL");
-  }
+  constructor() {}
 
-  async getPlayerBans(steamId: string): Promise<BanResult> {
+  async getPlayerInformation(steamId: string) {
     const url = `${this.#baseUrl}/profile/${steamId}`;
 
     const headers = new Headers([["User-Agent", "Payload Client (version 1.0.0)"]]);
 
-    const response = await fetch<RglProfileResponse>(url, { headers }, FetchResultTypes.JSON);
+    const response = await fetch(url, { headers }, FetchResultTypes.Result);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as RglProfileResponse;
 
     return {
-      bannedUntil: response.banInformation?.endsAt ?? null,
-      isBanned: response.status.isBannned,
-      reason: response.banInformation?.reason ?? null,
+      steamId,
+      provider: this.#provider,
+      alias: data.name,
+      avatar: data.avatar,
+      banInformation: {
+        endsAt: data.banInformation?.endsAt ?? null,
+        isBanned: data.status.isBannned,
+        reason: data.banInformation?.reason ?? null,
+      },
     };
   }
 }

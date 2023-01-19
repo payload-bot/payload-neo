@@ -51,6 +51,7 @@
     "@sapphire/time-utilities": "^1.7.8",
     "@sapphire/utilities": "^3.11.0",
     "@skyra/env-utilities": "^1.1.0",
+    "awilix": "^8.0.0",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.29.3",
     "discord-api-types": "0.37.28",

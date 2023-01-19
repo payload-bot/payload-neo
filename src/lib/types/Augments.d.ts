@@ -4,6 +4,7 @@ import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import type { PrismaClient } from "@prisma/client";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
+import type { AwilixContainer } from "awilix";
 
 export type O = object;
 
@@ -27,6 +28,7 @@ declare module "@sapphire/framework" {
 declare module "@sapphire/pieces" {
   interface Container {
     database: PrismaClient;
+    scope: AwilixContainer<any>;
   }
 }
 

@@ -7,7 +7,7 @@ import {
   Identifiers,
   Precondition,
 } from "@sapphire/framework";
-import type { CommandInteraction, ContextMenuInteraction, Message } from "discord.js";
+import type { CommandInteraction, ContextMenuCommandInteraction, Message } from "discord.js";
 
 @ApplyOptions<Precondition.Options>({ position: 10 })
 export class UserPrecondition extends AllFlowsPrecondition {
@@ -20,15 +20,19 @@ export class UserPrecondition extends AllFlowsPrecondition {
     command: ChatInputCommand,
     context: Precondition.Context
   ) {
-    return interaction.guild ? await this.runGuild(interaction.guildId!, command, context) : await this.runDM(command, context);
+    return interaction.guild
+      ? await this.runGuild(interaction.guildId!, command, context)
+      : await this.runDM(command, context);
   }
 
   public override async contextMenuRun(
-    interaction: ContextMenuInteraction,
+    interaction: ContextMenuCommandInteraction,
     command: ContextMenuCommand,
     context: Precondition.Context
   ) {
-    return interaction.guild ? await this.runGuild(interaction.guildId!, command, context) : await this.runDM(command, context);
+    return interaction.guild
+      ? await this.runGuild(interaction.guildId!, command, context)
+      : await this.runDM(command, context);
   }
 
   private runDM(command: Command, context: Precondition.Context): Precondition.Result {

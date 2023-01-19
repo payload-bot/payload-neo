@@ -15,6 +15,7 @@ export * as Info from "./info.js";
 export * as Log from "./log.js";
 export * as Link from "./link.js";
 export * as Profile from "./profile.js";
+export * as Playercheck from "./playercheck.js";
 export * as Settings from "./settings.js";
 export * as Translate from "./translate.js";
 export * as Avatar from "./avatar.js";

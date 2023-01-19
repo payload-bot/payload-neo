@@ -1,6 +1,6 @@
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { RESOLVER } from "awilix";
-import type { LeagueInformationProvider } from "../leagueApis";
+import type { LeagueInformationProvider } from "../leagueApis.js";
 
 export class Etf2lApiIntegration implements LeagueInformationProvider {
   static [RESOLVER] = {};

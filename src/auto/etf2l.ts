@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { captureSelector } from "#utils/screenshot";
-import { Message, MessageAttachment, MessageEmbed } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { BucketScope } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
@@ -19,17 +19,18 @@ export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     const screenshotBuffer = await captureSelector(`https://${matched}`, "#content > div > div > table.pls");
 
-    const att = new MessageAttachment(screenshotBuffer, "team.png");
+    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.png" });
 
-    const embed = new MessageEmbed();
-    embed.setColor(PayloadColors.Command);
-    embed.setTitle(args.t(LanguageKeys.Auto.Etf2l.Etf2lEmbedTitle));
-    embed.setURL(`https://${matched}`);
-    embed.setImage(`attachment://team.png`);
-    embed.setFooter({
-      text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+    const embed = new EmbedBuilder({
+      color: PayloadColors.Command,
+      title: args.t(LanguageKeys.Auto.Etf2l.Etf2lEmbedTitle),
+      url: `https://${matched}`,
+      image: { url: "attachment://team.png" },
+      footer: {
+        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+      },
+      timestamp: new Date(),
     });
-    embed.setTimestamp(new Date());
 
     await send(msg, { embeds: [embed], files: [att] });
   }

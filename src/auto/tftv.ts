@@ -1,7 +1,7 @@
 import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import cheerio from "cheerio";
 import { convert } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -64,7 +64,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       title,
       url,
       color: PayloadColors.User,

@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
-import { Message, MessageAttachment, MessageEmbed } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import config from "#root/config";
 import { BucketScope } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -39,17 +39,18 @@ export default class UserAutoCommand extends AutoCommand {
       cssPath: config.files.LOGS_CSS,
     });
 
-    const att = new MessageAttachment(screenshotBuffer, "log.webp");
-    const embed = new MessageEmbed();
+    const att = new AttachmentBuilder(screenshotBuffer, { name: "log.webp" });
 
-    embed.setColor(PayloadColors.Command);
-    embed.setTitle(args.t(LanguageKeys.Auto.Logs.EmbedTitle));
-    embed.setURL(matched);
-    embed.setImage(`attachment://log.webp`);
-    embed.setFooter({
-      text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+    const embed = new EmbedBuilder({
+      color: PayloadColors.Command,
+      title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
+      url: matched,
+      image: { url: "attachment://log.webp" },
+      footer: {
+        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+      },
+      timestamp: new Date(),
     });
-    embed.setTimestamp(new Date());
 
     await send(msg, { embeds: [embed], files: [att] });
   }

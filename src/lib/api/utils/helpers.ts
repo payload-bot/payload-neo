@@ -1,5 +1,5 @@
 import { container } from "@sapphire/framework";
-import { Permissions } from "discord.js";
+import { PermissionFlagsBits } from "discord.js";
 
 export async function canManage(userId: string | undefined, guildId: string) {
   if (userId == null) {
@@ -18,5 +18,5 @@ export async function canManage(userId: string | undefined, guildId: string) {
     return false;
   }
 
-  return member.permissions.has(Permissions.FLAGS.MANAGE_GUILD);
+  return member.permissions.has(PermissionFlagsBits.ManageGuild);
 }

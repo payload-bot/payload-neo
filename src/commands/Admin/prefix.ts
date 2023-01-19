@@ -1,5 +1,5 @@
 import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import PayloadColors from "#utils/colors";
@@ -23,7 +23,7 @@ export class UserCommand extends Subcommand {
     {
       name: "view",
       type: "method",
-      messageRun: (msg) => this.view(msg),
+      messageRun: msg => this.view(msg),
       default: true,
     },
     {
@@ -82,7 +82,7 @@ export class UserCommand extends Subcommand {
       create: { id: msg.guildId!, prefix },
     });
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       author: {
         name: msg.author.tag,
         iconURL: msg.author.displayAvatarURL(),
@@ -111,7 +111,7 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Prefix.DeleteAlreadyDefault));
     }
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
       author: {
         name: msg.author.tag,
         iconURL: msg.author.displayAvatarURL(),

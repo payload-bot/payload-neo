@@ -3,14 +3,16 @@ import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
 import {
   type Client,
-  MessageAttachment,
-  MessageEmbed,
   type TextChannel,
   type User,
-  Permissions,
   MessageComponent,
-  MessageButton,
-  MessageActionRow,
+  ChannelType,
+  PermissionFlagsBits,
+  AttachmentBuilder,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
 } from "discord.js";
 
 type TargetReturnType = TextChannel | User | null;
@@ -36,22 +38,22 @@ export async function checkTarget(client: Client, target: WebhookTargetType, id:
   }
 
   // Targeted channel is not a text channel
-  if (!targetTextChannel.isText()) {
+  if (!targetTextChannel.isTextBased()) {
     return false;
   }
 
-  if (targetTextChannel.type !== "GUILD_TEXT") {
+  if (targetTextChannel.type !== ChannelType.GuildText) {
     return false;
   }
 
-  const member = (await client.guilds.fetch(targetTextChannel.guild.id)).me;
+  const member = await (await client.guilds.fetch(targetTextChannel.guild.id)).members.fetch({ user: client.id! });
 
   // I'm not in this guild?
   if (!member) {
     return false;
   }
 
-  if (!targetTextChannel.permissionsFor(member).has(Permissions.FLAGS.SEND_MESSAGES)) {
+  if (!targetTextChannel.permissionsFor(member).has(PermissionFlagsBits.SendMessages)) {
     return false;
   }
 
@@ -88,9 +90,9 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
     cssPath: config.files.LOGS_CSS,
   });
 
-  const att = new MessageAttachment(screenshotBuffer, "log.png");
+  const att = new AttachmentBuilder(screenshotBuffer, { name: "log.png" });
 
-  const embed = new MessageEmbed({
+  const embed = new EmbedBuilder({
     title: "Logs.tf Preview",
     footer: {
       text: "Rendered from Webhook",
@@ -109,8 +111,8 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
     const demosTfUrl = `https://demos.tf/${demosId}`;
 
     components.push(
-      new MessageActionRow().addComponents([
-        new MessageButton().setURL(demosTfUrl).setLabel("Link to Demo").setStyle("LINK").toJSON(),
+      new ActionRowBuilder<ButtonBuilder>().addComponents([
+        new ButtonBuilder().setURL(demosTfUrl).setLabel("Link to Demo").setStyle(ButtonStyle.Link),
       ])
     );
   }
@@ -129,7 +131,7 @@ export async function sendTest(client: Client, scope: WebhookTargetType, id: str
     throw new Error("Bad discord target id");
   }
 
-  const embed = new MessageEmbed({
+  const embed = new EmbedBuilder({
     title: "Webhook Test",
     description: "Successful webhook test!",
     footer: {
@@ -148,8 +150,8 @@ export async function sendTest(client: Client, scope: WebhookTargetType, id: str
 
 async function sendWebhook(
   target: TextChannel | User,
-  embed: MessageEmbed,
-  attachment: MessageAttachment | null,
+  embed: EmbedBuilder,
+  attachment: AttachmentBuilder | null,
   components: MessageComponent[] | null
 ) {
   return await target.send({

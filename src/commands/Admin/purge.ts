@@ -1,7 +1,7 @@
 import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { send } from "@sapphire/plugin-editable-commands";
-import type { Message, TextChannel } from "discord.js";
+import { Message, PermissionFlagsBits, TextChannel } from "discord.js";
 import { bold } from "@discordjs/builders";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -11,8 +11,8 @@ const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Purge.Description,
   detailedDescription: LanguageKeys.Commands.Purge.DetailedDescription,
-  requiredUserPermissions: ["MANAGE_MESSAGES"],
-  requiredClientPermissions: ["MANAGE_MESSAGES"],
+  requiredUserPermissions: [PermissionFlagsBits.ManageMessages],
+  requiredClientPermissions: [PermissionFlagsBits.ManageMessages],
   runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
@@ -50,7 +50,7 @@ export class UserCommand extends PayloadCommand {
       args.t(LanguageKeys.Commands.Purge.Deleted, {
         count: deletedMessages.size,
         seconds: bold(String((Date.now() - startTime) / 1000)),
-      })
+      })!
     );
   }
 }

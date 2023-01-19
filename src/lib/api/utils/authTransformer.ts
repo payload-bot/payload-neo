@@ -1,7 +1,7 @@
 import { container } from "@sapphire/framework";
 import type { LoginData } from "@sapphire/plugin-api";
-import type { RESTAPIPartialCurrentUserGuild } from "discord-api-types/v9";
-import { Guild, Permissions } from "discord.js";
+import type { RESTAPIPartialCurrentUserGuild } from "discord-api-types/v10";
+import { type Guild, PermissionFlagsBits, PermissionsBitField } from "discord.js";
 
 export async function transformAuth({ user, guilds }: LoginData) {
   if (!user || !guilds) {
@@ -10,7 +10,6 @@ export async function transformAuth({ user, guilds }: LoginData) {
 
   const { client } = container;
 
-  // @ts-ignore
   const [dbUser, fetchedDiscordUser] = await Promise.all([
     container.database.user.upsert({ where: { id: user.id }, create: { id: user.id }, update: {} }),
     client.users.fetch(user.id),
@@ -32,7 +31,7 @@ export async function getManageable(id: string, oauthGuild: RESTAPIPartialCurren
   }
 
   if (typeof guild === "undefined") {
-    return new Permissions(BigInt(oauthGuild.permissions)).has(Permissions.FLAGS.MANAGE_GUILD);
+    return new PermissionsBitField(BigInt(oauthGuild.permissions)).has(PermissionFlagsBits.ManageGuild);
   }
 
   const member = await guild.members.fetch(id).catch(() => null);

@@ -1,6 +1,6 @@
 import { CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import type { Message } from "discord.js";
+import { Message, PermissionFlagsBits } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { send } from "@sapphire/plugin-editable-commands";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -12,7 +12,7 @@ const FLAGS = ["all", "list"];
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Restrict.Description,
   detailedDescription: LanguageKeys.Commands.Restrict.DetailedDescription,
-  requiredUserPermissions: ["MANAGE_MESSAGES"],
+  requiredUserPermissions: [PermissionFlagsBits.ManageMessages],
   runIn: [CommandOptionsRunTypeEnum.GuildText],
   flags: FLAGS,
 })
@@ -36,7 +36,7 @@ export class UserCommand extends PayloadCommand {
           msg,
           args.t(LanguageKeys.Commands.Restrict.ListRestrictions, {
             commands: codeBlock(commands.join(", ")),
-          })
+          })!
         );
       }
     }

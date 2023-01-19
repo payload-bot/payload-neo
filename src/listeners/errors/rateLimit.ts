@@ -1,14 +1,18 @@
-import { Events, Listener } from "@sapphire/framework";
+import { ApplyOptions } from "@sapphire/decorators";
+import { Listener, ListenerOptions } from "@sapphire/framework";
 import type { RateLimitData } from "discord.js";
 
-export class UserListener extends Listener<typeof Events.RateLimit> {
+@ApplyOptions<ListenerOptions>({
+  emitter: "rest",
+})
+export class UserListener extends Listener {
   public run(rateLimitData: RateLimitData) {
     const { logger } = this.container;
 
     logger.warn(
-      `[RATE LIMIT${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.method} ${
-        rateLimitData.path
-      }] LIMIT: ${rateLimitData.limit}] TIMEOUT: ${rateLimitData.timeout}`
+      `[RATE LIMIT ${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.url} LIMIT: ${
+        rateLimitData.limit
+      }] RESET: ${rateLimitData.timeToReset}`
     );
   }
 }

@@ -3,7 +3,9 @@ import { RESOLVER } from "awilix";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
 export class RglApiIntegration implements LeagueInformationProvider {
-  static [RESOLVER] = {};
+  static [RESOLVER] = {
+    name: "rglApiProvider",
+  };
 
   #baseUrl = "https://api.rgl.gg/v0";
   #provider = "rgl";

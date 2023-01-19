@@ -3,7 +3,9 @@ import { RESOLVER } from "awilix";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
 export class Etf2lApiIntegration implements LeagueInformationProvider {
-  static [RESOLVER] = {};
+  static [RESOLVER] = {
+    name: "etf2lApiProvider",
+  };
 
   #baseUrl = "https://api-v2.etf2l.org";
   #provider = "rgl";

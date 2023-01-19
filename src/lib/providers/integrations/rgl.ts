@@ -1,12 +1,11 @@
+import { Export } from "#lib/dependencyInjection/export";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { RESOLVER } from "awilix";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
+@Export({
+  name: "rglApiProvider",
+})
 export class RglApiIntegration implements LeagueInformationProvider {
-  static [RESOLVER] = {
-    name: "rglApiProvider",
-  };
-
   #baseUrl = "https://api.rgl.gg/v0";
   #provider = "rgl";
 

@@ -1,9 +1,6 @@
-import type { LeagueProfile } from "#lib/types/playercheck/leagueProfile.js";
-import { RESOLVER } from "awilix";
+import type { LeagueProfile } from "#lib/types/playercheck/leagueProfile";
 
 export class PlayerCheckProvider {
-  static [RESOLVER] = {};
-
   constructor(private etf2lApiProvider: LeagueInformationProvider, private rglApiProvider: LeagueInformationProvider) {}
 
   async getPlayerInformation(steamId: string): Promise<Array<LeagueProfile | null>> {

@@ -7,9 +7,6 @@ import type { SnipeCache } from "./interfaces/cache.js";
 import connectDatabase from "#utils/connectDatabase";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { asClass, createContainer, InjectionMode, Lifetime } from "awilix";
-import { Etf2lApiIntegration } from "./providers/integrations/etf2l.js";
-import { RglApiIntegration } from "./providers/integrations/rgl.js";
 
 export class PayloadClient extends SapphireClient {
   public dev = process.env.NODE_ENV !== "production";
@@ -41,19 +38,6 @@ export class PayloadClient extends SapphireClient {
 
   public async login(token?: string) {
     await connectDatabase();
-
-    const scope = await createContainer({
-      injectionMode: InjectionMode.CLASSIC,
-    }).loadModules(["providers/**/*.js"], {
-      esModules: true,
-      formatName: "camelCase",
-      resolverOptions: { lifetime: Lifetime.SINGLETON },
-    });
-
-    scope.register("etf2lApiProvider", asClass(Etf2lApiIntegration));
-    scope.register("rglApiProvider", asClass(RglApiIntegration));
-
-    container.scope = scope;
 
     const response = await super.login(token);
 

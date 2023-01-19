@@ -1,12 +1,11 @@
+import { Export } from "#lib/dependencyInjection/export";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { RESOLVER } from "awilix";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
+@Export({
+  name: "etf2lApiProvider",
+})
 export class Etf2lApiIntegration implements LeagueInformationProvider {
-  static [RESOLVER] = {
-    name: "etf2lApiProvider",
-  };
-
   #baseUrl = "https://api-v2.etf2l.org";
   #provider = "etf2l";
 

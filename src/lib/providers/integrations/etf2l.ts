@@ -3,7 +3,7 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
 @Export({
-  name: "etf2lLeagueProvider",
+  name: "etf2lApiProvider",
 })
 export class Etf2lApiIntegration implements LeagueInformationProvider {
   #baseUrl = "https://api-v2.etf2l.org";

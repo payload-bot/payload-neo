@@ -3,7 +3,7 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import type { LeagueInformationProvider } from "../leagueApis.js";
 
 @Export({
-  name: "rglLeagueProvider",
+  name: "rglApiProvider",
 })
 export class RglApiIntegration implements LeagueInformationProvider {
   #baseUrl = "https://api.rgl.gg/v0";

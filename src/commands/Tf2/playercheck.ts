@@ -5,7 +5,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { getSteamIdFromArgs } from "#utils/getSteamId";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
-import { RglApiIntegration } from "#lib/providers/integrations/rgl";
+import { PlayerCheckProvider } from "#lib/providers/leagueApis";
 
 const FLAGS = [] as const;
 
@@ -30,9 +30,9 @@ export class UserCommand extends PayloadCommand {
       return;
     }
 
-    const rglApi = new RglApiIntegration();
+    const provider = this.container.scope.build(PlayerCheckProvider);
 
-    const banData = await rglApi.getPlayerBans(steamId);
+    const [etf2l, rgl] = await provider.getPlayerInformation(steamId);
 
     await send(msg, args.t(LanguageKeys.Commands.Link.Success));
   }

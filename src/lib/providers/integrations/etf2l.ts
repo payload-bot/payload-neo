@@ -8,9 +8,7 @@ export class Etf2lApiIntegration implements LeagueInformationProvider {
   };
 
   #baseUrl = "https://api-v2.etf2l.org";
-  #provider = "rgl";
-
-  constructor() {}
+  #provider = "etf2l";
 
   async getPlayerInformation(steamId: string) {
     const url = `${this.#baseUrl}/player/${steamId}`;
@@ -23,16 +21,16 @@ export class Etf2lApiIntegration implements LeagueInformationProvider {
       return null;
     }
 
-    const data = (await response.json()) as Etf2lProfileResponse;
+    const { player } = (await response.json()) as Etf2lProfileResponse;
 
     return {
       steamId,
-      alias: data.name,
-      avatar: data.steam.avatar,
+      alias: player.name,
+      avatar: player.steam.avatar,
       provider: this.#provider,
       banInformation: {
         endsAt: null,
-        isBanned: data.bans != null,
+        isBanned: player.bans != null,
         reason: null,
       },
     };
@@ -40,14 +38,16 @@ export class Etf2lApiIntegration implements LeagueInformationProvider {
 }
 
 type Etf2lProfileResponse = {
-  id: number;
-  name: string;
-  steam: {
-    avatar: string;
+  player: {
+    id: number;
+    name: string;
+    steam: {
+      avatar: string;
+    };
+    title: string;
+    bans: {
+      endsAt: Date;
+      reason: string;
+    } | null;
   };
-  title: string;
-  bans: {
-    endsAt: Date;
-    reason: string;
-  } | null;
 };

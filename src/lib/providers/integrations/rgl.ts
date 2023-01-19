@@ -10,8 +10,6 @@ export class RglApiIntegration implements LeagueInformationProvider {
   #baseUrl = "https://api.rgl.gg/v0";
   #provider = "rgl";
 
-  constructor() {}
-
   async getPlayerInformation(steamId: string) {
     const url = `${this.#baseUrl}/profile/${steamId}`;
 

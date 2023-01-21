@@ -1,45 +1,12 @@
-# Dependencies
-FROM node:18.12.1-alpine3.17 AS deps
-WORKDIR /app
+FROM ekidd/rust-musl-builder AS build
 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
-ENV VERSION=${VERSION}
-ENV BUILT_AT=${BUILT_AT}
-ENV CI=true
+ADD . ./
+RUN sudo chown -R rust:rust .
 
-COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn/releases .yarn/releases
-COPY .yarn/plugins .yarn/plugins
+RUN cargo build --release
 
-RUN yarn install --immutable
+FROM alpine:latest
 
-# Build Source
-FROM node:18.12.1-alpine3.17 AS build
-WORKDIR /app
-ENV CI=true
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
-
-COPY . .
-COPY --from=deps /app/node_modules ./node_modules
-
-RUN yarn build
-RUN npx prisma generate
-
-RUN yarn workspaces focus --all --production
-
-# Runner
-FROM node:18.12.1-alpine3.17
-WORKDIR /app
-USER node
-EXPOSE 3000
-
-ENV NODE_ENV=production
-
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/assets ./assets
-COPY --from=build /app/dist ./dist
-
-HEALTHCHECK --interval=60s --timeout=5s --start-period=15s --retries=1 CMD node scripts/healthcheck.mjs
-
-CMD ["node", "--enable-source-maps", "."]
+COPY --from=build /home/rust/src/target/x86_64-unknown-linux-musl/release/payload /
+ENV RUST_LOG=info
+CMD ["/payload"]

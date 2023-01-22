@@ -6,25 +6,19 @@ use poise::{serenity_prelude::Colour, Modal};
 pub async fn settings(ctx: AppContext<'_>) -> Result<(), Error> {
     let user_id = ctx.author().id.to_string();
 
-    let (steam_id, _): (Option<String>, Option<String>) =
-        sqlx::query_as(r#"SELECT "steamId", "webhookId" FROM users WHERE id = $1"#)
-            .bind(&user_id)
-            .fetch_one(&ctx.data.database)
-            .await
-            .unwrap();
+    let user_data = sqlx::query!(r#"SELECT "steamId" FROM users WHERE id = $1"#, &user_id)
+        .fetch_optional(&ctx.data.database)
+        .await?;
 
-    let (webhook_token, _): (Option<String>, String) =
-        sqlx::query_as("SELECT value FROM webhooks WHERE id = $1")
-            .bind(&user_id)
-            .fetch_one(&ctx.data.database)
-            .await
-            .unwrap_or_default();
+    let webhook_data = sqlx::query!("SELECT value FROM webhooks WHERE id = $1", &user_id)
+        .fetch_optional(&ctx.data.database)
+        .await?;
 
     let args = SettingsModal::execute_with_defaults(
         ctx,
         SettingsModal {
-            steam_id,
-            webhook_token,
+            steam_id: user_data.and_then(|u| u.steamId),
+            webhook_token: webhook_data.and_then(|w| Some(w.value)).or_else(|| None),
         },
     )
     .await?;
@@ -42,7 +36,7 @@ pub async fn settings(ctx: AppContext<'_>) -> Result<(), Error> {
 
             ctx.send(|m| {
                 m.embed(|e| {
-                    e.color(Colour::BLURPLE)
+                    e.color(Colour::RED)
                         .title("Failed")
                         .description("Failed to update your profile")
                 })

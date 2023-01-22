@@ -16,11 +16,6 @@ pub struct Data {
     database: Pool<Postgres>,
 }
 
-#[derive(sqlx::FromRow)]
-struct GuildPrefix {
-    prefix: String,
-}
-
 #[instrument]
 #[tokio::main]
 async fn main() {
@@ -46,16 +41,18 @@ async fn main() {
                     Box::pin(async move {
                         Ok(Some(match ctx.guild_id {
                             Some(guild_id) => {
-                                let prefix = sqlx::query_as::<_, GuildPrefix>(
-                                    r#"SELECT prefix FROM guilds WHERE id = $1"#,
+                                let guild_data = sqlx::query!(
+                                    "SELECT prefix FROM guilds WHERE id = $1",
+                                    guild_id.to_string()
                                 )
-                                .bind(guild_id.to_string())
-                                .fetch_one(&ctx.data.database)
-                                .await;
+                                .fetch_optional(&ctx.data.database)
+                                .await?;
 
-                                prefix
-                                    .and_then(|p| Ok(p.prefix))
-                                    .unwrap_or(String::from("pls "))
+                                if let Some(guild_data) = guild_data {
+                                    guild_data.prefix
+                                } else {
+                                    "pls ".into()
+                                }
                             }
 
                             None => String::from("pls "),
@@ -96,7 +93,12 @@ async fn main() {
         )
         .setup(move |ctx, _ready, framework| {
             Box::pin(async move {
-                poise::builtins::register_in_guild(ctx, &framework.options().commands, serenity::GuildId(428020381413277706)).await?;
+                poise::builtins::register_in_guild(
+                    ctx,
+                    &framework.options().commands,
+                    serenity::GuildId(428020381413277706),
+                )
+                .await?;
 
                 Ok(Data {
                     http_client: reqwest::Client::new(),

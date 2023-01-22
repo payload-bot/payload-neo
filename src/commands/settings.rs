@@ -18,7 +18,7 @@ pub async fn settings(ctx: AppContext<'_>) -> Result<(), Error> {
         ctx,
         SettingsModal {
             steam_id: user_data.and_then(|u| u.steamId),
-            webhook_token: webhook_data.and_then(|w| Some(w.value)).or_else(|| None),
+            webhook_token: webhook_data.and_then(|w| Some(w.value)),
         },
     )
     .await?;

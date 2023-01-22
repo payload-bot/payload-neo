@@ -19,7 +19,10 @@ pub struct Data {
 #[instrument]
 #[tokio::main]
 async fn main() {
-    dotenvy::dotenv().expect(".env file not found");
+    #[cfg(debug)]
+    {
+        dotenvy::dotenv().unwrap();
+    }
 
     tracing_subscriber::fmt::init();
 

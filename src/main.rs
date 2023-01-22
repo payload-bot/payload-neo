@@ -8,6 +8,7 @@ use poise::serenity_prelude as serenity;
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
+type AppContext<'a> = poise::ApplicationContext<'a, Data, Error>;
 
 // User data, which is stored and accessible in all command invocations
 pub struct Data {
@@ -37,7 +38,7 @@ async fn main() {
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![register::register()],
+            commands: vec![register::register(), settings::settings()],
             prefix_options: poise::PrefixFrameworkOptions {
                 prefix: Some("pls ".into()),
 
@@ -46,13 +47,15 @@ async fn main() {
                         Ok(Some(match ctx.guild_id {
                             Some(guild_id) => {
                                 let prefix = sqlx::query_as::<_, GuildPrefix>(
-                                    "SELECT prefix FROM Guild WHERE id = ?",
+                                    r#"SELECT prefix FROM guilds WHERE id = $1"#,
                                 )
                                 .bind(guild_id.to_string())
                                 .fetch_one(&ctx.data.database)
                                 .await;
 
-                                prefix.and_then(|p| Ok(p.prefix)).or_else(|_| Ok::<std::string::String, Error>(String::from("pls "))).unwrap()
+                                prefix
+                                    .and_then(|p| Ok(p.prefix))
+                                    .unwrap_or(String::from("pls "))
                             }
 
                             None => String::from("pls "),
@@ -91,8 +94,10 @@ async fn main() {
         .intents(
             serenity::GatewayIntents::non_privileged() | serenity::GatewayIntents::MESSAGE_CONTENT,
         )
-        .setup(move |_ctx, _ready, _framework| {
+        .setup(move |ctx, _ready, framework| {
             Box::pin(async move {
+                poise::builtins::register_in_guild(ctx, &framework.options().commands, serenity::GuildId(428020381413277706)).await?;
+
                 Ok(Data {
                     http_client: reqwest::Client::new(),
                     database: pool,

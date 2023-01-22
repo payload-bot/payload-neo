@@ -31,12 +31,16 @@ async fn main() {
     let pool = pool_config
         .connect(option_env!("DATABASE_URL").unwrap())
         .await
-        .unwrap()
-        .clone();
+        .unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![register::register(), settings::settings()],
+            commands: vec![
+                register::register(),
+                settings::settings(),
+                bruh::bruh(),
+                invite::invite(),
+            ],
             prefix_options: poise::PrefixFrameworkOptions {
                 prefix: Some("pls ".into()),
 
@@ -64,7 +68,7 @@ async fn main() {
                 }),
 
                 edit_tracker: Some(poise::EditTracker::for_timespan(
-                    std::time::Duration::from_secs(3600),
+                    std::time::Duration::from_secs(120),
                 )),
 
                 case_insensitive_commands: true,

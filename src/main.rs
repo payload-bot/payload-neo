@@ -40,6 +40,11 @@ async fn main() {
                 settings::settings(),
                 bruh::bruh(),
                 invite::invite(),
+                playercheck::playercheck(),
+                prefix::prefix(),
+                pushcart::pushcart(),
+                restrict::restrict(),
+                unrestrict::unrestrict(),
             ],
             prefix_options: poise::PrefixFrameworkOptions {
                 prefix: Some("pls ".into()),

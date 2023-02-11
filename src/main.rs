@@ -40,8 +40,8 @@ async fn main() {
                 settings::settings(),
                 bruh::bruh(),
                 invite::invite(),
-                playercheck::playercheck(),
-                prefix::prefix(),
+                // come back to this soon
+                // playercheck::playercheck(),
                 pushcart::pushcart(),
                 restrict::restrict(),
                 unrestrict::unrestrict(),

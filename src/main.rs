@@ -1,7 +1,7 @@
 mod commands;
 use commands::*;
 
-use sqlx::{Pool, Postgres};
+use sqlx::{Pool, MySql};
 use tracing::{error, instrument};
 
 use poise::serenity_prelude as serenity;
@@ -13,7 +13,7 @@ type AppContext<'a> = poise::ApplicationContext<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 pub struct Data {
     http_client: reqwest::Client,
-    database: Pool<Postgres>,
+    database: Pool<MySql>,
 }
 
 #[instrument]
@@ -26,12 +26,14 @@ async fn main() {
 
     tracing_subscriber::fmt::init();
 
-    let pool_config = sqlx::postgres::PgPoolOptions::new();
+    let pool_config = sqlx::mysql::MySqlPoolOptions::new();
 
     let pool = pool_config
         .connect(option_env!("DATABASE_URL").unwrap())
         .await
         .unwrap();
+
+    let migrator = sqlx::migrate!("./migrations").run(&pool).await.unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
@@ -49,28 +51,28 @@ async fn main() {
             prefix_options: poise::PrefixFrameworkOptions {
                 prefix: Some("pls ".into()),
 
-                dynamic_prefix: Some(|ctx| {
-                    Box::pin(async move {
-                        Ok(Some(match ctx.guild_id {
-                            Some(guild_id) => {
-                                let guild_data = sqlx::query!(
-                                    "SELECT prefix FROM guilds WHERE id = $1",
-                                    guild_id.to_string()
-                                )
-                                .fetch_optional(&ctx.data.database)
-                                .await?;
+                // dynamic_prefix: Some(|ctx| {
+                //     Box::pin(async move {
+                //         Ok(Some(match ctx.guild_id {
+                //             Some(guild_id) => {
+                //                 let guild_data = sqlx::query!(
+                //                     "SELECT prefix FROM guilds WHERE id = ?",
+                //                     guild_id.to_string()
+                //                 )
+                //                 .fetch_optional(&ctx.data.database)
+                //                 .await?;
 
-                                if let Some(guild_data) = guild_data {
-                                    guild_data.prefix
-                                } else {
-                                    "pls ".into()
-                                }
-                            }
+                //                 if let Some(guild_data) = guild_data {
+                //                     guild_data.prefix
+                //                 } else {
+                //                     "pls ".into()
+                //                 }
+                //             }
 
-                            None => String::from("pls "),
-                        }))
-                    })
-                }),
+                //             None => String::from("pls "),
+                //         }))
+                //     })
+                // }),
 
                 edit_tracker: Some(poise::EditTracker::for_timespan(
                     std::time::Duration::from_secs(120),

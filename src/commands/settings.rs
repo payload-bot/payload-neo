@@ -6,11 +6,11 @@ use poise::{serenity_prelude::Colour, Modal};
 pub async fn settings(ctx: AppContext<'_>) -> Result<(), Error> {
     let user_id = ctx.author().id.to_string();
 
-    let user_data = sqlx::query!(r#"SELECT "steamId" FROM users WHERE id = $1"#, &user_id)
+    let user_data = sqlx::query!(r#"SELECT steamId FROM users WHERE id = ?"#, &user_id)
         .fetch_optional(&ctx.data.database)
         .await?;
 
-    let webhook_data = sqlx::query!("SELECT value FROM webhooks WHERE id = $1", &user_id)
+    let webhook_data = sqlx::query!("SELECT value FROM webhooks WHERE id = ?", &user_id)
         .fetch_optional(&ctx.data.database)
         .await?;
 
@@ -28,7 +28,7 @@ pub async fn settings(ctx: AppContext<'_>) -> Result<(), Error> {
         webhook_token: _,
     }) = args
     {
-        if let Err(why) = sqlx::query!(r#"INSERT INTO users ("steamId", id) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET "steamId" = $1 WHERE users.id = $2"#, steam_id, &user_id)
+        if let Err(why) = sqlx::query!(r#"INSERT INTO users (steamId, id) VALUES (?, ?) ON DUPLICATE KEY UPDATE steamId = ?"#, &steam_id, &user_id, &steam_id)
             .execute(&ctx.data.database)
             .await
         {

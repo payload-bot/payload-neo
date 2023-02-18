@@ -45,6 +45,7 @@ async fn main() {
                 // come back to this soon
                 // playercheck::playercheck(),
                 pushcart::pushcart(),
+                pushcart::leaderboard(),
                 restrict::restrict(),
                 unrestrict::unrestrict(),
             ],

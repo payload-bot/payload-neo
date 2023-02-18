@@ -1,5 +1,5 @@
 use crate::{Context, Error};
-use poise::serenity_prelude::Colour;
+use poise::serenity_prelude::{Colour};
 
 /// Pushes the cart
 #[poise::command(slash_command, guild_only, rename = "push")]
@@ -45,6 +45,35 @@ pub async fn pushcart(ctx: Context<'_>) -> Result<(), Error> {
         total_points.unwrap().total.unwrap_or(0.into()).to_string()
     ))
     .await?;
+
+    Ok(())
+}
+
+/// Leaderboard for the current server
+#[poise::command(slash_command, guild_only)]
+pub async fn leaderboard(ctx: Context<'_>) -> Result<(), Error> {
+    let guild_id = ctx.guild_id().unwrap().to_string();
+
+    //  GROUP BY pushed ORDER BY SUM(pushed)
+    let leaderboard = sqlx::query!(
+        r#"SELECT userId, SUM(pushed) as total FROM pushcart WHERE guildId = ? GROUP BY pushed, userId ORDER BY SUM(pushed) LIMIT 10"#,
+        &guild_id
+    )
+    .fetch_all(&ctx.data().database)
+    .await?;
+
+    let response = leaderboard
+        .iter()
+        .map(|entry| {
+            format!(
+                "{}: {} units",
+                entry.userId,
+                entry.total.clone().unwrap_or(0.into())
+            )
+        })
+        .collect::<Vec<_>>();
+
+    ctx.say(response.join("\n")).await?;
 
     Ok(())
 }

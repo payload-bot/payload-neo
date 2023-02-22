@@ -33,7 +33,7 @@ async fn main() {
         .await
         .unwrap();
 
-    let migrator = sqlx::migrate!("./migrations").run(&pool).await.unwrap();
+    sqlx::migrate!("./migrations").run(&pool).await.unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {

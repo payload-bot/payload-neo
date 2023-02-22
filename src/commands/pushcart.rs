@@ -1,11 +1,33 @@
 use crate::{Context, Error};
-use poise::serenity_prelude::{Colour};
+use chrono::Duration;
+use poise::serenity_prelude::Colour;
 
 /// Pushes the cart
 #[poise::command(slash_command, guild_only, rename = "push")]
 pub async fn pushcart(ctx: Context<'_>) -> Result<(), Error> {
     let user_id = ctx.author().id.to_string();
     let guild_id = ctx.guild_id().unwrap().to_string();
+
+    let total_points = sqlx::query!(
+        r#"SELECT max(timestamp) as last_pushed FROM pushcart WHERE userId = ?"#,
+        &user_id
+    )
+    .fetch_optional(&ctx.data().database)
+    .await?;
+
+    if let Some(data) = total_points {
+        let last_pushed = data.last_pushed;
+
+        if let Some(date) = last_pushed {
+            let expires = date.checked_add_signed(Duration::seconds(30)).unwrap();
+
+            if expires > chrono::Utc::now() {
+                ctx.say("You must wait before pushing again").await?;
+
+                return Ok(());
+            }
+        }
+    }
 
     let pushed = 5;
 

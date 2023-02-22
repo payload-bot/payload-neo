@@ -16,3 +16,4 @@ sqlx = { version = "0.6.2", features = ["mysql", "bigdecimal", "chrono", "runtim
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.16", features = ["local-time", "ansi"] }
+chrono = { version = "0.4", features = ["std", "serde"] }

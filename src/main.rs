@@ -20,9 +20,7 @@ pub struct Data {
 #[tokio::main]
 async fn main() {
     #[cfg(debug)]
-    {
-        dotenvy::dotenv().unwrap();
-    }
+    dotenvy::dotenv().unwrap();
 
     tracing_subscriber::fmt::init();
 
@@ -41,7 +39,6 @@ async fn main() {
                 register::register(),
                 settings::settings(),
                 bruh::bruh(),
-                invite::invite(),
                 // come back to this soon
                 // playercheck::playercheck(),
                 pushcart::pushcart(),

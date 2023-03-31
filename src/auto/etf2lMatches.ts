@@ -38,7 +38,7 @@ export default class UserAutoCommand extends AutoCommand {
       color: PayloadColors.Command,
       title: args.t(LanguageKeys.Auto.Etf2l.Etf2lMatchesEmbedTitle),
       url: `https://${matched}`,
-      image: { url: "attachment://team.png" },
+      image: { url: "attachment://match.png" },
       footer: {
         text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
       },

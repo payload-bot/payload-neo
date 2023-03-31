@@ -99,7 +99,11 @@ export async function closeBrowser(browser: Browser) {
   await browser.close();
 }
 
-export async function capturePage(url: string, options: CaptureOptions = { left: 0, top: 0 }, puppeteerOptions?: PuppeteerLaunchOptions): Promise<Buffer> {
+export async function capturePage(
+  url: string,
+  options: CaptureOptions = { left: 0, top: 0 },
+  puppeteerOptions?: PuppeteerLaunchOptions
+): Promise<Buffer> {
   const { page, browser } = await createPage(url, puppeteerOptions);
 
   if (options.cssPath) await page.addStyleTag({ path: options.cssPath });

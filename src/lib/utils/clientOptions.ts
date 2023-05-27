@@ -5,7 +5,14 @@ import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
-import { ActivityType, ClientOptions, GatewayIntentBits, OAuth2Scopes, Partials, PresenceData } from "discord.js";
+import {
+  ActivityType,
+  type ClientOptions,
+  GatewayIntentBits,
+  OAuth2Scopes,
+  Partials,
+  type PresenceData,
+} from "discord.js";
 
 function makeLogger() {
   return {

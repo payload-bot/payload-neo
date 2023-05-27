@@ -1,4 +1,4 @@
-import { Args, ArgumentError, MessageCommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { Args, ArgumentError, type MessageCommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
 import type { TFunction } from "@sapphire/plugin-i18next";

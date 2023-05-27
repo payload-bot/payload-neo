@@ -1,5 +1,5 @@
 import { mapIdentifier } from "#lib/i18n/mapping";
-import { MessageCommandDeniedPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { type MessageCommandDeniedPayload, Events, Listener, UserError } from "@sapphire/framework";
 import { resolveKey } from "@sapphire/plugin-i18next";
 import type { Message } from "discord.js";
 

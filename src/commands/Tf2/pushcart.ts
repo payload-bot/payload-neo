@@ -9,7 +9,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import type { User } from "@prisma/client";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { Subcommand, SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
 
 enum PayloadPushResult {

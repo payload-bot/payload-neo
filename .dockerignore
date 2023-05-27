@@ -11,3 +11,5 @@ README.md
 THIRD-PARTY-LICENSE
 .gitignore
 .gitattributes
+*.db-*
+*.db

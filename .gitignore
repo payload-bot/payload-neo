@@ -4,7 +4,8 @@
 
 # Stores and ENV
 .env
-.migrate
+*.db
+*.db-*
 
 # Yarn
 .pnp.*

@@ -5,7 +5,7 @@ import config from "#root/config";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
-import { Subcommand, SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v9";

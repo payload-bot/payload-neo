@@ -12,7 +12,7 @@ model Guild {
   id           String @id
   prefix       String @default("pls ")
   language     String @default("en-US")
-  legacyPushed Int
+  legacyPushed Int?
 
   webhookId String?
   webhook   Webhook? @relation(fields: [webhookId], references: [id])
@@ -21,7 +21,7 @@ model Guild {
 model User {
   id String @id
 
-  legacyPushed Int
+  legacyPushed Int?
   steamId      String?
 
   webhookId String?

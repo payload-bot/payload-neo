@@ -1,4 +1,4 @@
-import { BucketScope, CommandOptions } from "@sapphire/framework";
+import { BucketScope, type CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";

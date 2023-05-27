@@ -18,7 +18,7 @@ export class UserCommand extends PayloadCommand {
 
     const user = await this.database.user.findUnique({
       where: { id: targetUser.id },
-      select: { steamId: true, pushed: true },
+      select: { steamId: true, legacyPushed: true },
     });
 
     const botT = t(LanguageKeys.Commands.Profile.Bot);
@@ -28,7 +28,7 @@ export class UserCommand extends PayloadCommand {
       ${botT}: ${targetUser.bot ? "Yes" : "No"}
       ID: ${targetUser.id}
       Steam ID: ${user?.steamId || "NOT SET"}
-      ${pointsT}: ${user?.pushed ?? 0}
+      ${pointsT}: ${user?.legacyPushed ?? 0}
     `;
 
     const embed = new EmbedBuilder({

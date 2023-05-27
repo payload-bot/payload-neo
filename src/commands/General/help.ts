@@ -5,7 +5,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
-import { BuildCommandHelp, LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper";
+import { BuildCommandHelp, type LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Help.Description,

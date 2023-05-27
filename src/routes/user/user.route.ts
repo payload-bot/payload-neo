@@ -20,7 +20,7 @@ export class UserRoute extends ServiceController {
       include: { webhook: true },
     });
 
-    return response.ok({ steamId: user?.steamId, pushed: user?.pushed, webhook: user?.webhook });
+    return response.ok({ steamId: user?.steamId, pushed: user?.legacyPushed, webhook: user?.webhook });
   }
 
   @Authenticated()

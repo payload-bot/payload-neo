@@ -42,7 +42,7 @@ export class WebhookExecutionRoute extends ServiceController {
       demosId: value?.demosId,
       logsId: value!.logsId as string,
       targetId: webhook.id,
-      webhookTarget: webhook.type,
+      webhookTarget: webhook.type as any,
     });
 
     return response.noContent();
@@ -83,7 +83,7 @@ export class WebhookExecutionv1Route extends ServiceController {
       demosId: value?.demosId,
       logsId: value!.logsId as string,
       targetId: webhook.id,
-      webhookTarget: webhook.type,
+      webhookTarget: webhook.type as any,
     });
 
     return response.noContent();

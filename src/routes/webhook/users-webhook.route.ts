@@ -1,6 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { Authenticated } from "#lib/api/utils/decorators";
-import { Prisma, WebhookType } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
@@ -38,7 +38,7 @@ export class UsersWebhookRoute extends ServiceController {
         webhook: {
           create: {
             id: request.auth!.id,
-            type: WebhookType.users,
+            type: "users",
             value: generate({
               length: 40,
               numbers: true,

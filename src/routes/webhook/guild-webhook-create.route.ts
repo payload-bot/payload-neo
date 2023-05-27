@@ -4,7 +4,6 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { generate } from "generate-password";
 import { s } from "@sapphire/shapeshift";
-import { WebhookType } from "@prisma/client";
 
 const schema = s.object({
   channelId: s.string,
@@ -42,7 +41,7 @@ export class GuildWebhookCreateRoute extends ServiceController {
         webhook: {
           create: {
             id: value!.channelId,
-            type: WebhookType.channels,
+            type: "channels",
             value: generate({
               length: 40,
               numbers: true,

@@ -70,17 +70,6 @@ declare module "@skyra/env-utilities" {
     CHROME_WS_URL: string;
 
     /**
-     * The URL to a Redis connection
-     * @remarks This is only used in PRODUCTION
-     */
-    REDIS_URL: string;
-
-    /**
-     * A boolean indicating if Redis should be used
-     */
-    REDIS_ENABLED: BooleanString;
-
-    /**
      * The port to run the HTTP server
      */
     PORT: IntegerString;

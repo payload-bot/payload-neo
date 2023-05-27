@@ -30,7 +30,8 @@ CREATE TABLE "Pushcart" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "userId" TEXT NOT NULL,
     "guildId" TEXT NOT NULL,
-    "pushed" INTEGER NOT NULL
+    "pushed" INTEGER NOT NULL,
+    "timestamp" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateIndex

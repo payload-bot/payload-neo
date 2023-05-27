@@ -40,8 +40,9 @@ model Webhook {
 }
 
 model Pushcart {
-  id      Int    @id @default(autoincrement())
-  userId  String
-  guildId String
-  pushed  Int
+  id        Int      @id @default(autoincrement())
+  userId    String
+  guildId   String
+  pushed    Int
+  timestamp DateTime @default(now())
 }

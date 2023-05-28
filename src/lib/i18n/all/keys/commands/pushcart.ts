@@ -18,8 +18,7 @@ export const TotalPushed = FT<{ leaderboardString: string }, string>("commands/p
 export const DistinctPushersTitle = FT<{ leaderboardString: string }, string>("commands/pushcart:distinctPushersTitle");
 export const DistinctPushers = FT<{ leaderboardString: string }, string>("commands/pushcart:distinctPushers");
 
-export const UserPushString = FT<{ leaderboardString: string }, string>("commands/pushcart:userPushString");
-export const NoUserRecord = FT<{ leaderboardString: string }, string>("commands/pushcart:noUserRecord");
+export const RankString = FT<{ name: string, rank?: number, units?: number, count: number }, string>("commands/pushcart:rank");
 
 export const LeaderboardEmbedTitle = T<string>("commands/pushcart:leaderboardEmbedTitle");
 export const ServerEmbedTitle = T<string>("commands/pushcart:serverEmbedTitle");

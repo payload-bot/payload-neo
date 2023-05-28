@@ -1,10 +1,10 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message, EmbedBuilder, escapeMarkdown, Colors, User, bold } from "discord.js";
+import { Message, EmbedBuilder, escapeMarkdown, Colors, bold, GuildMember } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
-import { chunk, codeBlock } from "@sapphire/utilities";
+import { chunk, codeBlock, isNullOrUndefined } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
@@ -177,6 +177,7 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async rank(msg: Message, args: Args) {
+    const t = await this.t(msg);
     const targetUser = await args.pick("member").catch(() => msg.author);
 
     const result = await this.database.$queryRaw<Array<{ rank: number; pushed: number }>>`
@@ -185,21 +186,31 @@ export class UserCommand extends Subcommand {
 
     const [userRank] = result;
 
-    const memberNameToDisplay =
-      targetUser instanceof User
-        ? targetUser.username
-        : targetUser.nickname?.trim().length == 0
-        ? targetUser.user.username
-        : targetUser.nickname;
+    let memberNameToDisplay =
+      targetUser instanceof GuildMember ? targetUser.nickname ?? targetUser.displayName : targetUser.username;
 
-    if (userRank.pushed === null) {
-      // TODO: make this a different message
-      return await send(msg, codeBlock("md", `-: ${memberNameToDisplay} (0)`));
+    memberNameToDisplay ??= "N/A";
+
+    if (isNullOrUndefined(result[0])) {
+      return await send(
+        msg,
+        t(LanguageKeys.Commands.Pushcart.RankString, {
+          name: memberNameToDisplay,
+          count: Number(userRank?.pushed ?? 0),
+        })
+      );
     }
 
     return await send(
       msg,
-      codeBlock("md", `#${userRank.rank.toString()}: ${memberNameToDisplay} (${userRank.pushed})`)
+      codeBlock(
+        "md",
+        t(LanguageKeys.Commands.Pushcart.RankString, {
+          name: memberNameToDisplay,
+          rank: userRank.rank ?? "-",
+          count: Number(userRank?.pushed ?? 0),
+        })
+      )
     );
   }
 
@@ -260,7 +271,7 @@ export class UserCommand extends Subcommand {
 
       const nameToDisplay = msg.author.id === userId ? bold(name) : name;
 
-      return t(LanguageKeys.Commands.Pushcart.UserPushString, { name: nameToDisplay, rank: index + 1, units: timesPushed });
+      return t(LanguageKeys.Commands.Pushcart.RankString, { name: nameToDisplay, rank: index + 1, count: timesPushed });
     });
 
     const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, index) => {
@@ -270,7 +281,11 @@ export class UserCommand extends Subcommand {
 
       const nameToDisplay = msg.author.id === userId ? bold(name) : name;
 
-      return t(LanguageKeys.Commands.Pushcart.UserPushString, { name: nameToDisplay, rank: index + 1, units: totalPushed });
+      return t(LanguageKeys.Commands.Pushcart.RankString, {
+        name: nameToDisplay,
+        rank: index + 1,
+        count: totalPushed ?? 0,
+      });
     });
 
     const embed = new EmbedBuilder()
@@ -279,17 +294,17 @@ export class UserCommand extends Subcommand {
       .addFields(
         {
           name: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushedTitle),
-          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { total: totalUnitsPushed ?? 0 }),
+          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { count: Number(totalUnitsPushed ?? 0) }),
           inline: true,
         },
         {
           name: t(LanguageKeys.Commands.Pushcart.TotalPushedTitle),
-          value: t(LanguageKeys.Commands.Pushcart.TotalPushed, { total: totalPushed }),
+          value: t(LanguageKeys.Commands.Pushcart.TotalPushed, { count: Number(totalPushed) }),
           inline: true,
         },
         {
           name: t(LanguageKeys.Commands.Pushcart.DistinctPushersTitle),
-          value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { total: distinctPushers }),
+          value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { count: Number(distinctPushers) }),
           inline: true,
         }
       )

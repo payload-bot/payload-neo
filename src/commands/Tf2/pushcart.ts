@@ -205,6 +205,8 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async stats(msg: Message) {
+    await msg.channel.sendTyping();
+    
     const t = await this.t(msg);
     const guild = await msg.client.guilds.fetch(msg.guildId!);
 
@@ -229,7 +231,7 @@ export class UserCommand extends Subcommand {
       }>
     >`SELECT COUNT(DISTINCT userId) as distinctPushers FROM "main"."Pushcart" WHERE guildId = ${guild.id}`;
 
-    const activePushersQuery = await this.database.pushcart.groupBy({
+    const userStatisticsQuery = await this.database.pushcart.groupBy({
       by: ["userId", "guildId"],
       where: {
         guildId: guild.id,
@@ -237,16 +239,19 @@ export class UserCommand extends Subcommand {
       _count: {
         pushed: true,
       },
+      _sum: {
+        pushed: true,
+      },
+      orderBy: [
+        {
+          userId: "desc",
+        },
+      ],
+      take: 5,
     });
 
-    const topPushersQuery = await this.database.$queryRaw<Array<{ userId: string; rank: number; pushed: number }>>`
-      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" 
-        WHERE guildId = ${guild.id} 
-        GROUP BY userId
-      )
-      SELECT * from leaderboard LIMIT 5`;
-
-    const topFiveSortedPushers = activePushersQuery.sort((a, b) => b._count.pushed! - a._count.pushed!).slice(0, 4);
+    const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b._count.pushed - a._count.pushed);
+    const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
 
     const activePushersLeaderboard = topFiveSortedPushers.map(({ _count: { pushed: timesPushed }, userId }, index) => {
       const member = guild.members.cache.get(userId);
@@ -256,12 +261,12 @@ export class UserCommand extends Subcommand {
         : `${index + 1}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${timesPushed})`;
     });
 
-    const topPushersLeaderboard = topPushersQuery.map(({ userId, pushed, rank }) => {
+    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, i) => {
       const member = guild.members.cache.get(userId);
 
       return msg.author.id === userId
-        ? `${rank}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${pushed})`
-        : `${rank}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${pushed})`;
+        ? `${i + 1}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${totalPushed})`
+        : `${i + 1}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${totalPushed})`;
     });
 
     const embed = new EmbedBuilder()

@@ -1,7 +1,0 @@
-{
-  "description": "Gets the avatar of a user",
-  "detailedDescription": {
-    "usages": ["<user>"],
-    "details": "Mention a user, or provide an ID of a user, and this command will grab their avatar. This defaults to the author if no user is provided."
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "description": "Gets the changelog of Payload",
-  "detailedDescription": {
-    "usages": ["[version]"],
-    "details": "Want to peek into the changelog of Payload? Here you can provide the latest version, or any previous valid version."
-  },
-  "invalidFormat": "Invalid version format",
-  "invalidVersion": "Invalid version"
-}

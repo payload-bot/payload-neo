@@ -1,9 +1,0 @@
-{
-  "description": "Snipes a message",
-  "detailedDescription": {
-    "usages": ["<number>"],
-    "details": "Snipe a message. You can snipe the last <number> of messages. This is cleared every **5 minutes**."
-  },
-  "noMessages": "No messages to snipe!",
-  "aboveCacheAmount": "Snipe cache doesn't go that far! The most we can fetch is {{ count }}."
-}

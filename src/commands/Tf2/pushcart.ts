@@ -226,11 +226,11 @@ export class UserCommand extends Subcommand {
     });
 
     const topPushersQuery = await this.database.$queryRaw<Array<{ userId: string; rank: number; pushed: number }>>`
-      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed ASC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" 
+      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" 
         WHERE guildId = ${guild.id} 
         GROUP BY userId
       )
-      SELECT * from leaderboard ORDER BY rank ASC LIMIT 5`;
+      SELECT * from leaderboard LIMIT 5`;
 
     const topFiveSortedPushers = activePushersQuery.sort((a, b) => b._count.pushed! - a._count.pushed!).slice(0, 4);
 

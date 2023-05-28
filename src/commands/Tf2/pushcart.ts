@@ -158,15 +158,13 @@ export class UserCommand extends Subcommand {
   async rank(msg: Message, args: Args) {
     const targetUser = (await args.pick("member").catch(() => msg.author)) as User;
 
-    const [userRank] = await this.database.$queryRaw<Array<{ rank: number; pushed: number } | null>>`
+    const [userRank] = await this.database.$queryRaw<Array<{ rank: number; pushed: number }>>`
       WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) AS pushed, userId FROM "main"."Pushcart" WHERE userId = ${
         targetUser.id
       } AND guildId = ${msg.guildId!})
       SELECT * from leaderboard`;
 
-    console.log(userRank);
-
-    if (userRank === null) {
+    if (userRank.pushed === null) {
       // TODO: make this a different message
       return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
     }
@@ -175,12 +173,7 @@ export class UserCommand extends Subcommand {
   }
 
   private async userPushcart(userId: string, guildId: string) {
-    const [
-      {
-        _sum: { pushed: totalPushedLastDay },
-        _max: { timestamp: lastPushed },
-      },
-    ] = await this.database.pushcart.groupBy({
+    const result = await this.database.pushcart.groupBy({
       by: ["userId", "guildId"],
       _max: {
         timestamp: true,
@@ -197,12 +190,16 @@ export class UserCommand extends Subcommand {
       },
     });
 
-    console.log(lastPushed);
-    console.log(totalPushedLastDay);
-
-    if (lastPushed === null && totalPushedLastDay === null) {
+    if (result.length === 0) {
       return { result: PayloadPushResult.SUCCESS, lastPushed: new Date() };
     }
+
+    const [
+      {
+        _sum: { pushed: totalPushedLastDay },
+        _max: { timestamp: lastPushed },
+      },
+    ] = result;
 
     const isUnderCooldown = isAfter(add(lastPushed!, { seconds: 30 }), Date.now());
 

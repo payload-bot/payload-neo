@@ -86,7 +86,7 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
 
-    const { pushed } = await this.database.pushcart.create({
+    await this.database.pushcart.create({
       data: {
         pushed: randomNumber,
         guildId: msg.guildId!,
@@ -95,11 +95,25 @@ export class UserCommand extends Subcommand {
       select: { pushed: true },
     });
 
+    const {
+      _sum: { pushed: totalUnitsPushed },
+    } = await this.database.pushcart.aggregate({
+      where: {
+        guildId: msg.guildId!,
+      },
+      _count: {
+        pushed: true,
+      },
+      _sum: {
+        pushed: true,
+      },
+    });
+
     return await send(
       msg,
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
-        total: pushed,
+        total: totalUnitsPushed,
       })!
     );
   }

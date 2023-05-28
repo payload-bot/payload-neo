@@ -1,5 +1,5 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message, EmbedBuilder, escapeMarkdown, Colors, User } from "discord.js";
+import { Message, EmbedBuilder, escapeMarkdown, Colors, User, bold } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
@@ -39,6 +39,11 @@ export class UserCommand extends Subcommand {
       name: "leaderboard",
       type: "method",
       messageRun: async msg => await this.leaderboard(msg),
+    },
+    {
+      name: "stats",
+      type: "method",
+      messageRun: async msg => await this.stats(msg),
     },
     {
       name: "rank",
@@ -182,6 +187,99 @@ export class UserCommand extends Subcommand {
       msg,
       codeBlock("md", `#${userRank.rank.toString()}: ${memberNameToDisplay} (${userRank.pushed})`)
     );
+  }
+
+  @RequiresGuildContext()
+  async stats(msg: Message) {
+    const t = await this.t(msg);
+    const guild = await msg.client.guilds.fetch(msg.guildId!);
+
+    const {
+      _count: { pushed: totalPushed },
+      _sum: { pushed: totalUnitsPushed },
+    } = await this.database.pushcart.aggregate({
+      where: {
+        guildId: guild.id,
+      },
+      _count: {
+        pushed: true,
+      },
+      _sum: {
+        pushed: true,
+      },
+    });
+
+    const [{ distinctPushers }] = await this.database.$queryRaw<
+      Array<{
+        distinctPushers: number;
+      }>
+    >`SELECT COUNT(DISTINCT userId) as distinctPushers FROM "main"."Pushcart" WHERE guildId = ${guild.id}`;
+
+    const activePushersQuery = await this.database.pushcart.groupBy({
+      by: ["userId", "guildId"],
+      where: {
+        guildId: guild.id,
+      },
+      _count: {
+        pushed: true,
+      },
+    });
+
+    const topPushersQuery = await this.database.$queryRaw<Array<{ userId: string; rank: number; pushed: number }>>`
+      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed ASC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" 
+        WHERE guildId = ${guild.id} 
+        GROUP BY userId
+      )
+      SELECT * from leaderboard ORDER BY rank ASC LIMIT 5`;
+
+    const topFiveSortedPushers = activePushersQuery.sort((a, b) => b._count.pushed! - a._count.pushed!).slice(0, 4);
+
+    const activePushersLeaderboard = topFiveSortedPushers.map(({ _count: { pushed: timesPushed }, userId }, index) => {
+      const member = guild.members.cache.get(userId);
+
+      return msg.author.id === userId
+        ? `${index + 1}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${timesPushed})`
+        : `${index + 1}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${timesPushed})`;
+    });
+
+    const topPushersLeaderboard = topPushersQuery.map(({ userId, pushed, rank }) => {
+      const member = guild.members.cache.get(userId);
+
+      return msg.author.id === userId
+        ? `${rank}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${pushed})`
+        : `${rank}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${pushed})`;
+    });
+
+    const embed = new EmbedBuilder()
+      .setColor(PayloadColors.Payload)
+      .setTitle(t(LanguageKeys.Commands.Pushcart.StatsTitle, { name: guild.name }))
+      .addFields(
+        {
+          name: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushedTitle),
+          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { total: totalUnitsPushed ?? 0 }),
+          inline: true,
+        },
+        {
+          name: t(LanguageKeys.Commands.Pushcart.TotalPushedTitle),
+          value: t(LanguageKeys.Commands.Pushcart.TotalPushed, { total: totalPushed }),
+          inline: true,
+        },
+        {
+          name: t(LanguageKeys.Commands.Pushcart.DistinctPushersTitle),
+          value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { total: distinctPushers }),
+          inline: true,
+        }
+      )
+      .addFields(
+        { name: t(LanguageKeys.Commands.Pushcart.TopPushers), value: topPushersLeaderboard.join("\n"), inline: true },
+        {
+          name: t(LanguageKeys.Commands.Pushcart.ActivePushers),
+          value: activePushersLeaderboard.join("\n"),
+          inline: true,
+        }
+      );
+
+    return await send(msg, { embeds: [embed] });
   }
 
   private async userPushcart(userId: string, guildId: string) {

@@ -3,9 +3,8 @@
   "detailedDescription": {
     "usages": [
       "",
-      "gift [user]",
       "leaderboard",
-      "servers",
+      "stats",
       "rank <user>"
     ],
     "details": "Push the cart! This is a global leaderboard, and you can view current rankings at anytime using the listed subcommands."
@@ -14,11 +13,18 @@
   "maxpoints": "You have reached the max number of points for today. Come back in {{ expires }}!",
   "pushSuccess": "{{ PUSHCART_EMOJI }} Pushed the cart forward **{{ units }}** feet ({{ total }} total).",
 
-  "noAmount": "Please specify the amount of points to gift",
-  "noTargetUser": "You need to specify who to gives these points to!",
-  "notEnoughCreds": "You don't have that many points to give away!",
-  "giftSuccess_one": "🎁 {{ from }} has gifted **{{ count }}** point to {{ to }}!",
-  "giftSuccess_other": "🎁 {{ from }} has gifted **{{ count }}** points to {{ to }}!",
+  "statsTitle": "{{ name }}'s Pushcart Statistics",
+  "topPushers": "Top Pushers",
+  "activePushers": "Most Active Pushers",
+
+  "distinctPushersTitle": "Unique Pushers",
+  "distinctPushers": "There are **{{ total }}** unique pushers",
+
+  "totalPushedTitle": "Number of Pushes",
+  "totalPushed": "The cart has been pushed **{{ total }}** times",
+
+  "totalUnitsPushedTitle": "Number of Units Pushed",
+  "totalUnitsPushed": "In total, **{{ total }}** total units has been pushed",
 
   "leaderboardEmbedTitle": "Pushcart Leaderboard",
   "serverEmbedTitle": "Pushcart Server Leaderboard"

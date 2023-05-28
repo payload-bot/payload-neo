@@ -206,7 +206,7 @@ export class UserCommand extends Subcommand {
   @RequiresGuildContext()
   async stats(msg: Message) {
     await msg.channel.sendTyping();
-    
+
     const t = await this.t(msg);
     const guild = await msg.client.guilds.fetch(msg.guildId!);
 
@@ -256,17 +256,21 @@ export class UserCommand extends Subcommand {
     const activePushersLeaderboard = topFiveSortedPushers.map(({ _count: { pushed: timesPushed }, userId }, index) => {
       const member = guild.members.cache.get(userId);
 
-      return msg.author.id === userId
-        ? `${index + 1}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${timesPushed})`
-        : `${index + 1}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${timesPushed})`;
+      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
+
+      const nameToDisplay = msg.author.id === userId ? bold(name) : name;
+
+      return t(LanguageKeys.Commands.Pushcart.UserPushString, { name: nameToDisplay, rank: index + 1, units: timesPushed });
     });
 
-    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, i) => {
+    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, index) => {
       const member = guild.members.cache.get(userId);
 
-      return msg.author.id === userId
-        ? `${i + 1}: ${bold(escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A"))} (${totalPushed})`
-        : `${i + 1}: ${escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A")} (${totalPushed})`;
+      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
+
+      const nameToDisplay = msg.author.id === userId ? bold(name) : name;
+
+      return t(LanguageKeys.Commands.Pushcart.UserPushString, { name: nameToDisplay, rank: index + 1, units: totalPushed });
     });
 
     const embed = new EmbedBuilder()

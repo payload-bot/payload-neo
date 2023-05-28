@@ -1,5 +1,5 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message, EmbedBuilder, escapeMarkdown, Colors, type User } from "discord.js";
+import { Message, EmbedBuilder, escapeMarkdown, Colors, User } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
@@ -129,7 +129,9 @@ export class UserCommand extends Subcommand {
 
     const CHUNK_AMOUNT = 5;
 
-    for (const page of chunk(userLeaderboard, CHUNK_AMOUNT)) {
+    const sorted = userLeaderboard.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
+
+    for (const page of chunk(sorted, CHUNK_AMOUNT)) {
       const leaderboardString = page.map(({ userId, _sum: { pushed } }, index) => {
         const user = client.users.cache.get(userId) ?? null;
 
@@ -156,20 +158,30 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async rank(msg: Message, args: Args) {
-    const targetUser = (await args.pick("member").catch(() => msg.author)) as User;
+    const targetUser = await args.pick("member").catch(() => msg.author);
 
-    const [userRank] = await this.database.$queryRaw<Array<{ rank: number; pushed: number }>>`
-      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) AS pushed, userId FROM "main"."Pushcart" WHERE userId = ${
-        targetUser.id
-      } AND guildId = ${msg.guildId!})
-      SELECT * from leaderboard`;
+    const result = await this.database.$queryRaw<Array<{ rank: number; pushed: number }>>`
+      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" WHERE guildId = ${msg.guildId!} GROUP BY userId)
+      SELECT * from leaderboard WHERE userId = ${targetUser.id}`;
+
+    const [userRank] = result;
+
+    const memberNameToDisplay =
+      targetUser instanceof User
+        ? targetUser.username
+        : targetUser.nickname?.trim().length == 0
+        ? targetUser.user.username
+        : targetUser.nickname;
 
     if (userRank.pushed === null) {
       // TODO: make this a different message
-      return await send(msg, codeBlock("md", `-: ${targetUser.tag} (0)`));
+      return await send(msg, codeBlock("md", `-: ${memberNameToDisplay} (0)`));
     }
 
-    return await send(msg, codeBlock("md", `#${userRank.rank.toString()}: ${targetUser.tag} (${userRank.pushed})`));
+    return await send(
+      msg,
+      codeBlock("md", `#${userRank.rank.toString()}: ${memberNameToDisplay} (${userRank.pushed})`)
+    );
   }
 
   private async userPushcart(userId: string, guildId: string) {

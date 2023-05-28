@@ -54,6 +54,20 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async push(msg: Message) {
+    const t = await this.t(msg);
+
+    const { result, lastPushed } = await this.userPushcart(msg.author.id, msg.guildId!);
+
+    if (result === PayloadPushResult.COOLDOWN) {
+      const secondsLeft = differenceInSeconds(addSeconds(lastPushed!, 30), new Date());
+
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft })!);
+    } else if (result === PayloadPushResult.CAP) {
+      const timeLeft = formatDistanceToNowStrict(addDays(lastPushed!, 1));
+
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
+    }
+
     const randomNumber = weightedRandom([
       { number: 3, weight: 2 },
       { number: 4, weight: 3 },
@@ -71,20 +85,6 @@ export class UserCommand extends Subcommand {
       { number: 16, weight: 3 },
       { number: 17, weight: 2 },
     ]);
-
-    const t = await this.t(msg);
-
-    const { result, lastPushed } = await this.userPushcart(msg.author.id, msg.guildId!);
-
-    if (result === PayloadPushResult.COOLDOWN) {
-      const secondsLeft = differenceInSeconds(addSeconds(lastPushed!, 30), new Date());
-
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft })!);
-    } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(addDays(lastPushed!, 1));
-
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
-    }
 
     await this.database.pushcart.create({
       data: {

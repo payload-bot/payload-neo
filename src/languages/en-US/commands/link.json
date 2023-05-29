@@ -1,7 +1,9 @@
 {
   "description": "Links a user's SteamID to Payload",
   "detailedDescription": {
-    "usages": ["[steamid]"],
+    "usages": [
+      "[steamid]"
+    ],
     "details": "To link properly, you must provide a valid SteamID, in any format. If you want, you also may post your Steam Community ID link, something like: <https://steamcommunity.com/id/the-steamid"
   },
   "missingId": "You need to provide a SteamID!",

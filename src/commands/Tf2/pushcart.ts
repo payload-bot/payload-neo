@@ -221,6 +221,16 @@ export class UserCommand extends Subcommand {
     const t = await this.t(msg);
     const guild = await msg.client.guilds.fetch(msg.guildId!);
 
+    const serverHasPushedCheck = await this.database.pushcart.count({
+      where: {
+        guildId: guild.id,
+      },
+    });
+
+    if (serverHasPushedCheck === 0) {
+      return await send(msg, t(LanguageKeys.Commands.Pushcart.NoPushesYet));
+    }
+
     const {
       _count: { pushed: totalPushed },
       _sum: { pushed: totalUnitsPushed },
@@ -271,7 +281,11 @@ export class UserCommand extends Subcommand {
 
       const nameToDisplay = msg.author.id === userId ? bold(name) : name;
 
-      return t(LanguageKeys.Commands.Pushcart.RankString, { name: nameToDisplay, rank: index + 1, count: timesPushed });
+      return t(LanguageKeys.Commands.Pushcart.RankString, {
+        name: nameToDisplay,
+        rank: index + 1,
+        count: timesPushed ?? 0,
+      });
     });
 
     const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, index) => {

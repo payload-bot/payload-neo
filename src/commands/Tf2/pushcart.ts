@@ -271,6 +271,12 @@ export class UserCommand extends Subcommand {
       take: 5,
     });
 
+    const userIdsToFetch = userStatisticsQuery.map(query => query.userId);
+
+    for (const id of userIdsToFetch) {
+      await guild.members.fetch(id);
+    }
+
     const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b._count.pushed - a._count.pushed);
     const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
 

@@ -12,28 +12,22 @@
   "cooldown": "You must wait {{ seconds }} seconds before pushing the cart again!",
   "maxpoints": "You have reached the max number of points for today. Come back in {{ expires }}!",
   "pushSuccess": "{{ PUSHCART_EMOJI }} Pushed the cart forward **{{ units }}** feet ({{ total, number }} total).",
-
   "rank_zero": "{{ name }} has not pushed the cart.",
   "rank_one": "{{ rank }}: {{ name }} ({{ count, number }})",
   "rank_other": "{{ rank }}: {{ name }} ({{ count, number }})",
-
   "statsTitle": "{{ name }}'s Pushcart Statistics",
   "topPushers": "Top Pushers",
   "noPushesYet": "No one has pushed the cart yet. Be the first one!",
   "activePushers": "Most Active Pushers",
-
   "distinctPushersTitle": "Unique Pushers",
   "distinctPushers_one": "Only **{{ count, number }}** user has pushed the cart. Sad!",
   "distinctPushers_other": "There are **{{ count, number }}** unique pushers",
-
   "totalPushedTitle": "Number of Pushes",
   "totalPushed_one": "The cart has been pushed **{{ count, number }}** time",
   "totalPushed_other": "The cart has been pushed **{{ count, number }}** times",
-
   "totalUnitsPushedTitle": "Number of Units Pushed",
   "totalUnitsPushed_one": "Only **{{ count, number }}** unit was pushed",
   "totalUnitsPushed_other": "In total, **{{ count, number }}** total units has been pushed",
-
   "leaderboardEmbedTitle": "Pushcart Leaderboard",
   "serverEmbedTitle": "Pushcart Server Leaderboard"
 }

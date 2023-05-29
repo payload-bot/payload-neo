@@ -1,18 +1,8 @@
-import { transformAuth } from "#lib/api/utils/authTransformer";
 import config from "#root/config";
 import { container, LogLevel } from "@sapphire/framework";
-import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
-import { envParseInteger, envParseString } from "@skyra/env-utilities";
-import {
-  ActivityType,
-  type ClientOptions,
-  GatewayIntentBits,
-  OAuth2Scopes,
-  Partials,
-  type PresenceData,
-} from "discord.js";
+import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData } from "discord.js";
 
 function makeLogger() {
   return {
@@ -77,26 +67,6 @@ function parseI18N(): InternationalizationOptions {
   };
 }
 
-function parseAPI(): ServerOptions {
-  return {
-    prefix: "/api/",
-    automaticallyConnect: true,
-    origin: "*",
-    listenOptions: {
-      port: envParseInteger("PORT", 8080),
-    },
-    auth: {
-      transformers: [transformAuth],
-      domainOverwrite: envParseString("COOKIE_DOMAIN"),
-      id: envParseString("CLIENT_ID"),
-      secret: envParseString("CLIENT_SECRET"),
-      redirect: envParseString("REDIRECT_URL"),
-      scopes: [OAuth2Scopes.Identify, OAuth2Scopes.Guilds],
-      cookie: "__session",
-    },
-  };
-}
-
 export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
   caseInsensitiveCommands: false,
@@ -121,7 +91,6 @@ export const CLIENT_OPTIONS: ClientOptions = {
     GatewayIntentBits.Guilds,
   ],
   logger: makeLogger(),
-  api: parseAPI(),
   presence: getPresence(),
   i18n: parseI18N(),
   hmr: {

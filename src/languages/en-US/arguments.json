@@ -16,7 +16,7 @@
   "guildPublicThreadChannelError": "I could not resolve `{{ parameter }}` to a public thread channel, please make sure you typed its name or ID correctly!",
   "guildStageVoiceChannelError": "I could not resolve `{{ parameter }}` to a stage voice channel, please make sure you typed its name or ID correctly!",
   "guildTextChannelError": "I could not resolve `{{ parameter }}` to a text channel, please make sure you typed its name or ID correctly!",
-  "guildThreadChannelError": "I could not resolve `{{ parameter }}` to a text channel, please make sure you typed its name or ID correctly!",
+  "guildThreadChannelError": "I could not resolve `{{ parameter }}` to a thread channel, please make sure you typed its name or ID correctly!",
   "guildVoiceChannelError": "I could not resolve `{{ parameter }}` to a voice channel, please make sure you typed its name or ID correctly!",
   "guildNewsChannelError": "I could not resolve `{{ parameter }}` to an announcement channel, please make sure you typed its name or ID correctly!",
   "hyperlinkError": "I could not resolve `{{ parameter }}` to an hyperlink! They're usually formatted like `https://discord.com`.",

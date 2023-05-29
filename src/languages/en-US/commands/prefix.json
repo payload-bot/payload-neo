@@ -2,7 +2,7 @@
   "description": "Manages your prefix for this server",
   "detailedDescription": {
     "usages": [
-      "",
+      "[empty string]",
       "set <new prefix>",
       "update <new prefix>",
       "delete",

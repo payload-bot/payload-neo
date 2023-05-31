@@ -337,42 +337,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^4.14.1":
-  version: 4.14.1
-  resolution: "@prisma/client@npm:4.14.1"
+"@prisma/client@npm:^4.15.0":
+  version: 4.15.0
+  resolution: "@prisma/client@npm:4.15.0"
   dependencies:
-    "@prisma/engines-version": 4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c
+    "@prisma/engines-version": 4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 24d0696cfb714f50ef95eab87f260c06402b255eff529d3fbd6ae0752a42df8f63b18f5268d9b2c47261a7316299b16b6fc4079b725750eb951b4dde5ddb1d16
+  checksum: 875eb31e702e16a50188f4762d9689a930aeb4f18a158a0a5270feefc80dc9a30935890df65d98fc9c6655d5f4f65d9943997bb86a51dd904577e7d19c6a2a7c
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c":
-  version: 4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c
-  resolution: "@prisma/engines-version@npm:4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c"
-  checksum: 0df2c9e7434ced708a202cb572e5cf433aae55332819700edb394b7d9c29742a6d2fd65abb778e80f9b1cc1f90daae5e331f4acd070bed395982856ff5ceccee
+"@prisma/engines-version@npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944":
+  version: 4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944
+  resolution: "@prisma/engines-version@npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944"
+  checksum: 6da6f076746aac2db043a9f15790f51c6d0e86139e1ebd83e6e046e799c0dbfa0d2df14cd7c70cc9583ce85b4bfc02e48fe1461077b79ed31ba83ad9440bb90f
   languageName: node
   linkType: hard
 
-"@prisma/engines@npm:4.14.1":
-  version: 4.14.1
-  resolution: "@prisma/engines@npm:4.14.1"
-  checksum: 9c6af9b98303b408b667b69653fd7b2eaa2c28775cf4c2559c51e3dfa161b4104deb41222d3b2fc33fd28ab255a633a9a9c0234d2d5b2b031f9fc1e715befc83
+"@prisma/engines@npm:4.15.0":
+  version: 4.15.0
+  resolution: "@prisma/engines@npm:4.15.0"
+  checksum: 61b53fe5ad7b0927de9aa4f51027e281788258d3fb5e389c3ae940829fdc5428a7108ce0cae5b329ddac0ee3206b0b9f8e8adae401c456f77d912c96368cfa5f
   languageName: node
   linkType: hard
 
-"@puppeteer/browsers@npm:1.4.0":
-  version: 1.4.0
-  resolution: "@puppeteer/browsers@npm:1.4.0"
+"@puppeteer/browsers@npm:1.4.1":
+  version: 1.4.1
+  resolution: "@puppeteer/browsers@npm:1.4.1"
   dependencies:
     debug: 4.3.4
     extract-zip: 2.0.1
     progress: 2.0.3
-    proxy-agent: 6.2.0
+    proxy-agent: 6.2.1
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     yargs: 17.7.1
@@ -383,7 +383,7 @@ __metadata:
       optional: true
   bin:
     browsers: lib/cjs/main-cli.js
-  checksum: fc93cefd0e4d3dd4ce5baba4fd2c8fbee347cddad655ec3baa60fa4af7aeb57c70326b1b970191f7f299804fbd172bd9916b78131713bc3b7501f60e3b3bd37e
+  checksum: d2860b198d31b922bd0842daab348b7138c26771d20dc8eb706e9fff3209c3412e7dbf934f8361e5a09704bef2955ed52603f35fcd912855c2c413b09ee377e8
   languageName: node
   linkType: hard
 
@@ -1181,14 +1181,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromium-bidi@npm:0.4.10":
-  version: 0.4.10
-  resolution: "chromium-bidi@npm:0.4.10"
+"chromium-bidi@npm:0.4.11":
+  version: 0.4.11
+  resolution: "chromium-bidi@npm:0.4.11"
   dependencies:
     mitt: 3.0.0
   peerDependencies:
     devtools-protocol: "*"
-  checksum: ea592ac80cdbd9196696232dadaf276740f183c463537a09ebf4f727aa6bb6687d9635be9c878aa37643284b69b8aaa01e80f2767e4f8ad29338ef5104d52331
+  checksum: 6511aa8ea80be273e822de589bd40fabdfc156efd497177447c257ca87a0ade97d551153bb12e8063268feff114333b77d19fad120e2df0ee0e6c873cd14bcb3
   languageName: node
   linkType: hard
 
@@ -2331,16 +2331,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-proxy-agent@npm:^6.0.1":
-  version: 6.1.1
-  resolution: "http-proxy-agent@npm:6.1.1"
-  dependencies:
-    agent-base: ^7.1.0
-    debug: ^4.3.4
-  checksum: 020e6600cb782cbf288eae978486301c90b92f8e350f06eda76ac2494ff4b0091dcf19fd1094f7a0f3d97da3c249528d8042aca4557362f7707333e7f18defda
-  languageName: node
-  linkType: hard
-
 "http-proxy-agent@npm:^7.0.0":
   version: 7.0.0
   resolution: "http-proxy-agent@npm:7.0.0"
@@ -2368,16 +2358,6 @@ __metadata:
     agent-base: 6
     debug: 4
   checksum: 571fccdf38184f05943e12d37d6ce38197becdd69e58d03f43637f7fa1269cf303a7d228aa27e5b27bbd3af8f09fd938e1c91dcfefff2df7ba77c20ed8dfc765
-  languageName: node
-  linkType: hard
-
-"https-proxy-agent@npm:^6.1.0":
-  version: 6.2.1
-  resolution: "https-proxy-agent@npm:6.2.1"
-  dependencies:
-    agent-base: ^7.0.2
-    debug: 4
-  checksum: d0615fb6ae69241d6faaeb9fe51e071d093fba504e5111cb64ede40e8d701b3ddc762525c96f594e7df266b00dfeb3822bd8abbda33ab6f050a3f679062d74c4
   languageName: node
   linkType: hard
 
@@ -3350,7 +3330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pac-proxy-agent@npm:^6.0.2":
+"pac-proxy-agent@npm:^6.0.3":
   version: 6.0.3
   resolution: "pac-proxy-agent@npm:6.0.3"
   dependencies:
@@ -3485,7 +3465,7 @@ __metadata:
   resolution: "payload-neo@workspace:."
   dependencies:
     "@node-steam/id": ^1.2.0
-    "@prisma/client": ^4.14.1
+    "@prisma/client": ^4.15.0
     "@sapphire/decorators": ^6.0.1
     "@sapphire/discord.js-utilities": ^7.0.0
     "@sapphire/fetch": ^2.4.1
@@ -3515,8 +3495,8 @@ __metadata:
     ioredis: ^5.3.2
     npm-run-all: ^4.1.5
     prettier: ^2.8.8
-    prisma: ^4.14.1
-    puppeteer: ^20.4.0
+    prisma: ^4.15.0
+    puppeteer: ^20.5.0
     reflect-metadata: ^0.1.13
     tslib: ^2.5.2
     tsup: ^6.7.0
@@ -3609,15 +3589,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^4.14.1":
-  version: 4.14.1
-  resolution: "prisma@npm:4.14.1"
+"prisma@npm:^4.15.0":
+  version: 4.15.0
+  resolution: "prisma@npm:4.15.0"
   dependencies:
-    "@prisma/engines": 4.14.1
+    "@prisma/engines": 4.15.0
   bin:
     prisma: build/index.js
     prisma2: build/index.js
-  checksum: 2cb0085652b541aa4c855f1434083b6fc0f3df5be28a0558fe2e1b120546b95d114177f86641fa9e21e13fb3a27a48e8cfd240d683a9e8e872b72e2c8c61a7e2
+  checksum: a42b940396f5f101d44effad9bfccca4b062ae80a369dc44961cbc074326239340f05c5af49981b1cddb08d9155c4bcc93c4d69ed2ae4a634e1742159204cb89
   languageName: node
   linkType: hard
 
@@ -3652,19 +3632,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proxy-agent@npm:6.2.0":
-  version: 6.2.0
-  resolution: "proxy-agent@npm:6.2.0"
+"proxy-agent@npm:6.2.1":
+  version: 6.2.1
+  resolution: "proxy-agent@npm:6.2.1"
   dependencies:
-    agent-base: ^7.0.1
+    agent-base: ^7.0.2
     debug: ^4.3.4
-    http-proxy-agent: ^6.0.1
-    https-proxy-agent: ^6.1.0
+    http-proxy-agent: ^7.0.0
+    https-proxy-agent: ^7.0.0
     lru-cache: ^7.14.1
-    pac-proxy-agent: ^6.0.2
+    pac-proxy-agent: ^6.0.3
     proxy-from-env: ^1.1.0
     socks-proxy-agent: ^8.0.1
-  checksum: 969577d6df9ff09448a7c736a4927d9f1ebdf5fcbcec6a15b6b109823c73f0d799dedbd0c541921a3b8b95fd54d8f2ae112853bf699d4b2c0b0e06eb66b1d045
+  checksum: f1ef5a4089318e926d4ec741dd11d42c9e271c2ad28cc969c22ec99f62e178c483cb4cefb0c8b361f4a348ea5d471fd7916eb2e9e78e90b4451288a811694f6b
   languageName: node
   linkType: hard
 
@@ -3692,12 +3672,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:20.4.0":
-  version: 20.4.0
-  resolution: "puppeteer-core@npm:20.4.0"
+"puppeteer-core@npm:20.5.0":
+  version: 20.5.0
+  resolution: "puppeteer-core@npm:20.5.0"
   dependencies:
-    "@puppeteer/browsers": 1.4.0
-    chromium-bidi: 0.4.10
+    "@puppeteer/browsers": 1.4.1
+    chromium-bidi: 0.4.11
     cross-fetch: 3.1.6
     debug: 4.3.4
     devtools-protocol: 0.0.1120988
@@ -3707,18 +3687,18 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: a5a6e2765306d64906264ed71dbdb8e34fc4b4db410c37dd9ef95936fcc0edf8bde1808f47db3d27f6dadfdd0a877d3f08e2018a8ca5287824aaa6876427a6d9
+  checksum: 4b93587588294b33ff41f39cabc4fe431b75dd7488013288a7f91c46d8a55c535230eb568543e476d4b070ce1f7316b7edefb7a965cc0b8e3629b6dab6776f62
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^20.4.0":
-  version: 20.4.0
-  resolution: "puppeteer@npm:20.4.0"
+"puppeteer@npm:^20.5.0":
+  version: 20.5.0
+  resolution: "puppeteer@npm:20.5.0"
   dependencies:
-    "@puppeteer/browsers": 1.4.0
+    "@puppeteer/browsers": 1.4.1
     cosmiconfig: 8.1.3
-    puppeteer-core: 20.4.0
-  checksum: a848098eaf504659d362f74da504f86e6c3d8ef57e6fef6212ecf7d547f2972f39dcfc0b0c218584729ab0525fdf4cbc37f27e5dbd2e45824abbb6594e14dcb0
+    puppeteer-core: 20.5.0
+  checksum: 11a907a8b69df893ff8433cb0a2af731fcf732cac53f8f02e3067a7fdb14013fa223456451c1a1a690bc19e0381016de38213a49fcbcd1f9634b76f8d42ffab8
   languageName: node
   linkType: hard
 

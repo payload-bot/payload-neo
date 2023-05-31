@@ -1,7 +1,9 @@
 import config from "#root/config";
 import { container, LogLevel } from "@sapphire/framework";
+import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter } from "@sapphire/time-utilities";
+import { envParseInteger } from "@skyra/env-utilities";
 import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData } from "discord.js";
 
 function makeLogger() {
@@ -67,6 +69,15 @@ function parseI18N(): InternationalizationOptions {
   };
 }
 
+function parseAPI(): ServerOptions {
+  return {
+    prefix: "/api/",
+    listenOptions: {
+      port: envParseInteger("PORT", 8080),
+    },
+  };
+}
+
 export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
   caseInsensitiveCommands: false,
@@ -93,6 +104,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   logger: makeLogger(),
   presence: getPresence(),
   i18n: parseI18N(),
+  api: parseAPI(),
   hmr: {
     enabled: process.env.NODE_ENV === "development",
   },

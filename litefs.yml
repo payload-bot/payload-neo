@@ -1,0 +1,26 @@
+fuse:
+  dir: '${LITEFS_DIR}'
+
+data:
+  dir: '/data/litefs'
+
+proxy:
+  addr: ':${INTERNAL_PORT}'
+  target: 'localhost:${PORT}'
+  db: '${DATABASE_FILENAME}'
+
+lease:
+  type: 'consul'
+  candidate: ${FLY_REGION == PRIMARY_REGION}
+  promote: true
+  advertise-url: 'http://${HOSTNAME}.vm.${FLY_APP_NAME}.internal:20202'
+
+  consul:
+    url: '${FLY_CONSUL_URL}'
+    key: 'litefs/${FLY_APP_NAME}'
+
+exec:
+  - cmd: npx prisma migrate deploy
+    if-candidate: true
+
+  - cmd: yarn start

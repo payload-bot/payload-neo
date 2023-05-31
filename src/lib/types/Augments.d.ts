@@ -75,28 +75,8 @@ declare module "@skyra/env-utilities" {
     PORT: IntegerString;
 
     /**
-     * The header value for metrics
+     * Flag to override the chrome ws
      */
-    METRICS_HEADER_KEY: string;
-
-    /**
-     * @deprecated
-     */
-    COOKIE_DOMAIN: string;
-
-    /**
-     * @deprecated
-     */
-    CLIENT_ID: string;
-
-    /**
-     * @deprecated
-     */
-    CLIENT_SECRET: string;
-
-    /**
-     * @deprecated
-     */
-    REDIRECT_URL: string;
+    CHROME_WS_ENABLE: BooleanString;
   }
 }

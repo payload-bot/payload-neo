@@ -1,11 +1,16 @@
-# Dependencies
-FROM node:18.12.1-alpine3.17 AS deps
+FROM node:18-bullseye-slim as base
 WORKDIR /app
 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
-ENV VERSION=${VERSION}
-ENV BUILT_AT=${BUILT_AT}
-ENV CI=true
+ENV NODE_ENV=production
+
+RUN apt-get update && apt-get install gnupg wget fuse3 openssl sqlite3 ca-certificates -y && \
+  wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
+  apt-get update && \
+  apt-get install google-chrome-stable -y --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/*
+
+FROM base as deps
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn/releases .yarn/releases
@@ -13,31 +18,59 @@ COPY .yarn/plugins .yarn/plugins
 
 RUN yarn install --immutable
 
-# Build Source
-FROM node:18.12.1-alpine3.17 AS build
+# production deps
+FROM base as production-deps
+
 WORKDIR /app
-ENV CI=true
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 
-COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-
-RUN yarn build
-RUN npx prisma generate
+COPY . .
 
 RUN yarn workspaces focus --all --production
 
-# Runner
-FROM node:18.12.1-alpine3.17
+# build src
+FROM base as build
+
 WORKDIR /app
-USER node
-EXPOSE 3000
 
-ENV NODE_ENV=production
+COPY --from=deps /app/node_modules /app/node_modules
 
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/assets ./assets
-COPY --from=build /app/dist ./dist
+COPY . .
 
-CMD ["node", "--enable-source-maps", "."]
+RUN npx prisma generate
+
+RUN yarn build
+
+# runner
+FROM base
+
+ENV FLY="true"
+ENV LITEFS_DIR="/litefs/data"
+ENV DATABASE_FILENAME="sqlite.db"
+ENV DATABASE_PATH="$LITEFS_DIR/$DATABASE_FILENAME"
+ENV DATABASE_URL="file:$DATABASE_PATH"
+ENV INTERNAL_PORT="8080"
+ENV PORT="8081"
+ENV NODE_ENV="production"
+
+# add shortcut for connecting to database CLI
+RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
+
+WORKDIR /app
+
+COPY --from=build /app/assets /app/assets
+COPY --from=production-deps /app/node_modules /app/node_modules
+COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/prisma /app/prisma
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/src/languages /app/dist/languages
+
+# prepare for litefs
+COPY --from=flyio/litefs:0.4.0 /usr/local/bin/litefs /usr/local/bin/litefs
+ADD litefs.yml /etc/litefs.yml
+RUN mkdir -p /data ${LITEFS_DIR}
+
+RUN node node_modules/puppeteer/install.js
+
+CMD ["litefs", "mount"]

@@ -47,7 +47,7 @@
     "@sapphire/plugin-logger": "^3.0.4",
     "@sapphire/plugin-subcommands": "^4.0.1",
     "@sapphire/ratelimits": "^2.4.6",
-    "@sapphire/shapeshift": "^3.9.0",
+    "@sapphire/shapeshift": "^3.9.2",
     "@sapphire/time-utilities": "^1.7.9",
     "@sapphire/utilities": "^3.11.2",
     "@skyra/env-utilities": "^1.2.0",
@@ -61,7 +61,7 @@
     "ioredis": "^5.3.2",
     "puppeteer": "^20.5.0",
     "reflect-metadata": "^0.1.13",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^4.0.0",

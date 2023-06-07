@@ -3,6 +3,7 @@ export * as Pushcart from "./pushcart.js";
 export * as Commands from "./commands.js";
 export * as Info from "./info.js";
 export * as Log from "./log.js";
+export * as Language from "./language.js";
 export * as Link from "./link.js";
 export * as Profile from "./profile.js";
 export * as Settings from "./settings.js";

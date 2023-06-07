@@ -1,0 +1,20 @@
+{
+  "description": "Manages your language for this server",
+  "detailedDescription": {
+    "usages": [
+      "",
+      "set <new language>",
+      "update <new language>",
+      "delete",
+      "reset",
+      "view"
+    ],
+    "details": "Manage your server's language. You may reset it at anytime using the `delete` or `reset` arguments."
+  },
+  "currentLanguage": "The current language is: {{ language }}",
+  "setNeedsArgs": "Please specify a new language!",
+  "setSameLanguage": "Your new language is the same as the old language!",
+  "setLanguageEmbedTitle": "Language updated by {{ user }}",
+  "setLanguageEmbedDesc": "Language updated from {{ old }} to {{ new }}",
+  "deleteAlreadyDefault": "Your language is already the default!"
+}

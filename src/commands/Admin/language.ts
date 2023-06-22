@@ -7,7 +7,7 @@ import { LanguageKeys } from "#lib/i18n/all";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { PermissionFlagsBits } from "discord-api-types/v9";
+import { PermissionFlagsBits } from "discord-api-types/v10";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,

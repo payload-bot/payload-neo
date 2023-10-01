@@ -1,7 +1,7 @@
 import type { Message } from "discord.js";
 import type { TFunction } from "i18next";
 import type { ArgumentStream } from "@sapphire/lexure";
-import { Args, MessageCommand } from "@sapphire/framework";
+import { Args, type MessageCommand } from "@sapphire/framework";
 
 export class PayloadArgs extends Args {
   public t: TFunction;

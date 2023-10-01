@@ -3,18 +3,12 @@ import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
-import type { SnipeCache } from "./interfaces/cache.js";
 import connectDatabase from "#utils/connectDatabase";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export class PayloadClient extends SapphireClient {
   public dev = process.env.NODE_ENV !== "production";
-
-  public cache: SnipeCache = {
-    snipe: {},
-    pings: {},
-  };
 
   constructor() {
     super(CLIENT_OPTIONS);

@@ -25,7 +25,7 @@ export class WebhookTestRoute extends ServiceController {
       return response.notFound();
     }
 
-    await sendTest(this.client, webhook.type, webhook.id);
+    await sendTest(this.client, webhook.type as any, webhook.id);
 
     return response.noContent();
   }
@@ -54,7 +54,7 @@ export class WebhookTestv1Route extends ServiceController {
 
     this.container.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
 
-    await sendTest(this.client, webhook.type, webhook.id);
+    await sendTest(this.client, webhook.type as any, webhook.id);
 
     return response.noContent();
   }

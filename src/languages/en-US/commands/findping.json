@@ -1,8 +1,0 @@
-{
-  "description": "Finds if you've been ghost pinged",
-  "detailedDescription": {
-    "usages": [],
-    "details": "Goes through and finds if you've been ghost pinged in the last **15** minutes."
-  },
-  "noPings": "You have not been mentioned yet"
-}

@@ -9,10 +9,12 @@ import {
 } from "puppeteer";
 
 import puppeteer from "puppeteer";
-import { envParseString } from "@skyra/env-utilities";
+import { envParseBoolean, envParseString } from "@skyra/env-utilities";
+import { container } from "@sapphire/framework";
 
 const ENVIRONMENT = process.env.NODE_ENV;
 const WS_URL = envParseString("CHROME_WS_URL", "");
+const ENABLE_WS = envParseBoolean("CHROME_WS_ENABLE", false);
 
 if (typeof ENVIRONMENT !== "string") {
   throw new Error("NODE_ENV variable is not set");
@@ -72,16 +74,20 @@ export async function generateClipBounds(options: ElementHandle, page: Page) {
 }
 
 export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
-  // Use WS in Production - Defer to a docker container
-  // This reduces production bundle size, and should be faster
-  if (ENVIRONMENT === "production") {
+  if (ENABLE_WS && ENVIRONMENT === "production" && WS_URL.length > 0) {
     return await connect({ browserWSEndpoint: WS_URL });
   }
 
-  return await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    ...options,
-  });
+  try {
+    return await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      ...options,
+    });
+  } catch (e) {
+    container.logger.error(`Failed to launch puppeteer:\n${e}`);
+    throw e;
+  }
 }
 
 async function createPage(url: string, options?: PuppeteerLaunchOptions) {

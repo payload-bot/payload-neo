@@ -1,5 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
-import { MessageCommand, PieceContext, UserError } from "@sapphire/framework";
+import { type MessageCommand, type PieceContext, UserError } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";

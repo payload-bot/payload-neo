@@ -1,13 +1,21 @@
-node_modules/
-dist/
-.github
-crowdin.yml
-.editorconfig
-changelog.md
-.prettierignore
-.prettierrc
-LICENSE
-README.md
-THIRD-PARTY-LICENSE
-.gitignore
-.gitattributes
+**
+*.db
+*.db-*
+
+# Folders
+!assets/**
+!scripts/**
+!src/**
+!prisma/migrations/*
+
+# Files
+!package.json
+!.yarn/**
+!.yarnrc.yml
+!yarn.lock
+!tsup.config.ts
+!tsconfig.json
+!litefs.yml
+!prisma/schema.prisma
+!prisma/seed.ts
+!fly.toml

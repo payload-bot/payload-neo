@@ -1,7 +1,7 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import type { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.js";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import { Argument, Command, ArgumentContext } from "@sapphire/framework";
+import { Argument, Command, type ArgumentContext } from "@sapphire/framework";
 
 type CommandReturn = PayloadCommand | AutoCommand | undefined;
 

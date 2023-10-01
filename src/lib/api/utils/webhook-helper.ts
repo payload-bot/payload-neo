@@ -5,7 +5,7 @@ import {
   type Client,
   type TextChannel,
   type User,
-  MessageComponent,
+  type MessageComponent,
   ChannelType,
   PermissionFlagsBits,
   AttachmentBuilder,

@@ -70,44 +70,13 @@ declare module "@skyra/env-utilities" {
     CHROME_WS_URL: string;
 
     /**
-     * The URL to a Redis connection
-     * @remarks This is only used in PRODUCTION
-     */
-    REDIS_URL: string;
-
-    /**
-     * A boolean indicating if Redis should be used
-     */
-    REDIS_ENABLED: BooleanString;
-
-    /**
      * The port to run the HTTP server
      */
     PORT: IntegerString;
 
     /**
-     * The header value for metrics
+     * Flag to override the chrome ws
      */
-    METRICS_HEADER_KEY: string;
-
-    /**
-     * @deprecated
-     */
-    COOKIE_DOMAIN: string;
-
-    /**
-     * @deprecated
-     */
-    CLIENT_ID: string;
-
-    /**
-     * @deprecated
-     */
-    CLIENT_SECRET: string;
-
-    /**
-     * @deprecated
-     */
-    REDIRECT_URL: string;
+    CHROME_WS_ENABLE: BooleanString;
   }
 }

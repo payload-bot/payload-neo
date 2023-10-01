@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
+import { type ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
 import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
 import type { TFunction } from "@sapphire/plugin-i18next";
 

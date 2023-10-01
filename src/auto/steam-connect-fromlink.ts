@@ -20,10 +20,11 @@ export default class UserAutoCommand extends AutoCommand {
     const port = ip.split(":")[1] || "27015";
     const password = decodeURIComponent(parts[1]);
 
-    const title = `connect ${ip}; password "${password}"`;
+    const title = `${ip}/${encodeURIComponent(password)}`;
 
     const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
+      url: `https://api.payload.tf/api/steam?ip=${ip}&pw=${encodeURIComponent(password)}`
     });
 
     const connectInfoEmbed = await send(msg, { embeds: [embed] });

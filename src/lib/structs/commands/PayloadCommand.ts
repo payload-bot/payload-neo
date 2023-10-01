@@ -20,7 +20,7 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
   public override async messagePreParse(
     message: Message,
     parameters: string,
-    context: MessageCommand.RunContext
+    context: MessageCommand.RunContext,
   ): Promise<PayloadCommand.Args> {
     const parser = new Parser(this.strategy);
     const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));

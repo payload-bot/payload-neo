@@ -108,7 +108,7 @@ export async function closeBrowser(browser: Browser) {
 export async function capturePage(
   url: string,
   options: CaptureOptions = { left: 0, top: 0 },
-  puppeteerOptions?: PuppeteerLaunchOptions
+  puppeteerOptions?: PuppeteerLaunchOptions,
 ): Promise<Buffer> {
   const { page, browser } = await createPage(url, puppeteerOptions);
 

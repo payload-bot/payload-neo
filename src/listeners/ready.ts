@@ -35,7 +35,7 @@ ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API
 ${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(this.DEV ? "DEVELOPMENT" : "PRODUCTION")}`}
-		`.trim()
+		`.trim(),
     );
   }
 

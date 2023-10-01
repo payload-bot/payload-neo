@@ -11,7 +11,7 @@ export class PayloadArgs extends Args {
     command: MessageCommand,
     parser: ArgumentStream,
     context: MessageCommand.RunContext,
-    t: TFunction
+    t: TFunction,
   ) {
     super(message, command, parser, context);
     this.t = t;

@@ -45,7 +45,7 @@ export default class UserAutoCommand extends AutoCommand {
           height: 740,
           width: 1040,
         },
-      }
+      },
     );
 
     const att = new AttachmentBuilder(screenshotBuffer, { name: "team.png" });

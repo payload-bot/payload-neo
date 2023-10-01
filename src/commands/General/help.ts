@@ -40,7 +40,7 @@ export class UserCommand extends PayloadCommand {
       this.getAliases(command),
       detailedDescription,
       context.commandPrefix,
-      args.t(command.description)
+      args.t(command.description),
     );
 
     const embed = new EmbedBuilder({

@@ -12,7 +12,7 @@ export class UserListener extends Listener {
     logger.warn(
       `[RATE LIMIT ${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.url} LIMIT: ${
         rateLimitData.limit
-      }] RESET: ${rateLimitData.timeToReset}`
+      }] RESET: ${rateLimitData.timeToReset}`,
     );
   }
 }

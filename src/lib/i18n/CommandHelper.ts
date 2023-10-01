@@ -29,7 +29,7 @@ export class BuildCommandHelp {
     aliases: string | null,
     options: LanguageHelpDisplayOptions,
     prefixUsed: string,
-    description: string
+    description: string,
   ) {
     const { usages = [], details } = options;
     const output: string[] = [];
@@ -44,7 +44,7 @@ export class BuildCommandHelp {
       output.push(
         this.usages,
         ...usages.map(usage => `→ ${prefixUsed}${name}${usage.length === 0 ? "" : ` *${usage}*`}`),
-        ""
+        "",
       );
     }
 

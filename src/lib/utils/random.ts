@@ -11,7 +11,7 @@ export function weightedRandom(numberSpeadBlueprints: NumberSpeadBlueprints): nu
 export function weightedRandom(
   minOrNumberSpreadOrNumberSpeadBlueprints: number | Array<number> | NumberSpeadBlueprints,
   max?: number,
-  distributionCalculator?: (num: number) => number
+  distributionCalculator?: (num: number) => number,
 ) {
   if (typeof minOrNumberSpreadOrNumberSpeadBlueprints == "number") {
     let min = minOrNumberSpreadOrNumberSpeadBlueprints;

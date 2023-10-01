@@ -30,7 +30,7 @@ export class UserCommand extends PayloadCommand {
 
     const { logs } = await fetch<any>(
       `http://logs.tf/api/v1/log?limit=1&player=${user.steamId}`,
-      FetchResultTypes.JSON
+      FetchResultTypes.JSON,
     );
 
     if (!logs.length) {
@@ -66,7 +66,7 @@ export class UserCommand extends PayloadCommand {
         label: args.t(LanguageKeys.Commands.Log.Button),
         url: `http://logs.tf/${logID}#${user.steamId}`,
         style: ButtonStyle.Link,
-      })
+      }),
     );
 
     await send(msg, {

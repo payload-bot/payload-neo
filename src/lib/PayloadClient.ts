@@ -13,7 +13,7 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto")))
+      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
     );
   }
 

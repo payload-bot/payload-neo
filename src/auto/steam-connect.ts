@@ -29,7 +29,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
-      url: `https://api.payload.tf/api/steam?ip=${ip}&pw=${encodeURIComponent(password)}`
+      url: `https://api.payload.tf/api/steam?ip=${ip}&pw=${encodeURIComponent(password)}`,
     });
 
     const connectInfoEmbed = await send(msg, { embeds: [embed] });

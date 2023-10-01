@@ -113,7 +113,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
     components.push(
       new ActionRowBuilder<ButtonBuilder>().addComponents([
         new ButtonBuilder().setURL(demosTfUrl).setLabel("Link to Demo").setStyle(ButtonStyle.Link),
-      ])
+      ]),
     );
   }
 
@@ -152,7 +152,7 @@ async function sendWebhook(
   target: TextChannel | User,
   embed: EmbedBuilder,
   attachment: AttachmentBuilder | null,
-  components: MessageComponent[] | null
+  components: MessageComponent[] | null,
 ) {
   return await target.send({
     embeds: [embed],

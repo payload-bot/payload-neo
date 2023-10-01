@@ -114,7 +114,7 @@ export class UserCommand extends Subcommand {
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
         total: totalUnitsPushed,
-      })!
+      })!,
     );
   }
 
@@ -197,7 +197,7 @@ export class UserCommand extends Subcommand {
         t(LanguageKeys.Commands.Pushcart.RankString, {
           name: memberNameToDisplay,
           count: Number(userRank?.pushed ?? 0),
-        })
+        }),
       );
     }
 
@@ -209,8 +209,8 @@ export class UserCommand extends Subcommand {
           name: memberNameToDisplay,
           rank: userRank.rank ?? "-",
           count: Number(userRank?.pushed ?? 0),
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -326,7 +326,7 @@ export class UserCommand extends Subcommand {
           name: t(LanguageKeys.Commands.Pushcart.DistinctPushersTitle),
           value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { count: Number(distinctPushers) }),
           inline: true,
-        }
+        },
       )
       .addFields(
         { name: t(LanguageKeys.Commands.Pushcart.TopPushers), value: topPushersLeaderboard.join("\n"), inline: true },
@@ -334,7 +334,7 @@ export class UserCommand extends Subcommand {
           name: t(LanguageKeys.Commands.Pushcart.ActivePushers),
           value: activePushersLeaderboard.join("\n"),
           inline: true,
-        }
+        },
       );
 
     return await send(msg, { embeds: [embed] });

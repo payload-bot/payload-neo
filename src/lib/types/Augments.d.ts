@@ -39,18 +39,18 @@ declare module "i18next" {
     <K extends string, TReturn>(
       key: CustomGet<K, TReturn>,
       defaultValue: TReturn,
-      options?: TOptionsBase | string
+      options?: TOptionsBase | string,
     ): TReturn;
 
     <K extends string, TArgs extends O, TReturn>(
       key: CustomFunctionGet<K, TArgs, TReturn>,
-      options?: TOptions<TArgs>
+      options?: TOptions<TArgs>,
     ): TReturn;
 
     <K extends string, TArgs extends O, TReturn>(
       key: CustomFunctionGet<K, TArgs, TReturn>,
       defaultValue: TReturn,
-      options?: TOptions<TArgs>
+      options?: TOptions<TArgs>,
     ): TReturn;
   }
 }

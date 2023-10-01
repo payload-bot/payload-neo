@@ -11,7 +11,7 @@ export class SteamRedirectController extends ServiceController {
     const serverPassword = request.query.pw;
 
     response.statusCode = 302;
-    response.setHeader('Location', `steam://connect/${serverIp}${serverPassword != null ? `/${serverPassword}` : ''}`);
+    response.setHeader("Location", `steam://connect/${serverIp}${serverPassword != null ? `/${serverPassword}` : ""}`);
     response.end();
   }
 }

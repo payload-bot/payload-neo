@@ -78,7 +78,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
       message,
       t(identifier, {
         ...(error.context as any),
-      }) as unknown as string
+      }) as unknown as string,
     );
   }
 }

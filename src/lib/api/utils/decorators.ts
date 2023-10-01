@@ -6,7 +6,7 @@ import { canManage } from "./helpers.js";
 export const Authenticated = () =>
   createFunctionPrecondition(
     (request: ApiRequest) => Boolean(request.auth?.token),
-    (_request: ApiRequest, response: ApiResponse) => response.error(HttpCodes.Unauthorized)
+    (_request: ApiRequest, response: ApiResponse) => response.error(HttpCodes.Unauthorized),
   );
 
 export const GuildAuth = () =>
@@ -21,7 +21,7 @@ export const GuildAuth = () =>
 
       return await canManage(request.auth?.id, guildId);
     },
-    (_request: ApiRequest, response: ApiResponse) => response.error(HttpCodes.NotFound)
+    (_request: ApiRequest, response: ApiResponse) => response.error(HttpCodes.NotFound),
   );
 
 export const FixKnownErrors = (_target: object, _propertyKey: string | symbol, descriptor: PropertyDescriptor) => {

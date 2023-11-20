@@ -38,7 +38,7 @@ export class PayloadClient extends SapphireClient {
     return response;
   }
 
-  public destroy() {
+  public async destroy() {
     super.destroy();
   }
 }

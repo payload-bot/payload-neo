@@ -195,7 +195,7 @@ export class UserCommand extends Subcommand {
       return await send(
         msg,
         t(LanguageKeys.Commands.Pushcart.RankString, {
-          name: memberNameToDisplay,
+          name: escapeMarkdown(memberNameToDisplay),
           count: Number(userRank?.pushed ?? 0),
         }),
       );
@@ -285,7 +285,7 @@ export class UserCommand extends Subcommand {
 
       const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
 
-      const nameToDisplay = msg.author.id === userId ? bold(name) : name;
+      const nameToDisplay = msg.author.id === userId ? bold(escapeMarkdown(name)) : escapeMarkdown(name);
 
       return t(LanguageKeys.Commands.Pushcart.RankString, {
         name: nameToDisplay,

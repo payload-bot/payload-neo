@@ -3,17 +3,16 @@ primary_region = "ord"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
-[experimental]
-  auto_rollback = true
-
 [metrics]
-  port = 8080
-  path = "/metrics"
+  port = 3000
+  path = "/api/metrics"
 
 [env]
   CHROME_WS_ENABLE = "false"
   CHROME_WS_URL = ""
   OWNERS = "176457969465163776"
+  PORT = "3000"
+  ENVIRONMENT = "production"
 
 [[mounts]]
   source = "data"
@@ -32,10 +31,6 @@ kill_timeout = "5s"
   [[services.ports]]
     port = 443
     handlers = ["tls", "http"]
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
 
   [[services.tcp_checks]]
     interval = "15s"

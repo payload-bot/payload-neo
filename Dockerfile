@@ -71,6 +71,6 @@ COPY --from=flyio/litefs:0.4.0 /usr/local/bin/litefs /usr/local/bin/litefs
 ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
 
-RUN node node_modules/puppeteer/install.js
+RUN npx puppeteer browsers install chrome
 
 CMD ["litefs", "mount"]

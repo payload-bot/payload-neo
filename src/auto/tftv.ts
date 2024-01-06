@@ -19,7 +19,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const baseUrl = allMatches.groups!.base;
 
-    let page = parseInt(allMatches.groups!.page?.replace("/?page=", "") ?? 0, 10);
+    let page = parseInt(allMatches.groups!.page?.replace("/?page=", "") ?? "0", 10);
 
     let post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
 
@@ -35,7 +35,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const title = $(".thread-header-title").text().trim();
 
-    const needFindChild = !!match.split("#")?.[1] ?? false;
+    const needFindChild = !!match.split("#")?.[1];
 
     let $post = $(`#thread-container > .post:nth-child(1)`);
 

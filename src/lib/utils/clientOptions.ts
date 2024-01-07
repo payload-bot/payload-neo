@@ -2,9 +2,9 @@ import config from "#root/config";
 import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
-import { DurationFormatter } from "@sapphire/time-utilities";
+import { DurationFormatter, Time } from "@sapphire/time-utilities";
 import { envParseInteger } from "@skyra/env-utilities";
-import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData } from "discord.js";
+import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData, Options } from "discord.js";
 
 function makeLogger() {
   return {
@@ -105,6 +105,30 @@ export const CLIENT_OPTIONS: ClientOptions = {
   presence: getPresence(),
   i18n: parseI18N(),
   api: parseAPI(),
+  makeCache: Options.cacheWithLimits({
+    ...Options.DefaultMakeCacheSettings,
+    ReactionManager: {
+      maxSize: 10,
+    },
+    GuildMemberManager: {
+      maxSize: 25,
+      keepOverLimit: member => member.id === member.client.user.id,
+    },
+    GuildMessageManager: {
+      maxSize: 150,
+    },
+  }),
+  sweepers: {
+    ...Options.DefaultSweeperSettings,
+    messages: {
+      interval: Time.Hour,
+      lifetime: Time.Minute * 30,
+    },
+    users: {
+      interval: Time.Hour,
+      filter: () => user => user.bot && user.id !== user.client.user.id,
+    },
+  },
   hmr: {
     enabled: process.env.NODE_ENV === "development",
   },

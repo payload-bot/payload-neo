@@ -103,6 +103,7 @@ export async function closeBrowser(browser: Browser) {
   await Promise.all((await browser.pages()).map(async page => await page.close()));
 
   await browser.close();
+  browser.process().kill();
 }
 
 export async function capturePage(

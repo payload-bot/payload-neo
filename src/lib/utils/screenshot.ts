@@ -103,7 +103,7 @@ export async function closeBrowser(browser: Browser) {
   await Promise.all((await browser.pages()).map(async page => await page.close()));
 
   await browser.close();
-  browser.process().kill();
+  browser.process().disconnect();
 }
 
 export async function capturePage(
@@ -113,39 +113,43 @@ export async function capturePage(
 ): Promise<Buffer> {
   const { page, browser } = await createPage(url, puppeteerOptions);
 
-  if (options.cssPath) await page.addStyleTag({ path: options.cssPath });
+  try {
+    if (options.cssPath) await page.addStyleTag({ path: options.cssPath });
 
-  if (options.waitFor) {
-    if (Array.isArray(options.waitFor)) {
-      await Promise.all(options.waitFor.map(selector => page.waitForSelector(selector)));
-    } else {
-      await page.waitForSelector(options.waitFor);
+    if (options.waitFor) {
+      if (Array.isArray(options.waitFor)) {
+        await Promise.all(options.waitFor.map(selector => page.waitForSelector(selector)));
+      } else {
+        await page.waitForSelector(options.waitFor);
+      }
     }
+
+    const clip = await generateClipBounds(options as any, page);
+
+    const screenshotBuffer = await page.screenshot({
+      clip,
+      type: "webp",
+      encoding: "binary",
+    });
+
+    return screenshotBuffer as Buffer;
+  } finally {
+    await closeBrowser(browser);
   }
-
-  const clip = await generateClipBounds(options as any, page);
-
-  const screenshotBuffer = await page.screenshot({
-    clip,
-    type: "webp",
-    encoding: "binary",
-  });
-
-  await closeBrowser(browser);
-
-  return screenshotBuffer as Buffer;
 }
 
 export async function captureSelector(url: string, selector: string, options?: PuppeteerLaunchOptions) {
   const { page, browser } = await createPage(url, options);
 
-  await page.goto(url);
+  try {
+    await page.goto(url);
 
-  const element = await page.waitForSelector(selector);
+    const element = await page.waitForSelector(selector);
 
-  const screenshot = await element!.screenshot();
+    const screenshot = await element.screenshot();
 
-  await closeBrowser(browser);
-
-  return screenshot;
+    return screenshot;
+  } finally {
+    await closeBrowser(browser);
+  }
 }

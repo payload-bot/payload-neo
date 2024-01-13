@@ -10,7 +10,6 @@ import {
 
 import puppeteer from "puppeteer";
 import { envParseBoolean, envParseString } from "@skyra/env-utilities";
-import { container } from "@sapphire/framework";
 
 const ENVIRONMENT = process.env.NODE_ENV;
 const WS_URL = envParseString("CHROME_WS_URL", "");
@@ -36,6 +35,17 @@ interface CaptureOptions {
   left: number | ElementBasedBound;
   right?: number | ElementBasedBound;
   cssPath?: string;
+}
+
+let browser: Browser = null;
+
+async function createBrowser() {
+  browser ??= await puppeteer.launch({
+    headless: 'new',
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  return browser;
 }
 
 export async function generateClipBounds(options: ElementHandle, page: Page) {
@@ -78,16 +88,7 @@ export async function createOrConnectChrome(options?: PuppeteerLaunchOptions) {
     return await connect({ browserWSEndpoint: WS_URL });
   }
 
-  try {
-    return await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      ...options,
-    });
-  } catch (e) {
-    container.logger.error(`Failed to launch puppeteer:\n${e}`);
-    throw e;
-  }
+  return await createBrowser();
 }
 
 async function createPage(url: string, options?: PuppeteerLaunchOptions) {
@@ -96,14 +97,7 @@ async function createPage(url: string, options?: PuppeteerLaunchOptions) {
   const page = await browser.newPage();
   await page.goto(url);
 
-  return { page, browser };
-}
-
-export async function closeBrowser(browser: Browser) {
-  await Promise.all((await browser.pages()).map(async page => await page.close()));
-
-  await browser.close();
-  browser.process().disconnect();
+  return page;
 }
 
 export async function capturePage(
@@ -111,7 +105,7 @@ export async function capturePage(
   options: CaptureOptions = { left: 0, top: 0 },
   puppeteerOptions?: PuppeteerLaunchOptions,
 ): Promise<Buffer> {
-  const { page, browser } = await createPage(url, puppeteerOptions);
+  const page = await createPage(url, puppeteerOptions);
 
   try {
     if (options.cssPath) await page.addStyleTag({ path: options.cssPath });
@@ -134,12 +128,12 @@ export async function capturePage(
 
     return screenshotBuffer as Buffer;
   } finally {
-    await closeBrowser(browser);
+    page.close();
   }
 }
 
 export async function captureSelector(url: string, selector: string, options?: PuppeteerLaunchOptions) {
-  const { page, browser } = await createPage(url, options);
+  const page = await createPage(url, options);
 
   try {
     await page.goto(url);
@@ -150,6 +144,6 @@ export async function captureSelector(url: string, selector: string, options?: P
 
     return screenshot;
   } finally {
-    await closeBrowser(browser);
+    page.close();
   }
 }

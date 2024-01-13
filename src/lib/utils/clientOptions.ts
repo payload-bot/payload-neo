@@ -117,12 +117,15 @@ export const CLIENT_OPTIONS: ClientOptions = {
     GuildMessageManager: {
       maxSize: 150,
     },
+    MessageManager: {
+      maxSize: 250,
+    },
   }),
   sweepers: {
     ...Options.DefaultSweeperSettings,
     messages: {
       interval: Time.Hour,
-      lifetime: Time.Minute * 30,
+      lifetime: Time.Minute * 15,
     },
     users: {
       interval: Time.Hour,

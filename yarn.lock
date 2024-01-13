@@ -571,9 +571,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/framework@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "@sapphire/framework@npm:5.0.5"
+"@sapphire/framework@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "@sapphire/framework@npm:5.0.6"
   dependencies:
     "@discordjs/builders": ^1.7.0
     "@sapphire/discord-utilities": ^3.2.1
@@ -583,8 +583,8 @@ __metadata:
     "@sapphire/ratelimits": ^2.4.8
     "@sapphire/result": ^2.6.5
     "@sapphire/stopwatch": ^1.5.1
-    "@sapphire/utilities": ^3.14.0
-  checksum: 45e7138b65a7536ddcce309a804c27e9c5402b0fea352a6c8036c411750c2305931a2d8ac1d8e638953041052bff6260b55046c901362e100a50ac653b8fb1f1
+    "@sapphire/utilities": ^3.15.2
+  checksum: 03eda294637300a91362687106d0d87ecfb299e2bf0cc4d4d57553753b3ae87b3c3621f13f454082900b5afba4292596341c8d7b9ed14dd594de0ef188374ba7
   languageName: node
   linkType: hard
 
@@ -847,16 +847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 18.19.4
-  resolution: "@types/node@npm:18.19.4"
-  dependencies:
-    undici-types: ~5.26.4
-  checksum: 3a32a31b2df85d4bebb5e3c91ec1a0908d587a2a2fd31ab4eeebd609d1c04bbcc9ba97e290e3230f843c9f43f17efb9f5cde56412b4b0f5acbfe5577179b23c8
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^18.19.6":
+"@types/node@npm:*, @types/node@npm:^18.19.6":
   version: 18.19.6
   resolution: "@types/node@npm:18.19.6"
   dependencies:
@@ -3507,7 +3498,7 @@ __metadata:
     "@sapphire/decorators": ^6.0.3
     "@sapphire/discord.js-utilities": ^7.1.5
     "@sapphire/fetch": ^3.0.1
-    "@sapphire/framework": ^5.0.5
+    "@sapphire/framework": ^5.0.6
     "@sapphire/plugin-api": ^6.1.0
     "@sapphire/plugin-editable-commands": ^4.0.1
     "@sapphire/plugin-hmr": ^3.0.0
@@ -3532,7 +3523,7 @@ __metadata:
     html-to-text: ^9.0.5
     ioredis: ^5.3.2
     npm-run-all: ^4.1.5
-    prettier: ^3.1.1
+    prettier: ^3.2.1
     prisma: ^5.8.0
     puppeteer: ^21.7.0
     reflect-metadata: ^0.2.1
@@ -3604,12 +3595,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "prettier@npm:3.1.1"
+"prettier@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "prettier@npm:3.2.1"
   bin:
     prettier: bin/prettier.cjs
-  checksum: e386855e3a1af86a748e16953f168be555ce66d6233f4ba54eb6449b88eb0c6b2ca79441b11eae6d28a7f9a5c96440ce50864b9d5f6356d331d39d6bb66c648e
+  checksum: 01a5fcf1db4e8172365473e540a328304e501a20bf9b4577e359e431e480d602bcf082d51020aba24bd70ceda528632c6ff8039cedb2d430aeb4af2ca7652817
   languageName: node
   linkType: hard
 

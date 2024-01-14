@@ -16,7 +16,7 @@ function getPresence(): PresenceData {
   return {
     activities: [
       {
-        name: `payload.tf/invite`,
+        name: `payload.tf`,
         type: ActivityType.Playing,
       },
     ],

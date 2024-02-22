@@ -6,7 +6,6 @@
 !assets/**
 !scripts/**
 !src/**
-!prisma/migrations/*
 
 # Files
 !package.json
@@ -16,6 +15,4 @@
 !tsup.config.ts
 !tsconfig.json
 !litefs.yml
-!prisma/schema.prisma
-!prisma/seed.ts
 !fly.toml

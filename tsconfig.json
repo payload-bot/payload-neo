@@ -20,5 +20,5 @@
       "#root/*": ["*"]
     }
   },
-  "include": ["src", "src/languages/**/*.json"]
+  "include": ["src", "src/languages/**/*.json", "drizzle.config.ts"]
 }

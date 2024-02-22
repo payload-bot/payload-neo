@@ -8,6 +8,8 @@ import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcom
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v10";
+import { guild, user } from "#root/drizzle/schema.js";
+import { eq } from "drizzle-orm";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,
@@ -49,11 +51,15 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async view(msg: Message) {
-    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { language: true } });
+    const [{ language }] = await this.database
+      .select({ language: guild.language })
+      .from(guild)
+      .where(eq(guild.id, msg.guildId));
+
     const t = await this.t(msg);
 
     const content = t(LanguageKeys.Commands.Language.CurrentLanguage, {
-      language: inlineCode(server?.language ?? "en-US"),
+      language: inlineCode(language ?? "en-US"),
     });
 
     return await send(msg, content);
@@ -62,7 +68,11 @@ export class UserCommand extends Subcommand {
   @RequiresGuildContext()
   @RequiresUserPermissions([PermissionFlagsBits.Administrator])
   async set(msg: Message, args: Args) {
-    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { language: true } });
+    const [{ language: guildLanguage }] = await this.database
+      .select({ language: guild.language })
+      .from(guild)
+      .where(eq(guild.id, msg.guildId));
+
     const language = await args
       .pick("enum", { enum: ["en-US", "es-ES", "fi-FI", "pl-PL", "ru-RU", "de-DE"] })
       .catch(() => null);
@@ -73,15 +83,16 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Language.SetNeedsArgs));
     }
 
-    if (server?.language === language) {
+    if (guildLanguage === language) {
       return await send(msg, t(LanguageKeys.Commands.Language.SetSameLanguage));
     }
 
-    await this.database.guild.upsert({
-      where: { id: msg.guildId! },
-      update: { language },
-      create: { id: msg.guildId!, language },
-    });
+    await this.database
+      .update(guild)
+      .set({
+        language,
+      })
+      .where(eq(guild.id, msg.guildId));
 
     const embed = new EmbedBuilder({
       author: {
@@ -92,7 +103,7 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(server?.language ?? "en-US"),
+        old: inlineCode(guildLanguage ?? "en-US"),
         new: inlineCode(language),
       }),
       timestamp: new Date(),
@@ -105,10 +116,14 @@ export class UserCommand extends Subcommand {
   @RequiresGuildContext()
   @RequiresUserPermissions([PermissionFlagsBits.Administrator])
   async delete(msg: Message) {
-    const server = await this.database.guild.findUnique({ where: { id: msg.guildId! }, select: { language: true } });
+    const [{ language }] = await this.database
+      .select({ language: guild.language })
+      .from(guild)
+      .where(eq(guild.id, msg.guildId));
+
     const t = await this.t(msg);
 
-    if (server === null || server.language === "en-US") {
+    if (language === null || language === "en-US") {
       return await send(msg, t(LanguageKeys.Commands.Language.DeleteAlreadyDefault));
     }
 
@@ -121,17 +136,19 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(server?.language ?? "en-US"),
+        old: inlineCode(language ?? "en-US"),
         new: inlineCode("en-US"),
       }),
       timestamp: new Date(),
       color: PayloadColors.Admin,
     });
 
-    await this.database.guild.update({
-      where: { id: msg.guildId! },
-      data: { language: "en-US" },
-    });
+    await this.database
+      .update(guild)
+      .set({
+        language: "en-US",
+      })
+      .where(eq(guild.id, msg.guildId));
 
     return await send(msg, { embeds: [embed] });
   }

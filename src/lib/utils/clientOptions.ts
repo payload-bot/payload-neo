@@ -1,10 +1,12 @@
 import config from "#root/config";
+import { guild } from "#root/drizzle/schema.js";
 import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter, Time } from "@sapphire/time-utilities";
 import { envParseInteger } from "@skyra/env-utilities";
 import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData, Options } from "discord.js";
+import { eq } from "drizzle-orm";
 
 function makeLogger() {
   return {
@@ -38,12 +40,12 @@ function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
-        const server = await container.database.guild.findUnique({
-          where: { id: msg.guild.id },
-          select: { language: true },
-        });
+        const [{ language }] = await container.database
+          .select({ language: guild.language })
+          .from(guild)
+          .where(eq(guild.id, msg.guild.id));
 
-        return server?.language ?? "en-US";
+        return language ?? "en-US";
       }
 
       return "en-US";

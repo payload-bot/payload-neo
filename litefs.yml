@@ -18,9 +18,3 @@ lease:
   consul:
     url: "${FLY_CONSUL_URL}"
     key: "litefs/${FLY_APP_NAME}"
-
-exec:
-  - cmd: npx prisma migrate deploy
-    if-candidate: true
-
-  - cmd: yarn start

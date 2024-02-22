@@ -7,6 +7,8 @@ import { capturePage } from "#utils/screenshot";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import { eq } from "drizzle-orm";
+import { user } from "#root/drizzle/schema.js";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,
@@ -21,17 +23,14 @@ export class UserCommand extends PayloadCommand {
 
     await msg.channel.sendTyping();
 
-    const user = await this.database.user.findUnique({ where: { id }, select: { steamId: true } });
+    const [{ steamId }] = await this.database.select({ steamId: user.steamId }).from(user).where(eq(user.id, id));
 
-    if (user?.steamId == null) {
+    if (steamId == null) {
       await send(msg, args.t(LanguageKeys.Commands.Log.NoIdLinked, { user: tag }));
       return;
     }
 
-    const { logs } = await fetch<any>(
-      `http://logs.tf/api/v1/log?limit=1&player=${user.steamId}`,
-      FetchResultTypes.JSON,
-    );
+    const { logs } = await fetch<any>(`http://logs.tf/api/v1/log?limit=1&player=${steamId}`, FetchResultTypes.JSON);
 
     if (!logs.length) {
       await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
@@ -40,7 +39,7 @@ export class UserCommand extends PayloadCommand {
 
     const logID = logs[logs.length - 1].id;
 
-    const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${user.steamId}`, {
+    const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${steamId}`, {
       top: {
         selector: "#log-header",
         edge: "top",

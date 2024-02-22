@@ -2,8 +2,8 @@ import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { PrismaClient } from "@prisma/client";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
+import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 
 export type O = object;
 
@@ -26,7 +26,7 @@ declare module "@sapphire/framework" {
 
 declare module "@sapphire/pieces" {
   interface Container {
-    database: PrismaClient;
+    database: BetterSQLite3Database;
   }
 }
 

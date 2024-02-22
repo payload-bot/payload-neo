@@ -2,8 +2,10 @@ import { ServiceController } from "#lib/api/ServiceController";
 import { sendLogPreview } from "#lib/api/utils/webhook-helper";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
-import { isNullish } from "@sapphire/utilities";
+import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
 import { s } from "@sapphire/shapeshift";
+import { webhook } from "#root/drizzle/schema.js";
+import { eq } from "drizzle-orm";
 
 const schema = s.object({
   logsId: s.number.or(s.string),
@@ -22,12 +24,12 @@ export class WebhookExecutionRoute extends ServiceController {
       return response.unauthorized();
     }
 
-    const webhook = await this.database.webhook.findUnique({
-      where: { value: headerAuth },
-      select: { type: true, id: true },
-    });
+    const data = await this.database
+      .select({ type: webhook.type, id: webhook.id })
+      .from(webhook)
+      .where(eq(webhook.value, headerAuth));
 
-    if (webhook == null) {
+    if (isNullOrUndefinedOrEmpty(data)) {
       return response.notFound();
     }
 
@@ -39,10 +41,10 @@ export class WebhookExecutionRoute extends ServiceController {
 
     // safety: value is nullchecked above
     await sendLogPreview(this.client, {
-      demosId: value?.demosId,
-      logsId: value!.logsId as string,
-      targetId: webhook.id,
-      webhookTarget: webhook.type as any,
+      demosId: value.demosId,
+      logsId: value.logsId.toString(),
+      targetId: data[0].id,
+      webhookTarget: data[0].type as any,
     });
 
     return response.noContent();
@@ -61,12 +63,12 @@ export class WebhookExecutionv1Route extends ServiceController {
       return response.unauthorized();
     }
 
-    const webhook = await this.database.webhook.findUnique({
-      where: { value: headerAuth },
-      select: { type: true, id: true },
-    });
+    const data = await this.database
+      .select({ type: webhook.type, id: webhook.id })
+      .from(webhook)
+      .where(eq(webhook.value, headerAuth));
 
-    if (webhook == null) {
+    if (isNullOrUndefinedOrEmpty(data)) {
       return response.notFound();
     }
 
@@ -78,12 +80,11 @@ export class WebhookExecutionv1Route extends ServiceController {
 
     this.container.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
 
-    // safety: value is nullchecked above
     await sendLogPreview(this.client, {
-      demosId: value?.demosId,
-      logsId: value!.logsId as string,
-      targetId: webhook.id,
-      webhookTarget: webhook.type as any,
+      demosId: value.demosId,
+      logsId: value.logsId.toString(),
+      targetId: data[0].id,
+      webhookTarget: data[0].type as any,
     });
 
     return response.noContent();

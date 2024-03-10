@@ -17,8 +17,6 @@ enum PayloadPushResult {
   CAP,
 }
 
-const PUSHCART_CAP = 1000;
-
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Pushcart.Description,
   detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
@@ -373,14 +371,9 @@ export class UserCommand extends Subcommand {
 
     const shouldRefreshCap = isAfter(Date.now(), add(lastPushed!, { days: 1 }));
 
-    const hasReachedMaxPoints = totalPushedLastDay! >= PUSHCART_CAP;
-
     if (isUnderCooldown && totalPushedLastDay! !== 0) {
       return { result: PayloadPushResult.COOLDOWN, lastPushed };
-    } else if (hasReachedMaxPoints && !shouldRefreshCap) {
-      return { result: PayloadPushResult.CAP, lastPushed };
     }
-
     return { result: PayloadPushResult.SUCCESS, lastPushed };
   }
 }

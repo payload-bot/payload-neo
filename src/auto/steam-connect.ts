@@ -1,7 +1,7 @@
 import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors";
-import gamedig from "gamedig";
+import { GameDig } from "gamedig";
 import { Message, EmbedBuilder } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
@@ -35,11 +35,10 @@ export default class UserAutoCommand extends AutoCommand {
     const connectInfoEmbed = await send(msg, { embeds: [embed] });
 
     try {
-      const { name, maxplayers, players } = await gamedig.query({
+      const { name, maxplayers, players } = await GameDig.query({
         type: "tf2",
         socketTimeout: 5000,
         attemptTimeout: 5000,
-        maxAttempts: 2,
         host: ipNoPort,
         port: parseInt(port, 10),
       });

@@ -85,7 +85,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitiveCommands: false,
   loadMessageCommandListeners: true,
   enableLoaderTraceLoggings: false,
-  loadSubcommandErrorListeners: false,
+  loadSubcommandErrorListeners: true,
   loadDefaultErrorListeners: true,
   preventFailedToFetchLogForGuilds: true,
   defaultPrefix: config.PREFIX,

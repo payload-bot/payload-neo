@@ -1067,16 +1067,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/shapeshift@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@sapphire/shapeshift@npm:4.0.0"
-  dependencies:
-    fast-deep-equal: ^3.1.3
-    lodash: ^4.17.21
-  checksum: d312dd529c3b3d221a8fcd58428d03de2a744a1568ad810f9f75e1f4d5a0387952285b436b37f29141a810f6bbbe310ed3c31882c57d260a744f39beb35649f0
-  languageName: node
-  linkType: hard
-
 "@sapphire/snowflake@npm:3.5.3, @sapphire/snowflake@npm:^3.5.3":
   version: 3.5.3
   resolution: "@sapphire/snowflake@npm:3.5.3"
@@ -1272,6 +1262,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 5ee966ea7bd6b2802f31ad4281c92c4c0b6dfa593c378a2582c58541fa113bec3d70eb0696b34ad95e8e6861a884cba6c3e351285816693ed176222f840a8c08
+  languageName: node
+  linkType: hard
+
+"@valibot/valibot@npm:@jsr/valibot__valibot@^0.36.0":
+  version: 0.36.0
+  resolution: "@jsr/valibot__valibot@npm:0.36.0::__archiveUrl=https%3A%2F%2Fnpm.jsr.io%2F~%2F11%2F%40jsr%2Fvalibot__valibot%2F0.36.0.tgz"
+  checksum: 03c1eb89d1ab241314dbd46870e1d4b59a9e8fbc017de971897291faf1a3757fd0c82eab862c030040b4d4fd3b88ba9b8f34774f77e4f3403df621fd05332449
   languageName: node
   linkType: hard
 
@@ -4410,7 +4407,6 @@ __metadata:
     "@sapphire/plugin-logger": ^4.0.2
     "@sapphire/plugin-subcommands": ^6.0.3
     "@sapphire/ratelimits": ^2.4.9
-    "@sapphire/shapeshift": ^4.0.0
     "@sapphire/time-utilities": ^1.7.12
     "@sapphire/ts-config": ^5.0.1
     "@sapphire/utilities": ^3.17.0
@@ -4419,6 +4415,7 @@ __metadata:
     "@types/gamedig": ^5.0.3
     "@types/html-to-text": ^9.0.4
     "@types/node": ^18.19.42
+    "@valibot/valibot": "npm:@jsr/valibot__valibot@^0.36.0"
     better-sqlite3: ^11.1.2
     cheerio: ^1.0.0-rc.12
     date-fns: ^3.6.0

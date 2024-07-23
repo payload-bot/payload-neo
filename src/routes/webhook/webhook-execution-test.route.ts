@@ -7,7 +7,6 @@ import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
 import { eq } from "drizzle-orm";
 
 @ApplyOptions<RouteOptions>({
-  name: "webhooktestv2",
   route: "webhooks/test",
 })
 export class WebhookTestRoute extends ServiceController {
@@ -34,7 +33,6 @@ export class WebhookTestRoute extends ServiceController {
 }
 
 @ApplyOptions<RouteOptions>({
-  name: "webhooktestv1",
   route: "v1/webhooks/test",
 })
 export class WebhookTestv1Route extends ServiceController {
@@ -54,7 +52,7 @@ export class WebhookTestv1Route extends ServiceController {
       return response.notFound();
     }
 
-    this.container.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
+    this.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
 
     await sendTest(this.client, data[0].type as any, data[0].id);
 

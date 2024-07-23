@@ -2,7 +2,7 @@ import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
 import { Message, EmbedBuilder, escapeMarkdown, Colors, bold, GuildMember } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
-import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
+import { isAfter, add, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
 import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -10,7 +10,7 @@ import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { guild, pushcart } from "#root/drizzle/schema";
+import { pushcart } from "#root/drizzle/schema";
 import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
 
 enum PayloadPushResult {
@@ -56,16 +56,12 @@ export class UserCommand extends Subcommand {
   async push(msg: Message) {
     const t = await this.t(msg);
 
-    const { result, lastPushed } = await this.userPushcart(msg.author.id, msg.guildId!);
+    const { result, lastPushed } = await this.checkUserPushCooldown(msg.author.id, msg.guildId!);
 
     if (result === PayloadPushResult.COOLDOWN) {
       const secondsLeft = differenceInSeconds(addSeconds(lastPushed!, 30), new Date());
 
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft })!);
-    } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(addDays(lastPushed!, 1));
-
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
 
     const randomNumber = weightedRandom([
@@ -95,7 +91,7 @@ export class UserCommand extends Subcommand {
     const [{ pushed }] = await this.database
       .select({ pushed: sum(pushcart.pushed) })
       .from(pushcart)
-      .where(eq(pushcart.guildId, guild.id));
+      .where(eq(pushcart.guildId, msg.guildId));
 
     return await send(
       msg,
@@ -309,12 +305,14 @@ export class UserCommand extends Subcommand {
     return await send(msg, { embeds: [embed] });
   }
 
-  private async userPushcart(userId: string, guildId: string) {
+  private async checkUserPushCooldown(
+    userId: string,
+    guildId: string,
+  ): Promise<{ result: PayloadPushResult; lastPushed: number }> {
     const result = await this.database
       .select({
         userId: pushcart.userId,
-        timestamp: max(pushcart.timestamp),
-        pushed: sum(pushcart.pushed).mapWith(Number),
+        lastPushed: max(pushcart.timestamp).mapWith(Number),
       })
       .from(pushcart)
       .where(
@@ -327,17 +325,19 @@ export class UserCommand extends Subcommand {
       .groupBy(pushcart.userId, pushcart.guildId);
 
     if (result.length === 0) {
-      return { result: PayloadPushResult.SUCCESS, lastPushed: new Date() };
+      return { result: PayloadPushResult.SUCCESS, lastPushed: Date.now() };
     }
 
-    const [{ timestamp, pushed }] = result;
+    const [{ lastPushed }] = result;
 
-    const isUnderCooldown = isAfter(add(timestamp, { seconds: 30 }), Date.now());
-
-    if (isUnderCooldown && pushed !== 0) {
-      return { result: PayloadPushResult.COOLDOWN, timestamp };
+    const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now(), );
+    console.log(`first ${lastPushed}`);
+    console.log(`after ${Date.now()}`);
+    
+    if (isUnderCooldown) {
+      return { result: PayloadPushResult.COOLDOWN, lastPushed };
     }
 
-    return { result: PayloadPushResult.SUCCESS, timestamp };
+    return { result: PayloadPushResult.SUCCESS, lastPushed };
   }
 }

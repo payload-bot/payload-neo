@@ -8,7 +8,7 @@ export abstract class ServiceController extends Route {
   protected database = this.container.database;
 
   public constructor(context: LoaderPieceContext, options: RouteOptions) {
-    super(context as any, options as any);
+    super(context, options);
   }
 
   public notFoundIfNull<TObj>(data: TObj | null, response: ApiResponse) {

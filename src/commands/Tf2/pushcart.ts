@@ -175,7 +175,7 @@ export class UserCommand extends Subcommand {
       .from(pushcart);
 
     let memberNameToDisplay =
-      targetUser instanceof GuildMember ? targetUser.nickname ?? targetUser.displayName : targetUser.username;
+      targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
 
     memberNameToDisplay ??= "N/A";
 
@@ -315,7 +315,6 @@ export class UserCommand extends Subcommand {
         userId: pushcart.userId,
         timestamp: max(pushcart.timestamp),
         pushed: sum(pushcart.pushed).mapWith(Number),
-        lastLastPushed: pushcart.timestamp,
       })
       .from(pushcart)
       .where(
@@ -335,10 +334,10 @@ export class UserCommand extends Subcommand {
 
     const isUnderCooldown = isAfter(add(timestamp, { seconds: 30 }), Date.now());
 
-
-    if (isUnderCooldown && totalPushedLastDay! !== 0) {
-      return { result: PayloadPushResult.COOLDOWN, lastPushed };
+    if (isUnderCooldown && pushed !== 0) {
+      return { result: PayloadPushResult.COOLDOWN, timestamp };
     }
-    return { result: PayloadPushResult.SUCCESS, lastPushed };
+
+    return { result: PayloadPushResult.SUCCESS, timestamp };
   }
 }

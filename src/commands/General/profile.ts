@@ -6,7 +6,7 @@ import PayloadColors from "#utils/colors";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { eq } from "drizzle-orm";
-import { user } from "#root/drizzle/schema.js";
+import { user } from "#root/drizzle/schema";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Profile.Description,

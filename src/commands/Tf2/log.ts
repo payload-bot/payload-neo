@@ -8,7 +8,7 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { eq } from "drizzle-orm";
-import { user } from "#root/drizzle/schema.js";
+import { user } from "#root/drizzle/schema";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,

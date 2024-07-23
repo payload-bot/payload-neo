@@ -1,5 +1,5 @@
 import config from "#root/config";
-import { guild } from "#root/drizzle/schema.js";
+import { guild } from "#root/drizzle/schema";
 import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
@@ -40,12 +40,12 @@ function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
-        const [{ language }] = await container.database
+        const data = await container.database
           .select({ language: guild.language })
           .from(guild)
           .where(eq(guild.id, msg.guild.id));
 
-        return language ?? "en-US";
+        return data.at(0)?.language ?? "en-US";
       }
 
       return "en-US";
@@ -86,7 +86,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   loadMessageCommandListeners: true,
   enableLoaderTraceLoggings: false,
   loadSubcommandErrorListeners: false,
-  loadDefaultErrorListeners: false,
+  loadDefaultErrorListeners: true,
   preventFailedToFetchLogForGuilds: true,
   defaultPrefix: config.PREFIX,
   partials: [Partials.Channel],

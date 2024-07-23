@@ -78,5 +78,10 @@ declare module "@skyra/env-utilities" {
      * Flag to override the chrome ws
      */
     CHROME_WS_ENABLE: BooleanString;
+
+    /**
+     * The path of the database to use
+     */
+    DATABASE_PATH: string;
   }
 }

@@ -1,6 +1,6 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import config from "#root/config";
-import { guild } from "#root/drizzle/schema.js";
+import { guild } from "#root/drizzle/schema";
 import { inlineCode } from "@discordjs/builders";
 import { Events, Listener } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";

@@ -1,6 +1,8 @@
 -- Current sql file was generated after introspecting the database
 -- If you want to run this migration please uncomment this code before executing migrations
-/*
+
+PRAGMA journal_mode=WAL
+
 CREATE TABLE `Guild` (
 	`id` text PRIMARY KEY NOT NULL,
 	`prefix` text DEFAULT 'pls ' NOT NULL,
@@ -34,4 +36,3 @@ CREATE TABLE `Pushcart` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `Webhook_value_key` ON `Webhook` (`value`);
-*/

@@ -4,7 +4,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
 import { s } from "@sapphire/shapeshift";
-import { webhook } from "#root/drizzle/schema.js";
+import { webhook } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 const schema = s.object({

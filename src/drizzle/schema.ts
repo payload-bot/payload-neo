@@ -1,4 +1,4 @@
-import { sqliteTable, text, numeric, foreignKey, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, numeric, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 export const guild = sqliteTable("Guild", {

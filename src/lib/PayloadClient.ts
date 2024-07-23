@@ -3,10 +3,10 @@ import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
-import connect from "#utils/database.js";
+import connect from "#utils/database";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { guild } from "#root/drizzle/schema.js";
+import { guild } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 export class PayloadClient extends SapphireClient {
@@ -15,18 +15,18 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
+      (new AutoResponseStore() as any).registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
     );
   }
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const [{ prefix }] = await container.database
+      const data = await container.database
         .select({ prefix: guild.prefix })
         .from(guild)
         .where(eq(guild.id, msg.guildId));
 
-      return prefix ?? config.PREFIX;
+      return data.at(0)?.prefix ?? config.PREFIX;
     }
 
     return [config.PREFIX, ""];

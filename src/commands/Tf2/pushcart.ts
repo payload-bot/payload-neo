@@ -4,14 +4,14 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
 import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
-import { chunk, codeBlock, isNullOrUndefined, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
+import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { guild, pushcart } from "#root/drizzle/schema.js";
-import { count, countDistinct, desc, eq, sql, sum } from "drizzle-orm";
+import { guild, pushcart } from "#root/drizzle/schema";
+import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -120,15 +120,14 @@ export class UserCommand extends Subcommand {
         .setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
-    const userLeaderboard = await this.database.pushcart.groupBy({
-      by: ["userId", "guildId"],
-      where: {
-        guildId: msg.guildId!,
-      },
-      _sum: {
-        pushed: true,
-      },
-    });
+    const userLeaderboard = await this.database
+      .select({
+        userId: pushcart.userId,
+        pushed: sum(pushcart.pushed).mapWith(Number),
+      })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, msg.guildId!))
+      .groupBy(pushcart.userId, pushcart.guildId);
 
     if (userLeaderboard.length === 0) {
       return;
@@ -136,10 +135,10 @@ export class UserCommand extends Subcommand {
 
     const CHUNK_AMOUNT = 5;
 
-    const sorted = userLeaderboard.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
+    const sorted = userLeaderboard.sort((a, b) => b.pushed - a.pushed);
 
     for (const page of chunk(sorted, CHUNK_AMOUNT)) {
-      const leaderboardString = page.map(({ userId, _sum: { pushed } }, index) => {
+      const leaderboardString = page.map(({ userId, pushed }, index) => {
         const user = client.users.cache.get(userId) ?? null;
 
         return msg.author.id === userId
@@ -311,52 +310,31 @@ export class UserCommand extends Subcommand {
   }
 
   private async userPushcart(userId: string, guildId: string) {
-    const result = await this.database.pushcart.groupBy({
-      by: ["userId", "guildId"],
-      _max: {
-        timestamp: true,
-      },
-      _sum: {
-        pushed: true,
-      },
-      where: {
-        userId,
-        guildId,
-        timestamp: {
-          lte: add(Date.now(), { days: 1 }),
-        },
-      },
-    });
-
-    const userPushedData = await this.database
+    const result = await this.database
       .select({
         userId: pushcart.userId,
-        sum: sum(pushcart.pushed).mapWith(Number),
+        timestamp: max(pushcart.timestamp),
+        pushed: sum(pushcart.pushed).mapWith(Number),
         lastLastPushed: pushcart.timestamp,
-        windowedData: sql`
-        
-        WITH WINDOW pushedTimeframe AS PARTITION BY timestamp ORDER BY timestamp DESC RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-        
-        `
       })
       .from(pushcart)
-      .where(eq(pushcart.userId, userId))
+      .where(
+        and(
+          eq(pushcart.userId, userId),
+          eq(pushcart.guildId, guildId),
+          lte(pushcart.timestamp, add(Date.now(), { days: 1 }).toString()),
+        ),
+      )
       .groupBy(pushcart.userId, pushcart.guildId);
 
     if (result.length === 0) {
       return { result: PayloadPushResult.SUCCESS, lastPushed: new Date() };
     }
 
-    const [
-      {
-        _sum: { pushed: totalPushedLastDay },
-        _max: { timestamp: lastPushed },
-      },
-    ] = result;
+    const [{ timestamp, pushed }] = result;
 
-    const isUnderCooldown = isAfter(add(lastPushed!, { seconds: 30 }), Date.now());
+    const isUnderCooldown = isAfter(add(timestamp, { seconds: 30 }), Date.now());
 
-    const shouldRefreshCap = isAfter(Date.now(), add(lastPushed!, { days: 1 }));
 
     if (isUnderCooldown && totalPushedLastDay! !== 0) {
       return { result: PayloadPushResult.COOLDOWN, lastPushed };

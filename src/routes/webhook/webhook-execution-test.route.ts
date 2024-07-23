@@ -1,6 +1,6 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { sendTest } from "#lib/api/utils/webhook-helper";
-import { webhook } from "#root/drizzle/schema.js";
+import { webhook } from "#root/drizzle/schema";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";

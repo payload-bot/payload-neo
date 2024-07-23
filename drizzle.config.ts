@@ -1,12 +1,11 @@
 import type { Config } from "drizzle-kit";
-import { resolve } from "node:path";
 
 export default {
-  driver: "better-sqlite",
+  dialect: "sqlite",
   out: "./src/drizzle",
-  schema: [resolve(__dirname, "./src/drizzle/schema.ts")],
+  schema: "./src/drizzle/schema.ts",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_PATH,
   },
   verbose: true,
   strict: true,

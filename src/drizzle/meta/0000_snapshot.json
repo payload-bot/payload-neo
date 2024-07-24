@@ -1,124 +1,56 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
+  "id": "7339f1b2-8150-42fe-b2c2-335b833409eb",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "_prisma_migrations": {
-      "name": "_prisma_migrations",
+    "guild": {
+      "name": "guild",
       "columns": {
         "id": {
-          "autoincrement": false,
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true
-        },
-        "checksum": {
-          "autoincrement": false,
-          "name": "checksum",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "finished_at": {
-          "autoincrement": false,
-          "name": "finished_at",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "migration_name": {
-          "autoincrement": false,
-          "name": "migration_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "logs": {
-          "autoincrement": false,
-          "name": "logs",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "rolled_back_at": {
-          "autoincrement": false,
-          "name": "rolled_back_at",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "started_at": {
-          "default": "(current_timestamp)",
-          "autoincrement": false,
-          "name": "started_at",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "applied_steps_count": {
-          "default": 0,
-          "autoincrement": false,
-          "name": "applied_steps_count",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "compositePrimaryKeys": {},
-      "indexes": {},
-      "foreignKeys": {},
-      "uniqueConstraints": {}
-    },
-    "Guild": {
-      "name": "Guild",
-      "columns": {
-        "id": {
-          "autoincrement": false,
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "prefix": {
-          "default": "'pls '",
-          "autoincrement": false,
           "name": "prefix",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'pls '"
         },
         "language": {
-          "default": "'en-US'",
-          "autoincrement": false,
           "name": "language",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'en-US'"
         },
         "legacyPushed": {
-          "autoincrement": false,
           "name": "legacyPushed",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "webhookId": {
-          "autoincrement": false,
           "name": "webhookId",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         }
       },
-      "compositePrimaryKeys": {},
       "indexes": {},
       "foreignKeys": {
-        "Guild_webhookId_Webhook_id_fk": {
-          "name": "Guild_webhookId_Webhook_id_fk",
-          "tableFrom": "Guild",
-          "tableTo": "Webhook",
+        "guild_webhookId_webhook_id_fk": {
+          "name": "guild_webhookId_webhook_id_fk",
+          "tableFrom": "guild",
+          "tableTo": "webhook",
           "columnsFrom": [
             "webhookId"
           ],
@@ -129,47 +61,92 @@
           "onUpdate": "cascade"
         }
       },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "User": {
-      "name": "User",
+    "pushcart": {
+      "name": "pushcart",
       "columns": {
         "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "guildId": {
+          "name": "guildId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pushed": {
+          "name": "pushed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "timestamp": {
+          "name": "timestamp",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false,
+          "default": "unixepoch(now)"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "legacyPushed": {
-          "autoincrement": false,
           "name": "legacyPushed",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "steamId": {
-          "autoincrement": false,
           "name": "steamId",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "webhookId": {
-          "autoincrement": false,
           "name": "webhookId",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         }
       },
-      "compositePrimaryKeys": {},
       "indexes": {},
       "foreignKeys": {
-        "User_webhookId_Webhook_id_fk": {
-          "name": "User_webhookId_Webhook_id_fk",
-          "tableFrom": "User",
-          "tableTo": "Webhook",
+        "user_webhookId_webhook_id_fk": {
+          "name": "user_webhookId_webhook_id_fk",
+          "tableFrom": "user",
+          "tableTo": "webhook",
           "columnsFrom": [
             "webhookId"
           ],
@@ -180,42 +157,42 @@
           "onUpdate": "cascade"
         }
       },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "Webhook": {
-      "name": "Webhook",
+    "webhook": {
+      "name": "webhook",
       "columns": {
         "id": {
-          "autoincrement": false,
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "value": {
-          "autoincrement": false,
           "name": "value",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "type": {
-          "autoincrement": false,
           "name": "type",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
-        "createdAt": {
-          "default": "(CURRENT_TIMESTAMP)",
-          "autoincrement": false,
-          "name": "createdAt",
+        "timestamp": {
+          "name": "timestamp",
           "type": "numeric",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false,
+          "default": "unixepoch(now)"
         }
       },
-      "compositePrimaryKeys": {},
       "indexes": {
         "Webhook_value_key": {
           "name": "Webhook_value_key",
@@ -226,51 +203,7 @@
         }
       },
       "foreignKeys": {},
-      "uniqueConstraints": {}
-    },
-    "Pushcart": {
-      "name": "Pushcart",
-      "columns": {
-        "id": {
-          "autoincrement": true,
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "userId": {
-          "autoincrement": false,
-          "name": "userId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "guildId": {
-          "autoincrement": false,
-          "name": "guildId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pushed": {
-          "autoincrement": false,
-          "name": "pushed",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "timestamp": {
-          "default": "(CURRENT_TIMESTAMP)",
-          "autoincrement": false,
-          "name": "timestamp",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
       "compositePrimaryKeys": {},
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     }
   },
@@ -279,5 +212,8 @@
     "schemas": {},
     "tables": {},
     "columns": {}
+  },
+  "internal": {
+    "indexes": {}
   }
 }

@@ -1,12 +1,12 @@
 {
-  "version": "5",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1708285943385,
-      "tag": "0000_lonely_roulette",
+      "version": "6",
+      "when": 1721858093273,
+      "tag": "0000_purple_boomer",
       "breakpoints": true
     }
   ]

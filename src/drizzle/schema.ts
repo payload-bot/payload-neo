@@ -23,7 +23,7 @@ export const webhook = sqliteTable(
     value: text("value").notNull(),
     type: text("type").notNull(),
     createdAt: numeric("timestamp")
-      .default(sql`unixepoch(now)`)
+      .default(sql`(cast(strftime('%s','now') as int))`)
       .notNull(),
   },
   table => {
@@ -39,6 +39,6 @@ export const pushcart = sqliteTable("pushcart", {
   guildId: text("guildId").notNull(),
   pushed: integer("pushed").notNull(),
   timestamp: numeric("timestamp")
-    .default(sql`unixepoch(now)`)
+    .default(sql`(cast(strftime('%s','now') as int))`)
     .notNull(),
 });

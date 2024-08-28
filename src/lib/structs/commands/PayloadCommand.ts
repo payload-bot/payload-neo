@@ -1,4 +1,4 @@
-import { type MessageCommand, type PieceContext, UserError } from "@sapphire/framework";
+import { type MessageCommand, type LoaderPieceContext, UserError } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";
@@ -10,7 +10,7 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
   public readonly hidden: boolean;
   protected readonly database: BetterSQLite3Database;
 
-  public constructor(context: PieceContext, options: PayloadCommand.Options) {
+  public constructor(context: LoaderPieceContext<"commands">, options: PayloadCommand.Options) {
     super(context, options);
 
     this.hidden = options.hidden ?? false;

@@ -22,6 +22,14 @@ declare module "@sapphire/framework" {
   interface ArgType {
     commandName: PayloadCommand;
   }
+
+  interface StoreRegistryEntries {
+    auto;
+  }
+
+  export interface Args {
+    t: TFunction;
+  }
 }
 
 declare module "@sapphire/pieces" {

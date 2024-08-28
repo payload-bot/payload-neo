@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { Message, EmbedBuilder } from "discord.js";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 import { convert } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
@@ -31,7 +31,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const data = await fetch(url, FetchResultTypes.Text);
 
-    const $ = cheerio.load(data);
+    const $ = load(data);
 
     const title = $(".thread-header-title").text().trim();
 

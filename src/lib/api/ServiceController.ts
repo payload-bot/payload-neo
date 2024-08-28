@@ -7,7 +7,7 @@ export abstract class ServiceController extends Route {
   protected client = this.container.client;
   protected database = this.container.database;
 
-  public constructor(context: LoaderPieceContext, options: RouteOptions) {
+  public constructor(context: LoaderPieceContext<"routes">, options: RouteOptions) {
     super(context, options);
   }
 

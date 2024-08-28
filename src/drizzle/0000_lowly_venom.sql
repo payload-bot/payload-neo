@@ -12,7 +12,7 @@ CREATE TABLE `pushcart` (
 	`userId` text NOT NULL,
 	`guildId` text NOT NULL,
 	`pushed` integer NOT NULL,
-	`timestamp` numeric DEFAULT unixepoch(now) NOT NULL
+	`timestamp` numeric DEFAULT (cast(strftime('%s','now') as int)) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `user` (
@@ -27,7 +27,7 @@ CREATE TABLE `webhook` (
 	`id` text PRIMARY KEY NOT NULL,
 	`value` text NOT NULL,
 	`type` text NOT NULL,
-	`timestamp` numeric DEFAULT unixepoch(now) NOT NULL
+	`timestamp` numeric DEFAULT (cast(strftime('%s','now') as int)) NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `Webhook_value_key` ON `webhook` (`value`);

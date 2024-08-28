@@ -163,12 +163,15 @@ export class UserCommand extends Subcommand {
     const t = await this.t(msg);
     const targetUser = await args.pick("member").catch(() => msg.author);
 
-    const data = this.database
+    const [data] = await this.database
       .select({
-        data: sql`WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) as pushed, userId FROM ${pushcart} WHERE guildId = ${msg.guildId} GROUP BY userId)
-        SELECT * from leaderboard WHERE userId = ${targetUser.id}`,
+        sum: sum(pushcart.pushed).mapWith(Number).as("sum"),
+        rank: sql`ROW_NUMBER() OVER (ORDER BY pushed DESC)`.mapWith(Number).as("rank"),
+        userId: pushcart.userId,
       })
-      .from(pushcart);
+      .from(pushcart)
+      .where(eq(pushcart.guildId, msg.guildId))
+      .groupBy(pushcart.userId);
 
     let memberNameToDisplay =
       targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
@@ -191,8 +194,8 @@ export class UserCommand extends Subcommand {
         "md",
         t(LanguageKeys.Commands.Pushcart.RankString, {
           name: memberNameToDisplay,
-          rank: data[0].data.rank ?? "-",
-          count: Number(data[0]?.data?.pushed ?? 0),
+          rank: data?.rank ?? "-",
+          count: data?.sum ?? 0,
         }),
       ),
     );
@@ -330,10 +333,10 @@ export class UserCommand extends Subcommand {
 
     const [{ lastPushed }] = result;
 
-    const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now(), );
+    const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now());
     console.log(`first ${lastPushed}`);
     console.log(`after ${Date.now()}`);
-    
+
     if (isUnderCooldown) {
       return { result: PayloadPushResult.COOLDOWN, lastPushed };
     }

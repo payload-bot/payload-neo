@@ -10,6 +10,7 @@ import { fetchT } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v10";
 import { guild } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,
@@ -79,7 +80,7 @@ export class UserCommand extends Subcommand {
 
     const t = await this.t(msg);
 
-    if (!language) {
+    if (isNullishOrEmpty(language)) {
       return await send(msg, t(LanguageKeys.Commands.Language.SetNeedsArgs));
     }
 

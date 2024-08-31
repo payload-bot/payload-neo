@@ -2,15 +2,15 @@ import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
-import type { PrismaClient } from "@prisma/client";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
+import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
+import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 
 export type O = object;
 
 declare module "discord.js" {
   interface Client {
     readonly dev: boolean;
-    readonly cache: SnipeCache;
   }
 }
 
@@ -22,11 +22,19 @@ declare module "@sapphire/framework" {
   interface ArgType {
     commandName: PayloadCommand;
   }
+
+  interface StoreRegistryEntries {
+    auto: AutoResponseStore;
+  }
+
+  export interface Args {
+    t: TFunction;
+  }
 }
 
 declare module "@sapphire/pieces" {
   interface Container {
-    database: PrismaClient;
+    database: BetterSQLite3Database;
   }
 }
 
@@ -78,5 +86,10 @@ declare module "@skyra/env-utilities" {
      * Flag to override the chrome ws
      */
     CHROME_WS_ENABLE: BooleanString;
+
+    /**
+     * The path of the database to use
+     */
+    DATABASE_PATH: string;
   }
 }

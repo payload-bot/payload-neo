@@ -3,9 +3,11 @@ import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
-import connectDatabase from "#utils/connectDatabase";
+import connect from "#utils/database";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { guild } from "#root/drizzle/schema";
+import { eq } from "drizzle-orm";
 
 export class PayloadClient extends SapphireClient {
   public dev = process.env.NODE_ENV !== "production";
@@ -19,19 +21,19 @@ export class PayloadClient extends SapphireClient {
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const server = await container.database.guild.findUnique({
-        where: { id: msg.guildId },
-        select: { prefix: true },
-      });
+      const [data] = await container.database
+        .select({ prefix: guild.prefix })
+        .from(guild)
+        .where(eq(guild.id, msg.guildId));
 
-      return server?.prefix ?? config.PREFIX;
+      return data?.prefix ?? config.PREFIX;
     }
 
     return [config.PREFIX, ""];
   };
 
   public async login(token?: string) {
-    await connectDatabase();
+    await connect();
 
     const response = await super.login(token);
 

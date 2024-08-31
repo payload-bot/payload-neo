@@ -1,11 +1,11 @@
-import type { MessageCommandContext, PieceContext } from "@sapphire/framework";
+import type { LoaderPieceContext, MessageCommandContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { PayloadCommand } from "../commands/PayloadCommand.js";
 
 export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;
 
-  constructor(context: PieceContext, options: AutoCommandOptions) {
+  constructor(context: LoaderPieceContext<"commands">, options: AutoCommandOptions) {
     super(context, { ...options, typing: true });
     this.regex = options.regex;
   }
@@ -27,7 +27,7 @@ export abstract class AutoCommand extends PayloadCommand {
    * @description Gets the resulting match of the Regex defined in the command
    */
   public getMatch(msg: Message): string {
-    return msg.content.match(this.regex)![0];
+    return msg.content.match(this.regex)?.[0];
   }
 }
 

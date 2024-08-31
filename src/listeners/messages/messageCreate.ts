@@ -1,4 +1,3 @@
-import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore";
 import { Events, Listener } from "@sapphire/framework";
 import type { Message } from "discord.js";
 
@@ -15,7 +14,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
     const { client } = this.container;
 
-    const autoResponses = client.stores.get("autoresponses" as any) as AutoResponseStore;
+    const autoResponses = client.stores.get("auto");
 
     // Check auto responses
     // @TODO: Split into listners

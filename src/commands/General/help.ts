@@ -17,7 +17,7 @@ export class UserCommand extends PayloadCommand {
     if (args.finished) {
       // Just send the commands command
       const allCommands = this.container.stores.get("commands");
-      const runCommand = allCommands.get("commands") as PayloadCommand;
+      const runCommand = allCommands.get("commands");
 
       await runCommand.messageRun(msg, args, context);
       return;
@@ -55,6 +55,6 @@ export class UserCommand extends PayloadCommand {
   private getAliases(command: PayloadCommand) {
     if (!!command.aliases) return null;
 
-    return (command.aliases as readonly string[]).join(", ");
+    return command.aliases.join(", ");
   }
 }

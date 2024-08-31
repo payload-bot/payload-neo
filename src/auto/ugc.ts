@@ -29,7 +29,7 @@ export default class UserAutoCommand extends AutoCommand {
       },
     );
 
-    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.png" });
+    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "team.png" });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,

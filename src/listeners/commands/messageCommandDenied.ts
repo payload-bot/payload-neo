@@ -10,7 +10,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandDenied> {
     const indentifier = mapIdentifier(error.identifier);
     const content = await resolveKey(message, indentifier, { message, command, ...(error.context as any) });
 
-    return await this.alert(message, content);
+    return await this.alert(message, content as string);
   }
 
   private async alert(message: Message, content: string) {

@@ -37,8 +37,6 @@ COPY --from=deps /app/node_modules /app/node_modules
 
 COPY . .
 
-RUN npx prisma generate
-
 RUN yarn build
 
 # runner
@@ -54,15 +52,13 @@ ENV PORT="8081"
 ENV NODE_ENV="production"
 
 # add shortcut for connecting to database CLI
-RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
+RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmod +x /usr/local/bin/db
 
 WORKDIR /app
 
 COPY --from=build /app/assets /app/assets
 COPY --from=production-deps /app/node_modules /app/node_modules
-COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=build /app/package.json /app/package.json
-COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/src/languages /app/dist/languages
 

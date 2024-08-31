@@ -5,6 +5,8 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { getSteamIdFromArgs } from "#utils/getSteamId";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
+import { eq } from "drizzle-orm";
+import { user } from "#root/drizzle/schema";
 
 const FLAGS = ["D", "d"];
 
@@ -18,7 +20,12 @@ export class UserCommand extends PayloadCommand {
     const steamId = await args.pick("string").catch(() => null);
 
     if (args.getFlags("D") || args.getFlags("d")) {
-      await this.database.user.update({ where: { id: msg.author.id }, data: { steamId: null } });
+      await this.database
+        .update(user)
+        .set({
+          steamId: null,
+        })
+        .where(eq(user.id, msg.author.id));
 
       await send(msg, args.t(LanguageKeys.Commands.Link.Delete));
       return;
@@ -36,11 +43,12 @@ export class UserCommand extends PayloadCommand {
       return;
     }
 
-    await this.database.user.upsert({
-      where: { id: msg.author.id },
-      update: { steamId: testResult },
-      create: { id: msg.author.id, steamId: testResult },
-    });
+    await this.database
+      .update(user)
+      .set({
+        steamId: null,
+      })
+      .where(eq(user.id, msg.author.id));
 
     await send(msg, args.t(LanguageKeys.Commands.Link.Success));
   }

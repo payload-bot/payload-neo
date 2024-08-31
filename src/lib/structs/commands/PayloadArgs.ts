@@ -17,9 +17,3 @@ export class PayloadArgs extends Args {
     this.t = t;
   }
 }
-
-declare module "@sapphire/framework" {
-  export interface Args {
-    t: TFunction;
-  }
-}

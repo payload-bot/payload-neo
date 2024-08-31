@@ -3,10 +3,6 @@ primary_region = "ord"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
-[metrics]
-  port = 3000
-  path = "/api/metrics"
-
 [env]
   CHROME_WS_ENABLE = "false"
   CHROME_WS_URL = ""

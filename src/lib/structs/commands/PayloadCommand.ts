@@ -1,16 +1,16 @@
-import type { PrismaClient } from "@prisma/client";
-import { type MessageCommand, type PieceContext, UserError } from "@sapphire/framework";
+import { type MessageCommand, type LoaderPieceContext, UserError } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";
 import { Parser, ArgumentStream } from "@sapphire/lexure";
 import { PayloadArgs } from "./PayloadArgs.js";
+import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 
 export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
-  protected readonly database: PrismaClient;
+  protected readonly database: BetterSQLite3Database;
 
-  public constructor(context: PieceContext, options: PayloadCommand.Options) {
+  public constructor(context: LoaderPieceContext<"commands">, options: PayloadCommand.Options) {
     super(context, options);
 
     this.hidden = options.hidden ?? false;
@@ -25,7 +25,7 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
     const parser = new Parser(this.strategy);
     const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
 
-    return new PayloadArgs(message, this as any, args, context, await fetchT(message));
+    return new PayloadArgs(message, this, args, context, await fetchT(message));
   }
 
   protected error(identifier: string | UserError, context?: unknown): never {

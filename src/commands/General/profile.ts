@@ -5,6 +5,8 @@ import { EmbedBuilder, Message } from "discord.js";
 import PayloadColors from "#utils/colors";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
+import { eq } from "drizzle-orm";
+import { user } from "#root/drizzle/schema";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Profile.Description,
@@ -16,10 +18,10 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const user = await this.database.user.findUnique({
-      where: { id: targetUser.id },
-      select: { steamId: true, legacyPushed: true },
-    });
+    const [u] = await this.database
+      .select({ steamId: user.steamId, legacyPushed: user.legacyPushed })
+      .from(user)
+      .where(eq(user.id, targetUser.id));
 
     const botT = t(LanguageKeys.Commands.Profile.Bot);
     const pointsT = t(LanguageKeys.Commands.Profile.Points);
@@ -27,8 +29,8 @@ export class UserCommand extends PayloadCommand {
     const description = `
       ${botT}: ${targetUser.bot ? "Yes" : "No"}
       ID: ${targetUser.id}
-      Steam ID: ${user?.steamId || "NOT SET"}
-      ${pointsT}: ${user?.legacyPushed ?? 0}
+      Steam ID: ${u?.steamId ?? "NOT SET"}
+      ${pointsT}: ${u?.legacyPushed ?? 0}
     `;
 
     const embed = new EmbedBuilder({

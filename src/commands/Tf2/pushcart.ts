@@ -2,14 +2,16 @@ import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
 import { Message, EmbedBuilder, escapeMarkdown, Colors, bold, GuildMember } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random";
-import { isAfter, add, addDays, formatDistanceToNowStrict, addSeconds, differenceInSeconds } from "date-fns";
+import { isAfter, add, addSeconds, differenceInSeconds } from "date-fns";
 import PayloadColors from "#utils/colors";
-import { chunk, codeBlock, isNullOrUndefined } from "@sapphire/utilities";
+import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
+import { pushcart } from "#root/drizzle/schema";
+import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -54,16 +56,12 @@ export class UserCommand extends Subcommand {
   async push(msg: Message) {
     const t = await this.t(msg);
 
-    const { result, lastPushed } = await this.userPushcart(msg.author.id, msg.guildId!);
+    const { result, lastPushed } = await this.checkUserPushCooldown(msg.author.id, msg.guildId!);
 
     if (result === PayloadPushResult.COOLDOWN) {
       const secondsLeft = differenceInSeconds(addSeconds(lastPushed!, 30), new Date());
 
       return await send(msg, t(LanguageKeys.Commands.Pushcart.Cooldown, { seconds: secondsLeft })!);
-    } else if (result === PayloadPushResult.CAP) {
-      const timeLeft = formatDistanceToNowStrict(addDays(lastPushed!, 1));
-
-      return await send(msg, t(LanguageKeys.Commands.Pushcart.Maxpoints, { expires: timeLeft }));
     }
 
     const randomNumber = weightedRandom([
@@ -84,35 +82,23 @@ export class UserCommand extends Subcommand {
       { number: 17, weight: 2 },
     ]);
 
-    await this.database.pushcart.create({
-      data: {
-        pushed: randomNumber,
-        guildId: msg.guildId!,
-        userId: msg.author.id,
-      },
-      select: { pushed: true },
+    await this.database.insert(pushcart).values({
+      pushed: randomNumber,
+      guildId: msg.guildId,
+      userId: msg.author.id,
     });
 
-    const {
-      _sum: { pushed: totalUnitsPushed },
-    } = await this.database.pushcart.aggregate({
-      where: {
-        guildId: msg.guildId!,
-      },
-      _count: {
-        pushed: true,
-      },
-      _sum: {
-        pushed: true,
-      },
-    });
+    const [{ pushed }] = await this.database
+      .select({ pushed: sum(pushcart.pushed) })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, msg.guildId));
 
     return await send(
       msg,
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
-        total: totalUnitsPushed,
-      })!,
+        total: pushed,
+      }),
     );
   }
 
@@ -130,15 +116,14 @@ export class UserCommand extends Subcommand {
         .setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
     });
 
-    const userLeaderboard = await this.database.pushcart.groupBy({
-      by: ["userId", "guildId"],
-      where: {
-        guildId: msg.guildId!,
-      },
-      _sum: {
-        pushed: true,
-      },
-    });
+    const userLeaderboard = await this.database
+      .select({
+        userId: pushcart.userId,
+        pushed: sum(pushcart.pushed).mapWith(Number),
+      })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, msg.guildId!))
+      .groupBy(pushcart.userId, pushcart.guildId);
 
     if (userLeaderboard.length === 0) {
       return;
@@ -146,10 +131,10 @@ export class UserCommand extends Subcommand {
 
     const CHUNK_AMOUNT = 5;
 
-    const sorted = userLeaderboard.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
+    const sorted = userLeaderboard.sort((a, b) => b.pushed - a.pushed);
 
     for (const page of chunk(sorted, CHUNK_AMOUNT)) {
-      const leaderboardString = page.map(({ userId, _sum: { pushed } }, index) => {
+      const leaderboardString = page.map(({ userId, pushed }, index) => {
         const user = client.users.cache.get(userId) ?? null;
 
         return msg.author.id === userId
@@ -178,23 +163,27 @@ export class UserCommand extends Subcommand {
     const t = await this.t(msg);
     const targetUser = await args.pick("member").catch(() => msg.author);
 
-    const result = await this.database.$queryRaw<Array<{ rank: number; pushed: number }>>`
-      WITH leaderboard AS (SELECT ROW_NUMBER() OVER (ORDER BY pushed DESC) AS rank, SUM(pushed) as pushed, userId FROM "main"."Pushcart" WHERE guildId = ${msg.guildId!} GROUP BY userId)
-      SELECT * from leaderboard WHERE userId = ${targetUser.id}`;
-
-    const [userRank] = result;
+    const [data] = await this.database
+      .select({
+        sum: sum(pushcart.pushed).mapWith(Number).as("sum"),
+        rank: sql`ROW_NUMBER() OVER (ORDER BY pushed DESC)`.mapWith(Number).as("rank"),
+        userId: pushcart.userId,
+      })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, msg.guildId))
+      .groupBy(pushcart.userId);
 
     let memberNameToDisplay =
-      targetUser instanceof GuildMember ? targetUser.nickname ?? targetUser.displayName : targetUser.username;
+      targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
 
     memberNameToDisplay ??= "N/A";
 
-    if (isNullOrUndefined(result[0])) {
+    if (isNullOrUndefinedOrEmpty(data)) {
       return await send(
         msg,
         t(LanguageKeys.Commands.Pushcart.RankString, {
           name: escapeMarkdown(memberNameToDisplay),
-          count: Number(userRank?.pushed ?? 0),
+          count: 0,
         }),
       );
     }
@@ -205,8 +194,8 @@ export class UserCommand extends Subcommand {
         "md",
         t(LanguageKeys.Commands.Pushcart.RankString, {
           name: memberNameToDisplay,
-          rank: userRank.rank ?? "-",
-          count: Number(userRank?.pushed ?? 0),
+          rank: data?.rank ?? "-",
+          count: data?.sum ?? 0,
         }),
       ),
     );
@@ -219,55 +208,36 @@ export class UserCommand extends Subcommand {
     const t = await this.t(msg);
     const guild = await msg.client.guilds.fetch(msg.guildId!);
 
-    const serverHasPushedCheck = await this.database.pushcart.count({
-      where: {
-        guildId: guild.id,
-      },
-    });
+    const [{ pushed }] = await this.database
+      .select({ pushed: count(pushcart.pushed) })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, guild.id));
 
-    if (serverHasPushedCheck === 0) {
+    if (pushed === 0) {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NoPushesYet));
     }
 
-    const {
-      _count: { pushed: totalPushed },
-      _sum: { pushed: totalUnitsPushed },
-    } = await this.database.pushcart.aggregate({
-      where: {
-        guildId: guild.id,
-      },
-      _count: {
-        pushed: true,
-      },
-      _sum: {
-        pushed: true,
-      },
-    });
+    const [{ totalPushed, totalUnitsPushed }] = await this.database
+      .select({ totalPushed: count(pushcart.pushed), totalUnitsPushed: sum(pushcart.pushed) })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, guild.id));
 
-    const [{ distinctPushers }] = await this.database.$queryRaw<
-      Array<{
-        distinctPushers: number;
-      }>
-    >`SELECT COUNT(DISTINCT userId) as distinctPushers FROM "main"."Pushcart" WHERE guildId = ${guild.id}`;
+    const [{ distinctPushers }] = await this.database
+      .select({ distinctPushers: countDistinct(pushcart.userId) })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, guild.id));
 
-    const userStatisticsQuery = await this.database.pushcart.groupBy({
-      by: ["userId", "guildId"],
-      where: {
-        guildId: guild.id,
-      },
-      _count: {
-        pushed: true,
-      },
-      _sum: {
-        pushed: true,
-      },
-      orderBy: [
-        {
-          userId: "desc",
-        },
-      ],
-      take: 5,
-    });
+    const userStatisticsQuery = await this.database
+      .select({
+        userId: pushcart.userId,
+        count: count(pushcart.pushed).mapWith(Number),
+        sum: sum(pushcart.pushed).mapWith(Number),
+      })
+      .from(pushcart)
+      .where(eq(pushcart.guildId, guild.id))
+      .groupBy(pushcart.userId)
+      .orderBy(desc(pushcart.userId))
+      .limit(5);
 
     const userIdsToFetch = userStatisticsQuery.map(query => query.userId);
 
@@ -275,10 +245,10 @@ export class UserCommand extends Subcommand {
       await guild.members.fetch(id);
     }
 
-    const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b._count.pushed - a._count.pushed);
-    const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b._sum.pushed! - a._sum.pushed!);
+    const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b.count - a.count);
+    const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b.sum - a.sum);
 
-    const activePushersLeaderboard = topFiveSortedPushers.map(({ _count: { pushed: timesPushed }, userId }, index) => {
+    const activePushersLeaderboard = topFiveSortedPushers.map(({ count, userId }, index) => {
       const member = guild.members.cache.get(userId);
 
       const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
@@ -288,11 +258,11 @@ export class UserCommand extends Subcommand {
       return t(LanguageKeys.Commands.Pushcart.RankString, {
         name: nameToDisplay,
         rank: index + 1,
-        count: timesPushed ?? 0,
+        count: count ?? 0,
       });
     });
 
-    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, _sum: { pushed: totalPushed } }, index) => {
+    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, sum }, index) => {
       const member = guild.members.cache.get(userId);
 
       const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
@@ -302,7 +272,7 @@ export class UserCommand extends Subcommand {
       return t(LanguageKeys.Commands.Pushcart.RankString, {
         name: nameToDisplay,
         rank: index + 1,
-        count: totalPushed ?? 0,
+        count: sum ?? 0,
       });
     });
 
@@ -338,42 +308,39 @@ export class UserCommand extends Subcommand {
     return await send(msg, { embeds: [embed] });
   }
 
-  private async userPushcart(userId: string, guildId: string) {
-    const result = await this.database.pushcart.groupBy({
-      by: ["userId", "guildId"],
-      _max: {
-        timestamp: true,
-      },
-      _sum: {
-        pushed: true,
-      },
-      where: {
-        userId,
-        guildId,
-        timestamp: {
-          lte: add(Date.now(), { days: 1 }),
-        },
-      },
-    });
+  private async checkUserPushCooldown(
+    userId: string,
+    guildId: string,
+  ): Promise<{ result: PayloadPushResult; lastPushed: number }> {
+    const result = await this.database
+      .select({
+        userId: pushcart.userId,
+        lastPushed: max(pushcart.timestamp).mapWith(Number),
+      })
+      .from(pushcart)
+      .where(
+        and(
+          eq(pushcart.userId, userId),
+          eq(pushcart.guildId, guildId),
+          lte(pushcart.timestamp, add(Date.now(), { days: 1 }).toString()),
+        ),
+      )
+      .groupBy(pushcart.userId, pushcart.guildId);
 
     if (result.length === 0) {
-      return { result: PayloadPushResult.SUCCESS, lastPushed: new Date() };
+      return { result: PayloadPushResult.SUCCESS, lastPushed: Date.now() };
     }
 
-    const [
-      {
-        _sum: { pushed: totalPushedLastDay },
-        _max: { timestamp: lastPushed },
-      },
-    ] = result;
+    const [{ lastPushed }] = result;
 
-    const isUnderCooldown = isAfter(add(lastPushed!, { seconds: 30 }), Date.now());
+    const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now());
+    console.log(`first ${lastPushed}`);
+    console.log(`after ${Date.now()}`);
 
-    const shouldRefreshCap = isAfter(Date.now(), add(lastPushed!, { days: 1 }));
-
-    if (isUnderCooldown && totalPushedLastDay! !== 0) {
+    if (isUnderCooldown) {
       return { result: PayloadPushResult.COOLDOWN, lastPushed };
     }
+
     return { result: PayloadPushResult.SUCCESS, lastPushed };
   }
 }

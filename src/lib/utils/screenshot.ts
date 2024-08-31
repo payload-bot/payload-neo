@@ -123,7 +123,6 @@ export async function capturePage(
     const screenshotBuffer = await page.screenshot({
       clip,
       type: "webp",
-      encoding: "binary",
     });
 
     return screenshotBuffer as Buffer;
@@ -140,7 +139,7 @@ export async function captureSelector(url: string, selector: string, options?: P
 
     const element = await page.waitForSelector(selector);
 
-    const screenshot = await element.screenshot();
+    const screenshot = await element.screenshot({ type: "webp" });
 
     return screenshot;
   } finally {

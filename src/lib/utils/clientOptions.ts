@@ -40,12 +40,12 @@ function parseI18N(): InternationalizationOptions {
   return {
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
-        const data = await container.database
+        const [data] = await container.database
           .select({ language: guild.language })
           .from(guild)
           .where(eq(guild.id, msg.guild.id));
 
-        return data.at(0)?.language ?? "en-US";
+        return data?.language ?? "en-US";
       }
 
       return "en-US";

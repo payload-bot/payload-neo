@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
 import { Message, EmbedBuilder } from "discord.js";
 import { load } from "cheerio";
-import { convert } from "html-to-text";
+import { htmlToText } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
@@ -40,7 +40,19 @@ export default class UserAutoCommand extends AutoCommand {
     let $post = $(`#thread-container > .post:nth-child(1)`);
 
     let frags = $("#thread-frag-count").text().trim();
-    let body = convert($post.find(".post-body") as unknown as string);
+    let htmlBody = $post.find(".post-body");
+
+    const anchorRules = {
+      selectors: [
+        {
+          selector: "a",
+          options: { hideLinkHrefIfSameAsText: true },
+        },
+      ],
+    };
+
+    let body = htmlToText(htmlBody.html(), anchorRules);
+
     let author = $post.find(".post-header .post-author").text().trim();
 
     if (needFindChild) {
@@ -56,12 +68,12 @@ export default class UserAutoCommand extends AutoCommand {
       }
 
       frags = $post.find(`.post-frag-count`).text().trim();
-      body = convert($post.find(".post-body") as unknown as string);
+      let postBody = $post.find(".post-body");
+      body = htmlToText(postBody.html(), anchorRules);
       author = $post.find(".post-header .post-author").text().trim();
     }
 
     const dateSelector = $post.find(".post-footer .js-date-toggle").attr("title");
-
     const date = dateSelector ? dateSelector.replace(/at (\d+:\d+).+$/, "$1") : "N/A";
 
     const embed = new EmbedBuilder({

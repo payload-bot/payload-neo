@@ -4,6 +4,7 @@ import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
 import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
+import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 
 export type O = object;
 
@@ -24,7 +25,7 @@ declare module "@sapphire/framework" {
   }
 
   interface StoreRegistryEntries {
-    auto;
+    auto: AutoResponseStore;
   }
 
   export interface Args {

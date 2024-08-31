@@ -52,15 +52,12 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async view(msg: Message) {
-    const [{ language }] = await this.database
-      .select({ language: guild.language })
-      .from(guild)
-      .where(eq(guild.id, msg.guildId));
+    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
 
     const t = await this.t(msg);
 
     const content = t(LanguageKeys.Commands.Language.CurrentLanguage, {
-      language: inlineCode(language ?? "en-US"),
+      language: inlineCode(g?.language ?? "en-US"),
     });
 
     return await send(msg, content);
@@ -69,10 +66,7 @@ export class UserCommand extends Subcommand {
   @RequiresGuildContext()
   @RequiresUserPermissions([PermissionFlagsBits.Administrator])
   async set(msg: Message, args: Args) {
-    const [{ language: guildLanguage }] = await this.database
-      .select({ language: guild.language })
-      .from(guild)
-      .where(eq(guild.id, msg.guildId));
+    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
 
     const language = await args
       .pick("enum", { enum: ["en-US", "es-ES", "fi-FI", "pl-PL", "ru-RU", "de-DE"] })
@@ -84,7 +78,7 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Language.SetNeedsArgs));
     }
 
-    if (guildLanguage === language) {
+    if (g?.language === language) {
       return await send(msg, t(LanguageKeys.Commands.Language.SetSameLanguage));
     }
 
@@ -104,7 +98,7 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(guildLanguage ?? "en-US"),
+        old: inlineCode(g?.language ?? "en-US"),
         new: inlineCode(language),
       }),
       timestamp: new Date(),
@@ -117,14 +111,11 @@ export class UserCommand extends Subcommand {
   @RequiresGuildContext()
   @RequiresUserPermissions([PermissionFlagsBits.Administrator])
   async delete(msg: Message) {
-    const [{ language }] = await this.database
-      .select({ language: guild.language })
-      .from(guild)
-      .where(eq(guild.id, msg.guildId));
+    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
 
     const t = await this.t(msg);
 
-    if (language === null || language === "en-US") {
+    if (g == null || g.language === "en-US") {
       return await send(msg, t(LanguageKeys.Commands.Language.DeleteAlreadyDefault));
     }
 
@@ -137,7 +128,7 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(language ?? "en-US"),
+        old: inlineCode(g.language ?? "en-US"),
         new: inlineCode("en-US"),
       }),
       timestamp: new Date(),

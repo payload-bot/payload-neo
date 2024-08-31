@@ -52,7 +52,7 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async view(msg: Message) {
-    const [{ prefix }] = await this.database
+    const [g] = await this.database
       .select({ prefix: guild.language })
       .from(guild)
       .where(eq(guild.id, msg.guildId));
@@ -60,16 +60,16 @@ export class UserCommand extends Subcommand {
     const t = await this.t(msg);
 
     const content = t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
-      prefix: inlineCode(prefix ?? config.PREFIX),
+      prefix: inlineCode(g?.prefix ?? config.PREFIX),
     });
 
     return await send(msg, content);
   }
 
   @RequiresGuildContext()
-  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
+  @RequiresUserPermissions([PermissionFlagsBits.ManageGuild])
   async set(msg: Message, args: Args) {
-    const [{ guildPrefix }] = await this.database
+    const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
       .where(eq(guild.id, msg.guildId));
@@ -82,7 +82,7 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Prefix.SetNeedsArgs));
     }
 
-    if (guildPrefix === prefix) {
+    if (g?.guildPrefix === prefix) {
       return await send(msg, t(LanguageKeys.Commands.Prefix.SetSamePrefix));
     }
 
@@ -102,7 +102,7 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Prefix.SetPrefixEmbedDesc, {
-        old: inlineCode(guildPrefix ?? config.PREFIX),
+        old: inlineCode(g?.guildPrefix ?? config.PREFIX),
         new: inlineCode(prefix),
       }),
       timestamp: new Date(),
@@ -113,16 +113,16 @@ export class UserCommand extends Subcommand {
   }
 
   @RequiresGuildContext()
-  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
+  @RequiresUserPermissions([PermissionFlagsBits.ManageGuild])
   async delete(msg: Message) {
-    const [{ guildPrefix }] = await this.database
+    const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
       .where(eq(guild.id, msg.guildId));
 
     const t = await this.t(msg);
 
-    if (guildPrefix === config.PREFIX) {
+    if (g?.guildPrefix === config.PREFIX) {
       return await send(msg, t(LanguageKeys.Commands.Prefix.DeleteAlreadyDefault));
     }
 
@@ -135,7 +135,7 @@ export class UserCommand extends Subcommand {
         user: msg.author.tag,
       }),
       description: t(LanguageKeys.Commands.Prefix.SetPrefixEmbedDesc, {
-        old: inlineCode(guildPrefix ?? config.PREFIX),
+        old: inlineCode(g.guildPrefix),
         new: inlineCode(config.PREFIX),
       }),
       timestamp: new Date(),

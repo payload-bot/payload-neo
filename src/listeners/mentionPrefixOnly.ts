@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm";
 
 export class UserListener extends Listener<typeof Events.MentionPrefixOnly> {
   public async run(msg: Message) {
-    const [{ prefix }] = await this.container.database
+    const [g] = await this.container.database
       .select({ prefix: guild.prefix })
       .from(guild)
       .where(eq(guild.id, msg.guild.id));
@@ -18,7 +18,7 @@ export class UserListener extends Listener<typeof Events.MentionPrefixOnly> {
     const t = await fetchT(msg);
 
     const content = t(LanguageKeys.Commands.Prefix.CurrentPrefix, {
-      prefix: inlineCode(prefix ?? config.PREFIX),
+      prefix: inlineCode(g?.prefix ?? config.PREFIX),
     });
 
     return await send(msg, content);

@@ -18,7 +18,7 @@ export class UserCommand extends PayloadCommand {
 
     const { t } = args;
 
-    const [{ legacyPushed, steamId }] = await this.database
+    const [u] = await this.database
       .select({ steamId: user.steamId, legacyPushed: user.legacyPushed })
       .from(user)
       .where(eq(user.id, targetUser.id));
@@ -29,8 +29,8 @@ export class UserCommand extends PayloadCommand {
     const description = `
       ${botT}: ${targetUser.bot ? "Yes" : "No"}
       ID: ${targetUser.id}
-      Steam ID: ${steamId || "NOT SET"}
-      ${pointsT}: ${legacyPushed ?? 0}
+      Steam ID: ${u?.steamId ?? "NOT SET"}
+      ${pointsT}: ${u?.legacyPushed ?? 0}
     `;
 
     const embed = new EmbedBuilder({

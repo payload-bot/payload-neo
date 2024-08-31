@@ -15,18 +15,18 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      (new AutoResponseStore() as any).registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
+      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
     );
   }
 
   public fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
-      const data = await container.database
+      const [data] = await container.database
         .select({ prefix: guild.prefix })
         .from(guild)
         .where(eq(guild.id, msg.guildId));
 
-      return data.at(0)?.prefix ?? config.PREFIX;
+      return data?.prefix ?? config.PREFIX;
     }
 
     return [config.PREFIX, ""];

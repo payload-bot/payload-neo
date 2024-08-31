@@ -25,7 +25,7 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
     const parser = new Parser(this.strategy);
     const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
 
-    return new PayloadArgs(message, this as any, args, context, await fetchT(message));
+    return new PayloadArgs(message, this, args, context, await fetchT(message));
   }
 
   protected error(identifier: string | UserError, context?: unknown): never {

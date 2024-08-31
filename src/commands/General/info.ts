@@ -20,8 +20,8 @@ export class UserCommand extends PayloadCommand {
 
     const embed = new EmbedBuilder({
       author: {
-        name: client.user!.username,
-        iconURL: client.user!.displayAvatarURL(),
+        name: client.user.username,
+        iconURL: client.user.displayAvatarURL(),
       },
       title: args.t(LanguageKeys.Commands.Info.EmbedTitle, {
         users: membersServing,

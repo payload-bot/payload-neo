@@ -16,7 +16,7 @@ export class UserCommand extends PayloadCommand {
     const { stores } = this.container;
 
     const commands = [...stores.get("commands").values()];
-    const autoCommands = [...stores.get("autoresponses" as any).values()];
+    const autoCommands = [...stores.get("auto").values()];
 
     const embed = new EmbedBuilder({
       title: args.t(LanguageKeys.Commands.Commands.EmbedTitle),

@@ -11,7 +11,6 @@ export type O = object;
 declare module "discord.js" {
   interface Client {
     readonly dev: boolean;
-    readonly cache: SnipeCache;
   }
 }
 

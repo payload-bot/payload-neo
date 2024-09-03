@@ -217,20 +217,19 @@ export class UserCommand extends Subcommand {
       return await send(msg, t(LanguageKeys.Commands.Pushcart.NoPushesYet));
     }
 
-    const [{ totalPushed, totalUnitsPushed }] = await this.database
-      .select({ totalPushed: count(pushcart.pushed), totalUnitsPushed: sum(pushcart.pushed) })
-      .from(pushcart)
-      .where(eq(pushcart.guildId, guild.id));
-
-    const [{ distinctPushers }] = await this.database
-      .select({ distinctPushers: countDistinct(pushcart.userId) })
+    const [{ totalPushed, totalUnitsPushed, distinctPushers }] = await this.database
+      .select({
+        totalPushed: count(pushcart.pushed),
+        totalUnitsPushed: sum(pushcart.pushed),
+        distinctPushers: countDistinct(pushcart.userId),
+      })
       .from(pushcart)
       .where(eq(pushcart.guildId, guild.id));
 
     const userStatisticsQuery = await this.database
       .select({
         userId: pushcart.userId,
-        count: count(pushcart.pushed).mapWith(Number),
+        count: count(pushcart.pushed),
         sum: sum(pushcart.pushed).mapWith(Number),
       })
       .from(pushcart)
@@ -282,17 +281,17 @@ export class UserCommand extends Subcommand {
       .addFields(
         {
           name: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushedTitle),
-          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { count: Number(totalUnitsPushed ?? 0) }),
+          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { count: totalUnitsPushed ?? 0 }),
           inline: true,
         },
         {
           name: t(LanguageKeys.Commands.Pushcart.TotalPushedTitle),
-          value: t(LanguageKeys.Commands.Pushcart.TotalPushed, { count: Number(totalPushed) }),
+          value: t(LanguageKeys.Commands.Pushcart.TotalPushed, { count: totalPushed }),
           inline: true,
         },
         {
           name: t(LanguageKeys.Commands.Pushcart.DistinctPushersTitle),
-          value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { count: Number(distinctPushers) }),
+          value: t(LanguageKeys.Commands.Pushcart.DistinctPushers, { count: distinctPushers }),
           inline: true,
         },
       )

@@ -9,3 +9,4 @@ export * as Profile from "./profile.js";
 export * as Settings from "./settings.js";
 export * as Invite from "./invite.js";
 export * as Help from "./help.js";
+export * as Webhook from "./webhook.js";

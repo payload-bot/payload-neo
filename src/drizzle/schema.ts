@@ -1,7 +1,7 @@
 import { sqliteTable, text, numeric, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
-export const guild = sqliteTable("guild", {
+export const guild = sqliteTable("Guild", {
   id: text("id").primaryKey().notNull(),
   prefix: text("prefix").default("pls ").notNull(),
   language: text("language").default("en-US").notNull(),
@@ -9,7 +9,7 @@ export const guild = sqliteTable("guild", {
   webhookId: text("webhookId").references(() => webhook.id, { onDelete: "set null", onUpdate: "cascade" }),
 });
 
-export const user = sqliteTable("user", {
+export const user = sqliteTable("User", {
   id: text("id").primaryKey().notNull(),
   legacyPushed: integer("legacyPushed"),
   steamId: text("steamId"),
@@ -17,7 +17,7 @@ export const user = sqliteTable("user", {
 });
 
 export const webhook = sqliteTable(
-  "webhook",
+  "Webhook",
   {
     id: text("id").primaryKey().notNull(),
     value: text("value").notNull(),
@@ -33,7 +33,7 @@ export const webhook = sqliteTable(
   },
 );
 
-export const pushcart = sqliteTable("pushcart", {
+export const pushcart = sqliteTable("Pushcart", {
   id: integer("id").primaryKey({ autoIncrement: true }).notNull(),
   userId: text("userId").notNull(),
   guildId: text("guildId").notNull(),

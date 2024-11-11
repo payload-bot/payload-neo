@@ -63,7 +63,7 @@ COPY --from=build /app/dist /app/dist
 COPY --from=build /app/src/languages /app/dist/languages
 
 # prepare for litefs
-COPY --from=flyio/litefs:0.4.0 /usr/local/bin/litefs /usr/local/bin/litefs
+COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
 ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
 

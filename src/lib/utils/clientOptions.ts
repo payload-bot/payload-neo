@@ -76,7 +76,7 @@ function parseAPI(): ServerOptions {
     prefix: "/api/",
     listenOptions: {
       host: envParseString("HOST", "0.0.0.0"),
-      port: envParseInteger("PORT", 8080),
+      port: envParseInteger("PORT", 3000),
     },
   };
 }

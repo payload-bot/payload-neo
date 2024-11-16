@@ -1,7 +1,7 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { sendLogPreview } from "#lib/api/utils/webhook-helper";
 import { ApplyOptions } from "@sapphire/decorators";
-import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
+import { Route, type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
 import { webhook } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
@@ -14,9 +14,10 @@ const schema = v.object({
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/logs",
+  methods: ["POST"],
 })
 export class WebhookExecutionRoute extends ServiceController {
-  public async [methods.POST](request: ApiRequest, response: ApiResponse) {
+  public async run(request: Route.Request, response: Route.Response) {
     const headerAuth = request.headers?.authorization;
 
     if (isNullish(headerAuth)) {
@@ -32,7 +33,7 @@ export class WebhookExecutionRoute extends ServiceController {
       return response.notFound();
     }
 
-    const result = v.safeParse(schema, request.body);
+    const result = v.safeParse(schema, await request.readBodyJson());
 
     if (!result.success) {
       return response.badRequest("Bad request");
@@ -51,9 +52,10 @@ export class WebhookExecutionRoute extends ServiceController {
 
 @ApplyOptions<RouteOptions>({
   route: "v1/webhooks/logs",
+  methods: ["POST"],
 })
 export class WebhookExecutionv1Route extends ServiceController {
-  public async [methods.POST](request: ApiRequest, response: ApiResponse) {
+  public async run(request: ApiRequest, response: ApiResponse) {
     const headerAuth = request.headers?.authorization;
 
     if (isNullish(headerAuth)) {
@@ -69,7 +71,7 @@ export class WebhookExecutionv1Route extends ServiceController {
       return response.notFound();
     }
 
-    const result = v.safeParse(schema, request.body);
+    const result = v.safeParse(schema, await request.readBodyJson());
 
     if (!result.success) {
       return response.badRequest("Bad request");

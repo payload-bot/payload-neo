@@ -151,11 +151,15 @@ export class UserCommand extends Subcommand {
       paginationEmbed.addPageEmbed(embed);
     }
 
-    const response = await msg.channel.send({ embeds: [loadingEmbed] });
+    if (msg.channel.isSendable()) {
+      const response = await msg.channel.send({ embeds: [loadingEmbed] });
 
-    await paginationEmbed.run(response, msg.author);
+      await paginationEmbed.run(response, msg.author);
 
-    return response;
+      return response;
+    }
+
+    return;
   }
 
   @RequiresGuildContext()
@@ -203,8 +207,6 @@ export class UserCommand extends Subcommand {
 
   @RequiresGuildContext()
   async stats(msg: Message) {
-    await msg.channel.sendTyping();
-
     const t = await this.t(msg);
     const guild = await msg.client.guilds.fetch(msg.guildId!);
 

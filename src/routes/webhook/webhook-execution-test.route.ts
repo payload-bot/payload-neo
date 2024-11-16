@@ -2,15 +2,16 @@ import { ServiceController } from "#lib/api/ServiceController";
 import { sendTest } from "#lib/api/utils/webhook-helper";
 import { webhook } from "#root/drizzle/schema";
 import { ApplyOptions } from "@sapphire/decorators";
-import { type ApiRequest, type ApiResponse, methods, type RouteOptions } from "@sapphire/plugin-api";
+import { type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
 import { eq } from "drizzle-orm";
 
 @ApplyOptions<RouteOptions>({
   route: "webhooks/test",
+  methods: ["POST"],
 })
 export class WebhookTestRoute extends ServiceController {
-  public async [methods.POST](request: ApiRequest, response: ApiResponse) {
+  public async run(request: ApiRequest, response: ApiResponse) {
     const headerAuth = request.headers?.authorization;
 
     if (isNullish(headerAuth)) {
@@ -34,9 +35,10 @@ export class WebhookTestRoute extends ServiceController {
 
 @ApplyOptions<RouteOptions>({
   route: "v1/webhooks/test",
+  methods: ["POST"],
 })
 export class WebhookTestv1Route extends ServiceController {
-  public async [methods.POST](request: ApiRequest, response: ApiResponse) {
+  public async run(request: ApiRequest, response: ApiResponse) {
     const headerAuth = request.headers?.authorization;
 
     if (isNullish(headerAuth)) {

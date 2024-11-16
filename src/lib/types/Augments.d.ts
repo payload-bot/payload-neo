@@ -91,5 +91,10 @@ declare module "@skyra/env-utilities" {
      * The path of the database to use
      */
     DATABASE_PATH: string;
+
+    /**
+     * The ip of the api to listen on
+     */
+    HOST: string
   }
 }

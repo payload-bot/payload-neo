@@ -4,6 +4,9 @@ fuse:
 data:
   dir: "/data/litefs"
 
+exec:
+  - cmd: "yarn start"
+
 proxy:
   addr: ":${INTERNAL_PORT}"
   target: "localhost:${PORT}"

@@ -23,7 +23,7 @@
   "type": "module",
   "scripts": {
     "dev": "run-p watch start",
-    "build": "tsup --onSuccess \"node scripts/copy-i18n.mjs \"",
+    "build": "tsup --onSuccess \"node scripts/copy-i18n.mjs\"",
     "watch": "tsup --watch --onSuccess \"node scripts/copy-i18n.mjs\"",
     "lint:fix": "prettier --write .",
     "start": "node --enable-source-maps .",
@@ -74,6 +74,5 @@
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3"
-  },
-  "packageManager": "yarn@3.3.0"
+  }
 }

@@ -7,6 +7,7 @@ kill_timeout = "5s"
   CHROME_WS_ENABLE = "false"
   CHROME_WS_URL = ""
   OWNERS = "176457969465163776"
+  HOST = "0.0.0.0"
   PORT = "3000"
   ENVIRONMENT = "production"
 

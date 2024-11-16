@@ -4,7 +4,7 @@ import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { DurationFormatter, Time } from "@sapphire/time-utilities";
-import { envParseInteger } from "@skyra/env-utilities";
+import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData, Options } from "discord.js";
 import { eq } from "drizzle-orm";
 
@@ -75,6 +75,7 @@ function parseAPI(): ServerOptions {
   return {
     prefix: "/api/",
     listenOptions: {
+      host: envParseString("HOST", "0.0.0.0"),
       port: envParseInteger("PORT", 8080),
     },
   };

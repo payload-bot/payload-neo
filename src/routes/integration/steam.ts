@@ -1,12 +1,13 @@
 import { ServiceController } from "#lib/api/ServiceController";
 import { ApplyOptions } from "@sapphire/decorators";
-import { type ApiResponse, methods, type RouteOptions, ApiRequest } from "@sapphire/plugin-api";
+import { type RouteOptions, ApiRequest, Route } from "@sapphire/plugin-api";
 
 @ApplyOptions<RouteOptions>({
   route: "steam",
+  methods: ["GET"],
 })
 export class SteamRedirectController extends ServiceController {
-  public async [methods.GET](request: ApiRequest, response: ApiResponse) {
+  async run(request: ApiRequest, response: Route.Response) {
     const serverIp = request.query.ip;
     const serverPassword = request.query.pw;
 

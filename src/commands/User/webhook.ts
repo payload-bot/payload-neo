@@ -6,7 +6,7 @@ import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import PayloadColors from "#utils/colors";
-import { webhook } from "#root/drizzle/schema.js";
+import { webhook } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 @ApplyOptions<CommandOptions>({

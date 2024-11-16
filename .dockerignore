@@ -9,10 +9,8 @@
 
 # Files
 !package.json
-!.yarn/**
-!.yarnrc.yml
-!yarn.lock
 !tsup.config.ts
 !tsconfig.json
 !litefs.yml
 !fly.toml
+!.npmrc

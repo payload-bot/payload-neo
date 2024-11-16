@@ -2,7 +2,7 @@
   "description": "Verwaltet dein Präfix für diesen Server",
   "detailedDescription": {
     "usages": [
-      "\"\"",
+      "",
       "set <new prefix>",
       "update <new prefix>",
       "delete",

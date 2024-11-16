@@ -1,5 +1,6 @@
 import { mapIdentifier } from "#lib/i18n/mapping";
 import { type MessageCommandDeniedPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { send } from "@sapphire/plugin-editable-commands";
 import { resolveKey } from "@sapphire/plugin-i18next";
 import type { Message } from "discord.js";
 
@@ -14,7 +15,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandDenied> {
   }
 
   private async alert(message: Message, content: string) {
-    return await message.channel.send({
+    return await send(message, {
       content,
       allowedMentions: { users: [message.author.id], roles: [] },
     });

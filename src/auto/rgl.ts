@@ -12,7 +12,7 @@ import { send } from "@sapphire/plugin-editable-commands";
   cooldownDelay: 2500,
   cooldownScope: BucketScope.Guild,
   cooldownLimit: 1,
-  regex: /rgl\.gg\/Public\/Team\.aspx\?t=\d+\&r=\d+/,
+  regex: /rgl\.gg\/Public\/Team(\.aspx)*\?t=\d+\&r=\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore
@@ -48,13 +48,13 @@ export default class UserAutoCommand extends AutoCommand {
       },
     );
 
-    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.png" });
+    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.webp" });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,
       title: args.t(LanguageKeys.Auto.RGL.RGLEmbedTitle),
       url: `https://${matched}`,
-      image: { url: "attachment://team.png" },
+      image: { url: "attachment://team.webp" },
       footer: {
         text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
       },

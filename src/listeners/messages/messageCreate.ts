@@ -3,13 +3,8 @@ import type { Message } from "discord.js";
 
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
-    // If the message was sent by a webhook, return:
     if (message.webhookId !== null) return;
-
-    // If the message was sent by the system, return:
     if (message.system) return;
-
-    // If the message was sent by a bot, return:
     if (message.author.bot) return;
 
     const { client } = this.container;
@@ -61,7 +56,9 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         return;
       }
 
-      await message.channel.sendTyping();
+      if (message.channel.isSendable()) {
+        await message.channel.sendTyping();
+      }
 
       const args = await autoResponse.messagePreParse(message, message.content, context);
 

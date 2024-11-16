@@ -18,7 +18,7 @@ RUN npm install
 
 RUN npm run build
 
-RUN npm prune --production
+RUN npm install --omit=dev
 
 # runner
 FROM base

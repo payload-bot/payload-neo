@@ -9,7 +9,6 @@
     "noWebhook": "No webhook created yet",
     "createWebhook": "Create Webhook",
     "deleteWebhook": "Delete Webhook",
-    "deletedWebhook": "Deleted webhook",
-    "createdWebhook": "Created webhook: {secret}"
+    "deletedWebhook": "Deleted webhook"
   }
   

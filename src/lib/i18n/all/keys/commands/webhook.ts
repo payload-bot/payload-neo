@@ -6,6 +6,5 @@ export const DetailedDescription = T<string>("commands/webhook:detailedDescripti
 export const EmbedTitle = T<string>("commands/webhook:embedTitle");
 export const NoWebhook = T<string>("commands/webhook:noWebhook");
 export const CreateWebhook = T<string>("commands/webhook:createWebhook");
-export const CreatedWebhook = FT<string, { secret: string }>("commands/webhook:createdWebhook");
 export const DeleteWebhook = T<string>("commands/webhook:deleteWebhook");
 export const DeletedWebhook = T<string>("commands/webhook:deletedWebhook");

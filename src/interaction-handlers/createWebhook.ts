@@ -3,7 +3,8 @@ import { user, webhook } from "#root/drizzle/schema";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { codeBlock, type ButtonInteraction } from "discord.js";
+import { codeBlock, type ButtonInteraction, EmbedBuilder } from "discord.js";
+import PayloadColors from "#utils/colors";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
@@ -48,8 +49,14 @@ export class ButtonHandler extends InteractionHandler {
         target: user.id,
       });
 
+    const embed = new EmbedBuilder({
+      title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
+      description: codeBlock(createdWebhook.value),
+      color: PayloadColors.Payload,
+    });
+
     await interaction.reply({
-      content: t(LanguageKeys.Commands.Webhook.CreatedWebhook, { secret: codeBlock(createdWebhook.value) }),
+      embeds: [embed],
       ephemeral: true,
     });
   }

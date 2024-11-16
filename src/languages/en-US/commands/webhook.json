@@ -1,0 +1,15 @@
+{
+    "name": "webhook",
+    "description": "Provides a set of actions to work with the Payload webhook integration",
+    "detailedDescription": {
+      "usages": [],
+      "details": "See more on (Github)[https://github.com/payload-bot/payload-logs-plugin]"
+    },
+    "embedTitle": "Your Webhook",
+    "noWebhook": "No webhook created yet",
+    "createWebhook": "Create Webhook",
+    "deleteWebhook": "Delete Webhook",
+    "deletedWebhook": "Deleted webhook",
+    "createdWebhook": "Created webhook: {secret}"
+  }
+  

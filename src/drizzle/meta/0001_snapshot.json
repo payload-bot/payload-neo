@@ -1,8 +1,8 @@
 {
+  "id": "72154605-4801-44fe-b416-f9918ca9bea9",
+  "prevId": "c1fbe079-cf0d-48ee-9ed9-af299162450b",
   "version": "6",
   "dialect": "sqlite",
-  "id": "c1fbe079-cf0d-48ee-9ed9-af299162450b",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "Guild": {
       "name": "Guild",
@@ -50,15 +50,15 @@
         "Guild_webhookId_Webhook_id_fk": {
           "name": "Guild_webhookId_Webhook_id_fk",
           "tableFrom": "Guild",
-          "tableTo": "Webhook",
           "columnsFrom": [
             "webhookId"
           ],
+          "tableTo": "Webhook",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
-          "onUpdate": "cascade"
+          "onUpdate": "cascade",
+          "onDelete": "set null"
         }
       },
       "compositePrimaryKeys": {},
@@ -148,15 +148,15 @@
         "User_webhookId_Webhook_id_fk": {
           "name": "User_webhookId_Webhook_id_fk",
           "tableFrom": "User",
-          "tableTo": "Webhook",
           "columnsFrom": [
             "webhookId"
           ],
+          "tableTo": "Webhook",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
-          "onUpdate": "cascade"
+          "onUpdate": "cascade",
+          "onDelete": "set null"
         }
       },
       "compositePrimaryKeys": {},
@@ -214,9 +214,9 @@
   "views": {},
   "enums": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
+    "tables": {}
   },
   "internal": {
     "indexes": {}

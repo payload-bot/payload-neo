@@ -22,7 +22,7 @@ export const webhook = sqliteTable(
     id: text("id").primaryKey().notNull(),
     value: text("value").notNull(),
     type: text("type").notNull(),
-    createdAt: numeric("timestamp")
+    createdAt: numeric("createdAt")
       .default(sql`(cast(strftime('%s','now') as int))`)
       .notNull(),
   },

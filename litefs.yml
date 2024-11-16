@@ -5,7 +5,7 @@ data:
   dir: "/data/litefs"
 
 exec:
-  - cmd: "yarn start"
+  - cmd: "npm start"
 
 proxy:
   addr: ":${INTERNAL_PORT}"

@@ -19,7 +19,7 @@ export default class UserAutoCommand extends AutoCommand {
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     const screenshotBuffer = await captureSelector(`https://${matched}`, "#content > div > div > table.pls");
 
-    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.png" });
+    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "team.png" });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,

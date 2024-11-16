@@ -48,7 +48,7 @@ export default class UserAutoCommand extends AutoCommand {
       },
     );
 
-    const att = new AttachmentBuilder(screenshotBuffer, { name: "team.webp" });
+    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "team.webp" });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,

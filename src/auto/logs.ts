@@ -39,7 +39,7 @@ export default class UserAutoCommand extends AutoCommand {
       cssPath: config.files.LOGS_CSS,
     });
 
-    const att = new AttachmentBuilder(screenshotBuffer, { name: "log.webp" });
+    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,

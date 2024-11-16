@@ -23,10 +23,12 @@
   "type": "module",
   "scripts": {
     "dev": "run-p watch start",
+    "debug": "run-p watch start:debug",
     "build": "tsup --onSuccess \"node scripts/copy-i18n.mjs\"",
     "watch": "tsup --watch --onSuccess \"node scripts/copy-i18n.mjs\"",
     "lint:fix": "prettier --write .",
-    "start": "node --enable-source-maps .",
+    "start": "node --inspect-brk --enable-source-maps .",
+    "start:debug": "node --inspect-brk --enable-source-maps .",
     "clean": "node scripts/clean.mjs"
   },
   "resolutions": {

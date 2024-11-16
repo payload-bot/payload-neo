@@ -1,14 +1,15 @@
 import { BucketScope, type CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { Message, AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config";
 import { capturePage } from "#utils/screenshot";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { eq } from "drizzle-orm";
+import { search } from "@tf2software/logstf";
 import { user } from "#root/drizzle/schema";
+import PayloadColors from "#utils/colors";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,
@@ -16,12 +17,11 @@ import { user } from "#root/drizzle/schema";
   cooldownDelay: 1500,
   cooldownLimit: 1,
   cooldownScope: BucketScope.User,
+  typing: true,
 })
 export class UserCommand extends PayloadCommand {
   async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { id, tag } = await args.pick("user").catch(() => msg.author);
-
-    await msg.channel.sendTyping();
 
     const [{ steamId }] = await this.database.select({ steamId: user.steamId }).from(user).where(eq(user.id, id));
 
@@ -30,14 +30,14 @@ export class UserCommand extends PayloadCommand {
       return;
     }
 
-    const { logs } = await fetch<any>(`http://logs.tf/api/v1/log?limit=1&player=${steamId}`, FetchResultTypes.JSON);
+    const { logs } = await search({ limit: 1, player: [steamId] });
 
     if (!logs.length) {
       await send(msg, args.t(LanguageKeys.Commands.Log.NoHistory));
       return;
     }
 
-    const logID = logs[logs.length - 1].id;
+    const logID = logs[0].id;
 
     const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${steamId}`, {
       top: {
@@ -60,17 +60,19 @@ export class UserCommand extends PayloadCommand {
       cssPath: config.files.LOGS_CSS,
     });
 
-    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
-      new ButtonBuilder({
-        label: args.t(LanguageKeys.Commands.Log.Button),
-        url: `http://logs.tf/${logID}#${user.steamId}`,
-        style: ButtonStyle.Link,
-      }),
-    );
+    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
+
+    const embed = new EmbedBuilder({
+      color: PayloadColors.Command,
+      title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
+      url: `https://logs.tf/${logID}`,
+      image: { url: "attachment://log.webp" },
+      timestamp: new Date(),
+    });
 
     await send(msg, {
-      files: [screenshotBuffer],
-      components: [linkButton],
+      embeds: [embed],
+      files: [att],
     });
   }
 }

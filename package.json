@@ -51,6 +51,7 @@
     "@sapphire/time-utilities": "^1.7.14",
     "@sapphire/utilities": "^3.18.1",
     "@skyra/env-utilities": "^1.3.0",
+    "@tf2software/logstf": "npm:@jsr/tf2software__logstf@^0.0.3",
     "@valibot/valibot": "npm:@jsr/valibot__valibot@^0.36.0",
     "better-sqlite3": "^11.5.0",
     "cheerio": "^1.0.0",

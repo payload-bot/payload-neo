@@ -90,7 +90,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
     cssPath: config.files.LOGS_CSS,
   });
 
-  const att = new AttachmentBuilder(screenshotBuffer, { name: "log.png" });
+  const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.png" });
 
   const embed = new EmbedBuilder({
     title: "Logs.tf Preview",

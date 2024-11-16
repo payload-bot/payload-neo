@@ -27,7 +27,7 @@
     "build": "tsup --onSuccess \"node scripts/copy-i18n.mjs\"",
     "watch": "tsup --watch --onSuccess \"node scripts/copy-i18n.mjs\"",
     "lint:fix": "prettier --write .",
-    "start": "node --inspect-brk --enable-source-maps .",
+    "start": "node --enable-source-maps .",
     "start:debug": "node --inspect-brk --enable-source-maps .",
     "clean": "node scripts/clean.mjs"
   },

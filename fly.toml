@@ -3,14 +3,6 @@ primary_region = "ord"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
-[env]
-  CHROME_WS_ENABLE = "false"
-  CHROME_WS_URL = ""
-  OWNERS = "176457969465163776"
-  HOST = "0.0.0.0"
-  PORT = "3000"
-  ENVIRONMENT = "production"
-
 [[mounts]]
   source = "data"
   destination = "/data"

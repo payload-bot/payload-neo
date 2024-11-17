@@ -1,5 +1,5 @@
 {
-    "name": "Webhook",
+    "name": "webhook",
     "description": "Stellt eine Reihe von Aktionen bereit, um mit der Payload Webhook Integration zu arbeiten",
     "detailedDescription": {
         "usages": [],

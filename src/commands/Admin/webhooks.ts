@@ -9,7 +9,7 @@ import { guild, webhook } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { sendTest } from "#lib/api/utils/webhook-helper";
+import { sendTest } from "#lib/utils/webhook-helper";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,

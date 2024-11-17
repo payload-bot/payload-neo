@@ -1,5 +1,5 @@
-import { ServiceController } from "#lib/api/ServiceController";
-import { sendTest } from "#lib/api/utils/webhook-helper";
+import { ServiceController } from "#lib/structs/ServiceController";
+import { sendTest } from "#lib/utils/webhook-helper";
 import { webhook } from "#root/drizzle/schema";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";

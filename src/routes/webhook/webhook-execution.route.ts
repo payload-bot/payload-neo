@@ -1,5 +1,5 @@
-import { ServiceController } from "#lib/api/ServiceController";
-import { sendLogPreview } from "#lib/api/utils/webhook-helper";
+import { ServiceController } from "#lib/structs/ServiceController";
+import { sendLogPreview } from "#lib/utils/webhook-helper";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Route, type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";

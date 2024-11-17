@@ -126,7 +126,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 }
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {
-  if (id ==  null) {
+  if (id == null) {
     return false;
   }
 

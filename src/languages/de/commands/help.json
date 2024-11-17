@@ -1,0 +1,9 @@
+{
+  "description": "Gibt Hilfe zu einem Befehl an.",
+  "detailedDescription": {
+    "usages": [
+      "[command]"
+    ],
+    "details": "Brauchst du Hilfe bei einem Befehl? Dies gibt Dir die Verwendung des Befehls mit den Argumenten, die er akzeptieren kann, sowie einige zusätzliche Details über den Befehl."
+  }
+}

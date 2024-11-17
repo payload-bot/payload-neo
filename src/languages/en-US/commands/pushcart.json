@@ -27,7 +27,7 @@
   "totalPushed_other": "The cart has been pushed **{{ count, number }}** times",
   "totalUnitsPushedTitle": "Number of Units Pushed",
   "totalUnitsPushed_one": "Only **{{ count, number }}** unit was pushed",
-  "totalUnitsPushed_other": "In total, **{{ count, number }}** units have been pushed",
+  "totalUnitsPushed_other": "In total, **{{ count, number }}** total units has been pushed",
   "leaderboardEmbedTitle": "Pushcart Leaderboard",
   "serverEmbedTitle": "Pushcart Server Leaderboard"
 }

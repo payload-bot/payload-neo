@@ -1,4 +1,9 @@
 {
+  "description": "Eine Liste der verfügbaren Befehle für Payload",
+  "detailedDescription": {
+    "usages": [],
+    "details": "Hilfreiche Liste von Befehlen. Nützlich zum einschränken von Befehlen, vor allem über die du nicht weißt und nicht willst das andere Personen sie nutzen."
+  },
   "embedTitle": "Liste der Befehle",
   "commands": "Befehle",
   "auto": "Auto-Befehle"

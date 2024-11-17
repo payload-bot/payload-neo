@@ -222,7 +222,7 @@ export class UserCommand extends Subcommand {
     const [{ totalPushed, totalUnitsPushed, distinctPushers }] = await this.database
       .select({
         totalPushed: count(pushcart.pushed),
-        totalUnitsPushed: sum(pushcart.pushed),
+        totalUnitsPushed: sum(pushcart.pushed).mapWith(Number),
         distinctPushers: countDistinct(pushcart.userId),
       })
       .from(pushcart)
@@ -283,7 +283,7 @@ export class UserCommand extends Subcommand {
       .addFields(
         {
           name: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushedTitle),
-          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { count: totalUnitsPushed ?? 0 }),
+          value: t(LanguageKeys.Commands.Pushcart.TotalUnitsPushed, { count: totalUnitsPushed }),
           inline: true,
         },
         {

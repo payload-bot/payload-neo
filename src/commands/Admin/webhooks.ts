@@ -56,6 +56,12 @@ export class UserCommand extends PayloadCommand {
             type: "channels",
             value: secret,
           })
+          .onConflictDoUpdate({
+            set: {
+              id: channel.id,
+            },
+            target: webhook.id,
+          })
           .returning();
 
         await this.database

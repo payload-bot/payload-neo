@@ -1,4 +1,4 @@
-import { container, SapphireClient } from "@sapphire/framework";
+import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
@@ -33,6 +33,10 @@ export class PayloadClient extends SapphireClient {
   };
 
   public async login(token?: string) {
+    if (this.dev) {
+      ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
+    }
+
     await connect();
 
     const response = await super.login(token);

@@ -11,5 +11,5 @@ export const AddChannelIdDescription = T<string>("commands/guild-webhook:addChan
 export const AddFailed = T<string>("commands/guild-webhook:addFailed");
 export const RemoveName = T<string>("commands/guild-webhook:removeName");
 export const RemoveDescription = T<string>("commands/guild-webhook:removeDescription");
-export const ShowName = T<string>("commands/guild-webhook:removeName");
+export const ShowName = T<string>("commands/guild-webhook:showName");
 export const ShowDescription = T<string>("commands/guild-webhook:removeDescription");

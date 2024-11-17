@@ -335,8 +335,6 @@ export class UserCommand extends Subcommand {
     const [{ lastPushed }] = result;
 
     const isUnderCooldown = isAfter(add(lastPushed, { seconds: 30 }), Date.now());
-    console.log(`first ${lastPushed}`);
-    console.log(`after ${Date.now()}`);
 
     if (isUnderCooldown) {
       return { result: PayloadPushResult.COOLDOWN, lastPushed };

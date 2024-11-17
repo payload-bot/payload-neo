@@ -82,7 +82,14 @@ export class UserCommand extends PayloadCommand {
         return;
       }
       case "delete": {
-        await this.container.database.delete(webhook).where(eq(webhook.id, interaction.user.id));
+        if (!isNullOrUndefinedOrEmpty(guildWebhook?.webhookId)) {
+          const [wbhk] = await this.database
+            .select({ id: webhook.id })
+            .from(webhook)
+            .where(eq(webhook.id, guildWebhook.webhookId));
+
+          await this.container.database.delete(webhook).where(eq(webhook.id, wbhk.id));
+        }
 
         await interaction.reply({
           content: t(LanguageKeys.Commands.Webhook.DeletedWebhook),

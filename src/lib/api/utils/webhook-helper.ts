@@ -1,6 +1,7 @@
 import config from "#root/config";
 import { EmbedColors } from "#utils/colors";
 import { capturePage } from "#utils/screenshot";
+import { container } from "@sapphire/pieces";
 import {
   type Client,
   type TextChannel,
@@ -125,15 +126,19 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 }
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {
+  if (id ==  null) {
+    return false;
+  }
+
   const target = (await client[scope].fetch(id).catch(() => null)) as TargetReturnType;
 
   if (target == null) {
-    throw new Error("Bad discord target id");
+    return false;
   }
 
   const embed = new EmbedBuilder({
     title: "Webhook Test",
-    description: "Successful webhook test!",
+    description: "You will receive log previews in this channel",
     footer: {
       text: "Rendered from Webhook",
     },
@@ -142,9 +147,11 @@ export async function sendTest(client: Client, scope: WebhookTargetType, id: str
   });
 
   try {
-    await sendWebhook(target, embed, null, null);
+    const data = await sendWebhook(target, embed, null, null);
+    return data != null;
   } catch (err) {
-    throw err;
+    container.logger.error(err);
+    return false;
   }
 }
 

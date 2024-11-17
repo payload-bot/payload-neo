@@ -1,4 +1,4 @@
-import { FT, T } from "#lib/types";
+import { T } from "#lib/types";
 
 export const Name = T<string>("commands/webhook:name");
 export const Description = T<string>("commands/webhook:description");

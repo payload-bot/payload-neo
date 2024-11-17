@@ -1,0 +1,17 @@
+{
+    "name": "guildwebhook",
+    "description": "Provides a set of actions to work with the Payload webhook integration",
+    "detailedDescription": {
+        "usages": [],
+        "details": "See more on (Github)[https://github.com/payload-bot/payload-logs-plugin]"
+    },
+    "addName": "add",
+    "addDescription": "Creates a webhook for a given channel",
+    "addChannelIdName": "channelid",
+    "addChannelIdDescription": "The channel id to send webhooks to",
+    "addFailed": "Failed to create the webhook",
+    "removeName": "remove",
+    "removeDescription": "Removes the webhook",
+    "showName": "show",
+    "showDescription": "Shows the webhook secret for the channel"
+}

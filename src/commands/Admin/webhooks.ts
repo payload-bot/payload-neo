@@ -25,7 +25,7 @@ export class UserCommand extends PayloadCommand {
       .from(guild)
       .where(eq(guild.id, interaction.guildId));
 
-    switch (interaction.commandName) {
+    switch (interaction.options.getSubcommand(true)) {
       case "add": {
         const channel = interaction.options.getChannel("channel");
 
@@ -38,7 +38,7 @@ export class UserCommand extends PayloadCommand {
               iconURL: client.user.displayAvatarURL(),
             },
             title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-            description: t(LanguageKeys.Commands.GuildWebhook.AddFailed),
+            description: t(LanguageKeys.Commands.Webhooks.AddFailed),
             color: PayloadColors.Payload,
           });
 
@@ -98,7 +98,7 @@ export class UserCommand extends PayloadCommand {
           color: PayloadColors.Payload,
         });
 
-        if (!isNullOrUndefinedOrEmpty(guildWebhook)) {
+        if (!isNullOrUndefinedOrEmpty(guildWebhook?.webhookId)) {
           const [wbhk] = await this.database
             .select({ value: webhook.value })
             .from(webhook)
@@ -115,21 +115,19 @@ export class UserCommand extends PayloadCommand {
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {
-    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.Name);
+    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.Name);
     const rootDescriptionLocalizations = getLocalizedData(this.description);
 
-    const addNameLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.AddName);
-    const addDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.AddDescription);
-    const channelIdNameLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.AddChannelIdName);
-    const channelIdDescriptionLocalizations = getLocalizedData(
-      LanguageKeys.Commands.GuildWebhook.AddChannelIdDescription,
-    );
+    const addNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddName);
+    const addDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddDescription);
+    const channelIdNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddChannelIdName);
+    const channelIdDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddChannelIdDescription);
 
-    const removeNameLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.RemoveName);
-    const removeDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.RemoveDescription);
+    const removeNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.RemoveName);
+    const removeDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.RemoveDescription);
 
-    const showNameLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.ShowName);
-    const showDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.GuildWebhook.ShowDescription);
+    const showNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.ShowName);
+    const showDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.ShowDescription);
 
     registry.registerChatInputCommand(builder =>
       builder
@@ -151,7 +149,8 @@ export class UserCommand extends PayloadCommand {
                 .setDescription(channelIdDescriptionLocalizations.localizations["en-US"])
                 .setNameLocalizations(channelIdNameLocalizations.localizations)
                 .setDescriptionLocalizations(channelIdDescriptionLocalizations.localizations)
-                .addChannelTypes(ChannelType.GuildText),
+                .addChannelTypes(ChannelType.GuildText)
+                .setRequired(true),
             ),
         )
         .addSubcommand(sub =>

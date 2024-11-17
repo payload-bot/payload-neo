@@ -1,5 +1,5 @@
 {
-    "name": "guildwebhook",
+    "name": "webhooks",
     "description": "Provides a set of actions to work with the Payload webhook integration",
     "detailedDescription": {
         "usages": [],

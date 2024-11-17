@@ -1,0 +1,20 @@
+{
+  "description": "Verwaltet deine Sprache für diesen Server",
+  "detailedDescription": {
+    "usages": [
+      "",
+      "setze <new language>",
+      "aktualisiere <new language>",
+      "delete",
+      "reset",
+      "view"
+    ],
+    "details": "Verwalte das Präfix deines Servers. Du kannst es jederzeit mit den `delete` oder `reset` Argumenten zurücksetzen."
+  },
+  "currentLanguage": "Die aktuelle Sprache ist: {{ language }}",
+  "setNeedsArgs": "Bitte gebe eine neue Sprache an!",
+  "setSameLanguage": "Deine neue Sprache ist die gleiche wie die alte Sprache!",
+  "setLanguageEmbedTitle": "Sprache aktualisiert von {{ user }}",
+  "setLanguageEmbedDesc": "Sprache von {{ old }} auf {{ new }} aktualisiert",
+  "deleteAlreadyDefault": "Deine Sprache ist bereits der Standard!"
+}

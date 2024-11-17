@@ -1,0 +1,33 @@
+{
+  "description": "Pushcart Rangliste",
+  "detailedDescription": {
+    "usages": [
+      "",
+      "Rangliste",
+      "Statistiken",
+      "Rang <user>"
+    ],
+    "details": "Schiebe die Lore! Dies ist eine globale Rangliste, und Du kannst die aktuellen Ränge jederzeit unter Verwendung der aufgeführten Unterbefehle ansehen."
+  },
+  "cooldown": "Du musst {{ seconds }} Sekunden warten bevor du die Lore erneut schieben kannst!",
+  "maxpoints": "Du hast die maximale Anzahl an Punkten für heute erreicht. Komm zurück in {{ expires }}!",
+  "pushSuccess": "{{ PUSHCART_EMOJI }} Schiebt die Lore **{{ units }}** Fuß vorwärts ({{ total, number }} insgesamt).",
+  "rank_zero": "{{ name }} hat die Lore noch nicht geschoben.",
+  "rank_one": "{{ rank }}: {{ name }} ({{ count, number }})",
+  "rank_other": "{{ rank }}: {{ name }} ({{ count, number }})",
+  "statsTitle": "{{ name }}'s Pushcart-Statistik",
+  "topPushers": "Top Pushers",
+  "noPushesYet": "Noch niemand hat die Lore geschoben. Sei der Erste!",
+  "activePushers": "Die aktivsten Pusher",
+  "distinctPushersTitle": "Eindeutige Pusher",
+  "distinctPushers_one": "Nur **{{ count, number }}** Benutzer haben die Lore geschoben. Traurig!",
+  "distinctPushers_other": "Es gibt **{{ count, number }}** eindeutige Pusher",
+  "totalPushedTitle": "Anzahl der Pushes",
+  "totalPushed_one": "Der Lore wurde **{{ count, number }}** mal geschoben",
+  "totalPushed_other": "Der Lore wurde **{{ count, number }}** mal geschoben",
+  "totalUnitsPushedTitle": "Anzahl der gepushten Einheiten",
+  "totalUnitsPushed_one": "Nur **{{ count, number }}** Einheit wurde geschoben",
+  "totalUnitsPushed_other": "Insgesamt wurden**{{ count, number }}** Einheiten geschoben",
+  "leaderboardEmbedTitle": "Pushcart Rangliste",
+  "serverEmbedTitle": "Pushcart Server Rangliste"
+}

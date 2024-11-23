@@ -5,7 +5,7 @@ data:
   dir: "/data/litefs"
 
 exec:
-  - cmd: "npm start"
+  - cmd: "node --enable-source-maps ."
 
 proxy:
   addr: ":${INTERNAL_PORT}"

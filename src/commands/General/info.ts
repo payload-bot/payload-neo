@@ -1,18 +1,19 @@
-import type { CommandOptions } from "@sapphire/framework";
+import type { Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, EmbedBuilder } from "discord.js";
-import { send } from "@sapphire/plugin-editable-commands";
+import { EmbedBuilder } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import { LanguageKeys } from "#lib/i18n/all";
 import PayloadColors from "#utils/colors";
+import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Info.Description,
   detailedDescription: LanguageKeys.Commands.Info.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args) {
+  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const { client } = this.container;
+    const t = await fetchT(interaction);
 
     const membersServing = client.guilds.cache.reduce((acc, val) => acc + (val.memberCount ?? 0), 0);
 
@@ -23,14 +24,27 @@ export class UserCommand extends PayloadCommand {
         name: client.user.username,
         iconURL: client.user.displayAvatarURL(),
       },
-      title: args.t(LanguageKeys.Commands.Info.EmbedTitle, {
+      title: t(LanguageKeys.Commands.Info.EmbedTitle, {
         users: membersServing,
         servers: guildsServing,
       }),
-      description: args.t(LanguageKeys.Commands.Info.EmbedDescription),
+      description: t(LanguageKeys.Commands.Info.EmbedDescription),
       color: PayloadColors.Payload,
     });
 
-    await send(msg, { embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
+  }
+
+  public override registerApplicationCommands(registry: Command.Registry) {
+    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Info.Name);
+    const rootDescriptionLocalizations = getLocalizedData(this.description);
+
+    registry.registerChatInputCommand(builder =>
+      builder
+        .setName(this.name)
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"])
+        .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
+    );
   }
 }

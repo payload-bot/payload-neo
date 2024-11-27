@@ -1,147 +1,75 @@
-import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
-import { Message, EmbedBuilder } from "discord.js";
-import { send } from "@sapphire/plugin-editable-commands";
+import { ApplyOptions } from "@sapphire/decorators";
+import { EmbedBuilder, InteractionContextType, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
 import PayloadColors from "#utils/colors";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
-import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
-import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { fetchT } from "@sapphire/plugin-i18next";
+import { Subcommand } from "@sapphire/plugin-subcommands";
+import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
+import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v10";
 import { guild } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { isNullishOrEmpty } from "@sapphire/utilities";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,
   detailedDescription: LanguageKeys.Commands.Language.DetailedDescription,
   runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
-export class UserCommand extends Subcommand {
-  private readonly database = this.container.database;
-  private readonly t = async (msg: Message) => await fetchT(msg);
+export class UserCommand extends PayloadCommand {
+  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+    const t = await fetchT(interaction);
 
-  readonly subcommandMappings: SubcommandMappingArray = [
-    {
-      name: "view",
-      type: "method",
-      messageRun: msg => this.view(msg),
-      default: true,
-    },
-    {
-      name: "set",
-      type: "method",
-      messageRun: (msg, args) => this.set(msg, args),
-    },
-    {
-      name: "update",
-      type: "method",
-      messageRun: (msg, args) => this.set(msg, args),
-    },
-    {
-      name: "delete",
-      type: "method",
-      messageRun: msg => this.delete(msg),
-    },
-    {
-      name: "remove",
-      type: "method",
-      messageRun: msg => this.delete(msg),
-    },
-  ];
+    const [g] = await this.database
+      .select({ language: guild.language })
+      .from(guild)
+      .where(eq(guild.id, interaction.guildId));
 
-  @RequiresGuildContext()
-  async view(msg: Message) {
-    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
-
-    const t = await this.t(msg);
-
-    const content = t(LanguageKeys.Commands.Language.CurrentLanguage, {
-      language: inlineCode(g?.language ?? "en-US"),
-    });
-
-    return await send(msg, content);
-  }
-
-  @RequiresGuildContext()
-  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
-  async set(msg: Message, args: Args) {
-    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
-
-    const language = await args
-      .pick("enum", { enum: ["en-US", "es-ES", "fi-FI", "pl-PL", "ru-RU", "de-DE"] })
-      .catch(() => null);
-
-    const t = await this.t(msg);
-
-    if (isNullishOrEmpty(language)) {
-      return await send(msg, t(LanguageKeys.Commands.Language.SetNeedsArgs));
-    }
-
-    if (g?.language === language) {
-      return await send(msg, t(LanguageKeys.Commands.Language.SetSameLanguage));
-    }
-
-    await this.database
-      .update(guild)
-      .set({
-        language,
-      })
-      .where(eq(guild.id, msg.guildId));
+    const languageSelector = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder()
+        .addOptions(
+          { label: t(LanguageKeys.Commands.Language.English), value: "en-US" },
+          { label: t(LanguageKeys.Commands.Language.Spanish), value: "es-ES" },
+          { label: t(LanguageKeys.Commands.Language.German), value: "de" },
+          { label: t(LanguageKeys.Commands.Language.Finnish), value: "fi" },
+          { label: t(LanguageKeys.Commands.Language.French), value: "fr" },
+          { label: t(LanguageKeys.Commands.Language.Russian), value: "ru" },
+          { label: t(LanguageKeys.Commands.Language.Polish), value: "pl" },
+        )
+        .setCustomId("set-guild-language")
+        .setPlaceholder(t(LanguageKeys.Commands.Language.SelectLanguage)),
+    );
 
     const embed = new EmbedBuilder({
-      author: {
-        name: msg.author.tag,
-        iconURL: msg.author.displayAvatarURL(),
-      },
-      title: t(LanguageKeys.Commands.Language.SetLanguageEmbedTitle, {
-        user: msg.author.tag,
-      }),
-      description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(g?.language ?? "en-US"),
-        new: inlineCode(language),
+      title: t(LanguageKeys.Commands.Language.SelectLanguage),
+      description: t(LanguageKeys.Commands.Language.CurrentLanguage, {
+        language: inlineCode(g?.language ?? "en-US"),
       }),
       timestamp: new Date(),
       color: PayloadColors.Admin,
     });
 
-    return await send(msg, { embeds: [embed] });
-  }
-
-  @RequiresGuildContext()
-  @RequiresUserPermissions([PermissionFlagsBits.Administrator])
-  async delete(msg: Message) {
-    const [g] = await this.database.select({ language: guild.language }).from(guild).where(eq(guild.id, msg.guildId));
-
-    const t = await this.t(msg);
-
-    if (g == null || g.language === "en-US") {
-      return await send(msg, t(LanguageKeys.Commands.Language.DeleteAlreadyDefault));
-    }
-
-    const embed = new EmbedBuilder({
-      author: {
-        name: msg.author.tag,
-        iconURL: msg.author.displayAvatarURL(),
-      },
-      title: t(LanguageKeys.Commands.Language.SetLanguageEmbedTitle, {
-        user: msg.author.tag,
-      }),
-      description: t(LanguageKeys.Commands.Language.SetLanguageEmbedDesc, {
-        old: inlineCode(g.language ?? "en-US"),
-        new: inlineCode("en-US"),
-      }),
-      timestamp: new Date(),
-      color: PayloadColors.Admin,
+    await interaction.reply({
+      embeds: [embed],
+      components: [languageSelector],
+      ephemeral: true,
     });
 
-    await this.database
-      .update(guild)
-      .set({
-        language: "en-US",
-      })
-      .where(eq(guild.id, msg.guildId));
+    return;
+  }
 
-    return await send(msg, { embeds: [embed] });
+  public override registerApplicationCommands(registry: Command.Registry) {
+    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Language.Name);
+    const rootDescriptionLocalizations = getLocalizedData(this.description);
+
+    registry.registerChatInputCommand(builder =>
+      builder
+        .setName(this.name)
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"])
+        .setContexts(InteractionContextType.Guild)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
+    );
   }
 }

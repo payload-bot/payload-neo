@@ -1,6 +1,6 @@
 {
   "name": "info",
-  "description": "Únete al servidor oficial de Discord de Payload para obtener ayuda y dar sugerencias: https://payload.tf/discord\n\nInvita a Payload a tu servidor: https://payload.tf/invite\nAyuda a traducir a Payload: https://crowdin.com/project/payload",
+  "description": "Información básica y enlaces para Payload",
   "detailedDescription": {
     "usages": [],
     "details": "Información básica y enlaces para Payload"

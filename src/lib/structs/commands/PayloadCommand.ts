@@ -4,11 +4,11 @@ import { Subcommand } from "@sapphire/plugin-subcommands";
 import type { Message } from "discord.js";
 import { Parser, ArgumentStream } from "@sapphire/lexure";
 import { PayloadArgs } from "./PayloadArgs.js";
-import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
+import { LibSQLDatabase } from "drizzle-orm/libsql";
 
 export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
-  protected readonly database: BetterSQLite3Database;
+  protected readonly database: LibSQLDatabase;
 
   public constructor(context: LoaderPieceContext<"commands">, options: PayloadCommand.Options) {
     super(context, options);

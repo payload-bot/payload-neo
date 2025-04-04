@@ -1,24 +1,10 @@
-FROM node:22-bullseye-slim as base
-WORKDIR /app
-
-RUN apt-get update && apt-get install gnupg wget fuse3 openssl sqlite3 ca-certificates -y && \
-  wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
-  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-  apt-get update && \
-  apt-get install google-chrome-stable -y --no-install-recommends && \
-  rm -rf /var/lib/apt/lists/*
-
-FROM base as build
+FROM denoland/deno:alpine as build
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm install
-
-RUN npm run build
-
-RUN npm install --omit=dev
+RUN deno cache src/index.ts
 
 # runner
 FROM base
@@ -48,7 +34,5 @@ COPY --from=build /app/src/languages /app/dist/languages
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
 ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
-
-RUN npx puppeteer browsers install chrome
 
 CMD ["litefs", "mount"]

@@ -2,15 +2,26 @@ import config from "#root/config";
 import { guild } from "#root/drizzle/schema";
 import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
-import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
+import type {
+  InternationalizationContext,
+  InternationalizationOptions,
+} from "@sapphire/plugin-i18next";
 import { DurationFormatter, Time } from "@sapphire/time-utilities";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
-import { ActivityType, type ClientOptions, GatewayIntentBits, Partials, type PresenceData, Options } from "discord.js";
+import {
+  ActivityType,
+  type ClientOptions,
+  GatewayIntentBits,
+  Options,
+  Partials,
+  type PresenceData,
+} from "discord.js";
 import { eq } from "drizzle-orm";
+import { join } from "node:path";
 
 function makeLogger() {
   return {
-    level: process.env.NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
+    level: LogLevel.Trace,
   };
 }
 
@@ -38,6 +49,7 @@ function getAllI18nFormatters() {
 
 function parseI18N(): InternationalizationOptions {
   return {
+    defaultLanguageDirectory: join(Deno.cwd(), "src", "languages"),
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
         const [data] = await container.database
@@ -64,7 +76,7 @@ function parseI18N(): InternationalizationOptions {
         },
       },
       formatters: getAllI18nFormatters(),
-      overloadTranslationOptionHandler: args => ({
+      overloadTranslationOptionHandler: (args) => ({
         defaultValue: args[1] ?? "globals:default",
       }),
     }),
@@ -85,7 +97,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   caseInsensitivePrefixes: true,
   caseInsensitiveCommands: false,
   loadMessageCommandListeners: true,
-  enableLoaderTraceLoggings: false,
+  enableLoaderTraceLoggings: true,
   loadSubcommandErrorListeners: true,
   loadDefaultErrorListeners: true,
   preventFailedToFetchLogForGuilds: true,
@@ -115,7 +127,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
     },
     GuildMemberManager: {
       maxSize: 25,
-      keepOverLimit: member => member.id === member.client.user.id,
+      keepOverLimit: (member) => member.id === member.client.user.id,
     },
     GuildMessageManager: {
       maxSize: 150,
@@ -132,7 +144,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
     },
     users: {
       interval: Time.Hour,
-      filter: () => user => user.bot && user.id !== user.client.user.id,
+      filter: () => (user) => user.bot && user.id !== user.client.user.id,
     },
   },
   hmr: {

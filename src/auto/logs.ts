@@ -1,7 +1,6 @@
 import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors";
-import { capturePage } from "#utils/screenshot";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import config from "#root/config";
 import { BucketScope } from "@sapphire/framework";
@@ -18,40 +17,40 @@ import { send } from "@sapphire/plugin-editable-commands";
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    const screenshotBuffer = await capturePage(matched, {
-      top: {
-        selector: "#log-header",
-        edge: "top",
-      },
-      left: {
-        selector: "#log-header",
-        edge: "left",
-      },
-      right: {
-        selector: "#log-header",
-        edge: "right",
-      },
-      bottom: {
-        selector: "#log-section-players",
-        edge: "bottom",
-      },
+    // const screenshotBuffer = await capturePage(matched, {
+    //   top: {
+    //     selector: "#log-header",
+    //     edge: "top",
+    //   },
+    //   left: {
+    //     selector: "#log-header",
+    //     edge: "left",
+    //   },
+    //   right: {
+    //     selector: "#log-header",
+    //     edge: "right",
+    //   },
+    //   bottom: {
+    //     selector: "#log-section-players",
+    //     edge: "bottom",
+    //   },
 
-      cssPath: config.files.LOGS_CSS,
-    });
+    //   cssPath: config.files.LOGS_CSS,
+    // });
 
-    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
+    // const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
 
-    const embed = new EmbedBuilder({
-      color: PayloadColors.Command,
-      title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
-      url: matched,
-      image: { url: "attachment://log.webp" },
-      footer: {
-        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
-      },
-      timestamp: new Date(),
-    });
+    // const embed = new EmbedBuilder({
+    //   color: PayloadColors.Command,
+    //   title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
+    //   url: matched,
+    //   image: { url: "attachment://log.webp" },
+    //   footer: {
+    //     text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+    //   },
+    //   timestamp: new Date(),
+    // });
 
-    await send(msg, { embeds: [embed], files: [att] });
+    // await send(msg, { embeds: [embed], files: [att] });
   }
 }

@@ -5,6 +5,7 @@ import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
 import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
+import { LibSQLDatabase } from "drizzle-orm/libsql";
 
 export type O = object;
 
@@ -34,7 +35,7 @@ declare module "@sapphire/framework" {
 
 declare module "@sapphire/pieces" {
   interface Container {
-    database: BetterSQLite3Database;
+    database: LibSQLDatabase;
   }
 }
 

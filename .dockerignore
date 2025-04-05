@@ -3,7 +3,6 @@
 *.db-*
 
 # Folders
-!assets/**
 !src/**
 
 # Files

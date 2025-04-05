@@ -23,7 +23,6 @@ RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmo
 
 WORKDIR /app
 
-COPY --from=build /app/assets /app/assets
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/deno.json /app/deno.json
 COPY --from=build /app/src /app/src

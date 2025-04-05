@@ -84,14 +84,14 @@ export class UserCommand extends Subcommand {
 
     await this.database.insert(pushcart).values({
       pushed: randomNumber,
-      guildId: msg.guildId,
+      guildId: msg.guildId!,
       userId: msg.author.id,
     });
 
     const [{ pushed }] = await this.database
       .select({ pushed: sum(pushcart.pushed) })
       .from(pushcart)
-      .where(eq(pushcart.guildId, msg.guildId));
+      .where(eq(pushcart.guildId, msg.guildId!));
 
     return await send(
       msg,
@@ -174,7 +174,7 @@ export class UserCommand extends Subcommand {
         userId: pushcart.userId,
       })
       .from(pushcart)
-      .where(eq(pushcart.guildId, msg.guildId))
+      .where(eq(pushcart.guildId, msg.guildId!))
       .groupBy(pushcart.userId);
 
     let memberNameToDisplay =

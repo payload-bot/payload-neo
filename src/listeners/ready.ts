@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
-import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
+import { blue, gray, green, magenta, brightMagenta, white, yellow } from "@std/fmt/colors";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<ListenerOptions>({
@@ -18,7 +18,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private printBanner() {
     const success = green("+");
 
-    const llc = this.DEV ? magentaBright : white;
+    const llc = this.DEV ? brightMagenta : white;
     const blc = this.DEV ? magenta : blue;
 
     const line01 = llc("");

@@ -2,10 +2,10 @@ import { Args, ArgumentError, type MessageCommandErrorPayload, Events, Listener,
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
 import type { TFunction } from "@sapphire/plugin-i18next";
-import { mapIdentifier } from "#lib/i18n/mapping";
+import { mapIdentifier } from "#lib/i18n/mapping.ts";
 import { cutText } from "@sapphire/utilities";
-import { send } from "@skyra/editable-commands";
-import type { PayloadArgs } from "#lib/structs/commands/PayloadArgs";
+import type { PayloadArgs } from "#lib/structs/commands/PayloadArgs.ts";
+import { send } from "@sapphire/plugin-editable-commands";
 
 const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 

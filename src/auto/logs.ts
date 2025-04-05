@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors.ts";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
-import config from "#root/config";
+import config from "#root/config.ts";
 import { BucketScope } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";

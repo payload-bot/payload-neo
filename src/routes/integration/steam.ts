@@ -1,4 +1,4 @@
-import { ServiceController } from "#lib/structs/ServiceController";
+import { ServiceController } from "#lib/structs/ServiceController.ts";
 import { ApplyOptions } from "@sapphire/decorators";
 import { type RouteOptions, ApiRequest, Route } from "@sapphire/plugin-api";
 

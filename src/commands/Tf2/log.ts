@@ -73,5 +73,5 @@ export class UserCommand extends PayloadCommand {
   //     embeds: [embed],
   //     files: [att],
   //   });
-  // }
+  }
 }

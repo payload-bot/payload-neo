@@ -9,8 +9,5 @@
 
 # Files
 !package.json
-!tsup.config.ts
-!tsconfig.json
 !litefs.yml
 !fly.toml
-!.npmrc

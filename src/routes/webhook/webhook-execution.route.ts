@@ -1,9 +1,9 @@
-import { ServiceController } from "#lib/structs/ServiceController";
-import { sendLogPreview } from "#lib/utils/webhook-helper";
+import { ServiceController } from "#lib/structs/ServiceController.ts";
+import { sendLogPreview } from "#lib/utils/webhook-helper.ts";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Route, type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";
 import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
-import { webhook } from "#root/drizzle/schema";
+import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import * as v from "@valibot/valibot";
 

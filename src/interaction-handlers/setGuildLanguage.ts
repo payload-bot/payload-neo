@@ -1,5 +1,5 @@
-import { LanguageKeys } from "#lib/i18n/all/index";
-import { guild } from "#root/drizzle/schema";
+import { LanguageKeys } from "#lib/i18n/all/index.ts";
+import { guild } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
@@ -32,7 +32,7 @@ export class ButtonHandler extends InteractionHandler {
     await this.container.database
       .insert(guild)
       .values({
-        id: interaction.guildId,
+        id: interaction.guildId!,
         language: value,
       })
       .onConflictDoUpdate({

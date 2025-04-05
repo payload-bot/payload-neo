@@ -1,5 +1,5 @@
-import { LanguageKeys } from "#lib/i18n/all/index";
-import { webhook } from "#root/drizzle/schema";
+import { LanguageKeys } from "#lib/i18n/all";
+import { webhook } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import type { ButtonInteraction } from "discord.js";

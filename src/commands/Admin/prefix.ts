@@ -55,7 +55,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ prefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const t = await this.t(msg);
 
@@ -72,7 +72,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const prefix = await args.pick("string").catch(() => null);
 
@@ -91,7 +91,7 @@ export class UserCommand extends Subcommand {
       .set({
         prefix,
       })
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const embed = new EmbedBuilder({
       author: {
@@ -118,7 +118,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const t = await this.t(msg);
 
@@ -147,7 +147,7 @@ export class UserCommand extends Subcommand {
       .set({
         prefix: config.PREFIX,
       })
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     return await send(msg, { embeds: [embed] });
   }

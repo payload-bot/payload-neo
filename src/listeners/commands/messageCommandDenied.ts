@@ -1,4 +1,4 @@
-import { mapIdentifier } from "#lib/i18n/mapping";
+import { mapIdentifier } from "../../lib/i18n/mapping.ts";
 import { type MessageCommandDeniedPayload, Events, Listener, UserError } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
 import { resolveKey } from "@sapphire/plugin-i18next";

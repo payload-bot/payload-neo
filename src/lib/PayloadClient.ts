@@ -45,7 +45,7 @@ export class PayloadClient extends SapphireClient {
       );
     }
 
-    await connect();
+    connect();
 
     const response = await super.login(token);
 

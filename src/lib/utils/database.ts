@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const databaseUrl = envParseString("DATABASE_PATH");
 
-export default async function connect() {
+export default function connect() {
   const client = createClient({ url: databaseUrl });
 
   const db = drizzle(client);

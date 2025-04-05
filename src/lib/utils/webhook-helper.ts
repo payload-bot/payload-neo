@@ -163,6 +163,7 @@ async function sendWebhook(
   return await target.send({
     embeds: [embed],
     files: attachment ? [attachment] : undefined,
+    // deno-lint-ignore no-explicit-any
     components: components as any,
   });
 }

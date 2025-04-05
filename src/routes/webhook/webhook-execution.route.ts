@@ -52,6 +52,7 @@ export class WebhookExecutionRoute extends ServiceController {
       demosId: result.demosId.toString(),
       logsId: result.logsId.toString(),
       targetId: data[0].id,
+      // deno-lint-ignore no-explicit-any
       webhookTarget: data[0].type as any,
     });
 
@@ -100,6 +101,7 @@ export class WebhookExecutionv1Route extends ServiceController {
       demosId: result.demosId.toString(),
       logsId: result.logsId.toString(),
       targetId: data[0].id,
+      // deno-lint-ignore no-explicit-any
       webhookTarget: data[0].type as any,
     });
 

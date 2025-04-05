@@ -1,11 +1,17 @@
-import type { MessageCommandContext, CommandOptions } from "@sapphire/framework";
+import type {
+  CommandOptions,
+  MessageCommandContext,
+} from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors.ts";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import { BuildCommandHelp, type LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper.ts";
+import {
+  BuildCommandHelp,
+  type LanguageHelpDisplayOptions,
+} from "#lib/i18n/CommandHelper.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Help.Description,
@@ -13,13 +19,17 @@ import { BuildCommandHelp, type LanguageHelpDisplayOptions } from "#lib/i18n/Com
   aliases: ["h"],
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args, context: MessageCommandContext) {
+  override async messageRun(
+    msg: Message,
+    args: PayloadCommand.Args,
+    context: MessageCommandContext,
+  ) {
     if (args.finished) {
       // Just send the commands command
       const allCommands = this.container.stores.get("commands");
       const runCommand = allCommands.get("commands");
 
-      await runCommand.messageRun(msg, args, context);
+      await runCommand?.messageRun?.(msg, args, context);
       return;
     }
 
@@ -33,7 +43,9 @@ export class UserCommand extends PayloadCommand {
       .setUsages(translatedCases.usages)
       .setDetails(translatedCases.moreDetails);
 
-    const detailedDescription = args.t(command.detailedDescription as any) as LanguageHelpDisplayOptions;
+    const detailedDescription = args.t(
+      command.detailedDescription.toString(),
+    ) as LanguageHelpDisplayOptions;
 
     const content = builder.display(
       command.name,
@@ -53,8 +65,10 @@ export class UserCommand extends PayloadCommand {
   }
 
   private getAliases(command: PayloadCommand) {
-    if (!!command.aliases) return null;
+    if (command.aliases) {
+      return command.aliases.join(", ");
+    }
 
-    return command.aliases.join(", ");
+    return null;
   }
 }

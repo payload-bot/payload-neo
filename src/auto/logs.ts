@@ -15,7 +15,7 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /http(s|):\/\/(www\.|)logs\.tf\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  // @ts-ignore
+  // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     // const screenshotBuffer = await capturePage(matched, {
     //   top: {

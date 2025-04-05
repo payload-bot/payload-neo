@@ -6,7 +6,6 @@ import type {
   InternationalizationContext,
   InternationalizationOptions,
 } from "@sapphire/plugin-i18next";
-import { DurationFormatter, Time } from "@sapphire/time-utilities";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import {
   ActivityType,
@@ -21,7 +20,7 @@ import { join } from "node:path";
 
 function makeLogger() {
   return {
-    level: process.env.NODE_ENV === "production"
+    level: Deno.env.get("NODE_ENV") === "production"
       ? LogLevel.Info
       : LogLevel.Debug,
   };
@@ -36,17 +35,6 @@ function getPresence(): PresenceData {
       },
     ],
   };
-}
-
-function getAllI18nFormatters() {
-  return [
-    {
-      name: "duration",
-      format: (value: any, _lng: string, options: any) => {
-        return new DurationFormatter().format(value, options?.duration ?? 2);
-      },
-    },
-  ];
 }
 
 function parseI18N(): InternationalizationOptions {
@@ -64,7 +52,7 @@ function parseI18N(): InternationalizationOptions {
 
       return "en-US";
     },
-    i18next: (_: string[], languages: string[]) => ({
+    i18next: (_, languages) => ({
       fallbackLng: "en-US",
       preload: languages,
       supportedLngs: languages,
@@ -77,13 +65,12 @@ function parseI18N(): InternationalizationOptions {
           PUSHCART_EMOJI: "<:payload:656955124098269186>",
         },
       },
-      formatters: getAllI18nFormatters(),
       overloadTranslationOptionHandler: (args) => ({
         defaultValue: args[1] ?? "globals:default",
       }),
     }),
     hmr: {
-      enabled: process.env.NODE_ENV === "development",
+      enabled: Deno.env.get("NODE_ENV") === "development",
     },
   };
 }
@@ -144,16 +131,8 @@ export const CLIENT_OPTIONS: ClientOptions = {
   }),
   sweepers: {
     ...Options.DefaultSweeperSettings,
-    messages: {
-      interval: Time.Hour,
-      lifetime: Time.Minute * 15,
-    },
-    users: {
-      interval: Time.Hour,
-      filter: () => (user) => user.bot && user.id !== user.client.user.id,
-    },
   },
   hmr: {
-    enabled: process.env.NODE_ENV === "development",
+    enabled: Deno.env.get("NODE_ENV") === "development",
   },
 };

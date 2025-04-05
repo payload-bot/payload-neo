@@ -9,6 +9,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandDenied> {
     if (Reflect.get(Object(error.context), "silent")) return;
 
     const indentifier = mapIdentifier(error.identifier);
+    // deno-lint-ignore no-explicit-any
     const content = await resolveKey(message, indentifier, { message, command, ...(error.context as any) });
 
     return await this.alert(message, content as string);

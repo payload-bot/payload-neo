@@ -14,7 +14,7 @@ export async function getSteamIdFromArgs(id: string) {
 
   try {
     steamID = new ID(id);
-  } catch (err) {
+  } catch {
     try {
       const data = await fetch(`https://steamcommunity.com/id/${id}`, FetchResultTypes.Text);
 
@@ -23,7 +23,7 @@ export async function getSteamIdFromArgs(id: string) {
       if (!cssSteamID) return null;
 
       return (cssSteamID[0].match(/(765611\d{11})/) as RegExpMatchArray)[0];
-    } catch (err) {
+    } catch {
       return null;
     }
   }

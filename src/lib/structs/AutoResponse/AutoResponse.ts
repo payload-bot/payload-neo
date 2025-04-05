@@ -26,7 +26,7 @@ export abstract class AutoCommand extends PayloadCommand {
    * @returns {string | null}
    * @description Gets the resulting match of the Regex defined in the command
    */
-  public getMatch(msg: Message): string {
+  public getMatch(msg: Message): string | undefined {
     return msg.content.match(this.regex)?.[0];
   }
 }
@@ -39,6 +39,7 @@ export interface AutoCommandOptions extends PayloadCommand.Options {
   regex: RegExp;
 }
 
+// deno-lint-ignore no-namespace
 export namespace AutoCommand {
   export type Options = AutoCommandOptions;
   export type Args = PayloadCommand.Args;

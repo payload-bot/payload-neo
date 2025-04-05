@@ -14,7 +14,7 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /etf2l.org\/teams\/\d+/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  // @ts-ignore
+  // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     // const screenshotBuffer = await captureSelector(`https://${matched}`, "#content > div > div > table.pls");
 

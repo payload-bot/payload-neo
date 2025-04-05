@@ -5,7 +5,7 @@ export default {
   out: "./src/drizzle",
   schema: "./src/drizzle/schema.ts",
   dbCredentials: {
-    url: process.env.DATABASE_PATH,
+    url: Deno.env.get("DATABASE_PATH")!,
   },
   verbose: true,
   strict: true,

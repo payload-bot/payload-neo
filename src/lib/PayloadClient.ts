@@ -1,4 +1,9 @@
-import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
+import {
+  ApplicationCommandRegistries,
+  container,
+  RegisterBehavior,
+  SapphireClient,
+} from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions.ts";
 import config from "#root/config.ts";
@@ -9,16 +14,18 @@ import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 
 export class PayloadClient extends SapphireClient {
-  public dev = process.env.NODE_ENV !== "production";
+  public override dev = Deno.env.get("NODE_ENV") !== "production";
 
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      new AutoResponseStore().registerPath(join(import.meta.dirname, "..", "..", "auto")),
+      new AutoResponseStore().registerPath(
+        join(import.meta.dirname!, "..", "..", "auto"),
+      ),
     );
   }
 
-  public fetchPrefix = async (msg: Message) => {
+  public override fetchPrefix = async (msg: Message) => {
     if (msg.guildId) {
       const [data] = await container.database
         .select({ prefix: guild.prefix })
@@ -31,9 +38,11 @@ export class PayloadClient extends SapphireClient {
     return [config.PREFIX, ""];
   };
 
-  public async login(token?: string) {
+  public override async login(token?: string) {
     if (this.dev) {
-      ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
+      ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(
+        RegisterBehavior.BulkOverwrite,
+      );
     }
 
     await connect();
@@ -43,7 +52,7 @@ export class PayloadClient extends SapphireClient {
     return response;
   }
 
-  public async destroy() {
-    super.destroy();
+  public override async destroy() {
+    await super.destroy();
   }
 }

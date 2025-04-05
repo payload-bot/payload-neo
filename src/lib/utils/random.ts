@@ -14,9 +14,9 @@ export function weightedRandom(
   distributionCalculator?: (num: number) => number,
 ) {
   if (typeof minOrNumberSpreadOrNumberSpeadBlueprints == "number") {
-    let min = minOrNumberSpreadOrNumberSpeadBlueprints;
+    const min = minOrNumberSpreadOrNumberSpeadBlueprints;
 
-    let numberSpread: Array<number> = [];
+    const numberSpread: Array<number> = [];
 
     for (let i = min; i <= max!; i++) {
       numberSpread.push(...new Array(distributionCalculator!(i)).fill(i));
@@ -24,13 +24,13 @@ export function weightedRandom(
 
     return numberSpread[random(0, numberSpread.length - 1)];
   } else if (minOrNumberSpreadOrNumberSpeadBlueprints.some((val: number | object) => !!Number(val))) {
-    let numberSpread = minOrNumberSpreadOrNumberSpeadBlueprints as Array<number>;
+    const numberSpread = minOrNumberSpreadOrNumberSpeadBlueprints as Array<number>;
 
     return numberSpread[random(0, numberSpread.length - 1)];
   } else {
-    let numberSpeadBlueprints = minOrNumberSpreadOrNumberSpeadBlueprints as NumberSpeadBlueprints;
+    const numberSpeadBlueprints = minOrNumberSpreadOrNumberSpeadBlueprints as NumberSpeadBlueprints;
 
-    let numberSpread: Array<number> = [];
+    const numberSpread: Array<number> = [];
 
     for (let i = 0; i < numberSpeadBlueprints.length; i++) {
       numberSpread.push(...new Array(numberSpeadBlueprints[i].weight).fill(numberSpeadBlueprints[i].number));

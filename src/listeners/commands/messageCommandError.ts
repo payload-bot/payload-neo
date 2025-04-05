@@ -20,7 +20,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
-      if (this.isSilencedError(args as any, error)) return;
+      if (this.isSilencedError(args as Args, error)) return;
       client.emit(Events.Error, error);
     } else {
       logger.warn(`${this.getWarnError(message)} (${message.author.id}) | ${error.constructor.name}`);
@@ -77,6 +77,7 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
     return await send(
       message,
       t(identifier, {
+        // deno-lint-ignore no-explicit-any
         ...(error.context as any),
       }) as unknown as string,
     );

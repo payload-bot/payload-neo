@@ -1,6 +1,6 @@
 {
   "clientPermissions": "Ich habe nicht genügend Berechtigungen! Ich brauche: {{ missing }}",
-  "cooldown": "Du hast vor kurzem diesen Befehl benutzt. Du kannst diesen Befehlt erneut ausführen in {{ remaining, duration }}.",
+  "cooldown": "Du hast vor kurzem diesen Befehl benutzt. Du kannst diesen Befehlt erneut ausführen in {{ remaining }}.",
   "dmOnly": "Dieser Befehl kann nur in DM-Kanälen benutzt werden.",
   "guildNewsOnly": "Dieser Befehl kann nur in Ankündigungs-Kanälen verwendet werden.",
   "guildNewsThreadOnly": "Dieser Befehl kann nur in Ankündiguns-Thread-Kanälen benutzt werden.",

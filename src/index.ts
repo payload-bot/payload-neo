@@ -9,5 +9,5 @@ try {
 } catch (error) {
   container.logger.error(error);
   client.destroy();
-  process.exit(1);
+  Deno.exit(1);
 }

@@ -13,7 +13,7 @@ const schema = type({
   methods: ["GET"],
 })
 export class SteamRedirectController extends ServiceController {
-  async run(request: ApiRequest, response: Route.Response) {
+  override run(request: ApiRequest, response: Route.Response) {
     const result = schema(request.query);
 
     if (result instanceof type.errors) {

@@ -11,7 +11,7 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  // @ts-ignore
+  // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     const parts = matched.trim().replace("steam://connect/", "").split("/");
 
@@ -38,7 +38,7 @@ export default class UserAutoCommand extends AutoCommand {
 
       embed.setColor(EmbedColors.Green);
       embed.setDescription(`${name}\n${players.length}/${maxplayers} ${args.t(LanguageKeys.Auto.Connect.Players)}`);
-    } catch (err) {
+    } catch {
       embed.setColor(EmbedColors.Red);
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
     }

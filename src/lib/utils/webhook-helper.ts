@@ -1,4 +1,3 @@
-import config from "#root/config.ts";
 import { EmbedColors } from "#utils/colors.ts";
 import { container } from "@sapphire/pieces";
 import {
@@ -14,6 +13,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { Buffer } from "node:buffer";
 
 type TargetReturnType = TextChannel | User | null;
 type WebhookTargetType = "channels" | "users";
@@ -69,59 +69,48 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 
   const logsUrl = `https://logs.tf/${logsId}`;
 
-  // const screenshotBuffer = await capturePage(logsUrl, {
-  //   top: {
-  //     selector: "#log-header",
-  //     edge: "top",
-  //   },
-  //   left: {
-  //     selector: "#log-header",
-  //     edge: "left",
-  //   },
-  //   right: {
-  //     selector: "#log-header",
-  //     edge: "right",
-  //   },
-  //   bottom: {
-  //     selector: "#log-section-players",
-  //     edge: "bottom",
-  //   },
+  const preview = await fetch(
+    `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
+    {
+      method: "POST",
+      body: JSON.stringify({ url: logsUrl }),
+    },
+  );
 
-  //   cssPath: config.files.LOGS_CSS,
-  // });
+  const arrayBuffer = await preview.arrayBuffer();
 
-  // const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.png" });
+  const att = new AttachmentBuilder(Buffer.from(arrayBuffer), { name: "log.webp" });
 
-  // const embed = new EmbedBuilder({
-  //   title: "Logs.tf Preview",
-  //   footer: {
-  //     text: "Rendered from Webhook",
-  //   },
-  //   image: {
-  //     url: "attachment://log.png",
-  //   },
-  //   url: logsUrl,
-  //   color: EmbedColors.Green,
-  //   timestamp: new Date(),
-  // });
+  const embed = new EmbedBuilder({
+    title: "Logs.tf Preview",
+    footer: {
+      text: "Rendered from Webhook",
+    },
+    image: {
+      url: "attachment://log.png",
+    },
+    url: logsUrl,
+    color: EmbedColors.Green,
+    timestamp: new Date(),
+  });
 
-  // let components = [];
+  const components = [];
 
-  // if (demosId != null) {
-  //   const demosTfUrl = `https://demos.tf/${demosId}`;
+  if (demosId != null) {
+    const demosTfUrl = `https://demos.tf/${demosId}`;
 
-  //   components.push(
-  //     new ActionRowBuilder<ButtonBuilder>().addComponents([
-  //       new ButtonBuilder().setURL(demosTfUrl).setLabel("Link to Demo").setStyle(ButtonStyle.Link),
-  //     ]),
-  //   );
-  // }
+    components.push(
+      new ActionRowBuilder<ButtonBuilder>().addComponents([
+        new ButtonBuilder().setURL(demosTfUrl).setLabel("Link to Demo").setStyle(ButtonStyle.Link),
+      ]),
+    );
+  }
 
-  // try {
-  //   await sendWebhook(target, embed, att, components);
-  // } catch (err) {
-  //   throw err;
-  // }
+  try {
+    await sendWebhook(target, embed, att, components);
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function sendTest(client: Client, scope: WebhookTargetType, id: string) {

@@ -1,10 +1,14 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
+import {
+  AutoCommand,
+  type AutoCommandOptions,
+} from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors.ts";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { BucketScope } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
+import { Buffer } from "node:buffer";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.RGL.RGLDescription,
@@ -15,51 +19,39 @@ import { send } from "@sapphire/plugin-editable-commands";
 })
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    // const screenshotBuffer = await capturePage(
-    //   `https://${matched}`,
-    //   {
-    //     top: {
-    //       selector: "#ContentPlaceHolder1_pnlMain",
-    //       edge: "top",
-    //     },
-    //     left: {
-    //       selector:
-    //         "#ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder1_divTeamInfo > div.col-md-12.col-lg-12.text-center > div:nth-child(2) > div.col-lg-4.col-sm-12",
-    //       edge: "left",
-    //     },
-    //     right: {
-    //       selector:
-    //         "#ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder1_divTeamInfo > div.col-md-12.col-lg-12.text-center > div:nth-child(2) > div.col-lg-4.col-sm-12",
-    //       edge: "right",
-    //     },
-    //     bottom: {
-    //       selector:
-    //         "#ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder1_divTeamInfo > div.col-md-12.col-lg-12.text-center > div:nth-child(2) > div.col-lg-4.col-sm-12",
-    //       edge: "bottom",
-    //     },
-    //   },
-    //   {
-    //     defaultViewport: {
-    //       height: 740,
-    //       width: 1040,
-    //     },
-    //   },
-    // );
+  async messageRun(
+    msg: Message,
+    args: AutoCommand.Args,
+    { matched }: AutoCommand.Context,
+  ) {
+    const preview = await fetch(
+      `${Deno.env.get("PREVIEW_URL")!}/v0/rgl/teams`,
+      {
+        method: "POST",
+        body: JSON.stringify({ url: matched }),
+      },
+    );
 
-    // const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "team.webp" });
+    const arrayBuffer = await preview.arrayBuffer();
 
-    // const embed = new EmbedBuilder({
-    //   color: PayloadColors.Command,
-    //   title: args.t(LanguageKeys.Auto.RGL.RGLEmbedTitle),
-    //   url: `https://${matched}`,
-    //   image: { url: "attachment://team.webp" },
-    //   footer: {
-    //     text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
-    //   },
-    //   timestamp: new Date(),
-    // });
+    const att = new AttachmentBuilder(
+      Buffer.from(arrayBuffer),
+      {
+        name: "team.webp",
+      },
+    );
 
-    // await send(msg, { embeds: [embed], files: [att] });
+    const embed = new EmbedBuilder({
+      color: PayloadColors.Command,
+      title: args.t(LanguageKeys.Auto.RGL.RGLEmbedTitle),
+      url: `https://${matched}`,
+      image: { url: "attachment://team.webp" },
+      footer: {
+        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+      },
+      timestamp: new Date(),
+    });
+
+    await send(msg, { embeds: [embed], files: [att] });
   }
 }

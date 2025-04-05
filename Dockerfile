@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine as build
+FROM denoland/deno:alpine AS build
 
 WORKDIR /app
 
@@ -6,8 +6,7 @@ COPY . .
 
 RUN deno cache src/index.ts
 
-# runner
-FROM base
+FROM build
 
 ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
@@ -26,9 +25,8 @@ WORKDIR /app
 
 COPY --from=build /app/assets /app/assets
 COPY --from=build /app/node_modules /app/node_modules
-COPY --from=build /app/package.json /app/package.json
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/src/languages /app/dist/languages
+COPY --from=build /app/deno.json /app/deno.json
+COPY --from=build /app/src /app/src
 
 # prepare for litefs
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs

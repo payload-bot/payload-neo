@@ -3,6 +3,7 @@
   "unstable": ["temporal"],
   "nodeModulesDir": "auto",
   "tasks": {
+    "start": "deno run -NRE --env-file=.env --allow-ffi src/index.ts",
     "dev": "deno run -A --env-file=.env src/index.ts"
   },
   "imports": {

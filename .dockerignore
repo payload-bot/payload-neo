@@ -4,10 +4,9 @@
 
 # Folders
 !assets/**
-!scripts/**
 !src/**
 
 # Files
-!package.json
+!deno.json
 !litefs.yml
 !fly.toml

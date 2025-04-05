@@ -1,16 +1,16 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
 import { Message, EmbedBuilder, escapeMarkdown, Colors, bold, GuildMember } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import { weightedRandom } from "#utils/random";
+import { weightedRandom } from "#utils/random.ts";
 import { isAfter, add, addSeconds, differenceInSeconds } from "date-fns";
-import PayloadColors from "#utils/colors";
+import PayloadColors from "#utils/colors.ts";
 import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { pushcart } from "#root/drizzle/schema";
+import { pushcart } from "#root/drizzle/schema.ts";
 import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
 
 enum PayloadPushResult {

@@ -1,5 +1,5 @@
-import config from "#root/config";
-import { EmbedColors } from "#utils/colors";
+import config from "#root/config.ts";
+import { EmbedColors } from "#utils/colors.ts";
 import { container } from "@sapphire/pieces";
 import {
   type Client,

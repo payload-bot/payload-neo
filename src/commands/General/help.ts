@@ -2,10 +2,10 @@ import type { MessageCommandContext, CommandOptions } from "@sapphire/framework"
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import PayloadColors from "#utils/colors";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import PayloadColors from "#utils/colors.ts";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import { BuildCommandHelp, type LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper";
+import { BuildCommandHelp, type LanguageHelpDisplayOptions } from "#lib/i18n/CommandHelper.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Help.Description,

@@ -1,6 +1,6 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
-import { EmbedColors } from "#utils/colors";
+import { EmbedColors } from "#utils/colors.ts";
 import { GameDig } from "gamedig";
 import { Message, EmbedBuilder } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";

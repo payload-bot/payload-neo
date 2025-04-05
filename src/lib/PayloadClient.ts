@@ -1,11 +1,11 @@
 import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { CLIENT_OPTIONS } from "#utils/clientOptions";
-import config from "#root/config";
+import { CLIENT_OPTIONS } from "#utils/clientOptions.ts";
+import config from "#root/config.ts";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
-import connect from "#utils/database";
+import connect from "#utils/database.ts";
 import { join } from "node:path";
-import { guild } from "#root/drizzle/schema";
+import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 
 export class PayloadClient extends SapphireClient {

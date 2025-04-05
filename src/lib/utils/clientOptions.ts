@@ -1,5 +1,5 @@
-import config from "#root/config";
-import { guild } from "#root/drizzle/schema";
+import config from "#root/config.ts";
+import { guild } from "#root/drizzle/schema.ts";
 import { container, LogLevel } from "@sapphire/framework";
 import type { ServerOptions } from "@sapphire/plugin-api";
 import type {

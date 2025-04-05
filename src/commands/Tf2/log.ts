@@ -2,14 +2,13 @@ import { BucketScope, type CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message, AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import config from "#root/config";
-import { capturePage } from "#utils/screenshot";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import config from "#root/config.ts";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { eq } from "drizzle-orm";
 import { search } from "@tf2software/logstf";
-import { user } from "#root/drizzle/schema";
-import PayloadColors from "#utils/colors";
+import { user } from "#root/drizzle/schema.ts";
+import PayloadColors from "#utils/colors.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,
@@ -39,40 +38,40 @@ export class UserCommand extends PayloadCommand {
 
     const logID = logs[0].id;
 
-    const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${steamId}`, {
-      top: {
-        selector: "#log-header",
-        edge: "top",
-      },
-      left: {
-        selector: "#log-header",
-        edge: "left",
-      },
-      right: {
-        selector: "#log-header",
-        edge: "right",
-      },
-      bottom: {
-        selector: "#log-section-players",
-        edge: "bottom",
-      },
+  //   const screenshotBuffer = await capturePage(`http://logs.tf/${logID}#${steamId}`, {
+  //     top: {
+  //       selector: "#log-header",
+  //       edge: "top",
+  //     },
+  //     left: {
+  //       selector: "#log-header",
+  //       edge: "left",
+  //     },
+  //     right: {
+  //       selector: "#log-header",
+  //       edge: "right",
+  //     },
+  //     bottom: {
+  //       selector: "#log-section-players",
+  //       edge: "bottom",
+  //     },
 
-      cssPath: config.files.LOGS_CSS,
-    });
+  //     cssPath: config.files.LOGS_CSS,
+  //   });
 
-    const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
+  //   const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.webp" });
 
-    const embed = new EmbedBuilder({
-      color: PayloadColors.Command,
-      title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
-      url: `https://logs.tf/${logID}`,
-      image: { url: "attachment://log.webp" },
-      timestamp: new Date(),
-    });
+  //   const embed = new EmbedBuilder({
+  //     color: PayloadColors.Command,
+  //     title: args.t(LanguageKeys.Auto.Logs.EmbedTitle),
+  //     url: `https://logs.tf/${logID}`,
+  //     image: { url: "attachment://log.webp" },
+  //     timestamp: new Date(),
+  //   });
 
-    await send(msg, {
-      embeds: [embed],
-      files: [att],
-    });
-  }
+  //   await send(msg, {
+  //     embeds: [embed],
+  //     files: [att],
+  //   });
+  // }
 }

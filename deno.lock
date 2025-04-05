@@ -1,9 +1,9 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@tf2software/logstf@^0.0.4": "0.0.4",
+    "jsr:@valibot/valibot@1": "1.0.0",
     "npm:@discordjs/builders@^1.10.1": "1.10.1",
-    "npm:@jsr/tf2software__logstf@^0.0.4": "0.0.4",
-    "npm:@jsr/valibot__valibot@~0.42.1": "0.42.1",
     "npm:@node-steam/id@^1.2.0": "1.2.0",
     "npm:@sapphire/decorators@^6.1.1": "6.1.1",
     "npm:@sapphire/discord.js-utilities@^7.3.1": "7.3.2",
@@ -11,7 +11,7 @@
     "npm:@sapphire/framework@^5.3.1": "5.3.2",
     "npm:@sapphire/lexure@^1.1.10": "1.1.10",
     "npm:@sapphire/pieces@^4.3.1": "4.3.1",
-    "npm:@sapphire/plugin-api@^7.0.3": "7.0.3",
+    "npm:@sapphire/plugin-api@8": "8.0.0",
     "npm:@sapphire/plugin-editable-commands@^4.0.3": "4.0.4",
     "npm:@sapphire/plugin-hmr@^3.0.2": "3.0.2",
     "npm:@sapphire/plugin-i18next@^7.1.3": "7.1.3",
@@ -19,25 +19,31 @@
     "npm:@sapphire/plugin-subcommands@^7.0.1": "7.0.1",
     "npm:@sapphire/ratelimits@^2.4.11": "2.4.11",
     "npm:@sapphire/time-utilities@^1.7.14": "1.7.14",
-    "npm:@sapphire/ts-config@^5.0.1": "5.0.1",
     "npm:@sapphire/utilities@^3.18.1": "3.18.2",
-    "npm:@skyra/env-utilities@^1.3.0": "1.3.0",
-    "npm:@types/better-sqlite3@^7.6.12": "7.6.12",
+    "npm:@skyra/env-utilities@2": "2.0.0",
+    "npm:@types/better-sqlite3@7.6.13": "7.6.13",
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
     "npm:better-sqlite3@^11.9.1": "11.9.1",
     "npm:cheerio@1": "1.0.0",
     "npm:date-fns@^4.1.0": "4.1.0",
-    "npm:discord-api-types@0.37.114": "0.37.114",
+    "npm:discord-api-types@0.37.119": "0.37.119",
     "npm:discord.js@^14.16.3": "14.18.0",
-    "npm:drizzle-kit@~0.30.1": "0.30.6_esbuild@0.19.12",
-    "npm:drizzle-orm@~0.38.3": "0.38.4_@types+better-sqlite3@7.6.12_better-sqlite3@11.9.1",
+    "npm:drizzle-kit@~0.30.6": "0.30.6_esbuild@0.19.12",
+    "npm:drizzle-orm@0.41": "0.41.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.9.1",
     "npm:gamedig@^5.1.4": "5.2.0",
     "npm:generate-password@^1.7.1": "1.7.1",
     "npm:html-to-text@^9.0.5": "9.0.5",
-    "npm:i18next@^24.2.3": "24.2.3_typescript@5.8.2",
+    "npm:i18next@^24.2.3": "24.2.3",
     "npm:reflect-metadata@~0.2.2": "0.2.2",
-    "npm:tslib@^2.8.1": "2.8.1",
-    "npm:typescript@^5.7.2": "5.8.2"
+    "npm:tslib@^2.8.1": "2.8.1"
+  },
+  "jsr": {
+    "@tf2software/logstf@0.0.4": {
+      "integrity": "fcea83eb9c246dbc19309479edd42b7409ae2447d87a1a8a39a99390e3a08763"
+    },
+    "@valibot/valibot@1.0.0": {
+      "integrity": "2e16f77fb6a1721c0c219fe0eecdc902a2d8e3d45b98383b228eda93c394e4b7"
+    }
   },
   "npm": {
     "@babel/runtime@7.27.0": {
@@ -52,7 +58,7 @@
         "@discordjs/formatters",
         "@discordjs/util",
         "@sapphire/shapeshift",
-        "discord-api-types@0.37.119",
+        "discord-api-types",
         "fast-deep-equal",
         "ts-mixer",
         "tslib"
@@ -67,7 +73,7 @@
     "@discordjs/formatters@0.6.0": {
       "integrity": "sha512-YIruKw4UILt/ivO4uISmrGq2GdMY6EkoTtD0oS0GvkJFRZbTSdPhzYiUILbJ/QslsvC9H9nTgGgnarnIl4jMfw==",
       "dependencies": [
-        "discord-api-types@0.37.119"
+        "discord-api-types"
       ]
     },
     "@discordjs/rest@2.4.3": {
@@ -78,7 +84,7 @@
         "@sapphire/async-queue",
         "@sapphire/snowflake",
         "@vladfrangu/async_event_emitter",
-        "discord-api-types@0.37.119",
+        "discord-api-types",
         "magic-bytes.js",
         "tslib",
         "undici@6.21.1"
@@ -96,7 +102,7 @@
         "@sapphire/async-queue",
         "@types/ws",
         "@vladfrangu/async_event_emitter",
-        "discord-api-types@0.37.119",
+        "discord-api-types",
         "tslib",
         "ws"
       ]
@@ -253,12 +259,6 @@
     "@esbuild/win32-x64@0.19.12": {
       "integrity": "sha512-T1QyPSDCyMXaO3pzBkF96E8xMkiRYbUEZADd29SyPGabqxMViNoii+NcK7eWJAEoU6RZyEm5lVSIjTmcdoB9HA=="
     },
-    "@jsr/tf2software__logstf@0.0.4": {
-      "integrity": "sha512-+Zu7lL8JRX/h/JtY0Ph61lwkMAUjCOTQ+FPPfgmZdJCr1VOSaFpHzvemtNIsoY4gTCodjBhDK8AvvdfAvxtwBw=="
-    },
-    "@jsr/valibot__valibot@0.42.1": {
-      "integrity": "sha512-JjIzyXUQTkmTbiDXUJoFHDigviK12MUd69lGA28fGuhfivzvFv8TgPxkfH3I0wL0skCc5Rl5+g1IFnwYwVZWRw=="
-    },
     "@node-steam/id@1.2.0": {
       "integrity": "sha512-tI6QecSsVwcNaQeFTe8gLJbHVPywhBXFb5FroVOs2jpTXqBH9s9HK4n/5LtmMcO6o3Kf2o2//vzrNuufTt4kBA==",
       "dependencies": [
@@ -287,7 +287,7 @@
     "@sapphire/discord-utilities@3.4.4": {
       "integrity": "sha512-P7bCL5U2s+U5oy9OFpC4lr4Y0bGoNrSCPu2bgxP9AaqK90hcwpoLWWKouvGgaY9tCbUZmaf8E98/SlZZoakhAQ==",
       "dependencies": [
-        "discord-api-types@0.37.119"
+        "discord-api-types"
       ]
     },
     "@sapphire/discord.js-utilities@7.3.2": {
@@ -333,14 +333,14 @@
         "tslib"
       ]
     },
-    "@sapphire/plugin-api@7.0.3": {
-      "integrity": "sha512-1BgQ2ewR9f4Gq060K8hcy/kSvrUTw8Txnp4bviBA+G/CHdBrFCDkZA00JnxZAb8Q9OWfWjzjKaF7J7Nzz7z0rA==",
+    "@sapphire/plugin-api@8.0.0": {
+      "integrity": "sha512-9PTXqcFMSGxVI+siCTdsFRIBEnlgJ6JvyHIliMRe/aaf/KARDoSbD4N8/HVIrZKQLEO1ktnw3kMh9rAWWx9P5g==",
       "dependencies": [
         "@types/ws",
         "@vladfrangu/async_event_emitter",
         "cookie-es",
         "tldts",
-        "undici@6.21.2"
+        "undici@7.7.0"
       ]
     },
     "@sapphire/plugin-editable-commands@4.0.4": {
@@ -414,13 +414,6 @@
     "@sapphire/timestamp@1.0.5": {
       "integrity": "sha512-oNwWyNdbt5wm4aYZvlHl1+64U3g0xrFmRIHsnER7RgMxNnp/wmAE4yTK2oUHeadg3t4V9iYctPAQCF+aINke4g=="
     },
-    "@sapphire/ts-config@5.0.1": {
-      "integrity": "sha512-86YBYNBDNs6/bCrTsv274553v43Bz8YljfrrIQ4N8ll2npUxbf6cpC0gjfJY+FMa1HwKUgoMF4lvhzY0Ph0smw==",
-      "dependencies": [
-        "tslib",
-        "typescript"
-      ]
-    },
     "@sapphire/utilities@3.18.2": {
       "integrity": "sha512-QGLdC9+pT74Zd7aaObqn0EUfq40c4dyTL65pFnkM6WO1QYN7Yg/s4CdH+CXmx0Zcu6wcfCWILSftXPMosJHP5A=="
     },
@@ -437,8 +430,8 @@
     "@skyra/editable-commands@3.0.4": {
       "integrity": "sha512-wQQqOt/GVnKTY0yfL9AmBCvoNIRa/4COxMDYS/TcQexabdZlIfxG4up2zKz8A1or5+73meDZ/D/SvUav36/V2w=="
     },
-    "@skyra/env-utilities@1.3.0": {
-      "integrity": "sha512-uDB+yv0hhscB9iXjyRI0pU0+MOju4qmEGwGRPwNtLRpXWoCjCSD/jtThDYND/Mtp5W8mylTMqi7XwRGx/o6DQA==",
+    "@skyra/env-utilities@2.0.0": {
+      "integrity": "sha512-DGOPBPxFEVRdMtMW4rKtPvua9LCUtNHE+JqvLoIiFEu7418aDuo8BGwIKwzFkm5gYL+Z7Yar6DLH33G3QB7Jag==",
       "dependencies": [
         "dotenv",
         "dotenv-expand"
@@ -456,8 +449,8 @@
         "defer-to-connect"
       ]
     },
-    "@types/better-sqlite3@7.6.12": {
-      "integrity": "sha512-fnQmj8lELIj7BSrZQAdBMHEHX8OZLYIHXqAKT1O7tDfLxaINzf00PMjw22r3N/xXh0w/sGHlO6SVaCQ2mj78lg==",
+    "@types/better-sqlite3@7.6.13": {
+      "integrity": "sha512-NMv9ASNARoKksWtsq/SHakpYAYnhBrQgGD8zkLYk/jaK8jUGn08CfEdTRgYhMypUQAfzSP8W6gNLe0q19/t4VA==",
       "dependencies": [
         "@types/node"
       ]
@@ -650,9 +643,6 @@
     "detect-libc@2.0.3": {
       "integrity": "sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw=="
     },
-    "discord-api-types@0.37.114": {
-      "integrity": "sha512-9b9oOpktWSmE6ooToc46wfw151SHC/+idmnZvtwpEzW85BijUspQxj4W2uOmo+nZVTdEyb3fku58k+4rHKpdSQ=="
-    },
     "discord-api-types@0.37.119": {
       "integrity": "sha512-WasbGFXEB+VQWXlo6IpW3oUv73Yuau1Ig4AZF/m13tXcTKnMpc/mHjpztIlz4+BM9FG9BHQkEXiPto3bKduQUg=="
     },
@@ -666,7 +656,7 @@
         "@discordjs/util",
         "@discordjs/ws",
         "@sapphire/snowflake",
-        "discord-api-types@0.37.119",
+        "discord-api-types",
         "fast-deep-equal",
         "lodash.snakecase",
         "tslib",
@@ -698,8 +688,11 @@
         "domhandler"
       ]
     },
-    "dotenv-expand@10.0.0": {
-      "integrity": "sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A=="
+    "dotenv-expand@12.0.1": {
+      "integrity": "sha512-LaKRbou8gt0RNID/9RoI+J2rvXsBRPMV7p+ElHlPhcSARbCPDYcYG2s1TIzAfWv4YSgyY5taidWzzs31lNV3yQ==",
+      "dependencies": [
+        "dotenv"
+      ]
     },
     "dotenv@16.4.7": {
       "integrity": "sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ=="
@@ -714,8 +707,8 @@
         "gel"
       ]
     },
-    "drizzle-orm@0.38.4_@types+better-sqlite3@7.6.12_better-sqlite3@11.9.1": {
-      "integrity": "sha512-s7/5BpLKO+WJRHspvpqTydxFob8i1vo2rEx4pY6TGY7QSMuUfWUuzaY0DIpXCkgHOo37BaFC+SJQb99dDUXT3Q==",
+    "drizzle-orm@0.41.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.9.1": {
+      "integrity": "sha512-7A4ZxhHk9gdlXmTdPj/lREtP+3u8KvZ4yEN6MYVxBzZGex5Wtdc+CWSbu7btgF6TB0N+MNPrvW7RKBbxJchs/Q==",
       "dependencies": [
         "@types/better-sqlite3",
         "better-sqlite3"
@@ -843,8 +836,8 @@
         "xmlrpc"
       ]
     },
-    "gel@2.0.1": {
-      "integrity": "sha512-gfem3IGvqKqXwEq7XseBogyaRwGsQGuE7Cw/yQsjLGdgiyqX92G1xENPCE0ltunPGcsJIa6XBOTx/PK169mOqw==",
+    "gel@2.0.2": {
+      "integrity": "sha512-XTKpfNR9HZOw+k0Bl04nETZjuP5pypVAXsZADSdwr3EtyygTTe1RqvftU2FjGu7Tp9e576a9b/iIOxWrRBxMiQ==",
       "dependencies": [
         "@petamoriken/float16",
         "debug",
@@ -929,11 +922,10 @@
         "@babel/runtime"
       ]
     },
-    "i18next@24.2.3_typescript@5.8.2": {
+    "i18next@24.2.3": {
       "integrity": "sha512-lfbf80OzkocvX7nmZtu7nSTNbrTYR52sLWxPtlXX1zAhVw8WEnFk4puUkCR4B1dNQwbSpEHHHemcZu//7EcB7A==",
       "dependencies": [
-        "@babel/runtime",
-        "typescript"
+        "@babel/runtime"
       ]
     },
     "iconv-lite@0.6.3": {
@@ -1113,7 +1105,7 @@
         "inherits",
         "isarray@1.0.0",
         "process-nextick-args",
-        "safe-buffer",
+        "safe-buffer@5.1.2",
         "string_decoder@1.1.1",
         "util-deprecate"
       ]
@@ -1149,6 +1141,9 @@
     },
     "safe-buffer@5.1.2": {
       "integrity": "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g=="
+    },
+    "safe-buffer@5.2.1": {
+      "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
     },
     "safer-buffer@2.1.2": {
       "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
@@ -1208,7 +1203,7 @@
     "string_decoder@1.1.1": {
       "integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
       "dependencies": [
-        "safe-buffer"
+        "safe-buffer@5.1.2"
       ]
     },
     "strip-json-comments@2.0.1": {
@@ -1251,11 +1246,8 @@
     "tunnel-agent@0.6.0": {
       "integrity": "sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==",
       "dependencies": [
-        "safe-buffer"
+        "safe-buffer@5.2.1"
       ]
-    },
-    "typescript@5.8.2": {
-      "integrity": "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="
     },
     "undici-types@6.20.0": {
       "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
@@ -1265,6 +1257,9 @@
     },
     "undici@6.21.2": {
       "integrity": "sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g=="
+    },
+    "undici@7.7.0": {
+      "integrity": "sha512-tZ6+5NBq4KH35rr46XJ2JPFKxfcBlYNaqLF/wyWIO9RMHqqU/gx/CLB1Y2qMcgB8lWw/bKHa7qzspqCN7mUHvA=="
     },
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
@@ -1305,45 +1300,42 @@
     }
   },
   "workspace": {
-    "packageJson": {
-      "dependencies": [
-        "npm:@discordjs/builders@^1.10.1",
-        "npm:@jsr/tf2software__logstf@^0.0.4",
-        "npm:@jsr/valibot__valibot@~0.42.1",
-        "npm:@node-steam/id@^1.2.0",
-        "npm:@sapphire/decorators@^6.1.1",
-        "npm:@sapphire/discord.js-utilities@^7.3.1",
-        "npm:@sapphire/fetch@^3.0.5",
-        "npm:@sapphire/framework@^5.3.1",
-        "npm:@sapphire/lexure@^1.1.10",
-        "npm:@sapphire/pieces@^4.3.1",
-        "npm:@sapphire/plugin-api@^7.0.3",
-        "npm:@sapphire/plugin-editable-commands@^4.0.3",
-        "npm:@sapphire/plugin-hmr@^3.0.2",
-        "npm:@sapphire/plugin-i18next@^7.1.3",
-        "npm:@sapphire/plugin-logger@^4.0.2",
-        "npm:@sapphire/plugin-subcommands@^7.0.1",
-        "npm:@sapphire/ratelimits@^2.4.11",
-        "npm:@sapphire/time-utilities@^1.7.14",
-        "npm:@sapphire/ts-config@^5.0.1",
-        "npm:@sapphire/utilities@^3.18.1",
-        "npm:@skyra/env-utilities@^1.3.0",
-        "npm:@types/better-sqlite3@^7.6.12",
-        "npm:@types/html-to-text@^9.0.4",
-        "npm:better-sqlite3@^11.9.1",
-        "npm:cheerio@1",
-        "npm:date-fns@^4.1.0",
-        "npm:discord-api-types@0.37.114",
-        "npm:discord.js@^14.16.3",
-        "npm:drizzle-kit@~0.30.1",
-        "npm:drizzle-orm@~0.38.3",
-        "npm:gamedig@^5.1.4",
-        "npm:generate-password@^1.7.1",
-        "npm:html-to-text@^9.0.5",
-        "npm:i18next@^24.2.3",
-        "npm:reflect-metadata@~0.2.2",
-        "npm:tslib@^2.8.1"
-      ]
-    }
+    "dependencies": [
+      "jsr:@tf2software/logstf@^0.0.4",
+      "jsr:@valibot/valibot@1",
+      "npm:@discordjs/builders@^1.10.1",
+      "npm:@node-steam/id@^1.2.0",
+      "npm:@sapphire/decorators@^6.1.1",
+      "npm:@sapphire/discord.js-utilities@^7.3.1",
+      "npm:@sapphire/fetch@^3.0.5",
+      "npm:@sapphire/framework@^5.3.1",
+      "npm:@sapphire/lexure@^1.1.10",
+      "npm:@sapphire/pieces@^4.3.1",
+      "npm:@sapphire/plugin-api@8",
+      "npm:@sapphire/plugin-editable-commands@^4.0.3",
+      "npm:@sapphire/plugin-hmr@^3.0.2",
+      "npm:@sapphire/plugin-i18next@^7.1.3",
+      "npm:@sapphire/plugin-logger@^4.0.2",
+      "npm:@sapphire/plugin-subcommands@^7.0.1",
+      "npm:@sapphire/ratelimits@^2.4.11",
+      "npm:@sapphire/time-utilities@^1.7.14",
+      "npm:@sapphire/utilities@^3.18.1",
+      "npm:@skyra/env-utilities@2",
+      "npm:@types/better-sqlite3@7.6.13",
+      "npm:@types/html-to-text@^9.0.4",
+      "npm:better-sqlite3@^11.9.1",
+      "npm:cheerio@1",
+      "npm:date-fns@^4.1.0",
+      "npm:discord-api-types@0.37.119",
+      "npm:discord.js@^14.16.3",
+      "npm:drizzle-kit@~0.30.6",
+      "npm:drizzle-orm@0.41",
+      "npm:gamedig@^5.1.4",
+      "npm:generate-password@^1.7.1",
+      "npm:html-to-text@^9.0.5",
+      "npm:i18next@^24.2.3",
+      "npm:reflect-metadata@~0.2.2",
+      "npm:tslib@^2.8.1"
+    ]
   }
 }

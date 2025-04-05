@@ -2,14 +2,14 @@ import { type CommandOptions, Command } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedBuilder, codeBlock, InteractionContextType, ChannelType, PermissionFlagsBits } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import PayloadColors from "#utils/colors";
-import { guild, webhook } from "#root/drizzle/schema";
+import PayloadColors from "#utils/colors.ts";
+import { guild, webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { sendTest } from "#lib/utils/webhook-helper";
+import { sendTest } from "#lib/utils/webhook-helper.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,

@@ -1,6 +1,6 @@
 import type { LoaderPieceContext, MessageCommandContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { PayloadCommand } from "../commands/PayloadCommand.js";
+import { PayloadCommand } from "../commands/PayloadCommand.ts";
 
 export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;

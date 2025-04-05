@@ -1,1 +1,1 @@
-export * as LanguageKeys from "./keys/all.js";
+export * as LanguageKeys from "./keys/all.ts";

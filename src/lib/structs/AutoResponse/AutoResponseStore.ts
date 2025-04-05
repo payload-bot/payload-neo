@@ -1,5 +1,5 @@
 import { AliasStore } from "@sapphire/framework";
-import { AutoCommand } from "./AutoResponse.js";
+import { AutoCommand } from "./AutoResponse.ts";
 
 export class AutoResponseStore extends AliasStore<AutoCommand, "auto"> {
   constructor() {

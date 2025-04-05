@@ -2,10 +2,9 @@ import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClie
 import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions";
 import config from "#root/config";
-import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.js";
+import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { guild } from "#root/drizzle/schema";
 import { eq } from "drizzle-orm";
 
@@ -15,7 +14,7 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      new AutoResponseStore().registerPath(fileURLToPath(join(import.meta.url, "..", "..", "auto"))),
+      new AutoResponseStore().registerPath(join(import.meta.dirname, "..", "..", "auto")),
     );
   }
 

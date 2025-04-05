@@ -1,11 +1,9 @@
 import { Precondition } from "@sapphire/framework";
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
-import type { SnipeCache } from "#lib/interfaces/cache";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
 import type { BooleanString, IntegerString, NumberString, ArrayString } from "@skyra/env-utilities";
 import { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
-import { LibSQLDatabase } from "drizzle-orm/libsql";
 
 export type O = object;
 
@@ -35,7 +33,7 @@ declare module "@sapphire/framework" {
 
 declare module "@sapphire/pieces" {
   interface Container {
-    database: LibSQLDatabase;
+    database: BetterSQLite3Database;
   }
 }
 

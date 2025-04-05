@@ -21,7 +21,9 @@ import { join } from "node:path";
 
 function makeLogger() {
   return {
-    level: LogLevel.Trace,
+    level: process.env.NODE_ENV === "production"
+      ? LogLevel.Info
+      : LogLevel.Debug,
   };
 }
 
@@ -80,6 +82,9 @@ function parseI18N(): InternationalizationOptions {
         defaultValue: args[1] ?? "globals:default",
       }),
     }),
+    hmr: {
+      enabled: process.env.NODE_ENV === "development",
+    },
   };
 }
 
@@ -94,6 +99,7 @@ function parseAPI(): ServerOptions {
 }
 
 export const CLIENT_OPTIONS: ClientOptions = {
+  baseUserDirectory: "src/",
   caseInsensitivePrefixes: true,
   caseInsensitiveCommands: false,
   loadMessageCommandListeners: true,

@@ -16,14 +16,14 @@ ENV DATABASE_URL="file:$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"
-ENV NODE_OPTIONS="--max-old-space-size=512"
+ENV DENO_NO_UPDATE_CHECK=1
+ENV DENO_NO_PROMPT=1
 
 # add shortcut for connecting to database CLI
 RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmod +x /usr/local/bin/db
 
 WORKDIR /app
 
-COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/deno.json /app/deno.json
 COPY --from=build /app/src /app/src
 
@@ -31,5 +31,7 @@ COPY --from=build /app/src /app/src
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
 ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
+
+USER deno 
 
 CMD ["litefs", "mount"]

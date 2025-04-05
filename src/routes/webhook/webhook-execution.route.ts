@@ -1,15 +1,20 @@
 import { ServiceController } from "#lib/structs/ServiceController.ts";
 import { sendLogPreview } from "#lib/utils/webhook-helper.ts";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Route, type ApiRequest, type ApiResponse, type RouteOptions } from "@sapphire/plugin-api";
-import { isNullOrUndefinedOrEmpty, isNullish } from "@sapphire/utilities";
+import {
+  type ApiRequest,
+  type ApiResponse,
+  Route,
+  type RouteOptions,
+} from "@sapphire/plugin-api";
+import { isNullish, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
-import * as v from "@valibot/valibot";
+import { type } from "arktype";
 
-const schema = v.object({
-  logsId: v.union([v.string(), v.number()]),
-  demosId: v.union([v.string(), v.number()]),
+const schema = type({
+  demosId: "string | number.integer >= 0",
+  logsId: "string | number.integer >= 0",
 });
 
 @ApplyOptions<RouteOptions>({
@@ -33,15 +38,19 @@ export class WebhookExecutionRoute extends ServiceController {
       return response.notFound();
     }
 
-    const result = v.safeParse(schema, await request.readBodyJson());
+    const body = await request.readBodyJson();
+    const result = schema(body);
 
-    if (!result.success) {
-      return response.badRequest("Bad request");
+    if (result instanceof type.errors) {
+      return response.badRequest({
+        error: "Bad request",
+        message: result.summary,
+      });
     }
 
     await sendLogPreview(this.client, {
-      demosId: result.output.demosId.toString(),
-      logsId: result.output.logsId.toString(),
+      demosId: result.demosId.toString(),
+      logsId: result.logsId.toString(),
       targetId: data[0].id,
       webhookTarget: data[0].type as any,
     });
@@ -71,16 +80,25 @@ export class WebhookExecutionv1Route extends ServiceController {
       return response.notFound();
     }
 
-    const result = v.safeParse(schema, await request.readBodyJson());
+    const body = await request.readBodyJson();
+    const result = schema(body);
 
-    if (!result.success) {
-      return response.badRequest("Bad request");
+    if (result instanceof type.errors) {
+      return response.badRequest({
+        error: "Bad request",
+        message: result.summary,
+      });
     }
-    this.logger.info(`${request.headers["user-agent"]} made a request to a deprecated endpoint`);
+
+    this.logger.info(
+      `${
+        request.headers["user-agent"]
+      } made a request to a deprecated endpoint`,
+    );
 
     await sendLogPreview(this.client, {
-      demosId: result.output.demosId.toString(),
-      logsId: result.output.logsId.toString(),
+      demosId: result.demosId.toString(),
+      logsId: result.logsId.toString(),
       targetId: data[0].id,
       webhookTarget: data[0].type as any,
     });

@@ -3,7 +3,6 @@
   "specifiers": {
     "jsr:@std/fmt@^1.0.6": "1.0.6",
     "jsr:@tf2software/logstf@^0.0.4": "0.0.4",
-    "jsr:@valibot/valibot@1": "1.0.0",
     "npm:@discordjs/builders@^1.10.1": "1.10.1",
     "npm:@libsql/client@~0.15.2": "0.15.2",
     "npm:@node-steam/id@^1.2.0": "1.2.0",
@@ -27,7 +26,6 @@
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
     "npm:arktype@^2.1.17": "2.1.17",
     "npm:cheerio@1": "1.0.0",
-    "npm:date-fns@^4.1.0": "4.1.0",
     "npm:discord-api-types@0.37.119": "0.37.119",
     "npm:discord.js@^14.16.3": "14.18.0",
     "npm:drizzle-kit@~0.30.6": "0.30.6_esbuild@0.19.12",
@@ -45,9 +43,6 @@
     },
     "@tf2software/logstf@0.0.4": {
       "integrity": "fcea83eb9c246dbc19309479edd42b7409ae2447d87a1a8a39a99390e3a08763"
-    },
-    "@valibot/valibot@1.0.0": {
-      "integrity": "2e16f77fb6a1721c0c219fe0eecdc902a2d8e3d45b98383b228eda93c394e4b7"
     }
   },
   "npm": {
@@ -665,9 +660,6 @@
     "data-uri-to-buffer@4.0.1": {
       "integrity": "sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A=="
     },
-    "date-fns@4.1.0": {
-      "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="
-    },
     "debug@4.4.0": {
       "integrity": "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==",
       "dependencies": [
@@ -1268,7 +1260,6 @@
     "dependencies": [
       "jsr:@std/fmt@^1.0.6",
       "jsr:@tf2software/logstf@^0.0.4",
-      "jsr:@valibot/valibot@1",
       "npm:@discordjs/builders@^1.10.1",
       "npm:@libsql/client@~0.15.2",
       "npm:@node-steam/id@^1.2.0",
@@ -1290,8 +1281,8 @@
       "npm:@skyra/env-utilities@2",
       "npm:@types/better-sqlite3@7.6.13",
       "npm:@types/html-to-text@^9.0.4",
+      "npm:arktype@^2.1.17",
       "npm:cheerio@1",
-      "npm:date-fns@^4.1.0",
       "npm:discord-api-types@0.37.119",
       "npm:discord.js@^14.16.3",
       "npm:drizzle-kit@~0.30.6",
@@ -1302,11 +1293,6 @@
       "npm:i18next@^24.2.3",
       "npm:reflect-metadata@~0.2.2",
       "npm:tslib@^2.8.1"
-    ],
-    "packageJson": {
-      "dependencies": [
-        "npm:arktype@^2.1.17"
-      ]
-    }
+    ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "unstable": [],
+  "unstable": ["temporal"],
   "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run -A --env-file=.env src/index.ts"
@@ -27,8 +27,8 @@
     "@skyra/env-utilities": "npm:@skyra/env-utilities@^2.0.0",
     "@std/fmt": "jsr:@std/fmt@^1.0.6",
     "@tf2software/logstf": "jsr:@tf2software/logstf@^0.0.4",
+    "arktype": "npm:arktype@^2.1.17",
     "cheerio": "npm:cheerio@^1.0.0",
-    "date-fns": "npm:date-fns@^4.1.0",
     "discord-api-types": "npm:discord-api-types@0.37.119",
     "discord.js": "npm:discord.js@^14.16.3",
     "drizzle-orm": "npm:drizzle-orm@^0.41.0",

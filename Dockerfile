@@ -16,6 +16,7 @@ ENV DATABASE_URL="file:$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"
+ENV PREVIEW_URL="http://payload-screenshot.internal:8000"
 ENV DENO_NO_UPDATE_CHECK=1
 ENV DENO_NO_PROMPT=1
 
@@ -24,14 +25,15 @@ RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmo
 
 WORKDIR /app
 
-COPY --from=build /app/deno.json /app/deno.json
-COPY --from=build /app/src /app/src
+COPY --from=build $DENO_DIR $DENO_DIR
+COPY --from=build /app/deno.json .
 
 # prepare for litefs
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
 ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
+RUN chown -R deno:deno /data
 
 USER deno 
 
-CMD ["litefs", "mount"]
+ENTRYPOINT ["litefs", "mount"]

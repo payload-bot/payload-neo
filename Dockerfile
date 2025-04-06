@@ -8,7 +8,7 @@ COPY . .
 
 RUN deno cache --frozen src/index.ts
 
-FROM denoland/deno:ubuntu
+FROM denoland/deno:alpine
 
 ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
@@ -22,8 +22,7 @@ ENV PREVIEW_URL="http://payload-screenshot.flycast"
 ENV DENO_NO_UPDATE_CHECK=1
 ENV DENO_NO_PROMPT=1
 
-RUN apt-get update && apt-get install fuse3 sqlite3 ca-certificates -y && \
-  rm -rf /var/lib/apt/lists/*
+RUN apk add ca-certificates fuse3 sqlite
 
 # prepare for litefs
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs

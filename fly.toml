@@ -1,7 +1,9 @@
 app = "payload"
 primary_region = "ord"
-kill_signal = "SIGINT"
-kill_timeout = "5s"
+
+[[restart]]
+  policy = "never"
+  retries = 10
 
 [[mounts]]
   source = "data"

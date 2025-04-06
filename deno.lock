@@ -12,6 +12,7 @@
     "npm:@sapphire/framework@^5.3.1": "5.3.2",
     "npm:@sapphire/lexure@^1.1.10": "1.1.10",
     "npm:@sapphire/pieces@^4.3.1": "4.3.1",
+    "npm:@sapphire/pieces@^4.3.2": "4.3.2",
     "npm:@sapphire/plugin-api@8": "8.0.0",
     "npm:@sapphire/plugin-editable-commands@^4.0.3": "4.0.4",
     "npm:@sapphire/plugin-hmr@^3.0.2": "3.0.2",
@@ -381,7 +382,7 @@
         "@sapphire/discord-utilities",
         "@sapphire/discord.js-utilities",
         "@sapphire/lexure",
-        "@sapphire/pieces",
+        "@sapphire/pieces@4.3.1",
         "@sapphire/ratelimits",
         "@sapphire/result",
         "@sapphire/stopwatch",
@@ -396,6 +397,14 @@
     },
     "@sapphire/pieces@4.3.1": {
       "integrity": "sha512-t42o6i8gPQ3QISIsMl463hj057yfyHsaSrs4FssdiGLmnvL9cuLGLTsjGEPn904wHUhPzS8W5aAPr788RK2/jQ==",
+      "dependencies": [
+        "@discordjs/collection@1.5.3",
+        "@sapphire/utilities",
+        "tslib"
+      ]
+    },
+    "@sapphire/pieces@4.3.2": {
+      "integrity": "sha512-0GuLwBoiyINHRDYEcd+RR/enYUQCiGkbCYOVi9Zwa1G4c2S6lc2MqdUd5ies7LkY5HgqDg/3ST7W4FSzxnvbHA==",
       "dependencies": [
         "@discordjs/collection@1.5.3",
         "@sapphire/utilities",
@@ -1269,7 +1278,7 @@
       "npm:@sapphire/fetch@^3.0.5",
       "npm:@sapphire/framework@^5.3.1",
       "npm:@sapphire/lexure@^1.1.10",
-      "npm:@sapphire/pieces@^4.3.1",
+      "npm:@sapphire/pieces@^4.3.2",
       "npm:@sapphire/plugin-api@8",
       "npm:@sapphire/plugin-editable-commands@^4.0.3",
       "npm:@sapphire/plugin-hmr@^3.0.2",

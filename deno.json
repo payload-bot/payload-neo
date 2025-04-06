@@ -15,7 +15,7 @@
     "@sapphire/fetch": "npm:@sapphire/fetch@^3.0.5",
     "@sapphire/framework": "npm:@sapphire/framework@^5.3.1",
     "@sapphire/lexure": "npm:@sapphire/lexure@^1.1.10",
-    "@sapphire/pieces": "npm:@sapphire/pieces@^4.3.1",
+    "@sapphire/pieces": "npm:@sapphire/pieces@^4.3.2",
     "@sapphire/plugin-api": "npm:@sapphire/plugin-api@^8.0.0",
     "@sapphire/plugin-editable-commands": "npm:@sapphire/plugin-editable-commands@^4.0.3",
     "@sapphire/plugin-hmr": "npm:@sapphire/plugin-hmr@^3.0.2",

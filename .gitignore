@@ -3,7 +3,7 @@
 /node_modules
 
 # Stores and ENV
-.env
+.env*
 *.db
 *.db-*
 

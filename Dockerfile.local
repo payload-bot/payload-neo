@@ -1,0 +1,36 @@
+FROM denoland/deno:alpine AS build
+
+WORKDIR /app
+
+USER deno 
+
+COPY . .
+
+RUN deno cache --frozen src/index.ts
+
+FROM denoland/deno:alpine
+
+WORKDIR /app
+
+ENV DATA_DIR="/data"
+ENV DATABASE_FILENAME="data.db"
+ENV DATABASE_PATH="$DATA_DIR/$DATABASE_FILENAME"
+ENV DATABASE_URL="file:$DATABASE_PATH"
+ENV NODE_ENV="production"
+ENV PORT=3000
+ENV HOST="0.0.0.0"
+ENV PREVIEW_URL="http://localhost:8000"
+ENV DENO_NO_UPDATE_CHECK=1
+ENV DENO_NO_PROMPT=1
+
+# add shortcut for connecting to database CLI
+RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmod +x /usr/local/bin/db
+
+USER deno
+
+COPY --from=build $DENO_DIR $DENO_DIR
+COPY --from=build /app .
+
+VOLUME [ "/data" ]
+
+ENTRYPOINT ["deno", "task", "start"]

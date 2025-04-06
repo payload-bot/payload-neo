@@ -87,9 +87,9 @@ declare module "@skyra/env-utilities" {
     CHROME_WS_ENABLE: BooleanString;
 
     /**
-     * The path of the database to use
+     * The url of the database to use
      */
-    DATABASE_PATH: string;
+    DATABASE_URL: string;
 
     /**
      * The ip of the api to listen on

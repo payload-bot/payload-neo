@@ -5,7 +5,7 @@ import { migrate } from "drizzle-orm/libsql/migrator";
 import { envParseString } from "@skyra/env-utilities";
 import { fileURLToPath } from "node:url";
 
-const databaseUrl = envParseString("DATABASE_PATH");
+const databaseUrl = envParseString("DATABASE_URL");
 
 export default function connect() {
   const client = createClient({ url: databaseUrl });

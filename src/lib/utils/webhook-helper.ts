@@ -1,6 +1,4 @@
-import config from "#root/config";
-import { EmbedColors } from "#utils/colors";
-import { capturePage } from "#utils/screenshot";
+import { EmbedColors } from "#utils/colors.ts";
 import { container } from "@sapphire/pieces";
 import {
   type Client,
@@ -15,6 +13,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { Buffer } from "node:buffer";
 
 type TargetReturnType = TextChannel | User | null;
 type WebhookTargetType = "channels" | "users";
@@ -70,28 +69,17 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 
   const logsUrl = `https://logs.tf/${logsId}`;
 
-  const screenshotBuffer = await capturePage(logsUrl, {
-    top: {
-      selector: "#log-header",
-      edge: "top",
+  const preview = await fetch(
+    `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
+    {
+      method: "POST",
+      body: JSON.stringify({ url: logsUrl }),
     },
-    left: {
-      selector: "#log-header",
-      edge: "left",
-    },
-    right: {
-      selector: "#log-header",
-      edge: "right",
-    },
-    bottom: {
-      selector: "#log-section-players",
-      edge: "bottom",
-    },
+  );
 
-    cssPath: config.files.LOGS_CSS,
-  });
+  const arrayBuffer = await preview.arrayBuffer();
 
-  const att = new AttachmentBuilder(Buffer.from(screenshotBuffer), { name: "log.png" });
+  const att = new AttachmentBuilder(Buffer.from(arrayBuffer), { name: "log.webp" });
 
   const embed = new EmbedBuilder({
     title: "Logs.tf Preview",
@@ -106,7 +94,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
     timestamp: new Date(),
   });
 
-  let components = [];
+  const components = [];
 
   if (demosId != null) {
     const demosTfUrl = `https://demos.tf/${demosId}`;
@@ -164,6 +152,7 @@ async function sendWebhook(
   return await target.send({
     embeds: [embed],
     files: attachment ? [attachment] : undefined,
+    // deno-lint-ignore no-explicit-any
     components: components as any,
   });
 }

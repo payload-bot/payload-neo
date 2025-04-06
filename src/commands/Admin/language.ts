@@ -1,15 +1,15 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedBuilder, InteractionContextType, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
-import PayloadColors from "#utils/colors";
+import PayloadColors from "#utils/colors.ts";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v10";
-import { guild } from "#root/drizzle/schema";
+import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,

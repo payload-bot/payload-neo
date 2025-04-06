@@ -1,6 +1,6 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
-import PayloadColors from "#utils/colors";
+import PayloadColors from "#utils/colors.ts";
 import { Message, EmbedBuilder } from "discord.js";
 import { load } from "cheerio";
 import { htmlToText } from "html-to-text";
@@ -13,7 +13,7 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
   regex: /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  async messageRun(msg: Message, { t }: AutoCommand.Args) {
+  override async messageRun(msg: Message, { t }: AutoCommand.Args) {
     const match = this.getMatch(msg);
     const allMatches = msg.content.match(this.regex)!;
 
@@ -21,7 +21,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     let page = parseInt(allMatches.groups!.page?.replace("/?page=", "") ?? "0", 10);
 
-    let post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
+    const post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
 
     if (!page && post > 30) {
       page = Math.floor(post / 30) + 1;
@@ -40,7 +40,7 @@ export default class UserAutoCommand extends AutoCommand {
     let $post = $(`#thread-container > .post:nth-child(1)`);
 
     let frags = $("#thread-frag-count").text().trim();
-    let htmlBody = $post.find(".post-body");
+    const htmlBody = $post.find(".post-body");
 
     const anchorRules = {
       selectors: [
@@ -51,7 +51,7 @@ export default class UserAutoCommand extends AutoCommand {
       ],
     };
 
-    let body = htmlToText(htmlBody.html(), anchorRules);
+    let body = htmlToText(htmlBody.html()!, anchorRules);
 
     let author = $post.find(".post-header .post-author").text().trim();
 
@@ -68,8 +68,8 @@ export default class UserAutoCommand extends AutoCommand {
       }
 
       frags = $post.find(`.post-frag-count`).text().trim();
-      let postBody = $post.find(".post-body");
-      body = htmlToText(postBody.html(), anchorRules);
+      const postBody = $post.find(".post-body");
+      body = htmlToText(postBody.html()!, anchorRules);
       author = $post.find(".post-header .post-author").text().trim();
     }
 

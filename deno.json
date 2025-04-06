@@ -1,0 +1,59 @@
+{
+  "license": "MIT",
+  "unstable": ["temporal"],
+  "nodeModulesDir": "none",
+  "tasks": {
+    "start": "deno run -NRES --allow-ffi src/index.ts",
+    "dev": "deno run -A --env-file=.env src/index.ts"
+  },
+  "imports": {
+    "@discordjs/builders": "npm:@discordjs/builders@^1.10.1",
+    "@libsql/client": "npm:@libsql/client@^0.15.2",
+    "@node-steam/id": "npm:@node-steam/id@^1.2.0",
+    "@sapphire/decorators": "npm:@sapphire/decorators@^6.1.1",
+    "@sapphire/discord.js-utilities": "npm:@sapphire/discord.js-utilities@^7.3.1",
+    "@sapphire/fetch": "npm:@sapphire/fetch@^3.0.5",
+    "@sapphire/framework": "npm:@sapphire/framework@^5.3.1",
+    "@sapphire/lexure": "npm:@sapphire/lexure@^1.1.10",
+    "@sapphire/pieces": "npm:@sapphire/pieces@^4.3.1",
+    "@sapphire/plugin-api": "npm:@sapphire/plugin-api@^8.0.0",
+    "@sapphire/plugin-editable-commands": "npm:@sapphire/plugin-editable-commands@^4.0.3",
+    "@sapphire/plugin-hmr": "npm:@sapphire/plugin-hmr@^3.0.2",
+    "@sapphire/plugin-i18next": "npm:@sapphire/plugin-i18next@^7.1.3",
+    "@sapphire/plugin-logger": "npm:@sapphire/plugin-logger@^4.0.2",
+    "@sapphire/plugin-subcommands": "npm:@sapphire/plugin-subcommands@^7.0.1",
+    "@sapphire/ratelimits": "npm:@sapphire/ratelimits@^2.4.11",
+    "@sapphire/time-utilities": "npm:@sapphire/time-utilities@^1.7.14",
+    "@sapphire/utilities": "npm:@sapphire/utilities@^3.18.1",
+    "@skyra/env-utilities": "npm:@skyra/env-utilities@^2.0.0",
+    "@std/fmt": "jsr:@std/fmt@^1.0.6",
+    "@tf2software/logstf": "jsr:@tf2software/logstf@^0.0.4",
+    "arktype": "npm:arktype@^2.1.17",
+    "cheerio": "npm:cheerio@^1.0.0",
+    "discord-api-types": "npm:discord-api-types@0.37.119",
+    "discord.js": "npm:discord.js@^14.16.3",
+    "drizzle-orm": "npm:drizzle-orm@^0.41.0",
+    "gamedig": "npm:gamedig@^5.1.4",
+    "generate-password": "npm:generate-password@^1.7.1",
+    "html-to-text": "npm:html-to-text@^9.0.5",
+    "i18next": "npm:i18next@^24.2.3",
+    "reflect-metadata": "npm:reflect-metadata@^0.2.2",
+    "tslib": "npm:tslib@^2.8.1",
+
+    "@types/html-to-text": "npm:@types/html-to-text@^9.0.4",
+    "drizzle-kit": "npm:drizzle-kit@^0.30.6",
+
+    "#root/": "./src/",
+    "#api/": "./src/lib/api/",
+    "#lib/": "./src/lib/",
+    "#lib/utils/": "./src/lib/utils/",
+    "#lib/types": "./src/lib/types/index.ts",
+    "#lib/models": "./src/lib/models/index.ts",
+    "#lib/i18n/all": "./src/lib/i18n/all/index.ts",
+    "#utils/": "./src/lib/utils/"
+  },
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
+}

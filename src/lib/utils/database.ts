@@ -1,15 +1,16 @@
 import { container } from "@sapphire/pieces";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import { migrate } from "drizzle-orm/better-sqlite3/migrator";
-import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client/sqlite3";
+import { migrate } from "drizzle-orm/libsql/migrator";
 import { envParseString } from "@skyra/env-utilities";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
-const databaseUrl = envParseString("DATABASE_PATH");
+const databaseUrl = envParseString("DATABASE_URL");
 
-export default async function connect() {
-  const sqlite = new Database(databaseUrl);
-  const db = drizzle(sqlite);
+export default function connect() {
+  const client = createClient({ url: databaseUrl });
+
+  const db = drizzle(client);
 
   migrate(db, {
     migrationsFolder: fileURLToPath(new URL("../../drizzle", import.meta.url)),

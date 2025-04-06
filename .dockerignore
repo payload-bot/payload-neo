@@ -3,14 +3,11 @@
 *.db-*
 
 # Folders
-!assets/**
-!scripts/**
 !src/**
 
 # Files
-!package.json
-!tsup.config.ts
-!tsconfig.json
+!deno.json
+!deno.lock
 !litefs.yml
 !fly.toml
-!.npmrc
+!package.json

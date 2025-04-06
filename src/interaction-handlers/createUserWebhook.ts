@@ -1,10 +1,10 @@
-import { LanguageKeys } from "#lib/i18n/all/index";
-import { user, webhook } from "#root/drizzle/schema";
+import { LanguageKeys } from "#lib/i18n/all";
+import { user, webhook } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
 import { codeBlock, type ButtonInteraction, EmbedBuilder } from "discord.js";
-import PayloadColors from "#utils/colors";
+import PayloadColors from "#utils/colors.ts";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {

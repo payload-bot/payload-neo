@@ -1,6 +1,6 @@
-export * as Etf2l from "./etf2l.js";
-export * as RGL from "./rgl.js";
-export * as Logs from "./logs.js";
-export * as UGC from "./ugc.js";
-export * as Tftv from "./tftv.js";
-export * as Connect from "./connect.js";
+export * as Etf2l from "./etf2l.ts";
+export * as RGL from "./rgl.ts";
+export * as Logs from "./logs.ts";
+export * as UGC from "./ugc.ts";
+export * as Tftv from "./tftv.ts";
+export * as Connect from "./connect.ts";

@@ -1,6 +1,6 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
-import { EmbedColors } from "#utils/colors";
+import { EmbedColors } from "#utils/colors.ts";
 import { GameDig } from "gamedig";
 import { Message, EmbedBuilder } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -11,7 +11,7 @@ import { send } from "@sapphire/plugin-editable-commands";
   regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
 })
 export default class UserAutoCommand extends AutoCommand {
-  // @ts-ignore
+  // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
     const connectInfo = matched.trim();
     const parts = connectInfo.split(";");
@@ -45,7 +45,7 @@ export default class UserAutoCommand extends AutoCommand {
 
       embed.setColor(EmbedColors.Green);
       embed.setDescription(`${name}\n${players.length}/${maxplayers} ${args.t(LanguageKeys.Auto.Connect.Players)}`);
-    } catch (err) {
+    } catch {
       embed.setColor(EmbedColors.Red);
       embed.setDescription(args.t(LanguageKeys.Auto.Connect.Offline));
     }

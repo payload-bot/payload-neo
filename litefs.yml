@@ -5,7 +5,7 @@ data:
   dir: "/data/litefs"
 
 exec:
-  - cmd: "node --enable-source-maps ."
+  - cmd: "deno task start"
 
 proxy:
   addr: ":${INTERNAL_PORT}"

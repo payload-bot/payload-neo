@@ -1,15 +1,15 @@
 import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
 import { Message, EmbedBuilder } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
-import config from "#root/config";
-import PayloadColors from "#utils/colors";
+import config from "#root/config.ts";
+import PayloadColors from "#utils/colors.ts";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v9";
-import { guild } from "#root/drizzle/schema";
+import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 
 @ApplyOptions<Subcommand.Options>({
@@ -55,7 +55,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ prefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const t = await this.t(msg);
 
@@ -72,7 +72,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const prefix = await args.pick("string").catch(() => null);
 
@@ -91,7 +91,7 @@ export class UserCommand extends Subcommand {
       .set({
         prefix,
       })
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const embed = new EmbedBuilder({
       author: {
@@ -118,7 +118,7 @@ export class UserCommand extends Subcommand {
     const [g] = await this.database
       .select({ guildPrefix: guild.language })
       .from(guild)
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     const t = await this.t(msg);
 
@@ -147,7 +147,7 @@ export class UserCommand extends Subcommand {
       .set({
         prefix: config.PREFIX,
       })
-      .where(eq(guild.id, msg.guildId));
+      .where(eq(guild.id, msg.guildId!));
 
     return await send(msg, { embeds: [embed] });
   }

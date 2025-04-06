@@ -1,6 +1,6 @@
-import "#utils/setup";
+import "#utils/setup.ts";
 import { container } from "@sapphire/framework";
-import { PayloadClient } from "#lib/PayloadClient";
+import { PayloadClient } from "#lib/PayloadClient.ts";
 
 const client = new PayloadClient();
 
@@ -9,5 +9,5 @@ try {
 } catch (error) {
   container.logger.error(error);
   client.destroy();
-  process.exit(1);
+  Deno.exit(1);
 }

@@ -1,4 +1,4 @@
-import { FT, T } from "#lib/types/index";
+import { FT, T } from "#lib/types";
 
 export const Name = T<string>("commands/language:name");
 export const Description = T<string>("commands/language:description");

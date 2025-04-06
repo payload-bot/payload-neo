@@ -1,9 +1,9 @@
 import type { Command, CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedBuilder } from "discord.js";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import PayloadColors from "#utils/colors";
+import PayloadColors from "#utils/colors.ts";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<CommandOptions>({

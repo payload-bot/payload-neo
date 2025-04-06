@@ -9,10 +9,10 @@ import {
   InteractionContextType,
 } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { PayloadCommand } from "#lib/structs/commands/PayloadCommand";
+import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import PayloadColors from "#utils/colors";
-import { webhook } from "#root/drizzle/schema";
+import PayloadColors from "#utils/colors.ts";
+import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 

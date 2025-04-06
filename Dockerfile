@@ -1,27 +1,14 @@
-FROM node:22-bullseye-slim as base
-WORKDIR /app
+FROM denoland/deno:alpine AS build
 
-RUN apt-get update && apt-get install gnupg wget fuse3 openssl sqlite3 ca-certificates -y && \
-  wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
-  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-  apt-get update && \
-  apt-get install google-chrome-stable -y --no-install-recommends && \
-  rm -rf /var/lib/apt/lists/*
-
-FROM base as build
+USER deno 
 
 WORKDIR /app
+
+RUN deno cache --frozen src/index.ts
 
 COPY . .
 
-RUN npm install
-
-RUN npm run build
-
-RUN npm install --omit=dev
-
-# runner
-FROM base
+FROM denoland/deno:alpine
 
 ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
@@ -31,24 +18,24 @@ ENV DATABASE_URL="file:$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"
-ENV NODE_OPTIONS="--max-old-space-size=512"
+ENV PREVIEW_URL="http://payload-screenshot.internal:8000"
+ENV DENO_NO_UPDATE_CHECK=1
+ENV DENO_NO_PROMPT=1
+
+# prepare for litefs
+COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
+ADD litefs.yml /etc/litefs.yml
+RUN mkdir -p /data ${LITEFS_DIR}
+RUN chown -R deno:deno /data
 
 # add shortcut for connecting to database CLI
 RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmod +x /usr/local/bin/db
 
 WORKDIR /app
 
-COPY --from=build /app/assets /app/assets
-COPY --from=build /app/node_modules /app/node_modules
-COPY --from=build /app/package.json /app/package.json
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/src/languages /app/dist/languages
+USER deno 
 
-# prepare for litefs
-COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs
-ADD litefs.yml /etc/litefs.yml
-RUN mkdir -p /data ${LITEFS_DIR}
+COPY --from=build $DENO_DIR $DENO_DIR
+COPY --from=build /app .
 
-RUN npx puppeteer browsers install chrome
-
-CMD ["litefs", "mount"]
+ENTRYPOINT ["litefs", "mount"]

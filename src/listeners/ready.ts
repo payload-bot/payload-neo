@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
-import { blue, gray, green, magenta, magentaBright, white, yellow } from "colorette";
+import { blue, gray, green, magenta, brightMagenta, white, yellow } from "@std/fmt/colors";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<ListenerOptions>({
@@ -10,7 +10,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private readonly DEV = this.container.client.dev;
   private readonly style = this.DEV ? yellow : blue;
 
-  async run() {
+  override run() {
     this.printBanner();
     this.printStoreDebugInformation();
   }
@@ -18,7 +18,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private printBanner() {
     const success = green("+");
 
-    const llc = this.DEV ? magentaBright : white;
+    const llc = this.DEV ? brightMagenta : white;
     const blc = this.DEV ? magenta : blue;
 
     const line01 = llc("");
@@ -30,7 +30,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
 
     console.log(
       String.raw`
-${line01} ${pad}${blc(`Payload Version ${process.env.VERSION ?? "DEV"}`)}
+${line01} ${pad}${blc(`Payload Version ${Deno.env.get("VERSION") ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API

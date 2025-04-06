@@ -22,7 +22,7 @@ import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
   runIn: [CommandOptionsRunTypeEnum.Dm],
 })
 export class UserCommand extends PayloadCommand {
-  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
     const { client } = this.container;
 
@@ -60,8 +60,8 @@ export class UserCommand extends PayloadCommand {
 
     const embed = new EmbedBuilder({
       author: {
-        name: client.user.username,
-        iconURL: client.user.displayAvatarURL(),
+        name: client.user!.username,
+        iconURL: client.user!.displayAvatarURL(),
       },
       title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
       description: codeBlock(v.value),

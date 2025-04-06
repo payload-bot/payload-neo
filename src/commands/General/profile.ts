@@ -13,7 +13,7 @@ import { user } from "#root/drizzle/schema.ts";
   detailedDescription: LanguageKeys.Commands.Profile.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args) {
+  override async messageRun(msg: Message, args: PayloadCommand.Args) {
     const targetUser = await args.pick("user").catch(() => msg.author);
 
     const { t } = args;

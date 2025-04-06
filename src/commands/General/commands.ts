@@ -12,7 +12,7 @@ import { LanguageKeys } from "#lib/i18n/all";
   detailedDescription: LanguageKeys.Commands.Commands.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args) {
+  override async messageRun(msg: Message, args: PayloadCommand.Args) {
     const { stores } = this.container;
 
     const commands = [...stores.get("commands").values()];

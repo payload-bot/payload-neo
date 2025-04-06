@@ -11,7 +11,7 @@ import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
   detailedDescription: LanguageKeys.Commands.Info.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const { client } = this.container;
     const t = await fetchT(interaction);
 
@@ -20,10 +20,6 @@ export class UserCommand extends PayloadCommand {
     const guildsServing = client.guilds.cache.size;
 
     const embed = new EmbedBuilder({
-      author: {
-        name: client.user.username,
-        iconURL: client.user.displayAvatarURL(),
-      },
       title: t(LanguageKeys.Commands.Info.EmbedTitle, {
         users: membersServing,
         servers: guildsServing,

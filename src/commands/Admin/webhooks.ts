@@ -9,34 +9,29 @@ import { guild, webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { sendTest } from "#lib/utils/webhook-helper.ts";
+import { sendTest } from "#utils/webhook-helper.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,
   detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
-    const { client } = this.container;
 
     const [guildWebhook] = await this.database
       .select({ webhookId: guild.webhookId })
       .from(guild)
-      .where(eq(guild.id, interaction.guildId));
+      .where(eq(guild.id, interaction.guildId!));
 
     switch (interaction.options.getSubcommand(true)) {
       case "add": {
-        const channel = interaction.options.getChannel("channel");
+        const channel = interaction.options.getChannel("channel")!;
 
         const didSucceed = await sendTest(this.container.client, "channels", channel?.id);
 
         if (!didSucceed) {
           const embed = new EmbedBuilder({
-            author: {
-              name: client.user.username,
-              iconURL: client.user.displayAvatarURL(),
-            },
             title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
             description: t(LanguageKeys.Commands.Webhooks.AddFailed),
             color: PayloadColors.Payload,
@@ -52,7 +47,7 @@ export class UserCommand extends PayloadCommand {
         const [createdWebhook] = await this.database
           .insert(webhook)
           .values({
-            id: interaction.guildId,
+            id: interaction.guildId!,
             type: "channels",
             value: secret,
           })

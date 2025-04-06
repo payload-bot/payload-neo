@@ -9,7 +9,6 @@ import { LibSQLDatabase } from "drizzle-orm/libsql";
 export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
   protected readonly database: LibSQLDatabase;
-
   public constructor(context: LoaderPieceContext<"commands">, options: PayloadCommand.Options) {
     super(context, options);
 

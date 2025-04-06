@@ -16,7 +16,7 @@ const FLAGS = ["D", "d"];
   flags: FLAGS,
 })
 export class UserCommand extends PayloadCommand {
-  async messageRun(msg: Message, args: PayloadCommand.Args) {
+  override async messageRun(msg: Message, args: PayloadCommand.Args) {
     const steamId = await args.pick("string").catch(() => null);
 
     if (args.getFlags("D") || args.getFlags("d")) {

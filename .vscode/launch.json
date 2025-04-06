@@ -1,21 +1,20 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "request": "launch",
-            "name": "Debug Payload",
-            "type": "node",
-            "program": "${workspaceFolder}/src/index.ts",
-            "cwd": "${workspaceFolder}",
-            "env": {},
-            "runtimeExecutable": "C:\\Users\\Administrator\\.deno\\bin\\deno.EXE",
-            "runtimeArgs": [
-                "run",
-                "--inspect-wait",
-                "--unstable-sloppy-imports",
-                "--allow-all"
-            ],
-            "attachSimplePort": 9229
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "request": "launch",
+      "name": "Debug Payload",
+      "type": "node",
+      "program": "${workspaceFolder}/src/index.ts",
+      "cwd": "${workspaceFolder}",
+      "env": {},
+      "runtimeExecutable": "deno",
+      "runtimeArgs": [
+        "run",
+        "--inspect-wait",
+        "--allow-all"
+      ],
+      "attachSimplePort": 9229
+    }
+  ]
 }

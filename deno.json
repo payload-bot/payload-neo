@@ -1,7 +1,6 @@
 {
   "license": "MIT",
   "unstable": ["temporal"],
-  "nodeModulesDir": "none",
   "tasks": {
     "start": "deno run -NRES --allow-ffi src/index.ts",
     "dev": "deno run -A --env-file=.env src/index.ts"

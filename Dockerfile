@@ -18,7 +18,7 @@ ENV DATABASE_URL="file:$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"
-ENV PREVIEW_URL="http://payload-screenshot.internal:8000"
+ENV PREVIEW_URL="http://payload-screenshot.flycast:8000"
 ENV DENO_NO_UPDATE_CHECK=1
 ENV DENO_NO_PROMPT=1
 

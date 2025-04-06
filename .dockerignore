@@ -9,3 +9,4 @@
 !deno.json
 !litefs.yml
 !fly.toml
+!package.json

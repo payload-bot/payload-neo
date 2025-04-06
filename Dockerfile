@@ -26,7 +26,7 @@ RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmo
 WORKDIR /app
 
 COPY --from=build $DENO_DIR $DENO_DIR
-COPY --from=build /app/deno.json .
+COPY --from=build /app .
 
 # prepare for litefs
 COPY --from=flyio/litefs:0.5.0 /usr/local/bin/litefs /usr/local/bin/litefs

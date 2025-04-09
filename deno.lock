@@ -9,9 +9,8 @@
     "npm:@sapphire/decorators@^6.1.1": "6.1.1",
     "npm:@sapphire/discord.js-utilities@^7.3.1": "7.3.2",
     "npm:@sapphire/fetch@^3.0.5": "3.0.5",
-    "npm:@sapphire/framework@^5.3.1": "5.3.2",
+    "npm:@sapphire/framework@^5.3.3": "5.3.3",
     "npm:@sapphire/lexure@^1.1.10": "1.1.10",
-    "npm:@sapphire/pieces@^4.3.1": "4.3.1",
     "npm:@sapphire/pieces@^4.3.2": "4.3.2",
     "npm:@sapphire/plugin-api@8": "8.0.0",
     "npm:@sapphire/plugin-editable-commands@^4.0.3": "4.0.4",
@@ -26,7 +25,7 @@
     "npm:@types/better-sqlite3@7.6.13": "7.6.13",
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
     "npm:@types/node@*": "22.12.0",
-    "npm:arktype@^2.1.17": "2.1.17",
+    "npm:arktype@^2.1.19": "2.1.19",
     "npm:cheerio@1": "1.0.0",
     "npm:discord-api-types@0.37.119": "0.37.119",
     "npm:discord.js@^14.16.3": "14.18.0",
@@ -48,14 +47,14 @@
     }
   },
   "npm": {
-    "@ark/schema@0.45.7": {
-      "integrity": "sha512-TS8jHOkAwRLviu84a7PQGebQ8PzGfxeAznJX3AzaXbb9bOYrtCiqo52/BWBwptc7pZJxL0ejN4Yufgb9YsNALw==",
+    "@ark/schema@0.45.9": {
+      "integrity": "sha512-rG0v/JI0sibn/0wERAHTYVLCtEqoMP2IIlxnb+S5DrEjCI5wpubbZSWMDW50tZ8tV6FANu6zzHDeeKbp6lsZdg==",
       "dependencies": [
         "@ark/util"
       ]
     },
-    "@ark/util@0.45.7": {
-      "integrity": "sha512-ymzzU8C8W+tQzkOIcaLWx4lLXSe5AnF3lpmAtc2FqkxLEVwRnyeKCYPOVXuttLjMwv8R4S/0D0E2cwmUUzim2Q=="
+    "@ark/util@0.45.9": {
+      "integrity": "sha512-0WYNAb8aRGp7dNt6xIvIrRzL7V1XL3u3PK2vcklhtTrdaP235DjC9qJhzidrxtWr68mA5ySSjUrgrXk622bKkw=="
     },
     "@babel/runtime@7.27.0": {
       "integrity": "sha512-VtPOkrdPHZsKc/clNqyi9WUA8TINkZ4cGk63UUE3u4pmB2k+ZMQRDuIOagv8UVd6j7k0T3+RRIb7beKTebNbcw==",
@@ -375,14 +374,14 @@
     "@sapphire/fetch@3.0.5": {
       "integrity": "sha512-YfH5iFFL+n21dEWfdNpSlN1Q4RH+84I9ZFLxtdlbqyWljkh1IwMU6UmHjnroiRJx9TwdFSQ0krHm4v0fV/VqiA=="
     },
-    "@sapphire/framework@5.3.2": {
-      "integrity": "sha512-1DU8Lm57mnbcRgchd9ucbpWA5Yfy7TFOaA+m7zdlKlKUa2NzDUJW1XiTnChfcZUI1SDA0uaikh6u7gaN0zRX5Q==",
+    "@sapphire/framework@5.3.3": {
+      "integrity": "sha512-22DjLLtzkyRv8f0hnWbrZs1mbrwlpuD5+b2XoZAkw7OMklunwFUN9xCVlqAgJiSLo+/jAnyPaFHCNLJ7jGNTfw==",
       "dependencies": [
         "@discordjs/builders",
         "@sapphire/discord-utilities",
         "@sapphire/discord.js-utilities",
         "@sapphire/lexure",
-        "@sapphire/pieces@4.3.1",
+        "@sapphire/pieces",
         "@sapphire/ratelimits",
         "@sapphire/result",
         "@sapphire/stopwatch",
@@ -393,14 +392,6 @@
       "integrity": "sha512-odE4FD0SkCxkwEOhzAOqEnCJ/oJlPUuyFEw2KJacIuGiwY86WRTPIHLg1rt6XmfSYLxGXiqRf74req43+wRV9g==",
       "dependencies": [
         "@sapphire/result"
-      ]
-    },
-    "@sapphire/pieces@4.3.1": {
-      "integrity": "sha512-t42o6i8gPQ3QISIsMl463hj057yfyHsaSrs4FssdiGLmnvL9cuLGLTsjGEPn904wHUhPzS8W5aAPr788RK2/jQ==",
-      "dependencies": [
-        "@discordjs/collection@1.5.3",
-        "@sapphire/utilities",
-        "tslib"
       ]
     },
     "@sapphire/pieces@4.3.2": {
@@ -560,8 +551,8 @@
     "any-promise@1.3.0": {
       "integrity": "sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A=="
     },
-    "arktype@2.1.17": {
-      "integrity": "sha512-w1uDYt+5riOWhjLV7mho7UgofiXLyVWXpHC/Y6xkqVTi9ickuF8aNmEOne7fPN5eTT4Ub4HBfDD7JKJMSa4Htw==",
+    "arktype@2.1.19": {
+      "integrity": "sha512-notORSuTSpfLV7rq0kYC4mTgIVlVR0xQuvtFxOaE9aKiXyON/kgoIBwZZcKeSSb4BebNcfJoGlxJicAUl/HMdw==",
       "dependencies": [
         "@ark/schema",
         "@ark/util"
@@ -1276,7 +1267,7 @@
       "npm:@sapphire/decorators@^6.1.1",
       "npm:@sapphire/discord.js-utilities@^7.3.1",
       "npm:@sapphire/fetch@^3.0.5",
-      "npm:@sapphire/framework@^5.3.1",
+      "npm:@sapphire/framework@^5.3.3",
       "npm:@sapphire/lexure@^1.1.10",
       "npm:@sapphire/pieces@^4.3.2",
       "npm:@sapphire/plugin-api@8",
@@ -1290,7 +1281,7 @@
       "npm:@sapphire/utilities@^3.18.1",
       "npm:@skyra/env-utilities@2",
       "npm:@types/html-to-text@^9.0.4",
-      "npm:arktype@^2.1.17",
+      "npm:arktype@^2.1.19",
       "npm:cheerio@1",
       "npm:discord-api-types@0.37.119",
       "npm:discord.js@^14.16.3",

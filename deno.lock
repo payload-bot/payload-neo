@@ -22,15 +22,13 @@
     "npm:@sapphire/time-utilities@^1.7.14": "1.7.14",
     "npm:@sapphire/utilities@^3.18.1": "3.18.2",
     "npm:@skyra/env-utilities@2": "2.0.0",
-    "npm:@types/better-sqlite3@7.6.13": "7.6.13",
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
-    "npm:@types/node@*": "22.12.0",
     "npm:arktype@^2.1.19": "2.1.19",
     "npm:cheerio@1": "1.0.0",
     "npm:discord-api-types@0.37.119": "0.37.119",
     "npm:discord.js@^14.16.3": "14.18.0",
     "npm:drizzle-kit@~0.30.6": "0.30.6_esbuild@0.19.12",
-    "npm:drizzle-orm@0.41": "0.41.0_@libsql+client@0.15.2_@types+better-sqlite3@7.6.13",
+    "npm:drizzle-orm@0.41": "0.41.0_@libsql+client@0.15.2",
     "npm:gamedig@^5.1.4": "5.2.0",
     "npm:generate-password@^1.7.1": "1.7.1",
     "npm:html-to-text@^9.0.5": "9.0.5",
@@ -518,12 +516,6 @@
         "defer-to-connect"
       ]
     },
-    "@types/better-sqlite3@7.6.13": {
-      "integrity": "sha512-NMv9ASNARoKksWtsq/SHakpYAYnhBrQgGD8zkLYk/jaK8jUGn08CfEdTRgYhMypUQAfzSP8W6gNLe0q19/t4VA==",
-      "dependencies": [
-        "@types/node"
-      ]
-    },
     "@types/cuint@0.2.1": {
       "integrity": "sha512-yIO66K76vGSV1Y2Ovq5LklkYiHOtbJIukCfO9GRYg7hDccwoapWkDKaygxBvDgB+1uNHsgaTyK41xtbJGLCCGA=="
     },
@@ -746,11 +738,10 @@
         "gel"
       ]
     },
-    "drizzle-orm@0.41.0_@libsql+client@0.15.2_@types+better-sqlite3@7.6.13": {
+    "drizzle-orm@0.41.0_@libsql+client@0.15.2": {
       "integrity": "sha512-7A4ZxhHk9gdlXmTdPj/lREtP+3u8KvZ4yEN6MYVxBzZGex5Wtdc+CWSbu7btgF6TB0N+MNPrvW7RKBbxJchs/Q==",
       "dependencies": [
-        "@libsql/client",
-        "@types/better-sqlite3"
+        "@libsql/client"
       ]
     },
     "encoding-sniffer@0.2.0": {

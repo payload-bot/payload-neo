@@ -1,12 +1,10 @@
 import config from "#root/config.ts";
 import { guild } from "#root/drizzle/schema.ts";
 import { container, LogLevel } from "@sapphire/framework";
-import type { ServerOptions } from "@sapphire/plugin-api";
 import type {
   InternationalizationContext,
   InternationalizationOptions,
 } from "@sapphire/plugin-i18next";
-import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import {
   ActivityType,
   type ClientOptions,
@@ -75,16 +73,6 @@ function parseI18N(): InternationalizationOptions {
   };
 }
 
-function parseAPI(): ServerOptions {
-  return {
-    prefix: "/api/",
-    listenOptions: {
-      host: envParseString("HOST", "0.0.0.0"),
-      port: envParseInteger("PORT", 3000),
-    },
-  };
-}
-
 export const CLIENT_OPTIONS: ClientOptions = {
   baseUserDirectory: "src/",
   caseInsensitivePrefixes: true,
@@ -112,7 +100,6 @@ export const CLIENT_OPTIONS: ClientOptions = {
   logger: makeLogger(),
   presence: getPresence(),
   i18n: parseI18N(),
-  api: parseAPI(),
   makeCache: Options.cacheWithLimits({
     ...Options.DefaultMakeCacheSettings,
     ReactionManager: {

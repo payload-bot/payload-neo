@@ -1,6 +1,6 @@
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
-import type { BooleanString, IntegerString, ArrayString } from "@skyra/env-utilities";
+import type { ArrayString, IntegerString } from "@skyra/env-utilities";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 import type { TFunction, TOptions, TOptionsBase } from "i18next";
@@ -34,6 +34,7 @@ declare module "@sapphire/framework" {
 declare module "@sapphire/pieces" {
   interface Container {
     database: LibSQLDatabase;
+    denoServer?: Deno.HttpServer;
   }
 }
 
@@ -41,7 +42,10 @@ declare module "i18next" {
   export interface TFunction {
     ns?: string;
 
-    <K extends string, TReturn>(key: CustomGet<K, TReturn>, options?: TOptionsBase | string): TReturn;
+    <K extends string, TReturn>(
+      key: CustomGet<K, TReturn>,
+      options?: TOptionsBase | string,
+    ): TReturn;
 
     <K extends string, TReturn>(
       key: CustomGet<K, TReturn>,
@@ -71,20 +75,9 @@ declare module "@skyra/env-utilities" {
     OWNERS: ArrayString;
 
     /**
-     * The URL to a Chrome websocket connection
-     * @remarks This is only used in PRODUCTION
-     */
-    CHROME_WS_URL: string;
-
-    /**
      * The port to run the HTTP server
      */
     PORT: IntegerString;
-
-    /**
-     * Flag to override the chrome ws
-     */
-    CHROME_WS_ENABLE: BooleanString;
 
     /**
      * The url of the database to use
@@ -94,6 +87,6 @@ declare module "@skyra/env-utilities" {
     /**
      * The ip of the api to listen on
      */
-    HOST: string
+    HOST: string;
   }
 }

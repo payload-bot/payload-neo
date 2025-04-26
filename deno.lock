@@ -12,7 +12,6 @@
     "npm:@sapphire/framework@^5.3.3": "5.3.3",
     "npm:@sapphire/lexure@^1.1.10": "1.1.10",
     "npm:@sapphire/pieces@^4.3.2": "4.3.2",
-    "npm:@sapphire/plugin-api@8": "8.0.0",
     "npm:@sapphire/plugin-editable-commands@^4.0.3": "4.0.4",
     "npm:@sapphire/plugin-hmr@^3.0.2": "3.0.2",
     "npm:@sapphire/plugin-i18next@^7.1.3": "7.1.3",
@@ -400,16 +399,6 @@
         "tslib"
       ]
     },
-    "@sapphire/plugin-api@8.0.0": {
-      "integrity": "sha512-9PTXqcFMSGxVI+siCTdsFRIBEnlgJ6JvyHIliMRe/aaf/KARDoSbD4N8/HVIrZKQLEO1ktnw3kMh9rAWWx9P5g==",
-      "dependencies": [
-        "@types/ws",
-        "@vladfrangu/async_event_emitter",
-        "cookie-es",
-        "tldts",
-        "undici@7.7.0"
-      ]
-    },
     "@sapphire/plugin-editable-commands@4.0.4": {
       "integrity": "sha512-1Dd04IjZxYjPWupMJPAyOupWUvYNkhOAUdWhoIBRDRjy6eytOHYYD5TpH8QLXsfgbQNV/ETdWDG0IBVH/Vg/EA==",
       "dependencies": [
@@ -628,9 +617,6 @@
     "commander@6.2.1": {
       "integrity": "sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA=="
     },
-    "cookie-es@1.2.2": {
-      "integrity": "sha512-+W7VmiVINB+ywl1HGXJXmrqkOhpKrIiVZV6tQuV54ZyQC7MMuBt81Vc336GMLoHBq5hV/F9eXgt5Mnx0Rha5Fg=="
-    },
     "core-util-is@1.0.3": {
       "integrity": "sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ=="
     },
@@ -733,8 +719,8 @@
       "dependencies": [
         "@drizzle-team/brocli",
         "@esbuild-kit/esm-loader",
-        "esbuild@0.19.12",
         "esbuild-register",
+        "esbuild@0.19.12",
         "gel"
       ]
     },
@@ -767,15 +753,15 @@
     "esbuild@0.18.20": {
       "integrity": "sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==",
       "dependencies": [
-        "@esbuild/android-arm@0.18.20",
         "@esbuild/android-arm64@0.18.20",
+        "@esbuild/android-arm@0.18.20",
         "@esbuild/android-x64@0.18.20",
         "@esbuild/darwin-arm64@0.18.20",
         "@esbuild/darwin-x64@0.18.20",
         "@esbuild/freebsd-arm64@0.18.20",
         "@esbuild/freebsd-x64@0.18.20",
-        "@esbuild/linux-arm@0.18.20",
         "@esbuild/linux-arm64@0.18.20",
+        "@esbuild/linux-arm@0.18.20",
         "@esbuild/linux-ia32@0.18.20",
         "@esbuild/linux-loong64@0.18.20",
         "@esbuild/linux-mips64el@0.18.20",
@@ -795,15 +781,15 @@
       "integrity": "sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg==",
       "dependencies": [
         "@esbuild/aix-ppc64",
-        "@esbuild/android-arm@0.19.12",
         "@esbuild/android-arm64@0.19.12",
+        "@esbuild/android-arm@0.19.12",
         "@esbuild/android-x64@0.19.12",
         "@esbuild/darwin-arm64@0.19.12",
         "@esbuild/darwin-x64@0.19.12",
         "@esbuild/freebsd-arm64@0.19.12",
         "@esbuild/freebsd-x64@0.19.12",
-        "@esbuild/linux-arm@0.19.12",
         "@esbuild/linux-arm64@0.19.12",
+        "@esbuild/linux-arm@0.19.12",
         "@esbuild/linux-ia32@0.19.12",
         "@esbuild/linux-loong64@0.19.12",
         "@esbuild/linux-mips64el@0.19.12",
@@ -1183,15 +1169,6 @@
         "safe-buffer"
       ]
     },
-    "tldts-core@6.1.85": {
-      "integrity": "sha512-DTjUVvxckL1fIoPSb3KE7ISNtkWSawZdpfxGxwiIrZoO6EbHVDXXUIlIuWympPaeS+BLGyggozX/HTMsRAdsoA=="
-    },
-    "tldts@6.1.85": {
-      "integrity": "sha512-gBdZ1RjCSevRPFix/hpaUWeak2/RNUZB4/8frF1r5uYMHjFptkiT0JXIebWvgI/0ZHXvxaUDDJshiA0j6GdL3w==",
-      "dependencies": [
-        "tldts-core"
-      ]
-    },
     "ts-mixer@6.0.4": {
       "integrity": "sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA=="
     },
@@ -1206,9 +1183,6 @@
     },
     "undici@6.21.2": {
       "integrity": "sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g=="
-    },
-    "undici@7.7.0": {
-      "integrity": "sha512-tZ6+5NBq4KH35rr46XJ2JPFKxfcBlYNaqLF/wyWIO9RMHqqU/gx/CLB1Y2qMcgB8lWw/bKHa7qzspqCN7mUHvA=="
     },
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
@@ -1261,7 +1235,6 @@
       "npm:@sapphire/framework@^5.3.3",
       "npm:@sapphire/lexure@^1.1.10",
       "npm:@sapphire/pieces@^4.3.2",
-      "npm:@sapphire/plugin-api@8",
       "npm:@sapphire/plugin-editable-commands@^4.0.3",
       "npm:@sapphire/plugin-hmr@^3.0.2",
       "npm:@sapphire/plugin-i18next@^7.1.3",

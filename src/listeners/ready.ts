@@ -1,6 +1,20 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { type ListenerOptions, Events, Listener, Piece, Store } from "@sapphire/framework";
-import { blue, gray, green, magenta, brightMagenta, white, yellow } from "@std/fmt/colors";
+import {
+  Events,
+  Listener,
+  type ListenerOptions,
+  Piece,
+  Store,
+} from "@sapphire/framework";
+import {
+  blue,
+  brightMagenta,
+  gray,
+  green,
+  magenta,
+  white,
+  yellow,
+} from "@std/fmt/colors";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
 @ApplyOptions<ListenerOptions>({
@@ -34,7 +48,9 @@ ${line01} ${pad}${blc(`Payload Version ${Deno.env.get("VERSION") ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API
-${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(this.DEV ? "DEVELOPMENT" : "PRODUCTION")}`}
+${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${
+        llc(this.DEV ? "DEVELOPMENT" : "PRODUCTION")
+      }`}
 		`.trim(),
     );
   }
@@ -49,10 +65,18 @@ ${line03}${` ${pad}${blc("<")}${llc("/")}${blc(">")} ${llc(this.DEV ? "DEVELOPME
   }
 
   private styleStore(store: Store<Piece>) {
-    return gray(`${"├─"} Loaded ${this.style(store.size.toString().padEnd(3, " "))} ${store.name}.`);
+    return gray(
+      `${"├─"} Loaded ${
+        this.style(store.size.toString().padEnd(3, " "))
+      } ${store.name}.`,
+    );
   }
 
   private styleLanguages(languages: Map<string, TFunction>) {
-    return gray(`└─ Loaded ${this.style(languages.size.toString().padEnd(3, " "))} languages.`);
+    return gray(
+      `└─ Loaded ${
+        this.style(languages.size.toString().padEnd(3, " "))
+      } languages.`,
+    );
   }
 }

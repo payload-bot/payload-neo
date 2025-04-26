@@ -12,6 +12,7 @@ import connect from "#utils/database.ts";
 import { join } from "node:path";
 import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
+import { serve } from "../api/mod.ts";
 
 export class PayloadClient extends SapphireClient {
   public override dev = Deno.env.get("NODE_ENV") !== "production";
@@ -46,6 +47,9 @@ export class PayloadClient extends SapphireClient {
     }
 
     connect();
+    
+    const server = serve();
+    container.denoServer = server;
 
     const response = await super.login(token);
 
@@ -53,6 +57,8 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
+    await container.denoServer?.shutdown();
+
     await super.destroy();
   }
 }

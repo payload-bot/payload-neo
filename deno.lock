@@ -27,6 +27,7 @@
     "npm:cheerio@1": "1.0.0",
     "npm:discord-api-types@0.37.119": "0.37.119",
     "npm:discord.js@^14.16.3": "14.18.0",
+    "npm:drizzle-kit@*": "0.30.6_esbuild@0.19.12",
     "npm:drizzle-kit@~0.30.6": "0.30.6_esbuild@0.19.12",
     "npm:drizzle-orm@0.41": "0.41.0_@libsql+client@0.15.2",
     "npm:gamedig@^5.1.4": "5.2.0",

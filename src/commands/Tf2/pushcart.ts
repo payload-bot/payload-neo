@@ -392,10 +392,8 @@ export class UserCommand extends Subcommand {
     const result = await this.database
       .select({
         userId: pushcart.userId,
-        lastPushed: max(pushcart.timestamp).mapWith((s) =>
-          Temporal.Instant.fromEpochMilliseconds(
-            s * 1000,
-          )
+        lastPushed: max(pushcart.timestamp).mapWith(
+          Temporal.Instant.fromEpochMilliseconds,
         ),
       })
       .from(pushcart)

@@ -39,6 +39,6 @@ export const pushcart = sqliteTable("Pushcart", {
   guildId: text("guildId").notNull(),
   pushed: integer("pushed").notNull(),
   timestamp: numeric("timestamp")
-    .default(sql`(cast(strftime('%s','now') as int))`)
+    .default(sql`(cast(strftime('%s','now') as int) * 1000)`)
     .notNull(),
 });

@@ -1,10 +1,6 @@
 app = "payload"
 primary_region = "ord"
 
-[[restart]]
-  policy = "never"
-  retries = 10
-
 [[mounts]]
   source = "data"
   destination = "/data"

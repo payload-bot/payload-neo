@@ -16,11 +16,11 @@ import {
 import { eq } from "drizzle-orm";
 import { join } from "node:path";
 
+const isProduction = Deno.env.get("NODE_ENV") === "production";
+
 function makeLogger() {
   return {
-    level: Deno.env.get("NODE_ENV") === "production"
-      ? LogLevel.Info
-      : LogLevel.Debug,
+    level: isProduction ? LogLevel.Info : LogLevel.Debug,
   };
 }
 
@@ -68,7 +68,7 @@ function parseI18N(): InternationalizationOptions {
       }),
     }),
     hmr: {
-      enabled: Deno.env.get("NODE_ENV") === "development",
+      enabled: !isProduction,
     },
   };
 }
@@ -120,6 +120,6 @@ export const CLIENT_OPTIONS: ClientOptions = {
     ...Options.DefaultSweeperSettings,
   },
   hmr: {
-    enabled: Deno.env.get("NODE_ENV") === "development",
+    enabled: !isProduction,
   },
 };

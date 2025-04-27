@@ -1,0 +1,2 @@
+-- UPDATE Pushcart SET timestamp = timestamp * 1000 WHERE id > 23322;
+-- UPDATE Webhook SET createdAt = createdAt * 1000 WHERE id > 59;

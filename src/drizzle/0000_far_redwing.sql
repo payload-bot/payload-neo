@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `Pushcart` (
 	`userId` text NOT NULL,
 	`guildId` text NOT NULL,
 	`pushed` integer NOT NULL,
-	`timestamp` numeric DEFAULT (cast(strftime('%s','now') as int)) NOT NULL
+	`timestamp` numeric
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS `User` (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `Webhook` (
 	`id` text PRIMARY KEY NOT NULL,
 	`value` text NOT NULL,
 	`type` text NOT NULL,
-	`createdAt` numeric DEFAULT (cast(strftime('%s','now') as int)) NOT NULL
+	`createdAt` numeric
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS `Webhook_value_key` ON `Webhook` (`value`);

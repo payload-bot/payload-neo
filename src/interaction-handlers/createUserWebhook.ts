@@ -1,13 +1,19 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import { user, webhook } from "#root/drizzle/schema.ts";
-import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
+import {
+  InteractionHandler,
+  InteractionHandlerTypes,
+} from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { codeBlock, type ButtonInteraction, EmbedBuilder } from "discord.js";
+import { type ButtonInteraction, codeBlock, EmbedBuilder } from "discord.js";
 import PayloadColors from "#utils/colors.ts";
 
 export class ButtonHandler extends InteractionHandler {
-  public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
+  public constructor(
+    ctx: InteractionHandler.LoaderContext,
+    options: InteractionHandler.Options,
+  ) {
     super(ctx, {
       ...options,
       interactionHandlerType: InteractionHandlerTypes.Button,
@@ -33,6 +39,7 @@ export class ButtonHandler extends InteractionHandler {
         id: interaction.user.id,
         type: "users",
         value: secret,
+        createdAt: Temporal.Now.instant().epochMilliseconds.toString(),
       })
       .returning();
 

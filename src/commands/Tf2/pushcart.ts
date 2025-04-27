@@ -118,6 +118,7 @@ export class UserCommand extends Subcommand {
       pushed: randomNumber,
       guildId: msg.guildId!,
       userId: msg.author.id,
+      timestamp: Temporal.Now.instant().epochMilliseconds.toString()
     });
 
     const [{ pushed }] = await this.database
@@ -393,9 +394,7 @@ export class UserCommand extends Subcommand {
       .select({
         userId: pushcart.userId,
         lastPushed: max(pushcart.timestamp).mapWith((s) =>
-          Temporal.Instant.fromEpochMilliseconds(
-            s * 1000,
-          )
+          Temporal.Instant.fromEpochMilliseconds(s)
         ),
       })
       .from(pushcart)

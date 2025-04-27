@@ -6,7 +6,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
     if (message.webhookId !== null) return;
     if (message.system) return;
     if (message.author.bot) return;
-
+    
     const { client } = this.container;
 
     const autoResponses = client.stores.get("auto");
@@ -21,8 +21,8 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
       const context = {
         commandName: autoResponse.name,
         matched: autoResponse.getMatch(message),
-        prefix: autoResponse.getMatch(message),
-        commandPrefix: autoResponse.getMatch(message),
+        prefix: autoResponse.getMatch(message)!,
+        commandPrefix: autoResponse.getMatch(message)!,
       };
 
       // Run global preconditions:

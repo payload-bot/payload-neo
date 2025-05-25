@@ -17,13 +17,13 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
   runIn: [CommandOptionsRunTypeEnum.GuildText],
 })
 export class UserCommand extends PayloadCommand {
-  async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
 
     const [g] = await this.database
       .select({ language: guild.language })
       .from(guild)
-      .where(eq(guild.id, interaction.guildId));
+      .where(eq(guild.id, interaction.guildId!));
 
     const languageSelector = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
       new StringSelectMenuBuilder()

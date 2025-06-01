@@ -1,13 +1,6 @@
-import { CommandOptionsRunTypeEnum, type CommandOptions, Command } from "@sapphire/framework";
+import { Command, type CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  EmbedBuilder,
-  codeBlock,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  InteractionContextType,
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, EmbedBuilder, InteractionContextType } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -75,13 +68,13 @@ export class UserCommand extends PayloadCommand {
     const descriptionLocalizations = getLocalizedData(this.description);
     const nameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhook.Name);
 
-    registry.registerChatInputCommand(builder =>
+    registry.registerChatInputCommand((builder) =>
       builder
         .setName(this.name)
-        .setDescription(descriptionLocalizations.localizations["en-US"])
+        .setDescription(descriptionLocalizations.localizations["en-US"]!)
         .setContexts(InteractionContextType.BotDM)
         .setDescriptionLocalizations(descriptionLocalizations.localizations)
-        .setNameLocalizations(nameLocalizations.localizations),
+        .setNameLocalizations(nameLocalizations.localizations)
     );
   }
 }

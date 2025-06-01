@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { EmbedBuilder, InteractionContextType, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, InteractionContextType, StringSelectMenuBuilder } from "discord.js";
 import PayloadColors from "#utils/colors.ts";
 import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -62,14 +62,14 @@ export class UserCommand extends PayloadCommand {
     const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Language.Name);
     const rootDescriptionLocalizations = getLocalizedData(this.description);
 
-    registry.registerChatInputCommand(builder =>
+    registry.registerChatInputCommand((builder) =>
       builder
         .setName(this.name)
-        .setDescription(rootDescriptionLocalizations.localizations["en-US"])
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setContexts(InteractionContextType.Guild)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations),
+        .setNameLocalizations(rootNameLocalizations.localizations)
     );
   }
 }

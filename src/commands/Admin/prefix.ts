@@ -1,5 +1,5 @@
 import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
-import { Message, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config.ts";
 import PayloadColors from "#utils/colors.ts";
@@ -25,7 +25,7 @@ export class UserCommand extends Subcommand {
     {
       name: "view",
       type: "method",
-      messageRun: msg => this.view(msg),
+      messageRun: (msg) => this.view(msg),
       default: true,
     },
     {
@@ -41,12 +41,12 @@ export class UserCommand extends Subcommand {
     {
       name: "delete",
       type: "method",
-      messageRun: msg => this.delete(msg),
+      messageRun: (msg) => this.delete(msg),
     },
     {
       name: "remove",
       type: "method",
-      messageRun: msg => this.delete(msg),
+      messageRun: (msg) => this.delete(msg),
     },
   ];
 

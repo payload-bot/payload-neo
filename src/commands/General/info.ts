@@ -35,12 +35,12 @@ export class UserCommand extends PayloadCommand {
     const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Info.Name);
     const rootDescriptionLocalizations = getLocalizedData(this.description);
 
-    registry.registerChatInputCommand(builder =>
+    registry.registerChatInputCommand((builder) =>
       builder
         .setName(this.name)
-        .setDescription(rootDescriptionLocalizations.localizations["en-US"])
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations),
+        .setNameLocalizations(rootNameLocalizations.localizations)
     );
   }
 }

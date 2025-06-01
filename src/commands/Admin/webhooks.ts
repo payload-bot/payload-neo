@@ -1,12 +1,6 @@
 import { Command, type CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import {
-  ChannelType,
-  codeBlock,
-  EmbedBuilder,
-  InteractionContextType,
-  PermissionFlagsBits,
-} from "discord.js";
+import { ChannelType, codeBlock, EmbedBuilder, InteractionContextType, PermissionFlagsBits } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -150,42 +144,24 @@ export class UserCommand extends PayloadCommand {
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {
-    const rootNameLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.Name,
-    );
+    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.Name);
     const rootDescriptionLocalizations = getLocalizedData(this.description);
 
-    const addNameLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.AddName,
-    );
-    const addDescriptionLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.AddDescription,
-    );
-    const channelIdNameLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.AddChannelIdName,
-    );
-    const channelIdDescriptionLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.AddChannelIdDescription,
-    );
+    const addNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddName);
+    const addDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddDescription);
+    const channelIdNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddChannelIdName);
+    const channelIdDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.AddChannelIdDescription);
 
-    const removeNameLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.RemoveName,
-    );
-    const removeDescriptionLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.RemoveDescription,
-    );
+    const removeNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.RemoveName);
+    const removeDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.RemoveDescription);
 
-    const showNameLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.ShowName,
-    );
-    const showDescriptionLocalizations = getLocalizedData(
-      LanguageKeys.Commands.Webhooks.ShowDescription,
-    );
+    const showNameLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.ShowName);
+    const showDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Webhooks.ShowDescription);
 
     registry.registerChatInputCommand((builder) =>
       builder
         .setName(this.name)
-        .setDescription(rootDescriptionLocalizations.localizations["en-US"])
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setContexts(InteractionContextType.Guild)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
@@ -193,21 +169,15 @@ export class UserCommand extends PayloadCommand {
         .addSubcommand((sub) =>
           sub
             .setName("add")
-            .setDescription(addDescriptionLocalizations.localizations["en-US"])
+            .setDescription(addDescriptionLocalizations.localizations["en-US"]!)
             .setNameLocalizations(addNameLocalizations.localizations)
-            .setDescriptionLocalizations(
-              addDescriptionLocalizations.localizations,
-            )
+            .setDescriptionLocalizations(addDescriptionLocalizations.localizations)
             .addChannelOption((input) =>
               input
                 .setName("channel")
-                .setDescription(
-                  channelIdDescriptionLocalizations.localizations["en-US"],
-                )
+                .setDescription(channelIdDescriptionLocalizations.localizations["en-US"]!)
                 .setNameLocalizations(channelIdNameLocalizations.localizations)
-                .setDescriptionLocalizations(
-                  channelIdDescriptionLocalizations.localizations,
-                )
+                .setDescriptionLocalizations(channelIdDescriptionLocalizations.localizations)
                 .addChannelTypes(ChannelType.GuildText)
                 .setRequired(true)
             )
@@ -215,22 +185,16 @@ export class UserCommand extends PayloadCommand {
         .addSubcommand((sub) =>
           sub
             .setName("delete")
-            .setDescription(
-              removeDescriptionLocalizations.localizations["en-US"],
-            )
+            .setDescription(removeDescriptionLocalizations.localizations["en-US"]!)
             .setNameLocalizations(removeNameLocalizations.localizations)
-            .setDescriptionLocalizations(
-              removeDescriptionLocalizations.localizations,
-            )
+            .setDescriptionLocalizations(removeDescriptionLocalizations.localizations)
         )
         .addSubcommand((sub) =>
           sub
             .setName("show")
-            .setDescription(showDescriptionLocalizations.localizations["en-US"])
+            .setDescription(showDescriptionLocalizations.localizations["en-US"]!)
             .setNameLocalizations(showNameLocalizations.localizations)
-            .setDescriptionLocalizations(
-              showDescriptionLocalizations.localizations,
-            )
+            .setDescriptionLocalizations(showDescriptionLocalizations.localizations)
         )
     );
   }

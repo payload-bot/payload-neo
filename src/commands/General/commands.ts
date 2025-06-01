@@ -1,6 +1,6 @@
 import type { CommandOptions } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Message, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import PayloadColors from "#utils/colors.ts";
 import { inlineCode } from "@discordjs/builders";
@@ -24,11 +24,11 @@ export class UserCommand extends PayloadCommand {
       fields: [
         {
           name: args.t(LanguageKeys.Commands.Commands.Commands),
-          value: commands.map(c => inlineCode(c.name)).join(", "),
+          value: commands.map((c) => inlineCode(c.name)).join(", "),
         },
         {
           name: args.t(LanguageKeys.Commands.Commands.AutoCommands),
-          value: autoCommands.map(ac => inlineCode(ac.name)).join(", "),
+          value: autoCommands.map((ac) => inlineCode(ac.name)).join(", "),
         },
       ],
     });

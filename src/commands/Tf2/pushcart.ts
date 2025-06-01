@@ -1,40 +1,16 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import {
-  bold,
-  Colors,
-  EmbedBuilder,
-  escapeMarkdown,
-  GuildMember,
-  Message,
-} from "discord.js";
+import { bold, Colors, EmbedBuilder, escapeMarkdown, GuildMember, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random.ts";
 import PayloadColors from "#utils/colors.ts";
-import {
-  chunk,
-  codeBlock,
-  isNullOrUndefinedOrEmpty,
-} from "@sapphire/utilities";
+import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
 import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import {
-  Subcommand,
-  type SubcommandMappingArray,
-} from "@sapphire/plugin-subcommands";
+import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { pushcart } from "#root/drizzle/schema.ts";
-import {
-  and,
-  count,
-  countDistinct,
-  desc,
-  eq,
-  lte,
-  max,
-  sql,
-  sum,
-} from "drizzle-orm";
+import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
 
 enum PayloadPushResult {
   SUCCESS,
@@ -118,7 +94,7 @@ export class UserCommand extends Subcommand {
       pushed: randomNumber,
       guildId: msg.guildId!,
       userId: msg.author.id,
-      timestamp: Temporal.Now.instant().epochMilliseconds.toString()
+      timestamp: Temporal.Now.instant().epochMilliseconds.toString(),
     });
 
     const [{ pushed }] = await this.database
@@ -139,7 +115,8 @@ export class UserCommand extends Subcommand {
   async leaderboard(msg: Message) {
     const { client } = this.container;
 
-    const loadingEmbed = new EmbedBuilder().setDescription("Loading...")
+    const loadingEmbed = new EmbedBuilder()
+      .setDescription("Loading...")
       .setColor(Colors.Gold);
 
     const t = await this.t(msg);
@@ -171,13 +148,7 @@ export class UserCommand extends Subcommand {
       const leaderboardString = page.map(({ userId, pushed }, index) => {
         const user = client.users.cache.get(userId) ?? null;
 
-        return msg.author.id === userId
-          ? `> ${index + 1}: ${
-            escapeMarkdown(user?.username ?? "N/A")
-          } (${pushed})`
-          : `${index + 1}: ${
-            escapeMarkdown(user?.username ?? "N/A")
-          } (${pushed})`;
+        return msg.author.id === userId ? `> ${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})` : `${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
       });
 
       const embed = new EmbedBuilder({
@@ -217,9 +188,7 @@ export class UserCommand extends Subcommand {
       .where(eq(pushcart.guildId, msg.guildId!))
       .groupBy(pushcart.userId);
 
-    let memberNameToDisplay = targetUser instanceof GuildMember
-      ? (targetUser.nickname ?? targetUser.displayName)
-      : targetUser.username;
+    let memberNameToDisplay = targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
 
     memberNameToDisplay ??= "N/A";
 
@@ -288,12 +257,8 @@ export class UserCommand extends Subcommand {
       await guild.members.fetch(id);
     }
 
-    const topFiveSortedPushers = userStatisticsQuery.sort((a, b) =>
-      b.count - a.count
-    );
-    const topFiveSummedPushers = userStatisticsQuery.sort((a, b) =>
-      b.sum - a.sum
-    );
+    const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b.count - a.count);
+    const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b.sum - a.sum);
 
     const activePushersLeaderboard = topFiveSortedPushers.map(
       ({ count, userId }, index) => {
@@ -303,9 +268,7 @@ export class UserCommand extends Subcommand {
           member?.nickname ?? member?.user.username ?? "N/A",
         );
 
-        const nameToDisplay = msg.author.id === userId
-          ? bold(escapeMarkdown(name))
-          : escapeMarkdown(name);
+        const nameToDisplay = msg.author.id === userId ? bold(escapeMarkdown(name)) : escapeMarkdown(name);
 
         return t(LanguageKeys.Commands.Pushcart.RankString, {
           name: nameToDisplay,
@@ -393,9 +356,7 @@ export class UserCommand extends Subcommand {
     const result = await this.database
       .select({
         userId: pushcart.userId,
-        lastPushed: max(pushcart.timestamp).mapWith((s) =>
-          Temporal.Instant.fromEpochMilliseconds(s)
-        ),
+        lastPushed: max(pushcart.timestamp).mapWith((s) => Temporal.Instant.fromEpochMilliseconds(s)),
       })
       .from(pushcart)
       .where(
@@ -425,12 +386,7 @@ export class UserCommand extends Subcommand {
     if (secondsSinceLastPushed.seconds < SECONDS_COOLDOWN) {
       const cooldownExpires = lastPushed.add({
         seconds: SECONDS_COOLDOWN,
-      }).until(
-        now,
-        {
-          smallestUnit: "milliseconds",
-        },
-      ).abs();
+      }).until(now, { smallestUnit: "milliseconds" }).abs();
 
       return {
         result: PayloadPushResult.COOLDOWN,

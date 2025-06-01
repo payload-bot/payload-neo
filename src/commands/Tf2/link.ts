@@ -14,9 +14,7 @@ import { isNullishOrEmpty } from "@sapphire/utilities";
   detailedDescription: LanguageKeys.Commands.Link.DetailedDescription,
 })
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(
-    interaction: Command.ChatInputCommandInteraction,
-  ) {
+  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
     const steamId = interaction.options.getString("steam-id")?.trim();
 

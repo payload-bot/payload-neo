@@ -1,5 +1,6 @@
 import { FT, T } from "#lib/types";
 
+export const Name = T<string>("commands/log:name");
 export const Description = T<string>("commands/log:description");
 export const DetailedDescription = T<string>("commands/log:detailedDescription");
 export const NoHistory = T<string>("commands/log:noHistory");

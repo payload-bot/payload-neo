@@ -73,7 +73,7 @@ export class ButtonHandler extends InteractionHandler {
 
     const embed = new EmbedBuilder({
       title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-      description: codeBlock(createdWebhook.value),
+      description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(createdWebhook.value) }),
       color: PayloadColors.Payload,
     });
 

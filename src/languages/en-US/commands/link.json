@@ -1,4 +1,5 @@
 {
+  "name": "link",
   "description": "Links a user's SteamID to Payload",
   "detailedDescription": {
     "usages": [
@@ -6,8 +7,10 @@
     ],
     "details": "To link properly, you must provide a valid SteamID, in any format. If you want, you also may post your Steam Community ID link, something like: <https://steamcommunity.com/id/the-steamid"
   },
+  "steamIdName": "steam-id",
+  "steamIdDescription": "A steam id in any format or a steam community link such as https://steamcommunity.com/id/the-steamid",
   "missingId": "You need to provide a SteamID!",
   "malformedId": "That doesn't appear to be a SteamID!",
-  "success": "New SteamID set successfully!",
+  "success": "The steam id {{ steamId }} has been set.",
   "delete": "Successfully deleted your SteamID!"
 }

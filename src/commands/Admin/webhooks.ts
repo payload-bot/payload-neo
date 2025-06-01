@@ -133,7 +133,7 @@ export class UserCommand extends PayloadCommand {
             .from(webhook)
             .where(eq(webhook.id, guildWebhook.webhookId));
 
-          embed.setDescription(codeBlock(wbhk.value));
+          embed.setDescription(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(wbhk.value) }));
         }
 
         await interaction.reply({ embeds: [embed], ephemeral: true });

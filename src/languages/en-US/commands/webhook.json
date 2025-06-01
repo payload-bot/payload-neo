@@ -6,6 +6,7 @@
         "details": "See more on (Github)[https://github.com/payload-bot/payload-logs-plugin]"
     },
     "embedTitle": "Your Webhook",
+    "embedDescription": "You can find the plugin on (Github)[https://github.com/payload-bot/payload-logs-plugin].\n\nUse the following value as your webhook secret: {{ secret }}",
     "noWebhook": "No webhook created yet",
     "createWebhook": "Create Webhook",
     "deleteWebhook": "Delete Webhook",

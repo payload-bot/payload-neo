@@ -57,7 +57,7 @@ export class UserCommand extends PayloadCommand {
         iconURL: client.user!.displayAvatarURL(),
       },
       title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-      description: codeBlock(v.value),
+      description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(v.value) }),
       color: PayloadColors.Payload,
     });
 

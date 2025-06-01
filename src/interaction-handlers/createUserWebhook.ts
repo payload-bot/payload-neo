@@ -1,13 +1,12 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import { user, webhook } from "#root/drizzle/schema.ts";
-import {
-  InteractionHandler,
-  InteractionHandlerTypes,
-} from "@sapphire/framework";
+import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
 import { type ButtonInteraction, codeBlock, EmbedBuilder } from "discord.js";
 import PayloadColors from "#utils/colors.ts";
+import { eq } from "drizzle-orm";
+import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(
@@ -30,6 +29,22 @@ export class ButtonHandler extends InteractionHandler {
 
   public async run(interaction: ButtonInteraction) {
     const t = await fetchT(interaction);
+
+    const [userWebhook] = await this.container.database
+      .select({ secret: webhook.value })
+      .from(webhook)
+      .where(eq(webhook.id, interaction.user.id));
+
+    if (!isNullOrUndefinedOrEmpty(userWebhook?.secret)) {
+      const embed = new EmbedBuilder({
+        title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
+        description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(userWebhook.secret) }),
+        color: PayloadColors.Payload,
+      });
+
+      await interaction.reply({ embeds: [embed], ephemeral: true });
+      return;
+    }
 
     const secret = generate({ numbers: true, length: 24 });
 

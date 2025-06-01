@@ -12,4 +12,4 @@ export const AddFailed = T<string>("commands/webhooks:addFailed");
 export const RemoveName = T<string>("commands/webhooks:removeName");
 export const RemoveDescription = T<string>("commands/webhooks:removeDescription");
 export const ShowName = T<string>("commands/webhooks:showName");
-export const ShowDescription = T<string>("commands/webhooks:removeDescription");
+export const ShowDescription = T<string>("commands/webhooks:showDescription");

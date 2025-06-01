@@ -1,13 +1,13 @@
 import { Command, type CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, EmbedBuilder, InteractionContextType } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionContextType, MessageFlags, TextDisplayBuilder } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import PayloadColors from "#utils/colors.ts";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
+import { ContainerBuilder } from "discord.js";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,
@@ -17,7 +17,6 @@ import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 export class UserCommand extends PayloadCommand {
   override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
-    const { client } = this.container;
 
     const [v] = await this.database
       .select({ value: webhook.value })
@@ -25,12 +24,6 @@ export class UserCommand extends PayloadCommand {
       .where(eq(webhook.id, interaction.user.id));
 
     if (isNullOrUndefinedOrEmpty(v)) {
-      const embed = new EmbedBuilder({
-        title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhook.NoWebhook),
-        color: PayloadColors.Payload,
-      });
-
       const createWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder({
           label: t(LanguageKeys.Commands.Webhook.CreateWebhook),
@@ -39,7 +32,17 @@ export class UserCommand extends PayloadCommand {
         }),
       );
 
-      await interaction.reply({ embeds: [embed], components: [createWebhookButton], ephemeral: true });
+      const description = new TextDisplayBuilder()
+        .setContent(t(LanguageKeys.Commands.Webhook.NoWebhook));
+
+      const container = new ContainerBuilder()
+        .addTextDisplayComponents(description)
+        .addActionRowComponents(createWebhookButton);
+
+      await interaction.reply({
+        flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+        components: [container],
+      });
       return;
     }
 
@@ -51,17 +54,17 @@ export class UserCommand extends PayloadCommand {
       }),
     );
 
-    const embed = new EmbedBuilder({
-      author: {
-        name: client.user!.username,
-        iconURL: client.user!.displayAvatarURL(),
-      },
-      title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-      description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(v.value) }),
-      color: PayloadColors.Payload,
-    });
+    const description = new TextDisplayBuilder()
+      .setContent(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(v.value) }));
 
-    await interaction.reply({ embeds: [embed], components: [deleteWebhookButton], ephemeral: true });
+    const container = new ContainerBuilder()
+      .addTextDisplayComponents(description)
+      .addActionRowComponents(deleteWebhookButton);
+
+    await interaction.reply({
+      flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+      components: [container],
+    });
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {

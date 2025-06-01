@@ -3,10 +3,11 @@ import { user, webhook } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { type ButtonInteraction, codeBlock, EmbedBuilder } from "discord.js";
-import PayloadColors from "#utils/colors.ts";
+import { ActionRowBuilder, ButtonBuilder, type ButtonInteraction, ButtonStyle, codeBlock, ContainerBuilder } from "discord.js";
 import { eq } from "drizzle-orm";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
+import { MessageFlags } from "discord.js";
+import { TextDisplayBuilder } from "discord.js";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(
@@ -19,6 +20,30 @@ export class ButtonHandler extends InteractionHandler {
     });
   }
 
+  async #updateInteractionWithDelete(interaction: ButtonInteraction, webhookSecret: string) {
+    const t = await fetchT(interaction);
+
+    const deleteWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder({
+        label: t(LanguageKeys.Commands.Webhook.DeleteWebhook),
+        customId: "delete-webhook-for-user",
+        style: ButtonStyle.Danger,
+      }),
+    );
+
+    const description = new TextDisplayBuilder()
+      .setContent(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(webhookSecret) }));
+
+    const container = new ContainerBuilder()
+      .addTextDisplayComponents(description)
+      .addActionRowComponents(deleteWebhookButton);
+
+    await interaction.update({
+      flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+      components: [container],
+    });
+  }
+
   public override parse(interaction: ButtonInteraction) {
     if (interaction.customId !== "create-webhook-for-user") {
       return this.none();
@@ -28,21 +53,14 @@ export class ButtonHandler extends InteractionHandler {
   }
 
   public async run(interaction: ButtonInteraction) {
-    const t = await fetchT(interaction);
-
     const [userWebhook] = await this.container.database
       .select({ secret: webhook.value })
       .from(webhook)
       .where(eq(webhook.id, interaction.user.id));
 
     if (!isNullOrUndefinedOrEmpty(userWebhook?.secret)) {
-      const embed = new EmbedBuilder({
-        title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(userWebhook.secret) }),
-        color: PayloadColors.Payload,
-      });
+      await this.#updateInteractionWithDelete(interaction, userWebhook.secret);
 
-      await interaction.reply({ embeds: [embed], ephemeral: true });
       return;
     }
 
@@ -71,15 +89,6 @@ export class ButtonHandler extends InteractionHandler {
         target: user.id,
       });
 
-    const embed = new EmbedBuilder({
-      title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-      description: t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(createdWebhook.value) }),
-      color: PayloadColors.Payload,
-    });
-
-    await interaction.reply({
-      embeds: [embed],
-      ephemeral: true,
-    });
+    await this.#updateInteractionWithDelete(interaction, createdWebhook.value);
   }
 }

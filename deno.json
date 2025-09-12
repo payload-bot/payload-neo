@@ -2,7 +2,7 @@
   "license": "MIT",
   "unstable": ["temporal"],
   "tasks": {
-    "start": "deno run -NRES --allow-ffi src/index.ts",
+    "start": "deno run -NRES --allow-ffi --inspect=\"[::0]:9229\" src/index.ts",
     "dev": "deno run -A --env-file=.env src/index.ts"
   },
   "imports": {

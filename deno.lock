@@ -22,6 +22,7 @@
     "npm:@sapphire/utilities@^3.18.2": "3.18.2",
     "npm:@skyra/env-utilities@^2.0.1": "2.0.1",
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
+    "npm:@types/node@*": "24.2.0",
     "npm:arktype@^2.1.22": "2.1.22",
     "npm:cheerio@^1.1.2": "1.1.2",
     "npm:discord-api-types@0.38.24": "0.38.24",

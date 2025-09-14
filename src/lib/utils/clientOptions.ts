@@ -1,18 +1,8 @@
 import config from "#root/config.ts";
 import { guild } from "#root/drizzle/schema.ts";
 import { container, LogLevel } from "@sapphire/framework";
-import type {
-  InternationalizationContext,
-  InternationalizationOptions,
-} from "@sapphire/plugin-i18next";
-import {
-  ActivityType,
-  type ClientOptions,
-  GatewayIntentBits,
-  Options,
-  Partials,
-  type PresenceData,
-} from "discord.js";
+import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
+import { ActivityType, type ClientOptions, GatewayIntentBits, Options, Partials, type PresenceData } from "discord.js";
 import { eq } from "drizzle-orm";
 import { join } from "node:path";
 
@@ -101,7 +91,13 @@ export const CLIENT_OPTIONS: ClientOptions = {
   presence: getPresence(),
   i18n: parseI18N(),
   makeCache: Options.cacheWithLimits({
-    ...Options.DefaultMakeCacheSettings,
+    ApplicationCommandManager: {
+      maxSize: 100,
+    },
+    UserManager: {
+      maxSize: 100,
+      keepOverLimit: (user) => user.id === user.client.user.id,
+    },
     ReactionManager: {
       maxSize: 10,
     },
@@ -118,6 +114,14 @@ export const CLIENT_OPTIONS: ClientOptions = {
   }),
   sweepers: {
     ...Options.DefaultSweeperSettings,
+    messages: {
+      interval: 3_600,
+      lifetime: 1_800,
+    },
+    users: {
+      interval: 3_600,
+      filter: () => (user) => user.bot && user.id !== user.client.user.id,
+    },
   },
   hmr: {
     enabled: !isProduction,

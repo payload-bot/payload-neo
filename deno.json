@@ -55,7 +55,10 @@
     "experimentalDecorators": true
   },
   "fmt": {
-    "lineWidth": 240
+    "lineWidth": 240,
+    "useBraces": "always",
+    "bracePosition": "sameLineUnlessHanging",
+    "exclude": ["src/drizzle/*", "src/languages/*"]
   },
   "lint": {
     "exclude": ["src/drizzle/*", "src/languages/*"]

@@ -1,7 +1,4 @@
-import {
-  AutoCommand,
-  type AutoCommandOptions,
-} from "#lib/structs/AutoResponse/AutoResponse.ts";
+import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors.ts";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";

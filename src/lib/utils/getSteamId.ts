@@ -8,7 +8,9 @@ import { isNullishOrEmpty } from "@sapphire/utilities";
  * @returns {string|null} Result
  */
 export async function getSteamIdFromArgs(id: string) {
-  if (isNullishOrEmpty(id)) return null;
+  if (isNullishOrEmpty(id)) {
+    return null;
+  }
 
   let steamID: ID;
 
@@ -20,7 +22,9 @@ export async function getSteamIdFromArgs(id: string) {
 
       const cssSteamID = data.match(/(765611\d{11})/);
 
-      if (!cssSteamID) return null;
+      if (!cssSteamID) {
+        return null;
+      }
 
       return (cssSteamID[0].match(/(765611\d{11})/) as RegExpMatchArray)[0];
     } catch {
@@ -28,7 +32,9 @@ export async function getSteamIdFromArgs(id: string) {
     }
   }
 
-  if (!steamID.isValid()) return null;
+  if (!steamID.isValid()) {
+    return null;
+  }
 
   return steamID.getSteamID64();
 }

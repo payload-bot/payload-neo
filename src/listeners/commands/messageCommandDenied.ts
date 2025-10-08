@@ -1,12 +1,14 @@
 import { mapIdentifier } from "../../lib/i18n/mapping.ts";
-import { type MessageCommandDeniedPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { Events, Listener, type MessageCommandDeniedPayload, UserError } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
 import { resolveKey } from "@sapphire/plugin-i18next";
 import type { Message } from "discord.js";
 
 export class UserListener extends Listener<typeof Events.MessageCommandDenied> {
   public async run(error: UserError, { message, command }: MessageCommandDeniedPayload) {
-    if (Reflect.get(Object(error.context), "silent")) return;
+    if (Reflect.get(Object(error.context), "silent")) {
+      return;
+    }
 
     const indentifier = mapIdentifier(error.identifier);
     // deno-lint-ignore no-explicit-any

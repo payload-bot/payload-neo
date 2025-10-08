@@ -1,7 +1,7 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import type { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
-import { Argument, Command, type ArgumentContext } from "@sapphire/framework";
+import { Argument, type ArgumentContext, Command } from "@sapphire/framework";
 
 type CommandReturn = PayloadCommand | AutoCommand | undefined;
 

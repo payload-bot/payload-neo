@@ -1,4 +1,4 @@
-import { T, FT } from "#lib/types";
+import { FT, T } from "#lib/types";
 
 export const Description = T<string>("commands/pushcart:description");
 export const DetailedDescription = T<string>("commands/pushcart:detailedDescription");

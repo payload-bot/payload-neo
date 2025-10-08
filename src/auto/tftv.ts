@@ -1,7 +1,7 @@
 import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import { ApplyOptions } from "@sapphire/decorators";
 import PayloadColors from "#utils/colors.ts";
-import { Message, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { load } from "cheerio";
 import { htmlToText } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";

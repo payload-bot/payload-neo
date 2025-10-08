@@ -1,4 +1,4 @@
-import { Args, ArgumentError, type MessageCommandErrorPayload, Events, Listener, UserError } from "@sapphire/framework";
+import { Args, ArgumentError, Events, Listener, type MessageCommandErrorPayload, UserError } from "@sapphire/framework";
 import { DiscordAPIError, HTTPError, Message } from "discord.js";
 import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
 import type { TFunction } from "@sapphire/plugin-i18next";
@@ -14,13 +14,21 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
     const { client, logger } = this.container;
     const t = (args as PayloadArgs).t;
 
-    if (typeof error === "string") return logger.error(`Unhandled string error:\n${error}`);
-    if (error instanceof ArgumentError) return await this.argumentError(message, t, error);
-    if (error instanceof UserError) return await this.userError(message, t, error);
+    if (typeof error === "string") {
+      return logger.error(`Unhandled string error:\n${error}`);
+    }
+    if (error instanceof ArgumentError) {
+      return await this.argumentError(message, t, error);
+    }
+    if (error instanceof UserError) {
+      return await this.userError(message, t, error);
+    }
 
     // Extract useful information about the DiscordAPIError
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
-      if (this.isSilencedError(args as Args, error)) return;
+      if (this.isSilencedError(args as Args, error)) {
+        return;
+      }
       client.emit(Events.Error, error);
     } else {
       logger.warn(`${this.getWarnError(message)} (${message.author.id}) | ${error.constructor.name}`);
@@ -40,17 +48,19 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
   }
 
   private getWarnError(message: Message) {
-    return `ERROR: /${message.guild ? `${message.guild.id}/${message.channel.id}` : `DM/${message.author.id}`}/${
-      message.id
-    }`;
+    return `ERROR: /${message.guild ? `${message.guild.id}/${message.channel.id}` : `DM/${message.author.id}`}/${message.id}`;
   }
 
   private isDirectMessageReplyAfterBlock(args: Args, error: DiscordAPIError | HTTPError) {
     // When sending a message to a user who has blocked the bot, Discord replies with 50007 "Cannot send messages to this user":
-    if (error.status !== RESTJSONErrorCodes.CannotSendMessagesToThisUser) return false;
+    if (error.status !== RESTJSONErrorCodes.CannotSendMessagesToThisUser) {
+      return false;
+    }
 
     // If it's not a Direct Message, return false:
-    if (args.message.guild !== null) return false;
+    if (args.message.guild !== null) {
+      return false;
+    }
 
     // If the query was made to the message's channel, then it was a DM response:
     return error.url === `/channels/${args.message.channel.id}/messages`;
@@ -70,7 +80,9 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
   }
 
   private async userError(message: Message, t: TFunction, error: UserError) {
-    if (Reflect.get(Object(error.context), "silent")) return;
+    if (Reflect.get(Object(error.context), "silent")) {
+      return;
+    }
 
     const identifier = mapIdentifier(error.identifier);
 

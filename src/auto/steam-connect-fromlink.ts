@@ -2,7 +2,7 @@ import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/
 import { ApplyOptions } from "@sapphire/decorators";
 import { EmbedColors } from "#utils/colors.ts";
 import { GameDig } from "gamedig";
-import { Message, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 

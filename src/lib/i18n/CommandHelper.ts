@@ -43,7 +43,7 @@ export class BuildCommandHelp {
     if (usages.length) {
       output.push(
         this.usages,
-        ...usages.map(usage => `→ ${prefixUsed}${name}${usage.length === 0 ? "" : ` *${usage}*`}`),
+        ...usages.map((usage) => `→ ${prefixUsed}${name}${usage.length === 0 ? "" : ` *${usage}*`}`),
         "",
       );
     }

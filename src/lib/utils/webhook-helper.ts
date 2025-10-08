@@ -1,18 +1,6 @@
 import { EmbedColors } from "#utils/colors.ts";
 import { container } from "@sapphire/pieces";
-import {
-  type Client,
-  type TextChannel,
-  type User,
-  type MessageComponent,
-  ChannelType,
-  PermissionFlagsBits,
-  AttachmentBuilder,
-  EmbedBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} from "discord.js";
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, ChannelType, type Client, EmbedBuilder, type MessageComponent, PermissionFlagsBits, type TextChannel, type User } from "discord.js";
 import { Buffer } from "node:buffer";
 
 type TargetReturnType = TextChannel | User | null;

@@ -14,8 +14,7 @@
 
 # Description
 
-Payload is the Discord bot for TF2 players. Features a leaderboard, logs.tf and
-team preview screenshots, and other useful commands.
+Payload is the Discord bot for TF2 players. Features a leaderboard, logs.tf and team preview screenshots, and other useful commands.
 
 ## Running
 
@@ -49,20 +48,15 @@ docker run --name "payload" --init -it --rm -v ${PWD}/data.db:/data/data.db --en
 
 # Issues, Questions
 
-Any issues or questions should be posted on GitHub issues, where they can be
-more easily tracked. Feature requests are welcome!
+Any issues or questions should be posted on GitHub issues, where they can be more easily tracked. Feature requests are welcome!
 
 # Support this Project
 
-You may back me on my [Patreon](https://www.patreon.com/c43721). Direct
-sponsorship of this project can be discussed on Discord (24#7644) or by another
-medium.
+You may back me on my [Patreon](https://www.patreon.com/c43721). Direct sponsorship of this project can be discussed on Discord (24#7644) or by another medium.
 
 # Contributing
 
-Before contributing, please make sure no one else has stated against your
-proposal. Otherwise, make a Pull Request detailing your proposal and any
-relevant code changes.
+Before contributing, please make sure no one else has stated against your proposal. Otherwise, make a Pull Request detailing your proposal and any relevant code changes.
 
 # Useful Links
 

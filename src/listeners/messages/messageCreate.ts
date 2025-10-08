@@ -3,10 +3,16 @@ import type { Message } from "discord.js";
 
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
-    if (message.webhookId !== null) return;
-    if (message.system) return;
-    if (message.author.bot) return;
-    
+    if (message.webhookId !== null) {
+      return;
+    }
+    if (message.system) {
+      return;
+    }
+    if (message.author.bot) {
+      return;
+    }
+
     const { client } = this.container;
 
     const autoResponses = client.stores.get("auto");
@@ -16,7 +22,9 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
     for (const autoResponse of autoResponses.values()) {
       const doesMatch = autoResponse.shouldRun(message);
 
-      if (!doesMatch) continue;
+      if (!doesMatch) {
+        continue;
+      }
 
       const context = {
         commandName: autoResponse.name,

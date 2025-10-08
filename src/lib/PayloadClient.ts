@@ -1,9 +1,4 @@
-import {
-  ApplicationCommandRegistries,
-  container,
-  RegisterBehavior,
-  SapphireClient,
-} from "@sapphire/framework";
+import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
 import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions.ts";
 import config from "#root/config.ts";
@@ -47,7 +42,7 @@ export class PayloadClient extends SapphireClient {
     }
 
     connect();
-    
+
     const server = serve();
     container.denoServer = server;
 

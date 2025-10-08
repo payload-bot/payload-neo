@@ -9,8 +9,7 @@ export class UserPrecondition extends AllFlowsPrecondition {
 
   public override chatInputRun = (interaction: CommandInteraction) => this.#checkOwner(interaction.user.id);
 
-  public override contextMenuRun = (interaction: ContextMenuCommandInteraction) =>
-    this.#checkOwner(interaction.user.id);
+  public override contextMenuRun = (interaction: ContextMenuCommandInteraction) => this.#checkOwner(interaction.user.id);
 
   #checkOwner(authorId: string) {
     return OWNERS.includes(authorId) ? this.ok() : this.error({ context: { silent: true } });

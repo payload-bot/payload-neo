@@ -51,7 +51,8 @@ Starting out, tests will be scarce. We intend to add tests for most major API en
 
 ## For maintainers
 
-For versioning, please study the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) site to understand how to write a good commit message. We also use semver for versioning, but this will not be mirrored in the package.json (as it would break the cache!)
+For versioning, please study the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) site to understand how to write a good commit message. We also use semver for versioning, but this will not be mirrored in the
+package.json (as it would break the cache!)
 
 When accepting Pull Requests, make sure the following:
 

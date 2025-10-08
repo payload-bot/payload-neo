@@ -10,9 +10,7 @@ export class UserListener extends Listener {
     const { logger } = this.container;
 
     logger.warn(
-      `[RATE LIMIT ${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.url} LIMIT: ${
-        rateLimitData.limit
-      }] RESET: ${rateLimitData.timeToReset}`,
+      `[RATE LIMIT ${rateLimitData.global ? "(GLOBAL)" : ""}] [PATH: ${rateLimitData.url} LIMIT: ${rateLimitData.limit}] RESET: ${rateLimitData.timeToReset}`,
     );
   }
 }

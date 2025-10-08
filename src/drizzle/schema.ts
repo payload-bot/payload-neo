@@ -1,10 +1,4 @@
-import {
-  integer,
-  numeric,
-  sqliteTable,
-  text,
-  uniqueIndex,
-} from "drizzle-orm/sqlite-core";
+import { integer, numeric, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const guild = sqliteTable("Guild", {
   id: text("id").primaryKey().notNull(),

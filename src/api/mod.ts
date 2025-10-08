@@ -40,9 +40,7 @@ export function serve() {
       }
 
       return Response.redirect(
-        `steam://connect/${result.ip}${
-          result.pw != null ? `/${result.pw}` : ""
-        }`,
+        `steam://connect/${result.ip}${result.pw != null ? `/${result.pw}` : ""}`,
         302,
       );
     }

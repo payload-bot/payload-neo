@@ -3,7 +3,7 @@ import { guild } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { inlineCode, type ButtonInteraction, type StringSelectMenuInteraction } from "discord.js";
+import { type ButtonInteraction, inlineCode, type StringSelectMenuInteraction } from "discord.js";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {

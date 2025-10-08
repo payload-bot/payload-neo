@@ -1,4 +1,4 @@
-import { T, FT } from "#lib/types";
+import { FT, T } from "#lib/types";
 
 export const Name = T<string>("commands/info:name");
 export const Description = T<string>("commands/info:description");

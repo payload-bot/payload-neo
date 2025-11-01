@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine-2.5.0 AS build
+FROM denoland/deno:alpine-2.5.6 AS build
 
 USER deno 
 
@@ -8,7 +8,7 @@ COPY . .
 
 RUN deno cache --frozen src/index.ts
 
-FROM denoland/deno:alpine-2.5.0
+FROM denoland/deno:alpine-2.5.6
 
 ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"

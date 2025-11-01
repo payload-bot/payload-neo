@@ -23,7 +23,7 @@ const webhookSchema = type({
 });
 
 const hostname = envParseString("HOST");
-const port = envParseInteger("PORT");
+const port = envParseInteger("PORT", 3000);
 
 export function serve() {
   return Deno.serve({ hostname, port }, async (req) => {

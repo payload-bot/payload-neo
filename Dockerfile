@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine-2.5.6 AS build
+FROM denoland/deno:alpine-2.6.3 AS build
 
 USER deno 
 
@@ -8,7 +8,7 @@ COPY . .
 
 RUN deno cache --frozen src/index.ts
 
-FROM denoland/deno:alpine-2.5.6
+FROM denoland/deno:alpine-2.6.3
 
 ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
@@ -25,8 +25,8 @@ ENV DENO_NO_PROMPT=1
 RUN apk add ca-certificates fuse3 sqlite
 
 # prepare for litefs
-COPY --from=flyio/litefs:0.5.14 /usr/local/bin/litefs /usr/local/bin/litefs
-ADD litefs.yml /etc/litefs.yml
+COPY --from=flyio/litefs:0.5.5 /usr/local/bin/litefs /usr/local/bin/litefs
+COPY litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
 
 # add shortcut for connecting to database CLI

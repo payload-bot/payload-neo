@@ -17,11 +17,14 @@ import { Buffer } from "node:buffer";
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
+      `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${matched}`,
       {
-        method: "POST",
-        body: JSON.stringify({ url: matched }),
+        method: "GET",
+        headers: {
+          "Authorization": `Basic ${credentials}`,
+        },
       },
     );
 

@@ -21,12 +21,10 @@ export default class UserAutoCommand extends AutoCommand {
     args: AutoCommand.Args,
     { matched }: AutoCommand.Context,
   ) {
+    return;
+
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v0/rgl/teams`,
-      {
-        method: "POST",
-        body: JSON.stringify({ url: matched }),
-      },
+      `${Deno.env.get("PREVIEW_URL")!}/v1/rgl/teams?url=${matched}`,
     );
 
     const arrayBuffer = await preview.arrayBuffer();

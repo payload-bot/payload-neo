@@ -21,11 +21,14 @@ export default class UserAutoCommand extends AutoCommand {
     args: AutoCommand.Args,
     { matched }: AutoCommand.Context,
   ) {
+    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v0/etf2l/teams`,
+      `${Deno.env.get("PREVIEW_URL")!}/v1/etf2l/teams?url=${matched}`,
       {
-        method: "POST",
-        body: JSON.stringify({ url: matched }),
+        method: "GET",
+        headers: {
+          "Authorization": `Basic ${credentials}`,
+        },
       },
     );
 

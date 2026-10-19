@@ -46,11 +46,14 @@ export class UserCommand extends PayloadCommand {
     const logID = logs[0].id;
     const logsUrl = `http://logs.tf/${logID}#${steamId}`;
 
+    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
+      `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${logsUrl}`,
       {
-        method: "POST",
-        body: JSON.stringify({ url: logsUrl }),
+        method: "GET",
+        headers: {
+          "Authorization": `Basic ${credentials}`,
+        },
       },
     );
 

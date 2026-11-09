@@ -6,6 +6,7 @@ import { BucketScope } from "@sapphire/framework";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { Buffer } from "node:buffer";
+import { renderCounter } from "#lib/metrics.ts";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Logs.Description,
@@ -17,6 +18,8 @@ import { Buffer } from "node:buffer";
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+    await renderCounter.inc({ source: "message" });
+
     const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
       `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${matched}`,

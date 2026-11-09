@@ -20,6 +20,13 @@ export const renderErrors = new client.Counter({
   labelNames: ["cause"],
 });
 
+export const autoCompletes = new client.Counter({
+  name: "autocomplete_hit_total",
+  help: "The number of autocompletes ran",
+  labelNames: ["command"],
+});
+
 registry.registerMetric(commandCounter);
 registry.registerMetric(renderCounter);
 registry.registerMetric(renderErrors);
+registry.registerMetric(autoCompletes);

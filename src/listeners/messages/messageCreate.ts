@@ -71,7 +71,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       const args = await autoResponse.messagePreParse(message, message.content, context);
 
-      await commandCounter.inc({ command: context.commandName });
+      await commandCounter.inc({ command: context.commandName, auto: true });
 
       return await autoResponse.messageRun(message, args, context);
     }

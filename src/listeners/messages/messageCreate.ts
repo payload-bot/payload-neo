@@ -70,6 +70,8 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       const args = await autoResponse.messagePreParse(message, message.content, context);
 
+      // Emit metric
+
       return await autoResponse.messageRun(message, args, context);
     }
   }

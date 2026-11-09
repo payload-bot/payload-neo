@@ -2,13 +2,17 @@ app = "payload"
 primary_region = "ord"
 
 [mounts]
-  source = "data"
-  destination = "/data"
+source = "data"
+destination = "/data"
 
 [http_service]
-  internal_port = 3000
+internal_port = 3000
 
 [vm]
-  cpu_kind = "shared"
-  cpus = 1
-  memory = 1024
+cpu_kind = "shared"
+cpus = 1
+memory = 1024
+
+[[metrics]]
+path = "/"
+port = 6421

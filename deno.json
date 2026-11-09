@@ -1,6 +1,8 @@
 {
   "license": "MIT",
-  "unstable": ["temporal"],
+  "unstable": [
+    "temporal"
+  ],
   "tasks": {
     "start": "deno run -NRES --allow-ffi --inspect=\"[::0]:9229\" src/index.ts",
     "dev": "deno run -A --env-file=.env src/index.ts"
@@ -9,6 +11,7 @@
     "@discordjs/builders": "npm:@discordjs/builders@^1.13.1",
     "@libsql/client": "npm:@libsql/client@^0.15.15",
     "@node-steam/id": "npm:@node-steam/id@^1.2.0",
+    "@prometheus-io/client": "npm:@prometheus-io/client@^0.16.1",
     "@sapphire/decorators": "npm:@sapphire/decorators@^6.2.0",
     "@sapphire/discord.js-utilities": "npm:@sapphire/discord.js-utilities@^7.3.3",
     "@sapphire/fetch": "npm:@sapphire/fetch@^3.0.5",
@@ -37,10 +40,8 @@
     "i18next": "npm:i18next@^25.7.3",
     "reflect-metadata": "npm:reflect-metadata@^0.2.2",
     "tslib": "npm:tslib@^2.8.1",
-
     "@types/html-to-text": "npm:@types/html-to-text@^9.0.4",
     "drizzle-kit": "npm:drizzle-kit@^0.31.8",
-
     "#root/": "./src/",
     "#api/": "./src/lib/api/",
     "#lib/": "./src/lib/",
@@ -58,9 +59,15 @@
     "lineWidth": 240,
     "useBraces": "always",
     "bracePosition": "sameLineUnlessHanging",
-    "exclude": ["src/drizzle/*", "src/languages/*"]
+    "exclude": [
+      "src/drizzle/*",
+      "src/languages/*"
+    ]
   },
   "lint": {
-    "exclude": ["src/drizzle/*", "src/languages/*"]
+    "exclude": [
+      "src/drizzle/*",
+      "src/languages/*"
+    ]
   }
 }

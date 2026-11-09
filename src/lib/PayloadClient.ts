@@ -8,6 +8,7 @@ import { join } from "node:path";
 import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { serve } from "../api/mod.ts";
+import { serveMetrics } from "../api/metrics-api.ts";
 
 export class PayloadClient extends SapphireClient {
   public override dev = Deno.env.get("NODE_ENV") !== "production";
@@ -44,7 +45,9 @@ export class PayloadClient extends SapphireClient {
     connect();
 
     const server = serve();
+    const metricServer = serveMetrics();
     container.denoServer = server;
+    container.metrics = metricServer;
 
     const response = await super.login(token);
 
@@ -53,6 +56,7 @@ export class PayloadClient extends SapphireClient {
 
   public override async destroy() {
     await container.denoServer?.shutdown();
+    await container.metrics?.shutdown();
 
     await super.destroy();
   }

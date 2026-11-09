@@ -35,6 +35,7 @@ declare module "@sapphire/pieces" {
   interface Container {
     database: LibSQLDatabase;
     denoServer?: Deno.HttpServer;
+    metrics?: Deno.HttpServer;
   }
 }
 

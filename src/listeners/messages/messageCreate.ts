@@ -1,5 +1,6 @@
 import { Events, Listener } from "@sapphire/framework";
 import type { Message } from "discord.js";
+import { commandCounter } from "#lib/metrics.ts";
 
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
@@ -70,7 +71,7 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
 
       const args = await autoResponse.messagePreParse(message, message.content, context);
 
-      // Emit metric
+      await commandCounter.inc({ command: context.commandName });
 
       return await autoResponse.messageRun(message, args, context);
     }

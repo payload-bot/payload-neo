@@ -1,7 +1,5 @@
 import client from "@prometheus-io/client";
 
-export const registry = new client.Registry();
-
 export const commandCounter = new client.Counter({
   name: "command_run_hit_total",
   help: "The number of commands ran",
@@ -25,8 +23,3 @@ export const autoCompletes = new client.Counter({
   help: "The number of autocompletes ran",
   labelNames: ["command"],
 });
-
-registry.registerMetric(commandCounter);
-registry.registerMetric(renderCounter);
-registry.registerMetric(renderErrors);
-registry.registerMetric(autoCompletes);

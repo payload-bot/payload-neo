@@ -1,3 +1,6 @@
+import { Hono } from "hono";
+import { createMiddleware } from "hono/factory";
+import { sValidator } from "@hono/standard-validator";
 import { type } from "arktype";
 import { isNullish, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { sendLogPreview } from "#utils/webhook-helper.ts";
@@ -5,11 +8,6 @@ import { container } from "@sapphire/pieces";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
-
-const webhookRenderUrlOld = new URLPattern({
-  pathname: "/api/v1/webhooks/logs",
-});
-const webhookRenderUrl = new URLPattern({ pathname: "/api/webhooks/logs" });
 
 const webhookSchema = type({
   demosId: "string | number.integer >= 0",
@@ -19,48 +17,42 @@ const webhookSchema = type({
 const hostname = envParseString("HOST");
 const port = envParseInteger("PORT", 3000);
 
-export function serve() {
-  return Deno.serve({ hostname, port }, async (req) => {
-    if (
-      req.method === "POST" &&
-      (webhookRenderUrl.test(req.url) || webhookRenderUrlOld.test(req.url))
-    ) {
-      const headerAuth = req.headers.get("Authorization");
+const app = new Hono();
 
-      if (isNullish(headerAuth)) {
-        return Response.json({ message: "Unauthorized" }, { status: 401 });
-      }
+const authorization = createMiddleware(async (c, next) => {
+  const headerAuth = c.header("Authorization");
 
-      const data = await container.database
-        .select({ type: webhook.type, id: webhook.id })
-        .from(webhook)
-        .where(eq(webhook.value, headerAuth));
+  if (isNullish(headerAuth)) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
-      if (isNullOrUndefinedOrEmpty(data)) {
-        return Response.json({ message: "Not found" }, { status: 404 });
-      }
+  const data = await container.database
+    .select({ type: webhook.type, id: webhook.id })
+    .from(webhook)
+    .where(eq(webhook.value, headerAuth));
 
-      const body = await req.json();
-      const result = webhookSchema(body);
+  if (isNullOrUndefinedOrEmpty(data)) {
+    return Response.json({ message: "Not found" }, { status: 404 });
+  }
 
-      if (result instanceof type.errors) {
-        return Response.json({
-          error: "Bad request",
-          message: result.summary,
-        });
-      }
+  await next();
+});
 
-      await sendLogPreview(container.client, {
-        demosId: result.demosId.toString(),
-        logsId: result.logsId.toString(),
-        targetId: data[0].id,
-        // deno-lint-ignore no-explicit-any
-        webhookTarget: data[0].type as any,
-      });
+app.get("/api/v1/webhooks/logs", sValidator("json", webhookSchema));
+app.get("/api/webhooks/logs", sValidator("json", webhookSchema), async (c) => {
+  const { body } = c.valid("json");
 
-      return new Response(null, { status: 204 });
-    }
-
-    return new Response(null, { status: 404 });
+  await sendLogPreview(container.client, {
+    demosId: body.demosId.toString(),
+    logsId: body.logsId.toString(),
+    targetId: body[0].id,
+    // deno-lint-ignore no-explicit-any
+    webhookTarget: body[0].type as any,
   });
+
+  return c.status(204);
+});
+
+export function serve() {
+  return Deno.serve({ hostname, port }, app.fetch);
 }

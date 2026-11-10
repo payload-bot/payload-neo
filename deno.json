@@ -9,6 +9,7 @@
   },
   "imports": {
     "@discordjs/builders": "npm:@discordjs/builders@^1.13.1",
+    "@hono/standard-validator": "npm:@hono/standard-validator@^0.4.1",
     "@libsql/client": "npm:@libsql/client@^0.15.15",
     "@node-steam/id": "npm:@node-steam/id@^1.2.0",
     "@prometheus-io/client": "npm:@prometheus-io/client@^0.16.1",
@@ -36,6 +37,7 @@
     "drizzle-orm": "npm:drizzle-orm@^0.45.1",
     "gamedig": "npm:gamedig@^5.3.3",
     "generate-password": "npm:generate-password@^1.7.1",
+    "hono": "npm:hono@^4.13.17",
     "html-to-text": "npm:html-to-text@^9.0.5",
     "i18next": "npm:i18next@^25.7.3",
     "reflect-metadata": "npm:reflect-metadata@^0.2.2",

@@ -26,8 +26,6 @@ export class UserCommand extends PayloadCommand {
       .from(guild)
       .where(eq(guild.id, interaction.guildId!));
 
-    this.container.logger.info(guildWebhook);
-
     switch (interaction.options.getSubcommand(true)) {
       case "add": {
         const channel = interaction.options.getChannel("channel");

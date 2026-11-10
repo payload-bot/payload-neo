@@ -36,6 +36,12 @@ export const messageIgnored = new client.Counter({
   labelNames: ["reason"] as const,
 });
 
+export const webhookEndpoint = new client.Counter({
+  name: "webhook_hit_total",
+  help: "The number of webhooks that got called",
+  labelNames: ["version"] as const,
+});
+
 new client.Gauge({
   name: "guild_active",
   help: "The current number of guilds being served",

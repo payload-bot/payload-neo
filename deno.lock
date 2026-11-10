@@ -4,6 +4,7 @@
     "jsr:@std/fmt@^1.0.10": "1.0.10",
     "jsr:@tf2software/logstf@^0.0.4": "0.0.4",
     "npm:@discordjs/builders@^1.13.1": "1.14.1",
+    "npm:@hono/standard-validator@~0.4.1": "0.4.1_@standard-schema+spec@1.1.0_hono@4.13.17",
     "npm:@libsql/client@~0.15.15": "0.15.15",
     "npm:@node-steam/id@^1.2.0": "1.2.0",
     "npm:@prometheus-io/client@~0.16.1": "0.16.1",
@@ -32,6 +33,7 @@
     "npm:drizzle-orm@~0.45.1": "0.45.1_@libsql+client@0.15.15",
     "npm:gamedig@^5.3.3": "5.3.3",
     "npm:generate-password@^1.7.1": "1.7.1",
+    "npm:hono@^4.13.17": "4.13.17",
     "npm:html-to-text@^9.0.5": "9.0.5",
     "npm:i18next@^25.7.3": "25.7.3",
     "npm:reflect-metadata@~0.2.2": "0.2.2",
@@ -375,6 +377,13 @@
       "os": ["win32"],
       "cpu": ["x64"]
     },
+    "@hono/standard-validator@0.4.1_@standard-schema+spec@1.1.0_hono@4.13.17": {
+      "integrity": "sha512-Q0+1dgMKAXEvsmJ5FNoamwnfrf/I5JNnKn7WzfynH8nJlNe1lNOW1+vlKpEQZbrBLEgmxIeys6HjRotDvZzq+A==",
+      "dependencies": [
+        "@standard-schema/spec",
+        "hono"
+      ]
+    },
     "@libsql/client@0.15.15": {
       "integrity": "sha512-twC0hQxPNHPKfeOv3sNT6u2pturQjLcI+CnpTM0SjRpocEGgfiZ7DWKXLNnsothjyJmDqEsBQJ5ztq9Wlu470w==",
       "dependencies": [
@@ -647,6 +656,9 @@
       "dependencies": [
         "tslib"
       ]
+    },
+    "@standard-schema/spec@1.1.0": {
+      "integrity": "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="
     },
     "@szmarczak/http-timer@5.0.1": {
       "integrity": "sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==",
@@ -1066,6 +1078,9 @@
         "responselike"
       ]
     },
+    "hono@4.13.17": {
+      "integrity": "sha512-vZIcbkvjOR5hHRWERbGkr8fGfF0GGM1ooYkuH448iO3b2AdVEr3AXZSw4Z3Kn+1L5z0CVoVeyV29VGYmFh05kQ=="
+    },
     "html-to-text@9.0.5": {
       "integrity": "sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==",
       "dependencies": [
@@ -1432,6 +1447,7 @@
       "jsr:@std/fmt@^1.0.10",
       "jsr:@tf2software/logstf@^0.0.4",
       "npm:@discordjs/builders@^1.13.1",
+      "npm:@hono/standard-validator@~0.4.1",
       "npm:@libsql/client@~0.15.15",
       "npm:@node-steam/id@^1.2.0",
       "npm:@prometheus-io/client@~0.16.1",
@@ -1459,6 +1475,7 @@
       "npm:drizzle-orm@~0.45.1",
       "npm:gamedig@^5.3.3",
       "npm:generate-password@^1.7.1",
+      "npm:hono@^4.13.17",
       "npm:html-to-text@^9.0.5",
       "npm:i18next@^25.7.3",
       "npm:reflect-metadata@~0.2.2",

@@ -1,66 +1,86 @@
+import { Hono } from "hono";
+import { createMiddleware } from "hono/factory";
+import { sValidator } from "@hono/standard-validator";
 import { type } from "arktype";
 import { isNullish, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { sendLogPreview } from "#utils/webhook-helper.ts";
+import { sendLogPreview, sendTest } from "#utils/webhook-helper.ts";
 import { container } from "@sapphire/pieces";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
-
-const webhookRenderUrlOld = new URLPattern({
-  pathname: "/api/v1/webhooks/logs",
-});
-const webhookRenderUrl = new URLPattern({ pathname: "/api/webhooks/logs" });
+import { webhookEndpoint } from "#lib/metrics.ts";
 
 const webhookSchema = type({
-  demosId: "string | number.integer >= 0",
+  "demosId?": "string | number.integer >= 0 | null",
   logsId: "string | number.integer >= 0",
 });
 
 const hostname = envParseString("HOST");
 const port = envParseInteger("PORT", 3000);
 
-export function serve() {
-  return Deno.serve({ hostname, port }, async (req) => {
-    if (
-      req.method === "POST" &&
-      (webhookRenderUrl.test(req.url) || webhookRenderUrlOld.test(req.url))
-    ) {
-      const headerAuth = req.headers.get("Authorization");
+const app = new Hono();
 
-      if (isNullish(headerAuth)) {
-        return Response.json({ message: "Unauthorized" }, { status: 401 });
-      }
+const authorization = createMiddleware<{ Variables: { user: { type: string; id: string } } }>(async (c, next) => {
+  const headerAuth = c.req.header("Authorization");
 
-      const data = await container.database
-        .select({ type: webhook.type, id: webhook.id })
-        .from(webhook)
-        .where(eq(webhook.value, headerAuth));
+  if (isNullish(headerAuth)) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
-      if (isNullOrUndefinedOrEmpty(data)) {
-        return Response.json({ message: "Not found" }, { status: 404 });
-      }
+  const data = await container.database
+    .select({ type: webhook.type, id: webhook.id })
+    .from(webhook)
+    .where(eq(webhook.value, headerAuth));
 
-      const body = await req.json();
-      const result = webhookSchema(body);
+  if (isNullOrUndefinedOrEmpty(data)) {
+    return Response.json({ message: "Not found" }, { status: 404 });
+  }
 
-      if (result instanceof type.errors) {
-        return Response.json({
-          error: "Bad request",
-          message: result.summary,
-        });
-      }
+  c.set("user", { id: data[0].id, type: data[0].type });
 
-      await sendLogPreview(container.client, {
-        demosId: result.demosId.toString(),
-        logsId: result.logsId.toString(),
-        targetId: data[0].id,
-        // deno-lint-ignore no-explicit-any
-        webhookTarget: data[0].type as any,
-      });
+  await next();
+});
 
-      return new Response(null, { status: 204 });
-    }
+app.post("/api/v1/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  webhookEndpoint.inc({ version: "legacy" });
+  const body = c.req.valid("form");
+  const user = c.var.user;
 
-    return new Response(null, { status: 404 });
+  await sendLogPreview(container.client, {
+    demosId: body.demosId?.toString(),
+    logsId: body.logsId.toString(),
+    targetId: user.id,
+    // deno-lint-ignore no-explicit-any
+    webhookTarget: user.type as any,
   });
+
+  return c.body(null, 204);
+});
+
+app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  webhookEndpoint.inc({ version: "latest" });
+  const body = c.req.valid("form");
+  const user = c.var.user;
+
+  await sendLogPreview(container.client, {
+    demosId: body.demosId?.toString(),
+    logsId: body.logsId.toString(),
+    targetId: user.id,
+    // deno-lint-ignore no-explicit-any
+    webhookTarget: user.type as any,
+  });
+
+  return c.body(null, 204);
+});
+
+app.post("/api/webhooks/test", authorization, async (c) => {
+  const user = c.var.user;
+
+  await sendTest(container.client, user.type as any, user.id);
+
+  return c.body(null, 204);
+});
+
+export function serve() {
+  return Deno.serve({ hostname, port }, app.fetch);
 }

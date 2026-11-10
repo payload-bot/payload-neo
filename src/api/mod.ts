@@ -40,8 +40,8 @@ const authorization = createMiddleware<{ Variables: { user: { type: string; id: 
   await next();
 });
 
-app.post("/api/v1/webhooks/logs", sValidator("json", webhookSchema), authorization, async (c) => {
-  const body = c.req.valid("json");
+app.post("/api/v1/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  const body = c.req.valid("form");
   const user = c.var.user;
 
   await sendLogPreview(container.client, {
@@ -55,8 +55,8 @@ app.post("/api/v1/webhooks/logs", sValidator("json", webhookSchema), authorizati
   return c.body(null, 204);
 });
 
-app.post("/api/webhooks/logs", sValidator("json", webhookSchema), authorization, async (c) => {
-  const body = c.req.valid("json");
+app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  const body = c.req.valid("form");
   const user = c.var.user;
 
   await sendLogPreview(container.client, {

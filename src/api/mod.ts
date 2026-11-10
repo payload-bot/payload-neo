@@ -8,6 +8,7 @@ import { container } from "@sapphire/pieces";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
+import { webhookEndpoint } from "#lib/metrics.ts";
 
 const webhookSchema = type({
   "demosId?": "string | number.integer >= 0 | null",
@@ -41,6 +42,7 @@ const authorization = createMiddleware<{ Variables: { user: { type: string; id: 
 });
 
 app.post("/api/v1/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  webhookEndpoint.inc({ version: "legacy" });
   const body = c.req.valid("form");
   const user = c.var.user;
 
@@ -56,6 +58,7 @@ app.post("/api/v1/webhooks/logs", sValidator("form", webhookSchema), authorizati
 });
 
 app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
+  webhookEndpoint.inc({ version: "latest" });
   const body = c.req.valid("form");
   const user = c.var.user;
 

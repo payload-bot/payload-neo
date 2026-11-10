@@ -1,16 +1,22 @@
 import { Events, Listener } from "@sapphire/framework";
 import type { Message } from "discord.js";
-import { commandCounter } from "#lib/metrics.ts";
+import { commandCounter, messageIgnored, messageProcessed } from "#lib/metrics.ts";
 
 export class UserListener extends Listener<typeof Events.MessageCreate> {
   public async run(message: Message) {
+    messageProcessed.inc();
+
     if (message.webhookId !== null) {
+      messageIgnored.inc({ reason: "webhook_null" });
       return;
     }
+
     if (message.system) {
+      messageIgnored.inc({ reason: "system" });
       return;
     }
     if (message.author.bot) {
+      messageIgnored.inc({ reason: "bot" });
       return;
     }
 

@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 
 const webhookSchema = type({
-  demosId: "string | number.integer >= 0",
+  demosId: "string | number.integer >= 0 | null | undefined",
   logsId: "string | number.integer >= 0",
 });
 
@@ -19,8 +19,8 @@ const port = envParseInteger("PORT", 3000);
 
 const app = new Hono();
 
-const authorization = createMiddleware(async (c, next) => {
-  const headerAuth = c.header("Authorization");
+const authorization = createMiddleware<{ Variables: { user: { type: string; id: string } } }>(async (c, next) => {
+  const headerAuth = c.req.header("Authorization");
 
   if (isNullish(headerAuth)) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
@@ -35,22 +35,39 @@ const authorization = createMiddleware(async (c, next) => {
     return Response.json({ message: "Not found" }, { status: 404 });
   }
 
+  c.set("user", { id: data[0].id, type: data[0].type });
+
   await next();
 });
 
-app.get("/api/v1/webhooks/logs", sValidator("json", webhookSchema));
-app.get("/api/webhooks/logs", sValidator("json", webhookSchema), async (c) => {
-  const { body } = c.valid("json");
+app.post("/api/v1/webhooks/logs", sValidator("json", webhookSchema), authorization, async (c) => {
+  const body = c.req.valid("json");
+  const user = c.var.user;
 
   await sendLogPreview(container.client, {
-    demosId: body.demosId.toString(),
+    demosId: body.demosId?.toString(),
     logsId: body.logsId.toString(),
-    targetId: body[0].id,
+    targetId: user.id,
     // deno-lint-ignore no-explicit-any
-    webhookTarget: body[0].type as any,
+    webhookTarget: user.type as any,
   });
 
-  return c.status(204);
+  return c.body(null, 204);
+});
+
+app.post("/api/webhooks/logs", sValidator("json", webhookSchema), authorization, async (c) => {
+  const body = c.req.valid("json");
+  const user = c.var.user;
+
+  await sendLogPreview(container.client, {
+    demosId: body.demosId?.toString(),
+    logsId: body.logsId.toString(),
+    targetId: user.id,
+    // deno-lint-ignore no-explicit-any
+    webhookTarget: user.type as any,
+  });
+
+  return c.body(null, 204);
 });
 
 export function serve() {

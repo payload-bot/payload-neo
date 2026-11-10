@@ -26,6 +26,8 @@ export class UserCommand extends PayloadCommand {
       .from(guild)
       .where(eq(guild.id, interaction.guildId!));
 
+    this.container.logger.info(guildWebhook);
+
     switch (interaction.options.getSubcommand(true)) {
       case "add": {
         const channel = interaction.options.getChannel("channel");
@@ -81,7 +83,7 @@ export class UserCommand extends PayloadCommand {
         await this.database
           .insert(guild)
           .values({
-            id: channel.id,
+            id: interaction.guildId!,
             webhookId: createdWebhook.id,
           })
           .onConflictDoUpdate({

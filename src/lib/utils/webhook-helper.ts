@@ -61,13 +61,21 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 
   renderCounter.inc({ source: "webhook" });
 
+  const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
   const preview = await fetch(
-    `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
+    `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${logsUrl}`,
     {
-      method: "POST",
-      body: JSON.stringify({ url: logsUrl }),
+      method: "GET",
+      headers: {
+        "Authorization": `Basic ${credentials}`,
+      },
     },
   );
+
+  if (!preview.ok) {
+    renderErrors.inc({ cause: "bad_preview" });
+    throw new Error("Preview did not get rendered");
+  }
 
   const arrayBuffer = await preview.arrayBuffer();
 
@@ -79,7 +87,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
       text: "Rendered from Webhook",
     },
     image: {
-      url: "attachment://log.png",
+      url: "attachment://log.webp",
     },
     url: logsUrl,
     color: EmbedColors.Green,

@@ -4,7 +4,7 @@ import { Interaction } from "discord.js";
 import { Command } from "@sapphire/framework";
 
 export class CommandAutoCompleteInteractionRun extends Listener<typeof Events.CommandAutocompleteInteractionSuccess> {
-  public async run(_: Interaction, { name }: Command) {
-    await autoCompletes.inc({ command: name, auto: false });
+  public run(_: Interaction, { name }: Command) {
+    autoCompletes.inc({ command: name, auto: "false" });
   }
 }

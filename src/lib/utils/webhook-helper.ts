@@ -53,13 +53,13 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
   const target = (await client[webhookTarget].fetch(targetId).catch(() => null)) as TargetReturnType;
 
   if (!target) {
-    await renderErrors.inc({ cause: "no_target" });
+    renderErrors.inc({ cause: "no_target" });
     throw new Error("Bad discord target id");
   }
 
   const logsUrl = `https://logs.tf/${logsId}`;
 
-  await renderCounter.inc({ source: "webhook" });
+  renderCounter.inc({ source: "webhook" });
 
   const preview = await fetch(
     `${Deno.env.get("PREVIEW_URL")!}/v0/logstf`,
@@ -101,7 +101,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
   try {
     await sendWebhook(target, embed, att, components);
   } catch (err) {
-    await renderErrors.inc({ cause: "send_error" });
+    renderErrors.inc({ cause: "send_error" });
     throw err;
   }
 }

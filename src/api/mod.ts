@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 
 const webhookSchema = type({
-  demosId: "string | number.integer >= 0 | null | undefined",
+  "demosId?": "string | number.integer >= 0 | null",
   logsId: "string | number.integer >= 0",
 });
 

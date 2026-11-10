@@ -3,7 +3,7 @@ import { createMiddleware } from "hono/factory";
 import { sValidator } from "@hono/standard-validator";
 import { type } from "arktype";
 import { isNullish, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { sendLogPreview } from "#utils/webhook-helper.ts";
+import { sendLogPreview, sendTest } from "#utils/webhook-helper.ts";
 import { container } from "@sapphire/pieces";
 import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
@@ -66,6 +66,14 @@ app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization,
     // deno-lint-ignore no-explicit-any
     webhookTarget: user.type as any,
   });
+
+  return c.body(null, 204);
+});
+
+app.post("/api/webhooks/test", authorization, async (c) => {
+  const user = c.var.user;
+
+  await sendTest(container.client, user.type as any, user.id);
 
   return c.body(null, 204);
 });

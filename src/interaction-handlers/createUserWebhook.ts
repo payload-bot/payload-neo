@@ -66,29 +66,33 @@ export class ButtonHandler extends InteractionHandler {
 
     const secret = generate({ numbers: true, length: 24 });
 
-    const [createdWebhook] = await this.container.database
-      .insert(webhook)
-      .values({
-        id: interaction.user.id,
-        type: "users",
-        value: secret,
-        createdAt: Temporal.Now.instant().epochMilliseconds.toString(),
-      })
-      .returning();
+    const webhookSecret = await this.container.database.transaction(async (tx) => {
+      const [createdWebhook] = await tx
+        .insert(webhook)
+        .values({
+          id: interaction.user.id,
+          type: "users",
+          value: secret,
+          createdAt: Temporal.Now.instant().epochMilliseconds.toString(),
+        })
+        .returning();
 
-    await this.container.database
-      .insert(user)
-      .values({
-        id: interaction.user.id,
-        webhookId: createdWebhook.id,
-      })
-      .onConflictDoUpdate({
-        set: {
+      await tx
+        .insert(user)
+        .values({
+          id: interaction.user.id,
           webhookId: createdWebhook.id,
-        },
-        target: user.id,
-      });
+        })
+        .onConflictDoUpdate({
+          set: {
+            webhookId: createdWebhook.id,
+          },
+          target: user.id,
+        });
 
-    await this.#updateInteractionWithDelete(interaction, createdWebhook.value);
+      return createdWebhook.value;
+    });
+
+    await this.#updateInteractionWithDelete(interaction, webhookSecret);
   }
 }

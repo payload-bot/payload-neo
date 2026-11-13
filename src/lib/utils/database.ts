@@ -9,6 +9,10 @@ const databaseUrl = envParseString("DATABASE_URL");
 
 class TrackingLogger implements Logger {
   logQuery(query: string, _: unknown[]): void {
+    if (container.client.dev) {
+      container.logger.debug(`${query}`);
+    }
+
     queriesRan.inc({ type: query.split(" ")?.[0] ?? "unknown" });
   }
 }

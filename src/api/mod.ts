@@ -41,22 +41,6 @@ const authorization = createMiddleware<{ Variables: { user: { type: string; id: 
   await next();
 });
 
-app.post("/api/v1/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
-  webhookEndpoint.inc({ version: "legacy" });
-  const body = c.req.valid("form");
-  const user = c.var.user;
-
-  await sendLogPreview(container.client, {
-    demosId: body.demosId?.toString(),
-    logsId: body.logsId.toString(),
-    targetId: user.id,
-    // deno-lint-ignore no-explicit-any
-    webhookTarget: user.type as any,
-  });
-
-  return c.body(null, 204);
-});
-
 app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization, async (c) => {
   webhookEndpoint.inc({ version: "latest" });
   const body = c.req.valid("form");

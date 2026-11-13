@@ -42,6 +42,12 @@ export const webhookEndpoint = new client.Counter({
   labelNames: ["version"] as const,
 });
 
+export const queriesRan = new client.Counter({
+  name: "query_hit_total",
+  help: "The number of webhooks that got called",
+  labelNames: ["type"] as const,
+});
+
 new client.Gauge({
   name: "guild_active",
   help: "The current number of guilds being served",

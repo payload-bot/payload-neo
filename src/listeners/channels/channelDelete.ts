@@ -13,7 +13,7 @@ export class ChannelDeleteListener extends Listener<typeof Events.ChannelDelete>
 
     if (!isNullishOrEmpty(wh)) {
       this.container.logger.info("deleting channel webhook", { channelId: channel.id });
-      this.container.database.delete(webhook).where(eq(webhook.id, channel.id));
+      await this.container.database.delete(webhook).where(eq(webhook.id, channel.id));
     }
   }
 }

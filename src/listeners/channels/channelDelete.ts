@@ -1,8 +1,8 @@
-import { webhook } from "#root/drizzle/schema.ts";
 import { Events, Listener } from "@sapphire/framework";
 import type { Channel } from "discord.js";
 import { eq } from "drizzle-orm";
 import { isNullishOrEmpty } from "@sapphire/utilities";
+import { webhook } from "../../db/schema/webhook.ts";
 
 export class ChannelDeleteListener extends Listener<typeof Events.ChannelDelete> {
   public async run(channel: Channel) {

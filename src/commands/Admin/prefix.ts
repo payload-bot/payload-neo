@@ -9,8 +9,8 @@ import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcom
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v9";
-import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
+import { guild } from "../../db/schema/guild.ts";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Prefix.Description,

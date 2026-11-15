@@ -9,8 +9,8 @@ import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { pushcart } from "#root/drizzle/schema.ts";
 import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
+import { pushcart } from "../../db/schema/pushcart.ts";
 
 enum PayloadPushResult {
   SUCCESS,

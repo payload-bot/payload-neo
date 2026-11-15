@@ -4,10 +4,10 @@ import { getSteamIdFromArgs } from "#utils/getSteamId.ts";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { eq } from "drizzle-orm";
-import { user } from "#root/drizzle/schema.ts";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { MessageFlags } from "discord-api-types/v10";
 import { isNullishOrEmpty } from "@sapphire/utilities";
+import { user } from "../../db/schema/user.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Link.Description,

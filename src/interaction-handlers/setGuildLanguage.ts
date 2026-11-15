@@ -1,9 +1,9 @@
 import { LanguageKeys } from "#lib/i18n/all/index.ts";
-import { guild } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { type ButtonInteraction, inlineCode, type StringSelectMenuInteraction } from "discord.js";
+import { guild } from "../db/schema/guild.ts";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {

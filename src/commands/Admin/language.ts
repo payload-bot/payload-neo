@@ -7,9 +7,9 @@ import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { PermissionFlagsBits } from "discord-api-types/v10";
-import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
+import { guild } from "../../db/schema/guild.ts";
 
 @ApplyOptions<Subcommand.Options>({
   description: LanguageKeys.Commands.Language.Description,

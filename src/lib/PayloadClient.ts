@@ -5,10 +5,10 @@ import config from "#root/config.ts";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database.ts";
 import { join } from "node:path";
-import { guild } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { serve } from "../api/mod.ts";
 import { serveMetrics } from "../api/metrics-api.ts";
+import { guild } from "../db/schema/guild.ts";
 
 export class PayloadClient extends SapphireClient {
   public override dev = Deno.env.get("NODE_ENV") !== "production";

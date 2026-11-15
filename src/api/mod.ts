@@ -5,10 +5,10 @@ import { type } from "arktype";
 import { isNullish, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { sendLogPreview, sendTest } from "#utils/webhook-helper.ts";
 import { container } from "@sapphire/pieces";
-import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import { webhookEndpoint } from "#lib/metrics.ts";
+import { webhook } from "../db/schema/webhook.ts";
 
 const webhookSchema = type({
   "demosId?": "string | number.integer >= 0 | null",

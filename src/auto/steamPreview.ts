@@ -29,8 +29,6 @@ export default class SteamPreviewCommand extends AutoCommand {
     const profileCreated = creationInstant.toZonedDateTimeISO("UTC").toPlainDate();
     const lastOnline = onlineInstant.toZonedDateTimeISO("UTC").toPlainDate();
 
-    console.log(profileInformation);
-
     const country = profileInformation.loccountrycode ? `\:flag_${profileInformation.loccountrycode.toLowerCase()}: ` : "";
 
     const components = [

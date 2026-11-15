@@ -4,18 +4,25 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, Message
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { MessageFlags } from "discord.js";
-import { getSteamIdFromUrl } from "#utils/getSteamId.ts";
+import { getSteamIdFromArgs } from "#utils/getSteamId.ts";
 import { getSteamProfileInformation } from "#utils/steam-api.ts";
 import { isNullish } from "@sapphire/utilities";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Logs.Description,
-  regex: /http(s|):\/\/(www\.|)steamcommunity\.com\/id\/\w+/,
+  regex: /http(s|):\/\/(www\.|)steamcommunity\.com\/(profiles|id)\/(?<id>\w+)/,
 })
 export default class SteamPreviewCommand extends AutoCommand {
   // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    const steamId = await getSteamIdFromUrl(matched);
+  async messageRun(msg: Message, args: AutoCommand.Args, context: AutoCommand.Context) {
+    const allMatches = msg.content.match(this.regex)!;
+    const idOrVanityUrl = allMatches.groups?.id;
+
+    if (!idOrVanityUrl) {
+      return;
+    }
+
+    const steamId = await getSteamIdFromArgs(idOrVanityUrl);
 
     if (isNullish(steamId)) {
       return;

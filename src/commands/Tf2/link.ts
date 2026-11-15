@@ -45,7 +45,7 @@ export class UserCommand extends PayloadCommand {
 
     await interaction.reply({
       flags: MessageFlags.Ephemeral,
-      content: t(LanguageKeys.Commands.Link.Success, { steamId: testResult }),
+      content: t(LanguageKeys.Commands.Link.Success, { steamId: testResult.get64() }),
     });
 
     return;

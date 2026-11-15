@@ -10,7 +10,6 @@
   "imports": {
     "@discordjs/builders": "npm:@discordjs/builders@^1.15.0",
     "@hono/standard-validator": "npm:@hono/standard-validator@^0.4.1",
-    "@libsql/client": "npm:@libsql/client@^0.18.0",
     "@node-steam/id": "npm:@node-steam/id@^1.2.0",
     "@prometheus-io/client": "npm:@prometheus-io/client@^0.16.1",
     "@sapphire/decorators": "npm:@sapphire/decorators@^6.2.0",

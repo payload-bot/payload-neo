@@ -1,0 +1,287 @@
+{
+  "dialect": "sqlite",
+  "id": "c1fbe079-cf0d-48ee-9ed9-af299162450b",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "version": "7",
+  "ddl": [
+    {
+      "name": "Guild",
+      "entityType": "tables"
+    },
+    {
+      "name": "Pushcart",
+      "entityType": "tables"
+    },
+    {
+      "name": "User",
+      "entityType": "tables"
+    },
+    {
+      "name": "Webhook",
+      "entityType": "tables"
+    },
+    {
+      "table": "Guild",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Guild",
+      "name": "prefix",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'pls '",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Guild",
+      "name": "language",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'en-US'",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Guild",
+      "name": "legacyPushed",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Guild",
+      "name": "webhookId",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Pushcart",
+      "name": "id",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Pushcart",
+      "name": "userId",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Pushcart",
+      "name": "guildId",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Pushcart",
+      "name": "pushed",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Pushcart",
+      "name": "timestamp",
+      "type": "numeric",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "(cast(strftime('%s','now') as int))",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "User",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "User",
+      "name": "legacyPushed",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "User",
+      "name": "steamId",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "User",
+      "name": "webhookId",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Webhook",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Webhook",
+      "name": "value",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Webhook",
+      "name": "type",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Webhook",
+      "name": "createdAt",
+      "type": "numeric",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "(cast(strftime('%s','now') as int))",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "Webhook",
+      "name": "Webhook_value_key",
+      "columns": [
+        {
+          "value": "value",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "Guild",
+      "name": "Guild_webhookId_Webhook_id_fk",
+      "columns": [
+        "webhookId"
+      ],
+      "tableTo": "Webhook",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "SET NULL",
+      "nameExplicit": false,
+      "entityType": "fks"
+    },
+    {
+      "table": "User",
+      "name": "User_webhookId_Webhook_id_fk",
+      "columns": [
+        "webhookId"
+      ],
+      "tableTo": "Webhook",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "SET NULL",
+      "nameExplicit": false,
+      "entityType": "fks"
+    },
+    {
+      "table": "Guild",
+      "name": "Guild_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "Pushcart",
+      "name": "Pushcart_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "User",
+      "name": "User_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "Webhook",
+      "name": "Webhook_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    }
+  ],
+  "renames": []
+}

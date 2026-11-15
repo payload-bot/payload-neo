@@ -9,9 +9,7 @@ export const webhook = sqliteTable(
     createdAt: numeric("createdAt")
       .notNull(),
   },
-  (table) => {
-    return {
-      valueKey: uniqueIndex("Webhook_value_key").on(table.value),
-    };
-  },
+  (table) => [
+    uniqueIndex("Webhook_value_key").on(table.value),
+  ],
 );

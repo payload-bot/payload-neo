@@ -21,6 +21,8 @@ export default class SteamPreviewCommand extends AutoCommand {
       return;
     }
 
+    const guildLocale = msg.guild?.preferredLocale ?? "en-US";
+
     let profileInformation = await getSteamProfileInformation(steamId.get64());
     profileInformation = profileInformation.response.players[0];
 
@@ -40,7 +42,7 @@ export default class SteamPreviewCommand extends AutoCommand {
                 .setURL(profileInformation.avatarfull),
             )
             .addTextDisplayComponents(
-              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\nCreated: ${profileCreated}\nLast Online: ${lastOnline}`),
+              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\nCreated: ${profileCreated.toLocaleString(guildLocale)}\nLast Online: ${lastOnline.toLocaleString(guildLocale)}`),
               new TextDisplayBuilder().setContent(`\`\`\`\n${steamId?.get64()}\`\`\``),
               new TextDisplayBuilder().setContent(`\`\`\`${steamId?.get3()}\`\`\``),
             ),

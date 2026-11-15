@@ -8,6 +8,7 @@ import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { MessageFlags } from "discord.js";
 import { TextDisplayBuilder } from "discord.js";
 import { webhook } from "../db/schema/webhook.ts";
+import { user } from "../db/schema/user.ts";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(

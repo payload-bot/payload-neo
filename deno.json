@@ -10,7 +10,7 @@
   "imports": {
     "@discordjs/builders": "npm:@discordjs/builders@^1.15.0",
     "@hono/standard-validator": "npm:@hono/standard-validator@^0.4.1",
-    "@libsql/client": "npm:@libsql/client@^0.15.15",
+    "@libsql/client": "npm:@libsql/client@^0.18.0",
     "@node-steam/id": "npm:@node-steam/id@^1.2.0",
     "@prometheus-io/client": "npm:@prometheus-io/client@^0.16.1",
     "@sapphire/decorators": "npm:@sapphire/decorators@^6.2.0",
@@ -32,7 +32,7 @@
     "@tf2software/logstf": "jsr:@tf2software/logstf@^0.0.4",
     "arktype": "npm:arktype@^2.2.9",
     "cheerio": "npm:cheerio@^1.2.0",
-    "discord-api-types": "npm:discord-api-types@0.38.56",
+    "discord-api-types": "npm:discord-api-types@^0.38.59",
     "discord.js": "npm:discord.js@^14.28.1",
     "drizzle-orm": "npm:drizzle-orm@^0.45.4",
     "gamedig": "npm:gamedig@^5.3.3",

@@ -10,18 +10,18 @@
     "npm:@prometheus-io/client@~0.16.1": "0.16.1",
     "npm:@sapphire/decorators@^6.2.0": "6.2.0",
     "npm:@sapphire/discord.js-utilities@^7.3.3": "7.3.3",
-    "npm:@sapphire/fetch@^3.0.5": "3.0.5",
+    "npm:@sapphire/fetch@4": "4.0.0",
     "npm:@sapphire/framework@^5.5.1": "5.5.1",
-    "npm:@sapphire/lexure@^1.1.12": "1.1.12",
+    "npm:@sapphire/lexure@2": "2.0.0",
     "npm:@sapphire/pieces@^4.4.1": "4.4.1",
     "npm:@sapphire/plugin-editable-commands@^4.0.4": "4.0.4",
     "npm:@sapphire/plugin-hmr@^3.0.2": "3.0.2",
     "npm:@sapphire/plugin-i18next@8": "8.0.0",
     "npm:@sapphire/plugin-logger@^4.1.0": "4.1.0",
     "npm:@sapphire/plugin-subcommands@^7.0.1": "7.0.1",
-    "npm:@sapphire/ratelimits@^2.4.11": "2.4.11",
-    "npm:@sapphire/time-utilities@^1.7.14": "1.7.14",
-    "npm:@sapphire/utilities@^3.18.3": "3.18.3",
+    "npm:@sapphire/ratelimits@3": "3.0.0",
+    "npm:@sapphire/time-utilities@2": "2.0.0",
+    "npm:@sapphire/utilities@4": "4.0.0",
     "npm:@skyra/env-utilities@^2.0.1": "2.0.1",
     "npm:@types/html-to-text@^9.0.4": "9.0.4",
     "npm:@types/node@*": "24.2.0",
@@ -35,7 +35,7 @@
     "npm:generate-password@^1.7.1": "1.7.1",
     "npm:hono@^4.13.18": "4.13.18",
     "npm:html-to-text@^10.0.1": "10.0.1",
-    "npm:i18next@^25.10.10": "25.10.10",
+    "npm:i18next@^27.1.2": "27.1.2",
     "npm:reflect-metadata@~0.2.2": "0.2.2",
     "npm:tslib@^2.9.1": "2.9.1"
   },
@@ -615,10 +615,10 @@
     "@sapphire/async-queue@1.5.5": {
       "integrity": "sha512-cvGzxbba6sav2zZkH8GPf2oGk9yYoD5qrNWdu9fRehifgnFZJMV+nuy2nON2roRO4yQQ+v7MK/Pktl/HgfsUXg=="
     },
-    "@sapphire/cron@1.2.1": {
-      "integrity": "sha512-K96GX4UkzgC/Y2VHXVjhM2Bl4D04552nr/fDiOj9bOACW1+wqeFfLJ3eV6jleTSXmzPIwDvkPIUJLf8A5KSD+w==",
+    "@sapphire/cron@2.0.0": {
+      "integrity": "sha512-XlCq1XKKB3o53JA6AOaGtMyY7N7ZByZyQmSloz+y4rbD79qKN9AzZlZoV3A01Orbh6ghguXBWARNcango0PRBA==",
       "dependencies": [
-        "@sapphire/utilities"
+        "@sapphire/utilities@4.0.0"
       ]
     },
     "@sapphire/decorators@6.2.0": {
@@ -643,16 +643,19 @@
       "integrity": "sha512-WDj+zjWgNCUSvzYDD0wY3TVeTUseHq0Nhk0wVWxSDjY8z2gFEVcpY7wF8/fbTDWP44LUG5sUQ4haIrIj2OjmkQ==",
       "dependencies": [
         "@sapphire/discord-utilities@3.5.0",
-        "@sapphire/duration",
-        "@sapphire/utilities",
+        "@sapphire/duration@1.2.0",
+        "@sapphire/utilities@3.18.3",
         "tslib"
       ]
     },
     "@sapphire/duration@1.2.0": {
       "integrity": "sha512-LxjOAFXz81WmrI8XX9YaVcAZDjQj/1p78lZCvkAWZB1nphOwz/D0dU3CBejmhOWx5dO5CszTkLJMNR0xuCK+Zg=="
     },
-    "@sapphire/fetch@3.0.5": {
-      "integrity": "sha512-YfH5iFFL+n21dEWfdNpSlN1Q4RH+84I9ZFLxtdlbqyWljkh1IwMU6UmHjnroiRJx9TwdFSQ0krHm4v0fV/VqiA=="
+    "@sapphire/duration@2.0.0": {
+      "integrity": "sha512-nkksFA1WSzdNcNoh05JCtwPcGbtU0lTZZGdbNgoEhX9xTC3svBEJJN881T+wFmB3RpnOONEcxp/6pv7el7dZyw=="
+    },
+    "@sapphire/fetch@4.0.0": {
+      "integrity": "sha512-nndRcrNBsyJTvs4AEzYZsKe4h4yqnmcmdtt6WeDwxcjDhouc3+ee8V7HnyeXxitKyjoF9EPe0w1s9SjWlXAdSQ=="
     },
     "@sapphire/framework@5.5.1": {
       "integrity": "sha512-UlEoj3XRjSyGJg1+kD43q5YHfmDDJ1fNN5Ws3OifvgMNhnOrrL1diTjU1ALfLrfUbPuBCJWD1ZfIj/i/J4K9eQ==",
@@ -660,25 +663,31 @@
         "@discordjs/builders",
         "@sapphire/discord-utilities@4.0.0",
         "@sapphire/discord.js-utilities",
-        "@sapphire/lexure",
+        "@sapphire/lexure@1.1.12",
         "@sapphire/pieces",
-        "@sapphire/ratelimits",
-        "@sapphire/result",
+        "@sapphire/ratelimits@2.4.11",
+        "@sapphire/result@2.8.0",
         "@sapphire/stopwatch",
-        "@sapphire/utilities"
+        "@sapphire/utilities@3.18.3"
       ]
     },
     "@sapphire/lexure@1.1.12": {
       "integrity": "sha512-F7Z3QzRnAZGunRl24/qQMhzRogZU/foumu2EBBunRnQi/o/DLTCwdAbLgJATyPlvJa8N6FrJq0JJwvzM/vXoXg==",
       "dependencies": [
-        "@sapphire/result"
+        "@sapphire/result@2.8.0"
+      ]
+    },
+    "@sapphire/lexure@2.0.0": {
+      "integrity": "sha512-vd+WR+lg68EwmJaNvx7GB2rUomtrz3NeX3GvI4ruuvWy8ASG53mdCw1YfQse94hzCY10nSMl/uS3Ml2fCLNVOw==",
+      "dependencies": [
+        "@sapphire/result@3.0.0"
       ]
     },
     "@sapphire/pieces@4.4.1": {
       "integrity": "sha512-2v49P++RzHGb23bdjSa9u7flkdvhrq94IUO9PneY538TILN5QiMxfaXVK+pDR2YR7jpQYBy9APwtFDes2Svykg==",
       "dependencies": [
         "@discordjs/collection@2.1.1",
-        "@sapphire/utilities",
+        "@sapphire/utilities@3.18.3",
         "tslib"
       ]
     },
@@ -697,30 +706,36 @@
     "@sapphire/plugin-i18next@8.0.0": {
       "integrity": "sha512-oZoQQGqcFLmPHFQ470lOG2tankvNyxaDP1SRBgdVzO+1PKUcs7oC23DWsA0zJiP/XsVe9Q12qSObAwpobANc3Q==",
       "dependencies": [
-        "@sapphire/utilities",
+        "@sapphire/utilities@3.18.3",
         "@skyra/i18next-backend",
         "chokidar",
-        "i18next"
+        "i18next@25.10.10"
       ]
     },
     "@sapphire/plugin-logger@4.1.0": {
       "integrity": "sha512-+vLTITQw3DI8+kfDPNJ0yhIK/LrfM/Gro/UFcxgYWLLm+lwNmSpLZxdWe9v7ESXprody7rTp8JXPNBK7UWyE8w==",
       "dependencies": [
-        "@sapphire/timestamp",
+        "@sapphire/timestamp@1.0.5",
         "colorette"
       ]
     },
     "@sapphire/plugin-subcommands@7.0.1": {
       "integrity": "sha512-3ngUpfKfcMX4zIlJ4SHLe10N79XU72H+Wdfcnd9ueMf6FOSMJFvVUfqDIp1rb7/iXi7C5dfx0pQqSwqu3UG0KQ==",
       "dependencies": [
-        "@sapphire/utilities"
+        "@sapphire/utilities@3.18.3"
       ]
     },
     "@sapphire/ratelimits@2.4.11": {
       "integrity": "sha512-O6FNA/P0wxU4Ve9gxL948CoZw7+sSpujyUR2CLyLLCNuNvuFGFxPCJVl5crFVLXMIyBIrc2qk+/H9bsqsyQK1Q=="
     },
+    "@sapphire/ratelimits@3.0.0": {
+      "integrity": "sha512-tzActQnGDxLLYsIatY3uMi6juh+h9arc0IAwdpSP3Jth04vJ38YudI2g73fD8CLGFxz1c7KDpyhpDpXFV1IWyA=="
+    },
     "@sapphire/result@2.8.0": {
       "integrity": "sha512-693yWouX+hR9uJm1Jgq0uSSjbSD3UrblMaxiuGbHPjSwzLCSZTcm0h3kvdVhq3o/yl4+oeAWW3hiaJ0TELuRJQ=="
+    },
+    "@sapphire/result@3.0.0": {
+      "integrity": "sha512-HIK0PwBYfM26CewxqAi61SI710HiRzEpYL9K1WPDKGyVyWrqm0rC2CDJUeSZQhXwTNaCqfLMvz5lvnyv+5wW+g=="
     },
     "@sapphire/shapeshift@4.0.0": {
       "integrity": "sha512-d9dUmWVA7MMiKobL3VpLF8P2aeanRTu6ypG2OIaEv/ZHH/SUQ2iHOVyi5wAPjQ+HmnMuL0whK9ez8I/raWbtIg==",
@@ -738,23 +753,29 @@
         "tslib"
       ]
     },
-    "@sapphire/time-utilities@1.7.14": {
-      "integrity": "sha512-UVJQ9oyzXcmJVVf9Y9ucGzRmKoPxe6SehpQlBNTX7CTVu0aj1lrEGL+bBa0Mu7hxF5DYXYjDYeO1e5BR0eg90Q==",
+    "@sapphire/time-utilities@2.0.0": {
+      "integrity": "sha512-ZTtOs1OMMmXJ3eKOQ42laD5PuewqkKwk3T9dqXL2SOPuUx74xF+MYXHBnIAOBZMmvhLzMW423V7cVCwAXwFYTQ==",
       "dependencies": [
         "@sapphire/cron",
-        "@sapphire/duration",
+        "@sapphire/duration@2.0.0",
         "@sapphire/timer-manager",
-        "@sapphire/timestamp"
+        "@sapphire/timestamp@2.0.0"
       ]
     },
-    "@sapphire/timer-manager@1.0.4": {
-      "integrity": "sha512-gc1JW8oui86f2l0T/1Iwd7hZTgus8b46slitTR2y0+wiMAEYxdp6vVTHvMAEHOqX8drkxK70aGfZmQKbAcgFqQ=="
+    "@sapphire/timer-manager@2.0.0": {
+      "integrity": "sha512-MWFOM+apXZbjrr4tUboSBXP4xgQCJbSDuUFn0IYzzAjeZBXMQ8asGQAtSEcI7LryPEXTMETF5Z1S3ftdJZhdLw=="
     },
     "@sapphire/timestamp@1.0.5": {
       "integrity": "sha512-oNwWyNdbt5wm4aYZvlHl1+64U3g0xrFmRIHsnER7RgMxNnp/wmAE4yTK2oUHeadg3t4V9iYctPAQCF+aINke4g=="
     },
+    "@sapphire/timestamp@2.0.0": {
+      "integrity": "sha512-iM1W6KgxBQSHp/LLXv6bkLP+tqFJAl1KyueQuCcwKEHTMqhqqYpmkHthcvcy3L7toij55JaBOKJLSmT98Y6g8Q=="
+    },
     "@sapphire/utilities@3.18.3": {
       "integrity": "sha512-Y57/O3lgdf13ezQ4C+KFZKINoQR+OOcQP200sG5imlwcHM7frqez6BwWHujyguodaZjRn7R8W4fMLp4ipDsBPw=="
+    },
+    "@sapphire/utilities@4.0.0": {
+      "integrity": "sha512-GBM5Caqiw7amBxwbeuXc6asBAZkiRPexXxjN9zX6jD8glpGTvq5zjnDOzeTsNAWhsRpZOc+KeFoWURbImS2Yww=="
     },
     "@selderee/plugin-htmlparser2@0.12.0_selderee@0.12.0": {
       "integrity": "sha512-oELmoyA6ML9jDRMV3kgcMQFKxUfBU0yFVn6yTctVaLT5ygXnxH52I3TZEgV9EhXJC68/uFvE5Daj1/25c0Xa/A==",
@@ -1251,6 +1272,9 @@
         "@babel/runtime"
       ]
     },
+    "i18next@27.1.2": {
+      "integrity": "sha512-851D6dY9vuhn9hF0p5KpY7FPeYnm3P73tqyX2nxfsjeEYVg7Du0Fflw0rJtv7nFnZcDQS0+Hqn0UP6+SPx8mew=="
+    },
     "iconv-lite@0.6.3": {
       "integrity": "sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==",
       "dependencies": [
@@ -1571,18 +1595,18 @@
       "npm:@prometheus-io/client@~0.16.1",
       "npm:@sapphire/decorators@^6.2.0",
       "npm:@sapphire/discord.js-utilities@^7.3.3",
-      "npm:@sapphire/fetch@^3.0.5",
+      "npm:@sapphire/fetch@4",
       "npm:@sapphire/framework@^5.5.1",
-      "npm:@sapphire/lexure@^1.1.12",
+      "npm:@sapphire/lexure@2",
       "npm:@sapphire/pieces@^4.4.1",
       "npm:@sapphire/plugin-editable-commands@^4.0.4",
       "npm:@sapphire/plugin-hmr@^3.0.2",
       "npm:@sapphire/plugin-i18next@8",
       "npm:@sapphire/plugin-logger@^4.1.0",
       "npm:@sapphire/plugin-subcommands@^7.0.1",
-      "npm:@sapphire/ratelimits@^2.4.11",
-      "npm:@sapphire/time-utilities@^1.7.14",
-      "npm:@sapphire/utilities@^3.18.3",
+      "npm:@sapphire/ratelimits@3",
+      "npm:@sapphire/time-utilities@2",
+      "npm:@sapphire/utilities@4",
       "npm:@skyra/env-utilities@^2.0.1",
       "npm:@types/html-to-text@^9.0.4",
       "npm:arktype@^2.2.9",
@@ -1595,7 +1619,7 @@
       "npm:generate-password@^1.7.1",
       "npm:hono@^4.13.18",
       "npm:html-to-text@^10.0.1",
-      "npm:i18next@^25.10.10",
+      "npm:i18next@^27.1.2",
       "npm:reflect-metadata@~0.2.2",
       "npm:tslib@^2.9.1"
     ]

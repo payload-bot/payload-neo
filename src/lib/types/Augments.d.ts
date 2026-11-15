@@ -89,5 +89,10 @@ declare module "@skyra/env-utilities" {
      * The ip of the api to listen on
      */
     HOST: string;
+
+    /**
+     * The Steam API key
+     */
+    STEAM_API_KEY: string;
   }
 }

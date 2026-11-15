@@ -5,6 +5,8 @@ import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { MessageFlags } from "discord.js";
 import { getSteamIdFromUrl } from "#utils/getSteamId.ts";
+import { getSteamProfileInformation } from "#utils/getSteamInformation.ts";
+import { isNullish } from "@sapphire/utilities";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Logs.Description,
@@ -13,8 +15,23 @@ import { getSteamIdFromUrl } from "#utils/getSteamId.ts";
 export default class SteamPreviewCommand extends AutoCommand {
   // @ts-ignore have to do this
   async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    console.log(matched);
     const steamId = await getSteamIdFromUrl(matched);
+
+    if (isNullish(steamId)) {
+      return;
+    }
+
+    let profileInformation = await getSteamProfileInformation(steamId.get64());
+    profileInformation = profileInformation.response.players[0];
+
+    const creationInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.timecreated * 1000);
+    const onlineInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.lastlogoff * 1000);
+    const profileCreated = creationInstant.toZonedDateTimeISO("UTC").toPlainDate();
+    const lastOnline = onlineInstant.toZonedDateTimeISO("UTC").toPlainDate();
+
+    console.log(profileInformation);
+
+    const country = profileInformation.loccountrycode ? `\:flag_${profileInformation.loccountrycode.toLowerCase()}: ` : "";
 
     const components = [
       new ContainerBuilder()
@@ -22,10 +39,10 @@ export default class SteamPreviewCommand extends AutoCommand {
           new SectionBuilder()
             .setThumbnailAccessory(
               new ThumbnailBuilder()
-                .setURL("https://avatars.fastly.steamstatic.com"),
+                .setURL(profileInformation.avatarfull),
             )
             .addTextDisplayComponents(
-              new TextDisplayBuilder().setContent("# name"),
+              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\nCreated: ${profileCreated}\nLast Online: ${lastOnline}`),
               new TextDisplayBuilder().setContent(`\`\`\`\n${steamId?.get64()}\`\`\``),
               new TextDisplayBuilder().setContent(`\`\`\`${steamId?.get3()}\`\`\``),
             ),

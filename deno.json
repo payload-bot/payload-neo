@@ -38,7 +38,7 @@
     "gamedig": "npm:gamedig@^5.3.3",
     "generate-password": "npm:generate-password@^1.7.1",
     "hono": "npm:hono@^4.13.18",
-    "html-to-text": "npm:html-to-text@^9.0.5",
+    "html-to-text": "npm:html-to-text@^10.0.1",
     "i18next": "npm:i18next@^25.10.10",
     "reflect-metadata": "npm:reflect-metadata@^0.2.2",
     "tslib": "npm:tslib@^2.9.1",

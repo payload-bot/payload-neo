@@ -34,7 +34,7 @@
     "npm:gamedig@^5.3.3": "5.3.3",
     "npm:generate-password@^1.7.1": "1.7.1",
     "npm:hono@^4.13.18": "4.13.18",
-    "npm:html-to-text@^9.0.5": "9.0.5",
+    "npm:html-to-text@^10.0.1": "10.0.1",
     "npm:i18next@^25.10.10": "25.10.10",
     "npm:reflect-metadata@~0.2.2": "0.2.2",
     "npm:tslib@^2.9.1": "2.9.1"
@@ -761,9 +761,10 @@
     "@sapphire/utilities@3.18.3": {
       "integrity": "sha512-Y57/O3lgdf13ezQ4C+KFZKINoQR+OOcQP200sG5imlwcHM7frqez6BwWHujyguodaZjRn7R8W4fMLp4ipDsBPw=="
     },
-    "@selderee/plugin-htmlparser2@0.11.0": {
-      "integrity": "sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==",
+    "@selderee/plugin-htmlparser2@0.12.0_selderee@0.12.0": {
+      "integrity": "sha512-oELmoyA6ML9jDRMV3kgcMQFKxUfBU0yFVn6yTctVaLT5ygXnxH52I3TZEgV9EhXJC68/uFvE5Daj1/25c0Xa/A==",
       "dependencies": [
+        "domelementtype",
         "domhandler",
         "selderee"
       ]
@@ -889,7 +890,7 @@
         "domhandler",
         "domutils",
         "encoding-sniffer",
-        "htmlparser2@10.1.0",
+        "htmlparser2",
         "parse5",
         "parse5-htmlparser2-tree-adapter",
         "parse5-parser-stream",
@@ -937,8 +938,8 @@
         "mimic-response@3.1.0"
       ]
     },
-    "deepmerge@4.3.1": {
-      "integrity": "sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A=="
+    "deepmerge-ts@8.0.2": {
+      "integrity": "sha512-uqbvqLUMrc6p0MO+WBRtTxY55hmyh94WRwI5a++PZe54X+bfVh59FSN7uWCBCW1CCVjzjnrwzfI8zidE2obMMw=="
     },
     "defer-to-connect@2.0.1": {
       "integrity": "sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg=="
@@ -1236,13 +1237,13 @@
     "hono@4.13.18": {
       "integrity": "sha512-H9q/E1XizaWstJxUW881dmLxEj+t/TrGGnyxINkm4+sK0qUwsMtFdo2BWI9Vs3cIS19MU6b6iCijoUoEf4f3DA=="
     },
-    "html-to-text@9.0.5": {
-      "integrity": "sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==",
+    "html-to-text@10.0.1": {
+      "integrity": "sha512-GiVhRI1BatGARSCmlXWNCjDT0cWrwBWoeduLoV0WSKAgaV/wa+hUWy5LiQLUs4UwiUrE52ZCMfBGiKD87TDPrg==",
       "dependencies": [
         "@selderee/plugin-htmlparser2",
-        "deepmerge",
+        "deepmerge-ts",
         "dom-serializer",
-        "htmlparser2@8.0.2",
+        "htmlparser2",
         "selderee"
       ]
     },
@@ -1253,15 +1254,6 @@
         "domhandler",
         "domutils",
         "entities@7.0.1"
-      ]
-    },
-    "htmlparser2@8.0.2": {
-      "integrity": "sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==",
-      "dependencies": [
-        "domelementtype",
-        "domhandler",
-        "domutils",
-        "entities@4.5.0"
       ]
     },
     "http-cache-semantics@4.3.0": {
@@ -1313,8 +1305,8 @@
         "json-buffer"
       ]
     },
-    "leac@0.6.0": {
-      "integrity": "sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg=="
+    "leac@0.7.0": {
+      "integrity": "sha512-qMrZeyEekgdRQ9o6a4NAB2EQZrv827GJdn1vnapwSJ90hWRB4TzUSunvacPkxQ2TnNqHNI1/zSt0hlo0crG8Jw=="
     },
     "libsql@0.5.22": {
       "integrity": "sha512-NscWthMQt7fpU8lqd7LXMvT9pi+KhhmTHAJWUB/Lj6MWa0MKFv0F2V4C6WKKpjCVZl0VwcDz4nOI3CyaT1DDiA==",
@@ -1406,8 +1398,8 @@
         "entities@6.0.1"
       ]
     },
-    "parseley@0.12.1": {
-      "integrity": "sha512-e6qHKe3a9HWr0oMRVDTRhKce+bRO8VGQR3NyVwcjwrbhMmFCX9KszEV35+rn4AdilFAq9VPxP/Fe1wC9Qjd2lw==",
+    "parseley@0.13.1": {
+      "integrity": "sha512-uNBJZzmb60l6p6VWLTmevizNAGnE0xoSf1n0B4q3ntegDNzcS68NRCcBDZTcyXHxt2XhBChsCuqj4M+nChvE/A==",
       "dependencies": [
         "leac",
         "peberminta"
@@ -1416,8 +1408,8 @@
     "path-expression-matcher@1.6.2": {
       "integrity": "sha512-enSlaiat05iasnzmgNxRj8reFdj3puY2QpNgP1aPIaVfT6nn9ICuPoFlKHk8EN22HcwewshO+mN2DGbkCEOtqQ=="
     },
-    "peberminta@0.9.0": {
-      "integrity": "sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ=="
+    "peberminta@0.10.0": {
+      "integrity": "sha512-80B2AsU+I4Qdb0ZAPSfe9UwvGzwkM37IKIFEvdS3D/3Ndgv2bsuJ0bfG1+iEYO+l7Gfd4EUJmuRyq7efLgRMzQ=="
     },
     "process-nextick-args@2.0.1": {
       "integrity": "sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag=="
@@ -1483,8 +1475,8 @@
       ],
       "bin": true
     },
-    "selderee@0.11.0": {
-      "integrity": "sha512-5TF+l7p4+OsnP8BCCvSyZiSPc4x4//p5uPwK8TCnVPJYRmU2aYKMpOXvw8zM5a5JvuuCGN1jmsMwuU2W02ukfA==",
+    "selderee@0.12.0": {
+      "integrity": "sha512-b1YMh3+DHZp59DLna3qVwQ5iOla/nrI6mLBNW02XxU77M3046Df6VLkoaJyFz20VsGIG5kkp+FK0kg4K4HnUFw==",
       "dependencies": [
         "parseley"
       ]
@@ -1638,7 +1630,7 @@
       "npm:gamedig@^5.3.3",
       "npm:generate-password@^1.7.1",
       "npm:hono@^4.13.18",
-      "npm:html-to-text@^9.0.5",
+      "npm:html-to-text@^10.0.1",
       "npm:i18next@^25.10.10",
       "npm:reflect-metadata@~0.2.2",
       "npm:tslib@^2.9.1"

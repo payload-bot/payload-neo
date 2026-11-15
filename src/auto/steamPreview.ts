@@ -30,10 +30,20 @@ export default class SteamPreviewCommand extends AutoCommand {
       return;
     }
 
-    const creationInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.timecreated * 1000);
-    const onlineInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.lastlogoff * 1000);
-    const profileCreated = creationInstant.toZonedDateTimeISO("UTC").toPlainDate();
-    const lastOnline = onlineInstant.toZonedDateTimeISO("UTC").toPlainDate();
+    let creationDate = "";
+    let lastOnline = "";
+
+    if (profileInformation.timecreated) {
+      const creationInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.timecreated * 1000);
+      const profileCreated = creationInstant.toZonedDateTimeISO("UTC").toPlainDate();
+      creationDate = `Created: ${profileCreated.toLocaleString(guildLocale)}\n`;
+    }
+
+    if (profileInformation.lastlogoff) {
+      const onlineInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.lastlogoff * 1000);
+      const date = onlineInstant.toZonedDateTimeISO("UTC").toPlainDate();
+      lastOnline = `Last Online: ${date.toLocaleString(guildLocale)}`;
+    }
 
     const country = profileInformation.loccountrycode ? `\:flag_${profileInformation.loccountrycode.toLowerCase()}: ` : "";
 
@@ -46,7 +56,7 @@ export default class SteamPreviewCommand extends AutoCommand {
                 .setURL(profileInformation.avatarfull),
             )
             .addTextDisplayComponents(
-              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\nCreated: ${profileCreated.toLocaleString(guildLocale)}\nLast Online: ${lastOnline.toLocaleString(guildLocale)}`),
+              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\n${creationDate}${lastOnline}`),
               new TextDisplayBuilder().setContent(`\`\`\`\n${steamId?.get64()}\`\`\``),
               new TextDisplayBuilder().setContent(`\`\`\`${steamId?.get3()}\`\`\``),
             ),

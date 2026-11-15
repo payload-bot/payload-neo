@@ -48,6 +48,10 @@ export default class SteamPreviewCommand extends AutoCommand {
                 .setStyle(ButtonStyle.Link)
                 .setLabel("etf2l.org")
                 .setURL(`https://etf2l.org/search/${steamId}`),
+              new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setLabel("demos.tf")
+                .setURL(`https://demos.tf/profiles/${steamId}`),
             ),
         ),
     ];

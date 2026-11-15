@@ -63,7 +63,7 @@ export default class SteamPreviewCommand extends AutoCommand {
                 .setURL(profileInformation.avatarfull),
             )
             .addTextDisplayComponents(
-              new TextDisplayBuilder().setContent(`# ${country}${profileInformation.personaname}\n${creationDate}${lastOnline}`),
+              new TextDisplayBuilder().setContent(`# ${country}[${profileInformation.personaname}](https://steamcommunity.com/profiles/${steamId})\n${creationDate}${lastOnline}`),
               new TextDisplayBuilder().setContent(`\`\`\`\n${steamId?.get64()}\`\`\``),
               new TextDisplayBuilder().setContent(`\`\`\`${steamId?.get3()}\`\`\``),
             ),

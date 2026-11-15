@@ -5,11 +5,11 @@ import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import PayloadColors from "#utils/colors.ts";
-import { guild, webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
 import { sendTest } from "#utils/webhook-helper.ts";
+import { guild } from "../../db/schema/guild.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,

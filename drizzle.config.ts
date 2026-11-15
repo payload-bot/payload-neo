@@ -2,10 +2,10 @@ import type { Config } from "drizzle-kit";
 
 export default {
   dialect: "sqlite",
-  out: "./src/drizzle",
-  schema: "./src/drizzle/schema.ts",
+  out: "./src/db",
+  schema: "./src/db/schema/*",
   dbCredentials: {
-    url: Deno.env.get("DATABASE_PATH")!,
+    url: process.env["DATABASE_PATH"]!,
   },
   verbose: true,
   strict: true,

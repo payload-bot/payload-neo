@@ -5,10 +5,10 @@ import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { eq } from "drizzle-orm";
 import { search } from "@tf2software/logstf";
-import { user } from "#root/drizzle/schema.ts";
 import PayloadColors from "#utils/colors.ts";
 import { Buffer } from "node:buffer";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
+import { user } from "../../db/schema/user.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Log.Description,

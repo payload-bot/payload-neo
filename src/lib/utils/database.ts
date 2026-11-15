@@ -1,6 +1,5 @@
 import { container } from "@sapphire/pieces";
 import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client/sqlite3";
 import { envParseString } from "@skyra/env-utilities";
 import { Logger } from "drizzle-orm/logger";
 import { queriesRan } from "../metrics.ts";
@@ -18,9 +17,7 @@ class TrackingLogger implements Logger {
 }
 
 export default function connect() {
-  const client = createClient({ url: databaseUrl });
-
-  const db = drizzle(client, { logger: new TrackingLogger() });
+  const db = drizzle(databaseUrl, { logger: new TrackingLogger() });
 
   container.database = db;
 }

@@ -1,10 +1,10 @@
 import config from "#root/config.ts";
-import { guild } from "#root/drizzle/schema.ts";
 import { container, LogLevel } from "@sapphire/framework";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { ActivityType, type ClientOptions, GatewayIntentBits, Options, Partials, type PresenceData } from "discord.js";
 import { eq } from "drizzle-orm";
 import { join } from "node:path";
+import { guild } from "../../db/schema/guild.ts";
 
 const isProduction = Deno.env.get("NODE_ENV") === "production";
 

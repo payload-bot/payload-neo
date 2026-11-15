@@ -1,5 +1,4 @@
 import { LanguageKeys } from "#lib/i18n/all";
-import { user, webhook } from "#root/drizzle/schema.ts";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
@@ -8,6 +7,8 @@ import { eq } from "drizzle-orm";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { MessageFlags } from "discord.js";
 import { TextDisplayBuilder } from "discord.js";
+import { webhook } from "../db/schema/webhook.ts";
+import { user } from "../db/schema/user.ts";
 
 export class ButtonHandler extends InteractionHandler {
   public constructor(

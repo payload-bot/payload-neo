@@ -4,10 +4,10 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionCon
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import { webhook } from "#root/drizzle/schema.ts";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { ContainerBuilder } from "discord.js";
+import { webhook } from "../../db/schema/webhook.ts";
 
 @ApplyOptions<CommandOptions>({
   description: LanguageKeys.Commands.Webhook.Description,

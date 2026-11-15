@@ -26,6 +26,10 @@ export default class SteamPreviewCommand extends AutoCommand {
     let profileInformation = await getSteamProfileInformation(steamId.get64());
     profileInformation = profileInformation.response.players[0];
 
+    if (isNullish(profileInformation)) {
+      return;
+    }
+
     const creationInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.timecreated * 1000);
     const onlineInstant = Temporal.Instant.fromEpochMilliseconds(profileInformation.lastlogoff * 1000);
     const profileCreated = creationInstant.toZonedDateTimeISO("UTC").toPlainDate();

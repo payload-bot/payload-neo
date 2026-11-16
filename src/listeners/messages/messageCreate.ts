@@ -33,11 +33,15 @@ export class UserListener extends Listener<typeof Events.MessageCreate> {
         continue;
       }
 
+      const matches = autoResponse.getMatches(message);
+      const match = autoResponse.getMatch(message)!;
+
       const context = {
         commandName: autoResponse.name,
-        matched: autoResponse.getMatch(message),
-        prefix: autoResponse.getMatch(message)!,
-        commandPrefix: autoResponse.getMatch(message)!,
+        matches: matches,
+        matched: match,
+        prefix: match,
+        commandPrefix: match,
       };
 
       // Run global preconditions:

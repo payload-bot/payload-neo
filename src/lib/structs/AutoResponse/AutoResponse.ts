@@ -29,10 +29,18 @@ export abstract class AutoCommand extends PayloadCommand {
   public getMatch(msg: Message): string | undefined {
     return msg.content.match(this.regex)?.[0];
   }
+
+  /**
+   * Gets the resulting match for the command
+   */
+  public getMatches(msg: Message): RegExpMatchArray | null {
+    return msg.content.match(this.regex);
+  }
 }
 
 export interface AutoCommandContext extends Pick<MessageCommandContext, "commandName"> {
   matched: string;
+  matches: RegExpMatchArray;
 }
 
 export interface AutoCommandOptions extends PayloadCommand.Options {

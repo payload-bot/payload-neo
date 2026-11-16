@@ -8,24 +8,20 @@ import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Connect.LinkDescription,
-  regex: /connect (https?:\/\/)?(.+\.)+\w+(:\d+)?; ?password .+([^\n`$])/,
+  regex: /^connect (?<ip>(?:\w+:\/\/)?[^:;\s]+)(?::(?<port>\d+))?(?=;|$)(?:; password (?<password>.+))?/,
 })
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    const connectInfo = matched.trim();
-    const parts = connectInfo.split(";");
+  async messageRun(msg: Message, args: AutoCommand.Args, { matches }: AutoCommand.Context) {
+    const ip = matches.groups!.ip;
+    const port = matches.groups!.port ?? "27015";
+    const password = matches.groups!.password;
 
-    const ip = parts[0].replace(/^connect (https?:\/\/)?/, "");
-    const ipNoPort = ip.split(":")[0];
-    const port = ip.split(":")[1] || "27015";
-    const password = parts
-      .slice(1)
-      .join(";")
-      .replace(/"|;$/g, "")
-      .replace(/^ ?password /, "");
+    let title = `${ip}`;
 
-    const title = `${ip}/${encodeURIComponent(password)}`;
+    if (password) {
+      title += `/${password}`;
+    }
 
     const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
@@ -36,10 +32,10 @@ export default class UserAutoCommand extends AutoCommand {
 
     try {
       const { name, maxplayers, players } = await GameDig.query({
-        type: "tf2",
-        socketTimeout: 5000,
-        attemptTimeout: 5000,
-        host: ipNoPort,
+        type: "teamfortress2",
+        socketTimeout: 500,
+        attemptTimeout: 1000,
+        host: ip,
         port: parseInt(port, 10),
       });
 

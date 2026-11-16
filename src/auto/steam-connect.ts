@@ -17,15 +17,19 @@ export default class UserAutoCommand extends AutoCommand {
     const port = matches.groups!.port ?? "27015";
     const password = matches.groups!.password;
 
+    const urlBase = "https://api.payload.tf/api/steam";
+    const searchParams = new URLSearchParams([["ip", ip]]);
+
     let title = `${ip}`;
 
     if (password) {
       title += `/${password}`;
+      searchParams.set("pw", encodeURIComponent(password));
     }
 
     const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
-      url: `https://api.payload.tf/api/steam?ip=${ip}&pw=${encodeURIComponent(password)}`,
+      url: `${urlBase}?${searchParams}`,
     });
 
     const connectInfoEmbed = await send(msg, { embeds: [embed] });

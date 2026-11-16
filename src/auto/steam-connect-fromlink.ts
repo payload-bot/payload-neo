@@ -8,31 +8,36 @@ import { send } from "@sapphire/plugin-editable-commands";
 
 @ApplyOptions<AutoCommandOptions>({
   description: LanguageKeys.Auto.Connect.Description,
-  regex: /steam:\/\/connect\/(\w+\.)+\w+(:\d+)?\/.+([^\n`$])/,
+  regex: /^steam:\/\/connect\/(?<ip>[^:\s]+)(?::(?<port>\d+))?(?=\/|$)(?:\/(?<password>.+))?/,
 })
 export default class UserAutoCommand extends AutoCommand {
   // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
-    const parts = matched.trim().replace("steam://connect/", "").split("/");
+  async messageRun(msg: Message, args: AutoCommand.Args, { matches }: AutoCommand.Context) {
+    const ip = matches.groups!.ip;
+    const port = matches.groups!.port ?? "27015";
+    const password = matches.groups!.password;
 
-    const ip = parts[0];
-    const ipNoPort = ip.split(":")[0];
-    const port = ip.split(":")[1] || "27015";
-    const password = decodeURIComponent(parts[1]);
+    const urlBase = "https://api.payload.tf/api/steam";
+    const searchParams = new URLSearchParams([["ip", ip]]);
 
-    const title = `${ip}/${encodeURIComponent(password)}`;
+    let title = `${ip}`;
+
+    if (password) {
+      title += `/${password}`;
+      searchParams.set("pw", encodeURIComponent(password));
+    }
 
     const embed = new EmbedBuilder({
       title: title.length > 250 ? title.slice(0, 250) : title,
-      url: `https://api.payload.tf/api/steam?ip=${ip}&pw=${encodeURIComponent(password)}`,
+      url: `${urlBase}?${searchParams}`,
     });
 
     const connectInfoEmbed = await send(msg, { embeds: [embed] });
 
     try {
       const { name, maxplayers, players } = await GameDig.query({
-        type: "tf2",
-        host: ipNoPort,
+        type: "teamfortress2",
+        host: ip,
         port: parseInt(port),
       });
 

@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import { join } from "node:path";
 import { guild } from "../../db/schema/guild.ts";
 
-const isProduction = Deno.env.get("NODE_ENV") === "production";
+const isProduction = process.env["NODE_ENV"] === "production";
 
 function makeLogger() {
   return {
@@ -27,7 +27,7 @@ function getPresence(): PresenceData {
 
 function parseI18N(): InternationalizationOptions {
   return {
-    defaultLanguageDirectory: join(Deno.cwd(), "src", "languages"),
+    defaultLanguageDirectory: join(process.cwd(), "src", "languages"),
     fetchLanguage: async (msg: InternationalizationContext) => {
       if (msg.guild) {
         const [data] = await container.database
@@ -73,7 +73,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
   loadDefaultErrorListeners: true,
   preventFailedToFetchLogForGuilds: true,
   defaultPrefix: config.PREFIX,
-  partials: [Partials.Channel],
+  partials: [Partials.Channel, Partials.Message],
   intents: [
     // Message content
     GatewayIntentBits.MessageContent,
@@ -111,6 +111,7 @@ export const CLIENT_OPTIONS: ClientOptions = {
     MessageManager: {
       maxSize: 250,
     },
+    ThreadManager: 0,
   }),
   sweepers: {
     ...Options.DefaultSweeperSettings,

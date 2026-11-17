@@ -47,7 +47,6 @@ export interface AutoCommandOptions extends PayloadCommand.Options {
   regex: RegExp;
 }
 
-// deno-lint-ignore no-namespace
 export namespace AutoCommand {
   export type Options = AutoCommandOptions;
   export type Args = PayloadCommand.Args;

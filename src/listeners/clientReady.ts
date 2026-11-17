@@ -30,7 +30,7 @@ export class ReadyEvent extends Listener<typeof Events.ClientReady> {
 
     console.log(
       String.raw`
-${line01} ${pad}${blc(`Payload Version ${Deno.env.get("VERSION") ?? "DEV"}`)}
+${line01} ${pad}${blc(`Payload Version ${process.env["VERSION"] ?? "DEV"}`)}
 ${line02} ${pad}[${success}] Gateway
 ${line02} ${pad}[${success}] SQL
 ${line02} ${pad}[${success}] API

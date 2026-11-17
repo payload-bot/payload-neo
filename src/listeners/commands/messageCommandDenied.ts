@@ -11,7 +11,6 @@ export class UserListener extends Listener<typeof Events.MessageCommandDenied> {
     }
 
     const indentifier = mapIdentifier(error.identifier);
-    // deno-lint-ignore no-explicit-any
     const content = await resolveKey(message, indentifier, { message, command, ...(error.context as any) });
 
     return await this.alert(message, content as string);

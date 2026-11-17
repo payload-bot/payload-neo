@@ -32,7 +32,6 @@ export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, Pay
   }
 }
 
-// deno-lint-ignore no-namespace
 export namespace PayloadCommand {
   /**
    * The PayloadCommand Options

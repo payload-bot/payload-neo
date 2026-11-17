@@ -63,7 +63,7 @@ export async function sendLogPreview(client: Client, { logsId, targetId, demosId
 
   const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
   const preview = await fetch(
-    `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${logsUrl}`,
+    `${process.env["PREVIEW_URL"]!}/v1/logstf?url=${logsUrl}`,
     {
       method: "GET",
       headers: {
@@ -153,7 +153,6 @@ async function sendWebhook(
   return await target.send({
     embeds: [embed],
     files: attachment ? [attachment] : undefined,
-    // deno-lint-ignore no-explicit-any
     components: components as any,
   });
 }

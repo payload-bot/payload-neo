@@ -89,7 +89,6 @@ export class UserListener extends Listener<typeof Events.MessageCommandError> {
     return await send(
       message,
       t(identifier, {
-        // deno-lint-ignore no-explicit-any
         ...(error.context as any),
       }) as unknown as string,
     );

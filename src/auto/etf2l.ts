@@ -23,7 +23,7 @@ export default class UserAutoCommand extends AutoCommand {
   ) {
     const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v1/etf2l/teams?url=${matched}`,
+      `${process.env["PREVIEW_URL"]!}/v1/etf2l/teams?url=${matched}`,
       {
         method: "GET",
         headers: {

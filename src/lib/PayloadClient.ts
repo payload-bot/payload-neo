@@ -11,7 +11,7 @@ import { serveMetrics } from "../api/metrics-api.ts";
 import { guild } from "../db/schema/guild.ts";
 
 export class PayloadClient extends SapphireClient {
-  public override dev = Deno.env.get("NODE_ENV") !== "production";
+  public override dev = process.env["NODE_ENV"] !== "production";
 
   constructor() {
     super(CLIENT_OPTIONS);
@@ -46,7 +46,7 @@ export class PayloadClient extends SapphireClient {
 
     const server = serve();
     const metricServer = serveMetrics();
-    container.denoServer = server;
+    container.api = server;
     container.metrics = metricServer;
 
     const response = await super.login(token);
@@ -55,7 +55,7 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
-    await container.denoServer?.shutdown();
+    await container.api?.shutdown();
     await container.metrics?.shutdown();
 
     await super.destroy();

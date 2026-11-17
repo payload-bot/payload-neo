@@ -50,7 +50,6 @@ app.post("/api/webhooks/logs", sValidator("form", webhookSchema), authorization,
     demosId: body.demosId?.toString(),
     logsId: body.logsId.toString(),
     targetId: user.id,
-    // deno-lint-ignore no-explicit-any
     webhookTarget: user.type as any,
   });
 

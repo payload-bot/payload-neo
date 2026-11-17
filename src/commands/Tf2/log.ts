@@ -48,7 +48,7 @@ export class UserCommand extends PayloadCommand {
 
     const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v1/logstf?url=${logsUrl}`,
+      `${process.env["PREVIEW_URL"]!}/v1/logstf?url=${logsUrl}`,
       {
         method: "GET",
         headers: {

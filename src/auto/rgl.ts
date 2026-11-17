@@ -24,7 +24,7 @@ export default class UserAutoCommand extends AutoCommand {
     return;
 
     const preview = await fetch(
-      `${Deno.env.get("PREVIEW_URL")!}/v1/rgl/teams?url=${matched}`,
+      `${process.env["PREVIEW_URL"]!}/v1/rgl/teams?url=${matched}`,
     );
 
     const arrayBuffer = await preview.arrayBuffer();

@@ -8,5 +8,4 @@ export default {
     url: process.env["DATABASE_PATH"]!,
   },
   verbose: true,
-  strict: true,
 } satisfies Config;

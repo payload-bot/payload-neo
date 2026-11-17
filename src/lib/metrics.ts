@@ -60,6 +60,6 @@ new client.Gauge({
   name: "user_active",
   help: "The current number of users being served",
   collect() {
-    this.set(container.client.users.cache.size);
+    this.set(container.client.guilds.cache.reduce((acc, val) => acc + (val.memberCount ?? 0), 0));
   },
 });

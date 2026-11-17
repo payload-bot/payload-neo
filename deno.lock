@@ -3,7 +3,6 @@
   "specifiers": {
     "jsr:@std/fmt@^1.0.10": "1.0.10",
     "jsr:@tf2software/logstf@^0.0.4": "0.0.4",
-    "npm:@discordjs/builders@^1.15.0": "1.15.0",
     "npm:@hono/standard-validator@~0.4.1": "0.4.1_hono@4.13.18",
     "npm:@node-steam/id@^1.2.0": "1.2.0",
     "npm:@prometheus-io/client@~0.16.1": "0.16.1",
@@ -26,7 +25,6 @@
     "npm:@types/node@*": "24.2.0",
     "npm:arktype@^2.2.9": "2.2.9",
     "npm:cheerio@^1.2.0": "1.2.0",
-    "npm:discord-api-types@~0.38.59": "0.38.59",
     "npm:discord.js@^14.28.1": "14.28.1",
     "npm:drizzle-kit@1.0.0-rc.5": "1.0.0-rc.5_drizzle-orm@1.0.0-rc.5_@libsql+client@0.18.0_arktype@2.2.9",
     "npm:drizzle-orm@1.0.0-rc.5": "1.0.0-rc.5_@libsql+client@0.18.0_arktype@2.2.9",
@@ -1068,7 +1066,6 @@
     "dependencies": [
       "jsr:@std/fmt@^1.0.10",
       "jsr:@tf2software/logstf@^0.0.4",
-      "npm:@discordjs/builders@^1.15.0",
       "npm:@hono/standard-validator@~0.4.1",
       "npm:@node-steam/id@^1.2.0",
       "npm:@prometheus-io/client@~0.16.1",
@@ -1090,7 +1087,6 @@
       "npm:@types/html-to-text@^9.0.4",
       "npm:arktype@^2.2.9",
       "npm:cheerio@^1.2.0",
-      "npm:discord-api-types@~0.38.59",
       "npm:discord.js@^14.28.1",
       "npm:drizzle-kit@1.0.0-rc.5",
       "npm:drizzle-orm@1.0.0-rc.5",

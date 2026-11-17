@@ -1,10 +1,9 @@
 import { LanguageKeys } from "#lib/i18n/all";
 import config from "#root/config.ts";
-import { inlineCode } from "@discordjs/builders";
 import { Events, Listener } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import type { Message } from "discord.js";
+import { inlineCode, type Message } from "discord.js";
 import { eq } from "drizzle-orm";
 import { guild } from "../db/schema/guild.ts";
 

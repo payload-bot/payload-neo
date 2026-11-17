@@ -1,12 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { ActionRowBuilder, EmbedBuilder, InteractionContextType, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, inlineCode, InteractionContextType, PermissionFlagsBits, StringSelectMenuBuilder } from "discord.js";
 import PayloadColors from "#utils/colors.ts";
-import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
-import { PermissionFlagsBits } from "discord-api-types/v10";
 import { eq } from "drizzle-orm";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { guild } from "../../db/schema/guild.ts";

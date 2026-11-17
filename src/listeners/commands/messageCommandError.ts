@@ -1,6 +1,5 @@
 import { Args, ArgumentError, Events, Listener, type MessageCommandErrorPayload, UserError } from "@sapphire/framework";
-import { DiscordAPIError, HTTPError, Message } from "discord.js";
-import { RESTJSONErrorCodes } from "discord-api-types/rest/v9";
+import { DiscordAPIError, HTTPError, Message, RESTJSONErrorCodes } from "discord.js";
 import type { TFunction } from "@sapphire/plugin-i18next";
 import { mapIdentifier } from "#lib/i18n/mapping.ts";
 import { cutText } from "@sapphire/utilities";

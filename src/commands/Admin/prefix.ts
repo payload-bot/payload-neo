@@ -1,14 +1,12 @@
 import { ApplyOptions, RequiresGuildContext, RequiresUserPermissions } from "@sapphire/decorators";
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, inlineCode, Message, PermissionFlagsBits } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import config from "#root/config.ts";
 import PayloadColors from "#utils/colors.ts";
-import { inlineCode } from "@discordjs/builders";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { PermissionFlagsBits } from "discord-api-types/v9";
 import { eq } from "drizzle-orm";
 import { guild } from "../../db/schema/guild.ts";
 

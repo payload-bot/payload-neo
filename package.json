@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node --v8-flags=--max-old-space-size=384 src/index.ts",
-    "dev": "node -A --env-file=.env src/index.ts"
+    "dev": "node --env-file=.env src/index.ts"
   },
   "imports": {
     "#root/": "./src/",
@@ -54,6 +54,8 @@
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
-    "drizzle-kit": "1.0.0-rc.5"
+    "@types/node": "^26.6.6",
+    "drizzle-kit": "1.0.0-rc.5",
+    "typescript": "^7.0.2"
   }
 }

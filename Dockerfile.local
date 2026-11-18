@@ -1,10 +1,12 @@
-FROM denoland/deno:alpine-2.9.8 AS build
+FROM denoland/deno:alpine-2.9.8 AS deps
 
 WORKDIR /app
 
-COPY . .
+COPY deno.json package.json deno.lock ./
 
-RUN deno install
+RUN deno ci --prod --skip-types
+
+COPY . .
 
 FROM denoland/deno:alpine-2.9.8
 
@@ -22,8 +24,8 @@ ENV DENO_NO_PROMPT=1
 
 USER deno
 
-COPY --from=build $DENO_DIR $DENO_DIR
-COPY --from=build /app .
+COPY --from=deps $DENO_DIR $DENO_DIR
+COPY --from=deps /app .
 
 VOLUME [ "/data" ]
 

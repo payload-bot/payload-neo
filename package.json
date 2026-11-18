@@ -50,8 +50,7 @@
     "hono": "^4.13.18",
     "html-to-text": "^10.0.1",
     "i18next": "^27.1.2",
-    "reflect-metadata": "^0.2.2",
-    "tslib": "^2.9.1"
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",

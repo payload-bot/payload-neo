@@ -101,9 +101,6 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
-      tslib:
-        specifier: ^2.9.1
-        version: 2.9.1
     devDependencies:
       '@types/html-to-text':
         specifier: ^9.0.4

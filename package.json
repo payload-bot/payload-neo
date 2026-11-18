@@ -6,18 +6,18 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "start": "node --v8-flags=--max-old-space-size=384 src/index.ts",
+    "start": "node --max-old-space-size=384 src/index.ts",
     "dev": "node --env-file=.env src/index.ts"
   },
   "imports": {
-    "#root/": "./src/",
-    "#api/": "./src/lib/api/",
-    "#lib/": "./src/lib/",
-    "#lib/utils/": "./src/lib/utils/",
+    "#root/*": "./src/*",
+    "#api/*": "./src/lib/api/*",
+    "#lib/*": "./src/lib/*",
+    "#lib/utils/*": "./src/lib/utils/*",
     "#lib/types": "./src/lib/types/index.ts",
     "#lib/models": "./src/lib/models/index.ts",
     "#lib/i18n/all": "./src/lib/i18n/all/index.ts",
-    "#utils/": "./src/lib/utils/"
+    "#utils/*": "./src/lib/utils/*"
   },
   "dependencies": {
     "@hono/standard-validator": "^0.4.1",

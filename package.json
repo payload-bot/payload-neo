@@ -6,8 +6,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "start": "node --max-old-space-size=384 src/index.ts",
-    "dev": "node --env-file=.env src/index.ts"
+    "start": "deno run -NWRES --allow-ffi --v8-flags=--max-old-space-size=384 --no-check src/index.ts",
+    "dev": "deno run -A --env-file=.env src/index.ts"
   },
   "imports": {
     "#root/*": "./src/*",

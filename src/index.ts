@@ -11,13 +11,13 @@ try {
   client.destroy();
 }
 
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
   container.api?.close();
   container.metrics?.close();
   process.exit(0);
 });
 
-process.on('SIGTERM', () => {
+process.on("SIGTERM", () => {
   container.api?.close();
   container.metrics?.close();
   process.exit(0);

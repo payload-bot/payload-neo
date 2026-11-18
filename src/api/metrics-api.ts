@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import client from "@prometheus-io/client";
-import { serve } from '@hono/node-server';
+import { serve } from "@hono/node-server";
 
 const app = new Hono();
 

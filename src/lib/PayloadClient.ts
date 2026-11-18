@@ -42,7 +42,7 @@ export class PayloadClient extends SapphireClient {
       );
     }
 
-   connect();
+    connect();
 
     const server = serveApi();
     const metricServer = serveMetrics();

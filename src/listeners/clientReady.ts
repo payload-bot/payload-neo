@@ -1,14 +1,17 @@
-import { ApplyOptions } from "@sapphire/decorators";
-import { Events, Listener, type ListenerOptions, Piece, Store } from "@sapphire/framework";
+import { Events, Listener, Piece, Store } from "@sapphire/framework";
 import { blue, brightMagenta, gray, green, magenta, white, yellow } from "@std/fmt/colors";
 import type { TFunction } from "@sapphire/plugin-i18next";
 
-@ApplyOptions<ListenerOptions>({
-  once: true,
-})
 export class ReadyEvent extends Listener<typeof Events.ClientReady> {
   private readonly DEV = this.container.client.dev;
   private readonly style = this.DEV ? yellow : blue;
+
+  public constructor(context: Listener.LoaderContext, options: Listener.Options) {
+    super(context, {
+      ...options,
+      once: true,
+    });
+  }
 
   override run() {
     this.printBanner();

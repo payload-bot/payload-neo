@@ -1,8 +1,6 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/fmt@^1.0.10": "1.0.10",
-    "jsr:@tf2software/logstf@^0.0.4": "0.0.4",
     "npm:@hono/standard-validator@~0.4.1": "0.4.1_hono@4.13.18",
     "npm:@node-steam/id@^1.2.0": "1.2.0",
     "npm:@prometheus-io/client@~0.16.1": "0.16.1",
@@ -35,14 +33,6 @@
     "npm:i18next@^27.1.2": "27.1.2",
     "npm:reflect-metadata@~0.2.2": "0.2.2",
     "npm:tslib@^2.9.1": "2.9.1"
-  },
-  "jsr": {
-    "@std/fmt@1.0.10": {
-      "integrity": "90dfba288802ac6de82fb31d0917eb9e4450b9925b954d5e51fc29ac07419db5"
-    },
-    "@tf2software/logstf@0.0.4": {
-      "integrity": "fcea83eb9c246dbc19309479edd42b7409ae2447d87a1a8a39a99390e3a08763"
-    }
   },
   "npm": {
     "@ark/schema@0.56.8": {
@@ -1063,40 +1053,45 @@
     }
   },
   "workspace": {
-    "dependencies": [
-      "jsr:@std/fmt@^1.0.10",
-      "jsr:@tf2software/logstf@^0.0.4",
-      "npm:@hono/standard-validator@~0.4.1",
-      "npm:@node-steam/id@^1.2.0",
-      "npm:@prometheus-io/client@~0.16.1",
-      "npm:@sapphire/decorators@^6.2.0",
-      "npm:@sapphire/discord.js-utilities@^7.3.3",
-      "npm:@sapphire/fetch@4",
-      "npm:@sapphire/framework@^5.5.1",
-      "npm:@sapphire/lexure@2",
-      "npm:@sapphire/pieces@^4.4.1",
-      "npm:@sapphire/plugin-editable-commands@^4.0.4",
-      "npm:@sapphire/plugin-hmr@^3.0.2",
-      "npm:@sapphire/plugin-i18next@8",
-      "npm:@sapphire/plugin-logger@^4.1.0",
-      "npm:@sapphire/plugin-subcommands@^7.0.1",
-      "npm:@sapphire/ratelimits@3",
-      "npm:@sapphire/time-utilities@2",
-      "npm:@sapphire/utilities@4",
-      "npm:@skyra/env-utilities@^2.0.1",
-      "npm:@types/html-to-text@^9.0.4",
-      "npm:arktype@^2.2.9",
-      "npm:cheerio@^1.2.0",
-      "npm:discord.js@^14.28.1",
-      "npm:drizzle-kit@1.0.0-rc.5",
-      "npm:drizzle-orm@1.0.0-rc.5",
-      "npm:gamedig@^5.3.3",
-      "npm:generate-password@^1.7.1",
-      "npm:hono@^4.13.18",
-      "npm:html-to-text@^10.0.1",
-      "npm:i18next@^27.1.2",
-      "npm:reflect-metadata@~0.2.2",
-      "npm:tslib@^2.9.1"
-    ]
+    "packageJson": {
+      "dependencies": [
+        "npm:@hono/node-server@^2.1.9",
+        "npm:@hono/standard-validator@~0.4.1",
+        "npm:@jsr/std__fmt@^1.0.10",
+        "npm:@jsr/tf2software__logstf@^0.0.4",
+        "npm:@node-steam/id@^1.2.0",
+        "npm:@prometheus-io/client@~0.16.1",
+        "npm:@sapphire/decorators@^6.2.0",
+        "npm:@sapphire/discord.js-utilities@^7.3.3",
+        "npm:@sapphire/fetch@4",
+        "npm:@sapphire/framework@^5.5.1",
+        "npm:@sapphire/lexure@2",
+        "npm:@sapphire/pieces@^4.4.1",
+        "npm:@sapphire/plugin-editable-commands@^4.0.4",
+        "npm:@sapphire/plugin-hmr@^3.0.2",
+        "npm:@sapphire/plugin-i18next@8",
+        "npm:@sapphire/plugin-logger@^4.1.0",
+        "npm:@sapphire/plugin-subcommands@^7.0.1",
+        "npm:@sapphire/ratelimits@3",
+        "npm:@sapphire/time-utilities@2",
+        "npm:@sapphire/utilities@4",
+        "npm:@skyra/env-utilities@^2.0.1",
+        "npm:@types/html-to-text@^9.0.4",
+        "npm:@types/node@^26.6.6",
+        "npm:arktype@^2.2.9",
+        "npm:cheerio@^1.2.0",
+        "npm:discord.js@^14.28.1",
+        "npm:drizzle-kit@1.0.0-rc.5",
+        "npm:drizzle-orm@1.0.0-rc.5",
+        "npm:gamedig@^5.3.3",
+        "npm:generate-password@^1.7.1",
+        "npm:hono@^4.13.18",
+        "npm:html-to-text@^10.0.1",
+        "npm:i18next@^27.1.2",
+        "npm:reflect-metadata@~0.2.2",
+        "npm:tslib@^2.9.1",
+        "npm:typescript@^7.0.2"
+      ]
+    }
   }
 }

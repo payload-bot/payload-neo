@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { envParseInteger, envParseString } from "@skyra/env-utilities";
 import { webhookEndpoint } from "#lib/metrics.ts";
 import { webhook } from "../db/schema/webhook.ts";
+import { serve } from '@hono/node-server';
 
 const webhookSchema = type({
   "demosId?": "string | number.integer >= 0 | null",
@@ -64,6 +65,6 @@ app.post("/api/webhooks/test", authorization, async (c) => {
   return c.body(null, 204);
 });
 
-export function serve() {
-  return Deno.serve({ hostname, port }, app.fetch);
+export function serveApi() {
+  return serve({ fetch: app.fetch, hostname, port });
 }

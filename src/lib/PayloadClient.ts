@@ -6,7 +6,7 @@ import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database.ts";
 import { join } from "node:path";
 import { eq } from "drizzle-orm";
-import { serve } from "../api/mod.ts";
+import { serveApi } from "../api/mod.ts";
 import { serveMetrics } from "../api/metrics-api.ts";
 import { guild } from "../db/schema/guild.ts";
 
@@ -42,9 +42,9 @@ export class PayloadClient extends SapphireClient {
       );
     }
 
-    connect();
+   connect();
 
-    const server = serve();
+    const server = serveApi();
     const metricServer = serveMetrics();
     container.api = server;
     container.metrics = metricServer;

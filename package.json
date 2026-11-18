@@ -20,6 +20,7 @@
     "#utils/*": "./src/lib/utils/*"
   },
   "dependencies": {
+    "@hono/node-server": "^2.1.9",
     "@hono/standard-validator": "^0.4.1",
     "@node-steam/id": "^1.2.0",
     "@prometheus-io/client": "^0.16.1",

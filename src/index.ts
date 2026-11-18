@@ -4,8 +4,6 @@ import { PayloadClient } from "#lib/PayloadClient.ts";
 
 const client = new PayloadClient();
 
-console.log("hello");
-
 try {
   await client.login();
 } catch (error) {

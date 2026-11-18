@@ -55,8 +55,8 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
-    await container.api?.shutdown();
-    await container.metrics?.shutdown();
+    await container.api?.close();
+    await container.metrics?.close();
 
     await super.destroy();
   }

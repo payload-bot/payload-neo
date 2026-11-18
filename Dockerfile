@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN deno cache --frozen src/index.ts
+RUN deno install
 
 FROM denoland/deno:alpine-2.9.8
 
@@ -14,7 +14,7 @@ ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
 ENV DATABASE_FILENAME="sqlite.db"
 ENV DATABASE_PATH="$LITEFS_DIR/$DATABASE_FILENAME"
-ENV DATABASE_URL="file:$DATABASE_PATH"
+ENV DATABASE_URL="$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"

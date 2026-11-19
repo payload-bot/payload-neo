@@ -6,6 +6,8 @@ import type { TFunction, TOptions, TOptionsBase } from "i18next";
 import type { Server } from "node:http";
 import type { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
 
+export { };
+
 export type O = object;
 
 declare module "discord.js" {

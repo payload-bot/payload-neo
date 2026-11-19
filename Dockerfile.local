@@ -1,6 +1,7 @@
 ARG ALPINE_VERSION=3.24
+ARG NODE_VERSION=26.13.1
 
-FROM node:26-alpine${ALPINE_VERSION} AS deps
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS deps
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -14,7 +15,7 @@ RUN pnpm install --prod --frozen-lockfile
 
 COPY . .
 
-FROM node:26-alpine${ALPINE_VERSION}
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
 
 WORKDIR /app
 

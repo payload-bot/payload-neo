@@ -1,4 +1,3 @@
-import config from "#root/config.ts";
 import { container, LogLevel } from "@sapphire/framework";
 import type { InternationalizationContext, InternationalizationOptions } from "@sapphire/plugin-i18next";
 import { ActivityType, type ClientOptions, GatewayIntentBits, Options, Partials, type PresenceData } from "discord.js";
@@ -65,14 +64,11 @@ function parseI18N(): InternationalizationOptions {
 
 export const CLIENT_OPTIONS: ClientOptions = {
   baseUserDirectory: "src/",
-  caseInsensitivePrefixes: true,
-  caseInsensitiveCommands: false,
-  loadMessageCommandListeners: true,
+  loadMessageCommandListeners: false,
   enableLoaderTraceLoggings: true,
   loadSubcommandErrorListeners: true,
   loadDefaultErrorListeners: true,
   preventFailedToFetchLogForGuilds: true,
-  defaultPrefix: config.PREFIX,
   partials: [Partials.Channel, Partials.Message],
   intents: [
     // Message content

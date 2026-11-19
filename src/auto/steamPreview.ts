@@ -1,20 +1,26 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
-import { ApplyOptions } from "@sapphire/decorators";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, Message, MessageActionRowComponentBuilder, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
+import { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.ts";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, Message, type MessageActionRowComponentBuilder, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { MessageFlags } from "discord.js";
 import { getSteamIdFromArgs } from "#utils/getSteamId.ts";
 import { getSteamProfileInformation } from "#utils/steam-api.ts";
 import { isNullish } from "@sapphire/utilities";
+import { fetchT } from "@sapphire/plugin-i18next";
 
-@ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.Logs.Description,
-  regex: /http(s|):\/\/(www\.|)steamcommunity\.com\/(profiles|id)\/(?<id>\w+)/,
-})
 export default class SteamPreviewCommand extends AutoCommand {
+  public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Auto.Logs.Description,
+      regex: /http(s|):\/\/(www\.|)steamcommunity\.com\/(profiles|id)\/(?<id>\w+)/,
+    });
+  }
+
   // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, context: AutoCommand.Context) {
+  async messageRun(msg: Message, args: AutoCommand.Args, context: AutoCommand.LoaderContext) {
+    const t = await fetchT(msg);
+
     const allMatches = msg.content.match(this.regex)!;
     const idOrVanityUrl = allMatches.groups?.id;
 

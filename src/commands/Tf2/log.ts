@@ -1,5 +1,4 @@
-import { Command, type CommandOptions } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
+import { Command } from "@sapphire/framework";
 import { AttachmentBuilder, EmbedBuilder, MessageFlags } from "discord.js";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -10,12 +9,16 @@ import { Buffer } from "node:buffer";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { user } from "../../db/schema/user.ts";
 
-@ApplyOptions<CommandOptions>({
-  description: LanguageKeys.Commands.Log.Description,
-  detailedDescription: LanguageKeys.Commands.Log.DetailedDescription,
-})
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Log.Description,
+      detailedDescription: LanguageKeys.Commands.Log.DetailedDescription,
+    });
+  }
+
+  public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
 
     const [{ steamId }] = await this.database

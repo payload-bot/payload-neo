@@ -1,11 +1,14 @@
-import { ApplyOptions } from "@sapphire/decorators";
-import { Listener, type ListenerOptions } from "@sapphire/framework";
+import { Listener } from "@sapphire/framework";
 import type { RateLimitData } from "discord.js";
 
-@ApplyOptions<ListenerOptions>({
-  emitter: "rest",
-})
 export class UserListener extends Listener {
+  public constructor(context: Listener.LoaderContext, options: Listener.Options) {
+    super(context, {
+      ...options,
+      emitter: "rest",
+    });
+  }
+
   public run(rateLimitData: RateLimitData) {
     const { logger } = this.container;
 

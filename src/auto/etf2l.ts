@@ -1,26 +1,32 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
-import { ApplyOptions } from "@sapphire/decorators";
+import { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import PayloadColors from "#utils/colors.ts";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { BucketScope } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
 import { Buffer } from "node:buffer";
+import { fetchT } from "@sapphire/plugin-i18next";
 
-@ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.Etf2l.Etf2lDescription,
-  cooldownDelay: 2500,
-  cooldownScope: BucketScope.Guild,
-  cooldownLimit: 1,
-  regex: /https:\/\/etf2l.org\/teams\/\d+/,
-})
 export default class UserAutoCommand extends AutoCommand {
+  public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Auto.Etf2l.Etf2lDescription,
+      cooldownDelay: 2500,
+      cooldownScope: BucketScope.Guild,
+      cooldownLimit: 1,
+      regex: /https:\/\/etf2l.org\/teams\/\d+/,
+    });
+  }
+
   // @ts-ignore have to do this
   async messageRun(
     msg: Message,
     args: AutoCommand.Args,
-    { matched }: AutoCommand.Context,
+    { matched }: AutoCommand.LoaderContext,
   ) {
+    const t = await fetchT(msg);
+
     const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
     const preview = await fetch(
       `${process.env["PREVIEW_URL"]!}/v1/etf2l/teams?url=${matched}`,
@@ -40,11 +46,11 @@ export default class UserAutoCommand extends AutoCommand {
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,
-      title: args.t(LanguageKeys.Auto.Etf2l.Etf2lEmbedTitle),
+      title: t(LanguageKeys.Auto.Etf2l.Etf2lEmbedTitle),
       url: matched,
       image: { url: "attachment://team.png" },
       footer: {
-        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+        text: t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
       },
       timestamp: new Date(),
     });

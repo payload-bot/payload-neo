@@ -3,7 +3,7 @@
     "module": "nodenext",
     "target": "esnext",
     "lib": [
-      "esnext"
+      "ESNext",
     ],
     "types": [
       "node"
@@ -20,6 +20,13 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+  },
+  "include": [
+    "src",
+    "src/languages/**/*.json",
+    "src/drizzle.config.ts"
+  ]
 }

@@ -1,5 +1,4 @@
-import { Command, type CommandOptions, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
+import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionContextType, MessageFlags, TextDisplayBuilder } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
@@ -9,13 +8,17 @@ import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { ContainerBuilder } from "discord.js";
 import { webhook } from "../../db/schema/webhook.ts";
 
-@ApplyOptions<CommandOptions>({
-  description: LanguageKeys.Commands.Webhook.Description,
-  detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
-  runIn: [CommandOptionsRunTypeEnum.Dm],
-})
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Webhook.Description,
+      detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.Dm],
+    });
+  }
+
+  public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
 
     const [v] = await this.database

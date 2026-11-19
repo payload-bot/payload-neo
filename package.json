@@ -6,8 +6,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "start": "deno run -NWRES --allow-ffi --v8-flags=--max-old-space-size=384 --no-check src/index.ts",
-    "dev": "deno run -A --env-file=.env src/index.ts"
+    "start": "node --max-old-space-size=384 .",
+    "dev": "node --env-file=.env ."
   },
   "imports": {
     "#root/*": "./src/*",
@@ -24,7 +24,6 @@
     "@hono/standard-validator": "^0.4.1",
     "@node-steam/id": "^1.2.0",
     "@prometheus-io/client": "^0.16.1",
-    "@sapphire/decorators": "^6.2.0",
     "@sapphire/discord.js-utilities": "^7.3.3",
     "@sapphire/fetch": "^4.0.0",
     "@sapphire/framework": "^5.5.1",
@@ -49,8 +48,7 @@
     "generate-password": "^1.7.1",
     "hono": "^4.13.18",
     "html-to-text": "^10.0.1",
-    "i18next": "^27.1.2",
-    "reflect-metadata": "^0.2.2"
+    "i18next": "^27.1.2"
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",

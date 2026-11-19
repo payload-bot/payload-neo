@@ -6,8 +6,7 @@
 !src/**
 
 # Files
-!deno.json
-!deno.lock
+!pnpm-lock.yaml
 !drizzle.config.ts
 !litefs.yml
 !fly.toml

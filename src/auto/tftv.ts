@@ -1,5 +1,4 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
-import { ApplyOptions } from "@sapphire/decorators";
+import { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import PayloadColors from "#utils/colors.ts";
 import { EmbedBuilder, Message } from "discord.js";
 import { load } from "cheerio";
@@ -7,13 +6,20 @@ import { htmlToText } from "html-to-text";
 import { LanguageKeys } from "#lib/i18n/all";
 import { send } from "@sapphire/plugin-editable-commands";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import { fetchT } from "@sapphire/plugin-i18next";
 
-@ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.Tftv.Description,
-  regex: /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
-})
 export default class UserAutoCommand extends AutoCommand {
-  override async messageRun(msg: Message, { t }: AutoCommand.Args) {
+  public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Auto.Tftv.Description,
+      regex: /(?<base>teamfortress\.tv\/\d+\/[\w-]+)(?<page>\/\?page=\d)?(?<post>#\d+)*/,
+    });
+  }
+
+  override async messageRun(msg: Message, args: AutoCommand.Args) {
+    const t = await fetchT(msg);
+
     const match = this.getMatch(msg);
     const allMatches = msg.content.match(this.regex)!;
 

@@ -1,26 +1,31 @@
-import { AutoCommand, type AutoCommandOptions } from "#lib/structs/AutoResponse/AutoResponse.ts";
-import { ApplyOptions } from "@sapphire/decorators";
+import { AutoCommand } from "#lib/structs/AutoResponse/AutoResponse.ts";
 import PayloadColors from "#utils/colors.ts";
 import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import { LanguageKeys } from "#lib/i18n/all";
 import { BucketScope } from "@sapphire/framework";
 import { send } from "@sapphire/plugin-editable-commands";
 import { Buffer } from "node:buffer";
+import { fetchT } from "@sapphire/plugin-i18next";
 
-@ApplyOptions<AutoCommandOptions>({
-  description: LanguageKeys.Auto.RGL.RGLDescription,
-  cooldownDelay: 2500,
-  cooldownScope: BucketScope.Guild,
-  cooldownLimit: 1,
-  regex: /rgl\.gg\/Public\/Team(\.aspx)*\?t=\d+\&r=\d+/,
-})
 export default class UserAutoCommand extends AutoCommand {
+  public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Auto.RGL.RGLDescription,
+      cooldownDelay: 2500,
+      cooldownScope: BucketScope.Guild,
+      cooldownLimit: 1,
+      regex: /rgl\.gg\/Public\/Team(\.aspx)*\?t=\d+\&r=\d+/,
+    });
+  }
+
   // @ts-ignore have to do this
   async messageRun(
     msg: Message,
     args: AutoCommand.Args,
-    { matched }: AutoCommand.Context,
+    { matched }: AutoCommand.LoaderContext,
   ) {
+    const t = await fetchT(msg);
     return;
 
     const preview = await fetch(
@@ -38,11 +43,11 @@ export default class UserAutoCommand extends AutoCommand {
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,
-      title: args.t(LanguageKeys.Auto.RGL.RGLEmbedTitle),
+      title: t(LanguageKeys.Auto.RGL.RGLEmbedTitle),
       url: `https://${matched}`,
       image: { url: "attachment://team.webp" },
       footer: {
-        text: args.t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
+        text: t(LanguageKeys.Globals.AutoEmbedFooter, { name: this.name }),
       },
       timestamp: new Date(),
     });

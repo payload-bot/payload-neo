@@ -20,9 +20,6 @@ importers:
       '@prometheus-io/client':
         specifier: ^0.16.1
         version: 0.16.1
-      '@sapphire/decorators':
-        specifier: ^6.2.0
-        version: 6.2.0
       '@sapphire/discord.js-utilities':
         specifier: ^7.3.3
         version: 7.3.3
@@ -98,9 +95,6 @@ importers:
       i18next:
         specifier: ^27.1.2
         version: 27.1.5(typescript@7.0.2)
-      reflect-metadata:
-        specifier: ^0.2.2
-        version: 0.2.2
     devDependencies:
       '@types/html-to-text':
         specifier: ^9.0.4
@@ -195,10 +189,6 @@ packages:
   '@sapphire/cron@2.0.0':
     resolution: {integrity: sha512-XlCq1XKKB3o53JA6AOaGtMyY7N7ZByZyQmSloz+y4rbD79qKN9AzZlZoV3A01Orbh6ghguXBWARNcango0PRBA==}
     engines: {node: '>=v24.0.0', npm: '>=11.0.0'}
-
-  '@sapphire/decorators@6.2.0':
-    resolution: {integrity: sha512-st1DNDCNoZaZYz3fgCA99W87Bhe6XqM8y0G+Z9NBOBEqvOYkVNGcPMDrMiaZrPD9Z471k8fpLqJVUNSuWUx8Hg==}
-    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
   '@sapphire/discord-utilities@3.5.0':
     resolution: {integrity: sha512-H4SY5KTVDZrqA5QG7ob6etwqhdOb3TRSY2wv56f0tiobUdIr0irlrYvdmr8Kg/FRxWU+aiHDIISWGG5vBuxOGw==}
@@ -937,9 +927,6 @@ packages:
     resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
 
-  reflect-metadata@0.2.2:
-    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
-
   resolve-alpn@1.2.1:
     resolution: {integrity: sha512-0a1F4l73/ZFZOakJnQ3FvkJ2+gSTQWz/r2KE5OdDY0TxPm5h4GkqkWWfM47T7HsbnOtcJVEF4epCVy6u7Q3K+g==}
 
@@ -1140,10 +1127,6 @@ snapshots:
   '@sapphire/cron@2.0.0':
     dependencies:
       '@sapphire/utilities': 4.0.0
-
-  '@sapphire/decorators@6.2.0':
-    dependencies:
-      tslib: 2.9.1
 
   '@sapphire/discord-utilities@3.5.0':
     dependencies:
@@ -1692,8 +1675,6 @@ snapshots:
       util-deprecate: 1.0.2
 
   readdirp@4.1.2: {}
-
-  reflect-metadata@0.2.2: {}
 
   resolve-alpn@1.2.1: {}
 

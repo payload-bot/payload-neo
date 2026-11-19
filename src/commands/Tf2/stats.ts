@@ -8,20 +8,18 @@ import { eq, sum, countDistinct, desc, count } from "drizzle-orm";
 
 export class StatsCommand extends Command {
   private readonly database = this.container.database;
-  private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, { ...options, description: LanguageKeys.Commands.Stats.Description, detailedDescription: LanguageKeys.Commands.Stats.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-    const t = await this.t(interaction);
-    const guild = await this.container.client.guilds.fetch(interaction.guildId!);
+    const t = await fetchT(interaction);
 
     const [{ pushed }] = await this.database
       .select({ pushed: count(pushcart.pushed) })
       .from(pushcart)
-      .where(eq(pushcart.guildId, guild.id));
+      .where(eq(pushcart.guildId, interaction.guildId!));
 
     if (pushed === 0) {
       return await interaction.reply(t(LanguageKeys.Commands.Stats.NoPushesYet));
@@ -35,7 +33,7 @@ export class StatsCommand extends Command {
         distinctPushers: countDistinct(pushcart.userId),
       })
       .from(pushcart)
-      .where(eq(pushcart.guildId, guild.id));
+      .where(eq(pushcart.guildId, interaction.guildId!));
 
     const userStatisticsQuery = await this.database
       .select({
@@ -44,7 +42,7 @@ export class StatsCommand extends Command {
         sum: sum(pushcart.pushed).mapWith(Number),
       })
       .from(pushcart)
-      .where(eq(pushcart.guildId, guild.id))
+      .where(eq(pushcart.guildId, interaction.guildId!))
       .groupBy(pushcart.userId)
       .orderBy(desc(pushcart.userId))
       .limit(5);
@@ -52,7 +50,7 @@ export class StatsCommand extends Command {
     const userIdsToFetch = userStatisticsQuery.map((query) => query.userId);
 
     for (const id of userIdsToFetch) {
-      await guild.members.fetch(id);
+      await interaction.guild!.members.fetch(id);
     }
 
     const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b.count - a.count);
@@ -60,7 +58,7 @@ export class StatsCommand extends Command {
 
     const activePushersLeaderboard = topFiveSortedPushers.map(
       ({ count, userId }, index) => {
-        const member = guild.members.cache.get(userId);
+        const member = interaction.guild!.members.cache.get(userId);
 
         const name = escapeMarkdown(
           member?.nickname ?? member?.user.username ?? "N/A",
@@ -78,7 +76,7 @@ export class StatsCommand extends Command {
 
     const topPushersLeaderboard = topFiveSummedPushers.map(
       ({ userId, sum }, index) => {
-        const member = guild.members.cache.get(userId);
+        const member = interaction.guild!.members.cache.get(userId);
 
         const name = escapeMarkdown(
           member?.nickname ?? member?.user.username ?? "N/A",
@@ -97,7 +95,7 @@ export class StatsCommand extends Command {
     const embed = new EmbedBuilder()
       .setColor(PayloadColors.Payload)
       .setTitle(
-        t(LanguageKeys.Commands.Stats.StatsTitle, { name: guild.name }),
+        t(LanguageKeys.Commands.Stats.StatsTitle, { name: interaction.guild!.name }),
       )
       .addFields(
         {

@@ -8,6 +8,9 @@
     "details": "A stats panel that describes who is the best pusher"
   },
   "statsTitle": "{{ name }}'s Pushcart Statistics",
+  "rank_zero": "{{ name }} has not pushed the cart.",
+  "rank_one": "{{ rank }}: {{ name }} ({{ count, number }})",
+  "rank_other": "{{ rank }}: {{ name }} ({{ count, number }})",
   "topPushers": "Top Pushers",
   "noPushesYet": "No one has pushed the cart yet. Be the first one!",
   "activePushers": "Most Active Pushers",

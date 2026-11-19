@@ -6,7 +6,7 @@ import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database.ts";
 import { join } from "node:path";
 import { eq } from "drizzle-orm";
-import { serve } from "../api/mod.ts";
+import { serveApi } from "../api/mod.ts";
 import { serveMetrics } from "../api/metrics-api.ts";
 import { guild } from "../db/schema/guild.ts";
 
@@ -44,7 +44,7 @@ export class PayloadClient extends SapphireClient {
 
     connect();
 
-    const server = serve();
+    const server = serveApi();
     const metricServer = serveMetrics();
     container.api = server;
     container.metrics = metricServer;
@@ -55,8 +55,8 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
-    await container.api?.shutdown();
-    await container.metrics?.shutdown();
+    await container.api?.close();
+    await container.metrics?.close();
 
     await super.destroy();
   }

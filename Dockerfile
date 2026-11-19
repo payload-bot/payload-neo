@@ -1,12 +1,12 @@
-FROM denoland/deno:alpine-2.9.8 AS build
-
-USER deno 
+FROM denoland/deno:alpine-2.9.8 AS deps
 
 WORKDIR /app
 
-COPY . .
+COPY deno.json package.json deno.lock ./
 
-RUN deno cache --frozen src/index.ts
+RUN deno ci --prod --skip-types
+
+COPY . .
 
 FROM denoland/deno:alpine-2.9.8
 
@@ -14,7 +14,7 @@ ENV FLY="true"
 ENV LITEFS_DIR="/litefs/data"
 ENV DATABASE_FILENAME="sqlite.db"
 ENV DATABASE_PATH="$LITEFS_DIR/$DATABASE_FILENAME"
-ENV DATABASE_URL="file:$DATABASE_PATH"
+ENV DATABASE_URL="$DATABASE_PATH"
 ENV NODE_ENV="production"
 ENV PORT=3000
 ENV HOST="0.0.0.0"
@@ -28,12 +28,9 @@ COPY --from=flyio/litefs:0.5.5 /usr/local/bin/litefs /usr/local/bin/litefs
 COPY litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
 
-# add shortcut for connecting to database CLI
-RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/db && chmod +x /usr/local/bin/db
-
 WORKDIR /app
 
-COPY --from=build $DENO_DIR $DENO_DIR
-COPY --from=build /app .
+COPY --from=deps $DENO_DIR $DENO_DIR
+COPY --from=deps /app .
 
 ENTRYPOINT ["litefs", "mount"]

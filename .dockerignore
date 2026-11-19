@@ -8,6 +8,7 @@
 # Files
 !deno.json
 !deno.lock
+!drizzle.config.ts
 !litefs.yml
 !fly.toml
 !package.json

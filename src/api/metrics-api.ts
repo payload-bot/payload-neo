@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import client from "@prometheus-io/client";
+import { serve } from "@hono/node-server";
 
 const app = new Hono();
 
@@ -8,5 +9,5 @@ app.get("/", async (_) => {
 });
 
 export function serveMetrics() {
-  return Deno.serve({ port: 6421, hostname: "0.0.0.0" }, app.fetch);
+  return serve({ fetch: app.fetch, port: 6421, hostname: "0.0.0.0" });
 }

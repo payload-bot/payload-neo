@@ -1,7 +1,7 @@
 import { container } from "@sapphire/pieces";
-import { drizzle } from "drizzle-orm/libsql";
+import { drizzle } from "drizzle-orm/node-sqlite";
 import { envParseString } from "@skyra/env-utilities";
-import { Logger } from "drizzle-orm/logger";
+import type { Logger } from "drizzle-orm/logger";
 import { queriesRan } from "../metrics.ts";
 
 const databaseUrl = envParseString("DATABASE_URL");

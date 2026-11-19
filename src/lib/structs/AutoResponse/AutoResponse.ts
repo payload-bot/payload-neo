@@ -5,7 +5,7 @@ import { PayloadCommand } from "../commands/PayloadCommand.ts";
 export abstract class AutoCommand extends PayloadCommand {
   public regex: RegExp;
 
-  constructor(context: LoaderPieceContext<"commands">, options: AutoCommandOptions) {
+  constructor(context: LoaderPieceContext<"auto">, options: AutoCommandOptions) {
     super(context, { ...options, typing: true });
     this.regex = options.regex;
   }
@@ -50,5 +50,5 @@ export interface AutoCommandOptions extends PayloadCommand.Options {
 export namespace AutoCommand {
   export type Options = AutoCommandOptions;
   export type Args = PayloadCommand.Args;
-  export type Context = AutoCommandContext;
+  export type LoaderContext = AutoCommandContext;
 }

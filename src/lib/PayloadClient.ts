@@ -1,17 +1,13 @@
 import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
-import type { Message } from "discord.js";
 import { CLIENT_OPTIONS } from "#utils/clientOptions.ts";
-import config from "#root/config.ts";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database.ts";
 import { join } from "node:path";
-import { eq } from "drizzle-orm";
 import { serveApi } from "../api/mod.ts";
 import { serveMetrics } from "../api/metrics-api.ts";
-import { guild } from "../db/schema/guild.ts";
 
 export class PayloadClient extends SapphireClient {
-  public override dev = process.env["NODE_ENV"] !== "production";
+  public dev = process.env["NODE_ENV"] !== "production";
 
   constructor() {
     super(CLIENT_OPTIONS);
@@ -21,19 +17,6 @@ export class PayloadClient extends SapphireClient {
       ),
     );
   }
-
-  public override fetchPrefix = async (msg: Message) => {
-    if (msg.guildId) {
-      const [data] = await container.database
-        .select({ prefix: guild.prefix })
-        .from(guild)
-        .where(eq(guild.id, msg.guildId));
-
-      return data?.prefix ?? config.PREFIX;
-    }
-
-    return [config.PREFIX, ""];
-  };
 
   public override async login(token?: string) {
     if (this.dev) {

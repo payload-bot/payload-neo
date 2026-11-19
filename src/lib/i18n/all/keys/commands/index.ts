@@ -1,6 +1,7 @@
 export * as Prefix from "./prefix.ts";
 export * as Pushcart from "./pushcart.ts";
 export * as Leaderboard from "./leaderboard.ts";
+export * as Stats from "./stats.ts";
 export * as Rank from "./rank.ts";
 export * as Commands from "./commands.ts";
 export * as Info from "./info.ts";

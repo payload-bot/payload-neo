@@ -1,11 +1,10 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { bold, Colors, EmbedBuilder, escapeMarkdown, GuildMember, Message } from "discord.js";
+import { bold, EmbedBuilder, escapeMarkdown, GuildMember, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random.ts";
 import PayloadColors from "#utils/colors.ts";
-import { chunk, codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
+import { codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
-import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
@@ -35,11 +34,6 @@ export class UserCommand extends Subcommand {
       type: "method",
       messageRun: async (msg) => await this.push(msg),
       default: true,
-    },
-    {
-      name: "leaderboard",
-      type: "method",
-      messageRun: async (msg) => await this.leaderboard(msg),
     },
     {
       name: "stats",

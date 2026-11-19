@@ -19,9 +19,3 @@ export const TotalPushedTitle = FT<{ leaderboardString: string }, string>("comma
 export const TotalPushed = FT<{ leaderboardString: string }, string>("commands/pushcart:totalPushed");
 export const DistinctPushersTitle = FT<{ leaderboardString: string }, string>("commands/pushcart:distinctPushersTitle");
 export const DistinctPushers = FT<{ leaderboardString: string }, string>("commands/pushcart:distinctPushers");
-
-export const RankString = FT<{ name: string; rank?: number; count: number }, string>("commands/pushcart:rank");
-export const NoPushesYet = T<string>("commands/pushcart:noPushesYet");
-
-export const LeaderboardEmbedTitle = T<string>("commands/pushcart:leaderboardEmbedTitle");
-export const ServerEmbedTitle = T<string>("commands/pushcart:serverEmbedTitle");

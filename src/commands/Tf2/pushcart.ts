@@ -1,14 +1,13 @@
 import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { bold, EmbedBuilder, escapeMarkdown, GuildMember, Message } from "discord.js";
+import { bold, EmbedBuilder, escapeMarkdown, Message } from "discord.js";
 import { send } from "@sapphire/plugin-editable-commands";
 import { weightedRandom } from "#utils/random.ts";
 import PayloadColors from "#utils/colors.ts";
-import { codeBlock, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { LanguageKeys } from "#lib/i18n/all";
-import { Args, CommandOptionsRunTypeEnum } from "@sapphire/framework";
+import { CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
 import { fetchT } from "@sapphire/plugin-i18next";
-import { and, count, countDistinct, desc, eq, lte, max, sql, sum } from "drizzle-orm";
+import { and, count, countDistinct, desc, eq, lte, max, sum } from "drizzle-orm";
 import { pushcart } from "../../db/schema/pushcart.ts";
 
 enum PayloadPushResult {
@@ -39,11 +38,6 @@ export class UserCommand extends Subcommand {
       name: "stats",
       type: "method",
       messageRun: async (msg) => await this.stats(msg),
-    },
-    {
-      name: "rank",
-      type: "method",
-      messageRun: async (msg, args) => await this.rank(msg, args),
     },
   ];
 
@@ -102,50 +96,6 @@ export class UserCommand extends Subcommand {
         units: randomNumber,
         total: pushed,
       }),
-    );
-  }
-
-  @RequiresGuildContext()
-  async rank(msg: Message, args: Args) {
-    const t = await this.t(msg);
-    const targetUser = await args.pick("member").catch(() => msg.author);
-
-    const [data] = await this.database
-      .select({
-        sum: sum(pushcart.pushed).mapWith(Number).as("sum"),
-        rank: sql`ROW_NUMBER() OVER (ORDER BY pushed DESC)`.mapWith(Number).as(
-          "rank",
-        ),
-        userId: pushcart.userId,
-      })
-      .from(pushcart)
-      .where(eq(pushcart.guildId, msg.guildId!))
-      .groupBy(pushcart.userId);
-
-    let memberNameToDisplay = targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
-
-    memberNameToDisplay ??= "N/A";
-
-    if (isNullOrUndefinedOrEmpty(data)) {
-      return await send(
-        msg,
-        t(LanguageKeys.Commands.Pushcart.RankString, {
-          name: escapeMarkdown(memberNameToDisplay),
-          count: 0,
-        }),
-      );
-    }
-
-    return await send(
-      msg,
-      codeBlock(
-        "md",
-        t(LanguageKeys.Commands.Pushcart.RankString, {
-          name: memberNameToDisplay,
-          rank: data?.rank ?? "-",
-          count: data?.sum ?? 0,
-        }),
-      ),
     );
   }
 

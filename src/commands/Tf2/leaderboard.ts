@@ -28,7 +28,7 @@ export class LeaderboardCommand extends Command {
     const paginationEmbed = new PaginatedMessage({
       template: new EmbedBuilder()
         .setColor(Colors.Blue)
-        .setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
+        .setTitle(t(LanguageKeys.Commands.Leaderboard.LeaderboardEmbedTitle)),
     });
 
     const userLeaderboard = await this.database
@@ -56,7 +56,7 @@ export class LeaderboardCommand extends Command {
       });
 
       const embed = new EmbedBuilder({
-        title: t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
+        title: t(LanguageKeys.Commands.Leaderboard.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,
       })

@@ -1,0 +1,13 @@
+{
+  "name": "rank",
+  "description": "Shows you where you rank with other pushers",
+  "detailedDescription": {
+    "usages": [
+      "rank"
+    ],
+    "details": "Push the cart! This is a global leaderboard, and you can view current rankings at anytime using the listed subcommands."
+  },
+  "rank_zero": "{{ name }} has not pushed the cart.",
+  "rank_one": "{{ rank }}: {{ name }} ({{ count, number }})",
+  "rank_other": "{{ rank }}: {{ name }} ({{ count, number }})"
+}

@@ -1,5 +1,4 @@
-import type { Command, CommandOptions } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
+import type { Command } from "@sapphire/framework";
 import { getSteamIdFromArgs } from "#utils/getSteamId.ts";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -9,12 +8,16 @@ import { isNullishOrEmpty } from "@sapphire/utilities";
 import { user } from "../../db/schema/user.ts";
 import { MessageFlags } from "discord.js";
 
-@ApplyOptions<CommandOptions>({
-  description: LanguageKeys.Commands.Link.Description,
-  detailedDescription: LanguageKeys.Commands.Link.DetailedDescription,
-})
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Link.Description,
+      detailedDescription: LanguageKeys.Commands.Link.DetailedDescription,
+    });
+  }
+
+  public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
     const steamId = interaction.options.getString("steam-id")?.trim();
 

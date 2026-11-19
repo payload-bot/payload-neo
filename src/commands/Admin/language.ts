@@ -1,21 +1,22 @@
-import { ApplyOptions } from "@sapphire/decorators";
 import { ActionRowBuilder, EmbedBuilder, inlineCode, InteractionContextType, PermissionFlagsBits, StringSelectMenuBuilder } from "discord.js";
 import PayloadColors from "#utils/colors.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { eq } from "drizzle-orm";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { guild } from "../../db/schema/guild.ts";
 
-@ApplyOptions<Subcommand.Options>({
-  description: LanguageKeys.Commands.Language.Description,
-  detailedDescription: LanguageKeys.Commands.Language.DetailedDescription,
-  runIn: [CommandOptionsRunTypeEnum.GuildText],
-})
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, {
+      ...options, description: LanguageKeys.Commands.Language.Description,
+      detailedDescription: LanguageKeys.Commands.Language.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.GuildText],
+    });
+  }
+
+  public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
 
     const [g] = await this.database

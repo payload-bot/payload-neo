@@ -1,30 +1,17 @@
-import { type LoaderPieceContext, type MessageCommand, UserError } from "@sapphire/framework";
-import { fetchT } from "@sapphire/plugin-i18next";
+import { type LoaderPieceContext, UserError } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import type { Message } from "discord.js";
-import { ArgumentStream, Parser } from "@sapphire/lexure";
 import { PayloadArgs } from "./PayloadArgs.ts";
-import { DatabaseSync } from "node:sqlite";
+import type { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
 
 export abstract class PayloadCommand extends Subcommand<PayloadCommand.Args, PayloadCommand.Options> {
   public readonly hidden: boolean;
-  protected readonly database: DatabaseSync;
+  protected readonly database: NodeSQLiteDatabase;
+
   public constructor(context: LoaderPieceContext<"commands">, options: PayloadCommand.Options) {
     super(context, options);
 
     this.hidden = options.hidden ?? false;
     this.database = this.container.database;
-  }
-
-  public override async messagePreParse(
-    message: Message,
-    parameters: string,
-    context: MessageCommand.RunContext,
-  ): Promise<PayloadCommand.Args> {
-    const parser = new Parser(this.strategy);
-    const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
-
-    return new PayloadArgs(message, this, args, context, await fetchT(message));
   }
 
   protected error(identifier: string | UserError, context?: unknown): never {
@@ -41,5 +28,6 @@ export namespace PayloadCommand {
   };
 
   export type Args = PayloadArgs;
-  export type Context = Subcommand.Context;
+
+  export type Context = Subcommand.LoaderContext;
 }

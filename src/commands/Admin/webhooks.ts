@@ -1,5 +1,4 @@
-import { Command, type CommandOptions } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
+import { Command } from "@sapphire/framework";
 import { ChannelType, codeBlock, EmbedBuilder, InteractionContextType, PermissionFlagsBits } from "discord.js";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
@@ -10,13 +9,18 @@ import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
 import { sendTest } from "#utils/webhook-helper.ts";
 import { guild } from "../../db/schema/guild.ts";
+import { webhook } from "#root/db/schema/webhook.ts";
 
-@ApplyOptions<CommandOptions>({
-  description: LanguageKeys.Commands.Webhook.Description,
-  detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
-})
 export class UserCommand extends PayloadCommand {
-  override async chatInputRun(
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Webhook.Description,
+      detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
+    });
+  }
+
+  public override async chatInputRun(
     interaction: Command.ChatInputCommandInteraction,
   ) {
     const t = await fetchT(interaction);

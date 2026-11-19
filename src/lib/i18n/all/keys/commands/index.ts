@@ -1,16 +1,11 @@
-export * as Prefix from "./prefix.ts";
 export * as Pushcart from "./pushcart.ts";
 export * as Leaderboard from "./leaderboard.ts";
 export * as Stats from "./stats.ts";
 export * as Rank from "./rank.ts";
-export * as Commands from "./commands.ts";
 export * as Info from "./info.ts";
 export * as Log from "./log.ts";
 export * as Language from "./language.ts";
 export * as Link from "./link.ts";
 export * as Profile from "./profile.ts";
-export * as Settings from "./settings.ts";
-export * as Invite from "./invite.ts";
-export * as Help from "./help.ts";
 export * as Webhook from "./webhook.ts";
 export * as Webhooks from "./webhooks.ts";

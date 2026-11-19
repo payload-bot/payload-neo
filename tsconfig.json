@@ -4,7 +4,6 @@
     "target": "esnext",
     "lib": [
       "ESNext",
-      "ESNext.Temporal"
     ],
     "types": [
       "node"
@@ -22,11 +21,12 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "noEmit": true,
     "allowImportingTsExtensions": true,
-    "include": [
-      "src",
-      "src/languages/**/*.json",
-      "src/drizzle.config.ts"
-    ]
-  }
+  },
+  "include": [
+    "src",
+    "src/languages/**/*.json",
+    "src/drizzle.config.ts"
+  ]
 }

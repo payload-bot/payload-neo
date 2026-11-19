@@ -3,11 +3,11 @@
     "module": "nodenext",
     "target": "esnext",
     "lib": [
-      "esnext",
+      "ESNext",
       "ESNext.Temporal"
     ],
     "types": [
-      "node",
+      "node"
     ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

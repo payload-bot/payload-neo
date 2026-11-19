@@ -11,7 +11,7 @@ export class RankCommand extends Command {
   private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
-    super(context, { ...options, description: LanguageKeys.Commands.Rank.Description, detailedDescription: LanguageKeys.Commands.Leaderboard.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+    super(context, { ...options, description: LanguageKeys.Commands.Rank.Description, detailedDescription: LanguageKeys.Commands.Rank.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {

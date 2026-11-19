@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction } from "discord.js";
 import { weightedRandom } from "#utils/random.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { fetchT } from "@sapphire/plugin-i18next";
+import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { and, eq, lte, max, sum } from "drizzle-orm";
 import { pushcart } from "../../db/schema/pushcart.ts";
 
@@ -74,6 +74,19 @@ export class PushcartCommand extends Command {
         units: randomNumber,
         total: pushed,
       }),
+    );
+  }
+
+  public override registerApplicationCommands(registry: Command.Registry) {
+    const rootNameLocalizations = getLocalizedData(LanguageKeys.Commands.Pushcart.Name);
+    const rootDescriptionLocalizations = getLocalizedData(this.description);
+
+    registry.registerChatInputCommand((builder) =>
+      builder
+        .setName(this.name)
+        .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
+        .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations)
     );
   }
 

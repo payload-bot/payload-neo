@@ -1,0 +1,22 @@
+{
+  "name": "stats",
+  "description": "Information on who has pushed the cart the furthest",
+  "detailedDescription": {
+    "usages": [
+      ""
+    ],
+    "details": "A stats panel that describes who is the best pusher"
+  },
+  "topPushers": "Top Pushers",
+  "noPushesYet": "No one has pushed the cart yet. Be the first one!",
+  "activePushers": "Most Active Pushers",
+  "distinctPushersTitle": "Unique Pushers",
+  "distinctPushers_one": "Only **{{ count, number }}** user has pushed the cart. Sad!",
+  "distinctPushers_other": "There are **{{ count, number }}** unique pushers",
+  "totalPushedTitle": "Number of Pushes",
+  "totalPushed_one": "The cart has been pushed **{{ count, number }}** time",
+  "totalPushed_other": "The cart has been pushed **{{ count, number }}** times",
+  "totalUnitsPushedTitle": "Number of Units Pushed",
+  "totalUnitsPushed_one": "Only **{{ count, number }}** unit was pushed",
+  "totalUnitsPushed_other": "In total, **{{ count, number }}** units have been pushed"
+}

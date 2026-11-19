@@ -5,7 +5,7 @@ data:
   dir: "/data/litefs"
 
 exec:
-  - cmd: "deno task start"
+  - cmd: "node ."
 
 proxy:
   addr: ":${INTERNAL_PORT}"

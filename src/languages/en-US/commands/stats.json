@@ -7,6 +7,7 @@
     ],
     "details": "A stats panel that describes who is the best pusher"
   },
+  "statsTitle": "{{ name }}'s Pushcart Statistics",
   "topPushers": "Top Pushers",
   "noPushesYet": "No one has pushed the cart yet. Be the first one!",
   "activePushers": "Most Active Pushers",

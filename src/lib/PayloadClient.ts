@@ -19,11 +19,9 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async login(token?: string) {
-    if (this.dev) {
-      ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(
-        RegisterBehavior.BulkOverwrite,
-      );
-    }
+    ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(
+      RegisterBehavior.BulkOverwrite,
+    );
 
     connect();
 

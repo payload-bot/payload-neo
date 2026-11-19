@@ -35,7 +35,6 @@ RUN mkdir -p /data ${LITEFS_DIR}
 
 WORKDIR /app
 
-COPY --from=deps $DENO_DIR $DENO_DIR
 COPY --from=deps /app .
 
 ENTRYPOINT ["litefs", "mount"]

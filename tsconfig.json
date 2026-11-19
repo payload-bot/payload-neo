@@ -20,6 +20,12 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "include": [
+      "src",
+      "src/languages/**/*.json",
+      "src/drizzle.config.ts"
+    ]
   }
 }

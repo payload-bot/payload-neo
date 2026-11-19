@@ -112,66 +112,6 @@ export class UserCommand extends Subcommand {
   }
 
   @RequiresGuildContext()
-  async leaderboard(msg: Message) {
-    const { client } = this.container;
-
-    const loadingEmbed = new EmbedBuilder()
-      .setDescription("Loading...")
-      .setColor(Colors.Gold);
-
-    const t = await this.t(msg);
-
-    const paginationEmbed = new PaginatedMessage({
-      template: new EmbedBuilder()
-        .setColor(Colors.Blue)
-        .setTitle(t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle)),
-    });
-
-    const userLeaderboard = await this.database
-      .select({
-        userId: pushcart.userId,
-        pushed: sum(pushcart.pushed).mapWith(Number),
-      })
-      .from(pushcart)
-      .where(eq(pushcart.guildId, msg.guildId!))
-      .groupBy(pushcart.userId, pushcart.guildId);
-
-    if (userLeaderboard.length === 0) {
-      return;
-    }
-
-    const CHUNK_AMOUNT = 5;
-
-    const sorted = userLeaderboard.sort((a, b) => b.pushed - a.pushed);
-
-    for (const page of chunk(sorted, CHUNK_AMOUNT)) {
-      const leaderboardString = page.map(({ userId, pushed }, index) => {
-        const user = client.users.cache.get(userId) ?? null;
-
-        return msg.author.id === userId ? `> ${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})` : `${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
-      });
-
-      const embed = new EmbedBuilder({
-        title: t(LanguageKeys.Commands.Pushcart.LeaderboardEmbedTitle),
-        description: codeBlock("md", leaderboardString.join("\n")),
-        color: PayloadColors.User,
-      });
-
-      paginationEmbed.addPageEmbed(embed);
-    }
-
-    if (msg.channel.isSendable()) {
-      const response = await msg.channel.send({ embeds: [loadingEmbed] });
-
-      await paginationEmbed.run(response, msg.author);
-
-      return response;
-    }
-
-    return;
-  }
-
-  @RequiresGuildContext()
   async rank(msg: Message, args: Args) {
     const t = await this.t(msg);
     const targetUser = await args.pick("member").catch(() => msg.author);

@@ -1,0 +1,12 @@
+{
+  "name": "leaderboard",
+  "description": "Pushcart leaderboard",
+  "detailedDescription": {
+    "usages": [
+      "leaderboard"
+    ],
+    "details": "Push the cart! This is a global leaderboard, and you can view current rankings at anytime using the listed subcommands."
+  },
+  "leaderboardEmbedTitle": "Pushcart Leaderboard",
+  "serverEmbedTitle": "Pushcart Server Leaderboard"
+}

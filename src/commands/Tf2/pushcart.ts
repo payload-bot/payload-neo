@@ -1,53 +1,38 @@
-import { ApplyOptions, RequiresGuildContext } from "@sapphire/decorators";
-import { Message } from "discord.js";
-import { send } from "@sapphire/plugin-editable-commands";
+import { ChatInputCommandInteraction } from "discord.js";
 import { weightedRandom } from "#utils/random.ts";
 import { LanguageKeys } from "#lib/i18n/all";
-import { CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { Subcommand, type SubcommandMappingArray } from "@sapphire/plugin-subcommands";
+import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { and, eq, lte, max, sum } from "drizzle-orm";
 import { pushcart } from "../../db/schema/pushcart.ts";
 
-enum PayloadPushResult {
-  SUCCESS,
-  COOLDOWN,
-  CAP,
-}
+const PayloadPushResult = {
+  SUCCESS: 1,
+  COOLDOWN: 2,
+  CAP: 3,
+} as const
 
 const SECONDS_COOLDOWN = 30;
 
-@ApplyOptions<Subcommand.Options>({
-  description: LanguageKeys.Commands.Pushcart.Description,
-  detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
-  runIn: [CommandOptionsRunTypeEnum.GuildText],
-})
-export class UserCommand extends Subcommand {
+export class PushcartCommand extends Command {
   private readonly database = this.container.database;
-  private readonly t = async (msg: Message) => await fetchT(msg);
+  private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
-  public readonly subcommandMappings: SubcommandMappingArray = [
-    {
-      name: "push",
-      type: "method",
-      messageRun: async (msg) => await this.push(msg),
-      default: true,
-    },
-  ];
+  public constructor(context: Command.LoaderContext, options: Command.Options) {
+    super(context, { ...options, description: LanguageKeys.Commands.Pushcart.Description, detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+  }
 
-  @RequiresGuildContext()
-  async push(msg: Message) {
-    const t = await this.t(msg);
+  public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+    const t = await this.t(interaction);
 
     const { result, cooldownExpires } = await this
       .checkUserPushCooldown(
-        msg.author.id,
-        msg.guildId!,
+        interaction.user.id,
+        interaction.guildId!,
       );
 
     if (result === PayloadPushResult.COOLDOWN) {
-      return await send(
-        msg,
+      return await interaction.reply(
         t(LanguageKeys.Commands.Pushcart.Cooldown, {
           seconds: cooldownExpires?.seconds,
         }),
@@ -74,18 +59,17 @@ export class UserCommand extends Subcommand {
 
     await this.database.insert(pushcart).values({
       pushed: randomNumber,
-      guildId: msg.guildId!,
-      userId: msg.author.id,
+      guildId: interaction.guildId!,
+      userId: interaction.user.id,
       timestamp: Temporal.Now.instant().epochMilliseconds.toString(),
     });
 
     const [{ pushed }] = await this.database
       .select({ pushed: sum(pushcart.pushed) })
       .from(pushcart)
-      .where(eq(pushcart.guildId, msg.guildId!));
+      .where(eq(pushcart.guildId, interaction.guildId!));
 
-    return await send(
-      msg,
+    return await interaction.reply(
       t(LanguageKeys.Commands.Pushcart.PushSuccess, {
         units: randomNumber,
         total: pushed,
@@ -98,7 +82,7 @@ export class UserCommand extends Subcommand {
     guildId: string,
   ): Promise<
     {
-      result: PayloadPushResult;
+      result: number;
       lastPushed: Temporal.Instant;
       cooldownExpires?: Temporal.Duration;
     }

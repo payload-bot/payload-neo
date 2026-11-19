@@ -4,7 +4,7 @@ import type { ArrayString, IntegerString } from "@skyra/env-utilities";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 import type { TFunction, TOptions, TOptionsBase } from "i18next";
 import type { Server } from "node:http";
-import { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
+import type { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
 
 export type O = object;
 

@@ -8,7 +8,7 @@ import { chunk } from "@sapphire/utilities";
 import { EmbedBuilder, Colors, escapeMarkdown, codeBlock, ChatInputCommandInteraction } from "discord.js";
 import { sum, eq } from "drizzle-orm";
 
-export class PushcartLeaderboardCommand extends Command {
+export class LeaderboardCommand extends Command {
   private readonly database = this.container.database;
   private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 

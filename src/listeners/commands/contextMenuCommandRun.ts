@@ -1,6 +1,6 @@
-import { Command } from "@sapphire/framework";
+import type { Command } from "@sapphire/framework";
 import { Events, Listener } from "@sapphire/framework";
-import { Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
 import { commandCounter } from "#lib/metrics.ts";
 
 export class ContextMenuCommandRunListener extends Listener<typeof Events.ContextMenuCommandRun> {

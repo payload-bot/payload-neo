@@ -1,9 +1,10 @@
 import type { CustomFunctionGet, CustomGet } from "#lib/types";
 import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import type { ArrayString, IntegerString } from "@skyra/env-utilities";
-import { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
+import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 import type { TFunction, TOptions, TOptionsBase } from "i18next";
-import { DatabaseSync } from "node:sqlite";
+import type { Server } from "node:http";
+import { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
 
 export type O = object;
 
@@ -33,9 +34,9 @@ declare module "@sapphire/framework" {
 
 declare module "@sapphire/pieces" {
   interface Container {
-    database: DatabaseSync;
-    api?: Deno.HttpServer;
-    metrics?: Deno.HttpServer;
+    database: NodeSQLiteDatabase;
+    api?: Server;
+    metrics?: Server;
   }
 }
 

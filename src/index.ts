@@ -12,13 +12,11 @@ try {
 }
 
 process.on("SIGINT", () => {
-  container.api?.close();
-  container.metrics?.close();
+  client.destroy();
   process.exit(0);
 });
 
 process.on("SIGTERM", () => {
-  container.api?.close();
-  container.metrics?.close();
+  client.destroy();
   process.exit(0);
 });

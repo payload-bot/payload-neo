@@ -1,7 +1,7 @@
 
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import { fetchT } from '@sapphire/plugin-i18next';
-import { ActionRowBuilder, ButtonStyle, ChannelType, codeBlock, ContainerBuilder, EmbedBuilder, MessageFlags, TextDisplayBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonStyle, ChannelType, codeBlock, ContainerBuilder, EmbedBuilder, MessageFlags, PermissionsBitField, TextDisplayBuilder } from 'discord.js';
 import { ButtonBuilder, ModalSubmitInteraction } from 'discord.js';
 import { generate } from 'generate-password';
 import { LanguageKeys } from '#lib/i18n/all';
@@ -68,6 +68,7 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
     const channelOptions = interaction.fields.getSelectedChannels("channelId", true, [ChannelType.GuildText]);
     const channel = channelOptions.first();
 
+
     if (isNullishOrEmpty(channel)) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
@@ -80,13 +81,9 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
       return;
     }
 
-    const didSucceed = await sendTest(
-      this.container.client,
-      "channels",
-      channel.id,
-    );
+    const hasPermissionToSendMessages = channel?.appPermissions?.has(PermissionsBitField.Flags.SendMessages);
 
-    if (!didSucceed) {
+    if (!hasPermissionToSendMessages) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
         description: t(LanguageKeys.Commands.Webhooks.AddFailed),

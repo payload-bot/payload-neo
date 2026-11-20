@@ -11,5 +11,8 @@
   "createWebhook": "Create Webhook",
   "deleteWebhook": "Delete Webhook",
   "deletedWebhook": "Deleted webhook",
-  "failedCreate": "Failed to create the webhook"
+  "failedCreate": "Failed to create the webhook",
+  "modalTitle": "Create Webhook",
+  "channelLabel": "What channel do you want to send previews to?",
+  "channelDescription": "This is the channel that will receive previews"
 }

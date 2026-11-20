@@ -13,3 +13,7 @@ export const WebhookFailedCreate = T<string>("commands/webhook:failedCreate");
 export const CreateWebhook = T<string>("commands/webhook:createWebhook");
 export const DeleteWebhook = T<string>("commands/webhook:deleteWebhook");
 export const DeletedWebhook = T<string>("commands/webhook:deletedWebhook");
+
+export const ModalTitle = T<string>("commands/webhook:modalTitle");
+export const ChannelLabel = T<string>("commands/webhook:channelLabel");
+export const ChannelDescription = T<string>("commands/webhook:channelDescription");

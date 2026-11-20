@@ -121,9 +121,11 @@ export class ButtonHandler extends InteractionHandler {
   }
 
   async #generateGuildWebhook(interaction: ButtonInteraction) {
+    const t = await fetchT(interaction);
+
     const modal = new ModalBuilder()
       .setCustomId("create-guild-webhook")
-      .setTitle("Create Webhook");
+      .setTitle(t(LanguageKeys.Commands.Webhook.ModalTitle));
 
     const channelInput = new ChannelSelectMenuBuilder()
       .setCustomId("channelId")
@@ -131,8 +133,8 @@ export class ButtonHandler extends InteractionHandler {
       .setRequired(true);
 
     const channelLabel = new LabelBuilder()
-      .setLabel("What channel do you want to send previews to?")
-      .setDescription("This is the channel that will recieve previews")
+      .setLabel(t(LanguageKeys.Commands.Webhook.ChannelLabel))
+      .setDescription(t(LanguageKeys.Commands.Webhook.ChannelDescription))
       .setChannelSelectMenuComponent(channelInput);
 
     modal.addLabelComponents(channelLabel);

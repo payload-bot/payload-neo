@@ -10,20 +10,17 @@ import { sum, eq } from "drizzle-orm";
 
 export class LeaderboardCommand extends Command {
   private readonly database = this.container.database;
-  private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, { ...options, description: LanguageKeys.Commands.Leaderboard.Description, detailedDescription: LanguageKeys.Commands.Leaderboard.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-    const { client } = this.container;
-
     const loadingEmbed = new EmbedBuilder()
       .setDescription("Loading...")
       .setColor(Colors.Gold);
 
-    const t = await this.t(interaction);
+    const t = await fetchT(interaction);
 
     const paginationEmbed = new PaginatedMessage({
       template: new EmbedBuilder()
@@ -44,15 +41,20 @@ export class LeaderboardCommand extends Command {
       return;
     }
 
+    const userIdsToFetch = userLeaderboard.map(x => x.userId);
+    const userMap = await interaction.guild!.members.fetch({ user: userIdsToFetch });
+
     const CHUNK_AMOUNT = 5;
 
     const sorted = userLeaderboard.sort((a, b) => b.pushed - a.pushed);
 
     for (const page of chunk(sorted, CHUNK_AMOUNT)) {
       const leaderboardString = page.map(({ userId, pushed }, index) => {
-        const user = client.users.cache.get(userId) ?? null;
+        const user = userMap.get(userId) ?? null;
 
-        return interaction.user.id === userId ? `> ${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})` : `${index + 1}: ${escapeMarkdown(user?.username ?? "N/A")} (${pushed})`;
+        return interaction.user.id === userId
+          ? `> ${index + 1}: ${escapeMarkdown(user?.user.username ?? "N/A")} (${pushed})`
+          : `${index + 1}: ${escapeMarkdown(user?.user.username ?? "N/A")} (${pushed})`;
       });
 
       const embed = new EmbedBuilder({

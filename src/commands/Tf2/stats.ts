@@ -49,16 +49,14 @@ export class StatsCommand extends Command {
 
     const userIdsToFetch = userStatisticsQuery.map((query) => query.userId);
 
-    for (const id of userIdsToFetch) {
-      await interaction.guild!.members.fetch(id);
-    }
+    const userMap = await interaction.guild!.members.fetch({ user: userIdsToFetch });
 
     const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b.count - a.count);
     const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b.sum - a.sum);
 
     const activePushersLeaderboard = topFiveSortedPushers.map(
       ({ count, userId }, index) => {
-        const member = interaction.guild!.members.cache.get(userId);
+        const member = userMap.get(userId);
 
         const name = escapeMarkdown(
           member?.nickname ?? member?.user.username ?? "N/A",
@@ -76,7 +74,7 @@ export class StatsCommand extends Command {
 
     const topPushersLeaderboard = topFiveSummedPushers.map(
       ({ userId, sum }, index) => {
-        const member = interaction.guild!.members.cache.get(userId);
+        const member = userMap.get(userId);
 
         const name = escapeMarkdown(
           member?.nickname ?? member?.user.username ?? "N/A",

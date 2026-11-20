@@ -15,7 +15,7 @@ export class RankCommand extends Command {
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-    const t = await this.t(interaction);
+    const t = await fetchT(interaction);
     const targetUser = interaction.user;
 
     const [data] = await this.database

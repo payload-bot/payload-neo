@@ -2,9 +2,9 @@ import { LanguageKeys } from "#lib/i18n/all";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { fetchT } from "@sapphire/plugin-i18next";
 import { generate } from "generate-password";
-import { ActionRowBuilder, ButtonBuilder, type ButtonInteraction, ButtonStyle, codeBlock, ContainerBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, type ButtonInteraction, ButtonStyle, ChannelSelectMenuBuilder, ChannelType, ChatInputCommandInteraction, codeBlock, ContainerBuilder, LabelBuilder, ModalBuilder } from "discord.js";
 import { eq } from "drizzle-orm";
-import { isNullishOrEmpty, isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 import { MessageFlags } from "discord.js";
 import { TextDisplayBuilder } from "discord.js";
 import { webhook } from "../db/schema/webhook.ts";
@@ -70,7 +70,12 @@ export class ButtonHandler extends InteractionHandler {
       return;
     }
 
-    const webhookSecret = isInUserContext ? await this.#generateUserWebhook(interactionContextId) : await this.#generateGuildWebhook(interactionContextId);
+    const webhookSecret = isInUserContext ? await this.#generateUserWebhook(interactionContextId) : await this.#generateGuildWebhook(interaction);
+
+    // Guild case- the modal submit will handle the update
+    if (webhookSecret == null) {
+      return;
+    }
 
     await this.#updateInteractionWithDelete(interaction, webhookSecret);
   }
@@ -139,9 +144,25 @@ export class ButtonHandler extends InteractionHandler {
     return webhookSecret;
   }
 
-  async #generateGuildWebhook(guildId: string) {
-    const secret = generate({ numbers: true, length: 24 })
-    // todo: send modal for the text channel
-    return secret;
+  async #generateGuildWebhook(interaction: ButtonInteraction) {
+    const modal = new ModalBuilder()
+      .setCustomId("create-guild-webhook")
+      .setTitle("Create Webhook");
+
+    const channelInput = new ChannelSelectMenuBuilder()
+      .setCustomId("channel-id")
+      .setChannelTypes([ChannelType.GuildText])
+      .setRequired(true);
+
+    const channelLabel = new LabelBuilder()
+      .setLabel("What channel do you want to send previews to?")
+      .setDescription("This is the channel that will recieve previews")
+      .setChannelSelectMenuComponent(channelInput);
+
+    modal.addLabelComponents(channelLabel);
+
+    await interaction.showModal(modal);
+
+    return null;
   }
 }

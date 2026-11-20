@@ -74,6 +74,10 @@ export class ButtonHandler extends InteractionHandler {
           .from(webhook)
           .where(eq(webhook.id, guildWebhook.webhookId));
 
+        if (!wbhk) {
+          tx.rollback();
+        }
+
         await tx.delete(webhook).where(
           eq(webhook.id, wbhk.id),
         );

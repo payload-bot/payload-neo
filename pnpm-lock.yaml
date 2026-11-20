@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@hono/node-server':
-        specifier: ^2.1.9
-        version: 2.1.9(hono@4.13.19)
+        specifier: ^2.1.11
+        version: 2.1.11(hono@4.13.19)
       '@hono/standard-validator':
         specifier: ^0.4.1
         version: 0.4.1(@standard-schema/spec@1.1.0)(hono@4.13.19)
@@ -69,8 +69,8 @@ importers:
         specifier: jsr:@tf2software/logstf@^0.0.4
         version: '@jsr/tf2software__logstf@0.0.4'
       arktype:
-        specifier: ^2.2.9
-        version: 2.2.9
+        specifier: ^2.2.10
+        version: 2.2.10
       cheerio:
         specifier: ^1.2.0
         version: 1.2.0
@@ -79,7 +79,7 @@ importers:
         version: 14.28.1
       drizzle-orm:
         specifier: 1.0.0-rc.5
-        version: 1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.9)
+        version: 1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.10)
       gamedig:
         specifier: ^5.3.3
         version: 5.3.3
@@ -87,14 +87,14 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       hono:
-        specifier: ^4.13.18
+        specifier: ^4.13.19
         version: 4.13.19
       html-to-text:
         specifier: ^10.0.1
         version: 10.0.1
       i18next:
-        specifier: ^27.1.2
-        version: 27.1.5(typescript@7.0.2)
+        specifier: ^27.2.2
+        version: 27.2.2(typescript@7.0.2)
     devDependencies:
       '@types/html-to-text':
         specifier: ^9.0.4
@@ -104,18 +104,18 @@ importers:
         version: 26.6.6
       drizzle-kit:
         specifier: 1.0.0-rc.5
-        version: 1.0.0-rc.5(drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.9))
+        version: 1.0.0-rc.5(drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.10))
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
 
 packages:
 
-  '@ark/schema@0.56.8':
-    resolution: {integrity: sha512-R05TOe85oQBGFFw2zKMuZpqkXibLKuC/aJt6VwFn5Cjc4x3NkWfhvGRpRDycNkj3ddcHnOPtIsmjVowJO9Yxdw==}
+  '@ark/schema@0.56.9':
+    resolution: {integrity: sha512-3kFUweE9PagqzEC9FEOirBRrVxBj0D6o8UiZDDrCyrcaBepRFHjUezf6MuTk8mKfJ4NKzSsaUCOVK+jzcm+dPw==}
 
-  '@ark/util@0.56.8':
-    resolution: {integrity: sha512-XLiQyGfpJcws1zCtp2Cva8s1oheCdFn1Rt6JSyC4NnkDrpwCJnlaiawuuOc1Z97vMH+jEzW5vyyf0xOju5wUQA==}
+  '@ark/util@0.56.9':
+    resolution: {integrity: sha512-/yA1me+AMmI75VaQ5owz1A1owopAJ0ZZFXy9SI1Q69kErJfxuglQBYjGeOTFyygJjZ9Rf4UjCtD5XTuEiNiGHw==}
 
   '@babel/runtime@7.29.14':
     resolution: {integrity: sha512-Y5tqevQaUAZhhj82BpYMNC1ssvLQTVAfwKdm8iy8qwmhvC2/CpcAu8OC+QEtjM7pMk7knx83u1Qj8gzkicyelw==}
@@ -149,8 +149,8 @@ packages:
     resolution: {integrity: sha512-wPlQDxEmlDg5IxhJPuxXr3Vy9AjYq5xCvFWGJyD7w7Np8ZGu+Mc+97LCoEc/+AYCo2IDpKioiH0/c/mj5ZR9Uw==}
     engines: {node: '>=16.11.0'}
 
-  '@hono/node-server@2.1.9':
-    resolution: {integrity: sha512-Sk4NQd3GFY0WZWCzndwFMPwJhtD0y9qjsQ+pjID0/03nK9pxyBCUoUHCho8QYBLBVhi0ssL8UkNPHqbgSOFPIQ==}
+  '@hono/node-server@2.1.11':
+    resolution: {integrity: sha512-KzKz9vl4vvr1vgLHamj+g5uonbrj5NwAdO3yzOS6cd2HjALVeOgTgeZOyAzNxejbkfOOPIcvuf/Tg8l1pEFLog==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4 || ^5.0.0-0
@@ -475,11 +475,11 @@ packages:
   anynum@1.0.1:
     resolution: {integrity: sha512-N6//FLET/tXYNM/F6ABca1oH6fWB+KlTt909Le28WMDBk8oaT4vY17DCrwg2MvmuqUKt3Ni4N5dGJ/EoBgcO6A==}
 
-  arkregex@0.0.14:
-    resolution: {integrity: sha512-G3I/uCtWE0IKQiPh0qqmmAFDdtjZKZQ5mNPR6gJBeAMZ7VqYCpoaDeXnLju2Zo6ywExtmxZJELeVFb0MPDjPyA==}
+  arkregex@0.0.15:
+    resolution: {integrity: sha512-mu9vS4b8kTipqr2AfVIL1NYhGH47CZgPdYFzB762lu4/dsxm7hmNsN3ayDahcM9OhepOpTQc+W744yh4KE+mAw==}
 
-  arktype@2.2.9:
-    resolution: {integrity: sha512-Cja0IMEn19rB35on9da1i1z6QMasuS7ULffXbetCry09jvCGYT8Bi1KgYiqri5FymF4nQAXkM90yksYkgSK2EA==}
+  arktype@2.2.10:
+    resolution: {integrity: sha512-xfum3++1RGjULFBeeXph3XrejEhAfswZlpH/V5m324j8aZ/53tHUd8OPCXE1v5iU/2UEkn/ZDFUT0Exkjv96xA==}
 
   barse@0.4.3:
     resolution: {integrity: sha512-UEpvriJqAn8zuVinYICuKoPttZy3XxXEoqX/V2uYAL4zzJRuNzCK3+20nAu3YUIa2U7G53kf90wfBIp9/A+Odw==}
@@ -815,8 +815,8 @@ packages:
       typescript:
         optional: true
 
-  i18next@27.1.5:
-    resolution: {integrity: sha512-KLrH2SWYWiI8Rx+ZbJ4+fdl5Ny2i8V9bJ6TkJ5YFrSyHgeUIGxoueQTZaafcHZcr1ENFqBicpu7ofr3SCSYDgA==}
+  i18next@27.2.2:
+    resolution: {integrity: sha512-1/AJgz/bpE/YL6tqekQlZAzDhkmrUBbgU8+Xon/Lwv6c5WdYuyFZ9mb86OVfR2C2XujUDT7Rz23Ydaq4l981lA==}
     engines: {node: '>=22'}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
@@ -1038,11 +1038,11 @@ packages:
 
 snapshots:
 
-  '@ark/schema@0.56.8':
+  '@ark/schema@0.56.9':
     dependencies:
-      '@ark/util': 0.56.8
+      '@ark/util': 0.56.9
 
-  '@ark/util@0.56.8': {}
+  '@ark/util@0.56.9': {}
 
   '@babel/runtime@7.29.14': {}
 
@@ -1095,7 +1095,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hono/node-server@2.1.9(hono@4.13.19)':
+  '@hono/node-server@2.1.11(hono@4.13.19)':
     dependencies:
       hono: 4.13.19
 
@@ -1342,15 +1342,15 @@ snapshots:
 
   anynum@1.0.1: {}
 
-  arkregex@0.0.14:
+  arkregex@0.0.15:
     dependencies:
-      '@ark/util': 0.56.8
+      '@ark/util': 0.56.9
 
-  arktype@2.2.9:
+  arktype@2.2.10:
     dependencies:
-      '@ark/schema': 0.56.8
-      '@ark/util': 0.56.8
-      arkregex: 0.0.14
+      '@ark/schema': 0.56.9
+      '@ark/util': 0.56.9
+      arkregex: 0.0.15
 
   barse@0.4.3:
     dependencies:
@@ -1470,14 +1470,14 @@ snapshots:
 
   dotenv@16.6.1: {}
 
-  drizzle-kit@1.0.0-rc.5(drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.9)):
+  drizzle-kit@1.0.0-rc.5(drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.10)):
     optionalDependencies:
-      drizzle-orm: 1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.9)
+      drizzle-orm: 1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.10)
 
-  drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.9):
+  drizzle-orm@1.0.0-rc.5(@opentelemetry/api@1.10.0)(arktype@2.2.10):
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
-      arktype: 2.2.9
+      arktype: 2.2.10
 
   emitter-component@1.1.2: {}
 
@@ -1579,7 +1579,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  i18next@27.1.5(typescript@7.0.2):
+  i18next@27.2.2(typescript@7.0.2):
     optionalDependencies:
       typescript: 7.0.2
 

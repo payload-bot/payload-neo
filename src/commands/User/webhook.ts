@@ -32,7 +32,7 @@ export class UserCommand extends PayloadCommand {
       const createWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder({
           label: t(LanguageKeys.Commands.Webhook.CreateWebhook),
-          customId: "create-webhook-for-user",
+          customId: "create-webhook",
           style: ButtonStyle.Primary,
         }),
       );

@@ -41,7 +41,7 @@ export class ButtonHandler extends InteractionHandler {
     const webhook = await this.#getWebhookByContextId(interactionContextId, isInUserContext);
 
     if (!isNullishOrEmpty(webhook)) {
-      await this.#updateInteractionWithDelete(interaction, webhook.secret);
+      await this.#updateInteractionWithDelete(interaction, webhook.value);
 
       return;
     }

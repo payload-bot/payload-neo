@@ -11,12 +11,12 @@ try {
   client.destroy();
 }
 
-process.on("SIGINT", () => {
-  client.destroy();
+process.on("SIGINT", async () => {
+  await client.destroy();
   process.exit(0);
 });
 
-process.on("SIGTERM", () => {
-  client.destroy();
+process.on("SIGTERM", async () => {
+  await client.destroy();
   process.exit(0);
 });

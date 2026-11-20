@@ -9,7 +9,7 @@ import { ContainerBuilder } from "discord.js";
 import { webhook } from "../../db/schema/webhook.ts";
 import { guild } from "#root/db/schema/guild.ts";
 
-export class UserCommand extends PayloadCommand {
+export class WebhookCommand extends PayloadCommand {
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, {
       ...options,

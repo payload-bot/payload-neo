@@ -69,19 +69,9 @@ export class ButtonHandler extends InteractionHandler {
         return;
       }
 
-      await this.container.database.transaction(async tx => {
-        const [wbhk] = await tx.select({ id: webhook.id })
-          .from(webhook)
-          .where(eq(webhook.id, guildWebhook.webhookId));
-
-        if (!wbhk) {
-          tx.rollback();
-        }
-
-        await tx.delete(webhook).where(
-          eq(webhook.id, wbhk.id),
-        );
-      })
+      await this.container.database.delete(webhook).where(
+        eq(webhook.id, guildWebhook.webhookId!),
+      );
     }
   }
 }

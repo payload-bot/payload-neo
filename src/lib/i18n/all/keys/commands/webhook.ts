@@ -8,7 +8,7 @@ export const EmbedTitle = T<string>("commands/webhook:embedTitle");
 export const EmbedDescription = FT<{ secret: string }>("commands/webhook:embedDescription");
 export const NoWebhook = T<string>("commands/webhook:noWebhook");
 
-export const WebhookFailedCreate = T<string>("commands/webhook:failedCreate");
+export const NoChannelSelected = T<string>("commands/webhook:noChannelSelected");
 
 export const CreateWebhook = T<string>("commands/webhook:createWebhook");
 export const DeleteWebhook = T<string>("commands/webhook:deleteWebhook");

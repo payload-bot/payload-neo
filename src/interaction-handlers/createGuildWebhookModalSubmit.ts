@@ -14,7 +14,7 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(ctx, {
       ...options,
-      interactionHandlerType: InteractionHandlerTypes.ModalSubmit
+      interactionHandlerType: InteractionHandlerTypes.ModalSubmit,
     });
   }
 
@@ -28,6 +28,11 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
 
   public async run(interaction: ModalSubmitInteraction) {
     const webhookSecret = await this.#addWebhook(interaction);
+
+    if (webhookSecret == null) {
+      return;
+    }
+
     await this.#updateInteractionWithDelete(interaction, webhookSecret);
   }
 
@@ -70,13 +75,13 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
     if (isNullishOrEmpty(channel)) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhook.WebhookFailedCreate),
+        description: t(LanguageKeys.Commands.Webhook.NoChannelSelected),
         color: PayloadColors.Payload,
       });
 
       await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 
-      return;
+      return null;
     }
 
     const hasPermissionToSendMessages = channel?.appPermissions?.has(PermissionFlagsBits.SendMessages);
@@ -84,13 +89,13 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
     if (!hasPermissionToSendMessages) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhook.WebhookFailedCreate),
+        description: t(LanguageKeys.Preconditions.ClientPermissions, { missing: "Send Messages" }),
         color: PayloadColors.Payload,
       });
 
       await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 
-      return;
+      return null;
     }
 
     const secret = generate({ numbers: true, length: 24 });

@@ -54,7 +54,7 @@ export class UserCommand extends PayloadCommand {
     const deleteWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder({
         label: t(LanguageKeys.Commands.Webhook.DeleteWebhook),
-        customId: "delete-webhook-for-user",
+        customId: "delete-webhook",
         style: ButtonStyle.Danger,
       }),
     );

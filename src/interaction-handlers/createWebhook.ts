@@ -28,7 +28,7 @@ export class ButtonHandler extends InteractionHandler {
     const deleteWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder({
         label: t(LanguageKeys.Commands.Webhook.DeleteWebhook),
-        customId: "delete-webhook-for-user",
+        customId: "delete-webhook",
         style: ButtonStyle.Danger,
       }),
     );
@@ -64,7 +64,7 @@ export class ButtonHandler extends InteractionHandler {
 
     const webhook = await this.#getWebhookByContextId(interactionContextId, isInUserContext);
 
-    if (!isNullOrUndefinedOrEmpty(webhook.secret)) {
+    if (!isNullishOrEmpty(webhook)) {
       await this.#updateInteractionWithDelete(interaction, webhook.secret);
 
       return;
@@ -77,14 +77,14 @@ export class ButtonHandler extends InteractionHandler {
 
   async #getWebhookByContextId(contextId: string, isUserDm: boolean) {
     if (isUserDm) {
-      const [userWebhook] = await this.database
+      const [userWebhook] = await this.container.database
         .select({ value: webhook.value })
         .from(webhook)
         .where(eq(webhook.id, contextId));
 
       return userWebhook;
     } else {
-      const [{ webhookId }] = await this.database
+      const [{ webhookId }] = await this.container.database
         .select({ webhookId: guild.webhookId })
         .from(guild)
         .where(eq(guild.id, contextId));
@@ -93,7 +93,7 @@ export class ButtonHandler extends InteractionHandler {
         return null;
       }
 
-      const [guildWebhook] = await this.database
+      const [guildWebhook] = await this.container.database
         .select({ value: webhook.value })
         .from(webhook)
         .where(eq(webhook.id, webhookId!));

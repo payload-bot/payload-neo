@@ -50,10 +50,17 @@ export class ModalHandler extends InteractionHandler {
       .addTextDisplayComponents(description)
       .addActionRowComponents(deleteWebhookButton);
 
-    await interaction.reply({
-      flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-      components: [container],
-    });
+    if (interaction.isFromMessage()) {
+      await interaction.update({
+        flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+        components: [container],
+      });
+    } else {
+      await interaction.reply({
+        flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+        components: [container],
+      });
+    }
   }
 
   async #addWebhook(interaction: ModalSubmitInteraction) {

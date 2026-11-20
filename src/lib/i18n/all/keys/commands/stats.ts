@@ -1,6 +1,6 @@
 import { FT, T } from "#lib/types";
 
-export const Name = T<string>("commands/rank:name");
+export const Name = T<string>("commands/stats:name");
 export const Description = T<string>("commands/stats:description");
 export const DetailedDescription = T<string>("commands/stats:detailedDescription");
 

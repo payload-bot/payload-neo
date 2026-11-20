@@ -36,9 +36,9 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
-    await container.api?.close();
-    await container.metrics?.close();
+    const apiClosePromise = new Promise((resolve, _) => container.api?.close(() => resolve(true)));
+    const metricsClosePromise = new Promise((resolve, _) => container.metrics?.close(() => resolve(true)));
 
-    await super.destroy();
+    await Promise.allSettled([apiClosePromise, metricsClosePromise, super.destroy()])
   }
 }

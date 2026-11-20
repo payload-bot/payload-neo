@@ -3,8 +3,8 @@ import type { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import type { ArrayString, IntegerString } from "@skyra/env-utilities";
 import type { AutoResponseStore } from "#lib/structs/AutoResponse/AutoResponseStore.ts";
 import type { TFunction, TOptions, TOptionsBase } from "i18next";
-import type { Server } from "node:http";
 import type { NodeSQLiteDatabase } from "drizzle-orm/node-sqlite"
+import type { ServerType } from "@hono/node-server";
 
 export { };
 
@@ -37,8 +37,8 @@ declare module "@sapphire/framework" {
 declare module "@sapphire/pieces" {
   interface Container {
     database: NodeSQLiteDatabase;
-    api?: Server;
-    metrics?: Server;
+    api?: ServerType;
+    metrics?: ServerType;
   }
 }
 

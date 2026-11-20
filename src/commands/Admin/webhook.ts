@@ -1,36 +1,38 @@
-import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionContextType, MessageFlags, TextDisplayBuilder } from "discord.js";
-import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
+import { Command } from "@sapphire/framework";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionContextType, MessageFlags, PermissionFlagsBits, TextDisplayBuilder } from "discord.js";
+import { isNullishOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { eq } from "drizzle-orm";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { ContainerBuilder } from "discord.js";
 import { webhook } from "../../db/schema/webhook.ts";
+import { guild } from "#root/db/schema/guild.ts";
 
-export class UserCommand extends PayloadCommand {
+export class WebhookCommand extends PayloadCommand {
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, {
       ...options,
       description: LanguageKeys.Commands.Webhook.Description,
       detailedDescription: LanguageKeys.Commands.Webhook.DetailedDescription,
-      runIn: [CommandOptionsRunTypeEnum.Dm],
     });
   }
 
   public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     const t = await fetchT(interaction);
+    const interactionContextId = interaction.guild ? interaction.guildId : interaction.user.id;
 
-    const [v] = await this.database
-      .select({ value: webhook.value })
-      .from(webhook)
-      .where(eq(webhook.id, interaction.user.id));
+    if (!interactionContextId) {
+      return;
+    }
 
-    if (isNullOrUndefinedOrEmpty(v)) {
+    const webhook = await this.#getWebhookByContextId(interactionContextId, interaction.guild == null);
+
+    if (isNullishOrEmpty(webhook)) {
       const createWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder({
           label: t(LanguageKeys.Commands.Webhook.CreateWebhook),
-          customId: "create-webhook-for-user",
+          customId: "create-webhook",
           style: ButtonStyle.Primary,
         }),
       );
@@ -52,13 +54,13 @@ export class UserCommand extends PayloadCommand {
     const deleteWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder({
         label: t(LanguageKeys.Commands.Webhook.DeleteWebhook),
-        customId: "delete-webhook-for-user",
+        customId: "delete-webhook",
         style: ButtonStyle.Danger,
       }),
     );
 
     const description = new TextDisplayBuilder()
-      .setContent(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(v.value) }));
+      .setContent(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(webhook.value) }));
 
     const container = new ContainerBuilder()
       .addTextDisplayComponents(description)
@@ -78,9 +80,37 @@ export class UserCommand extends PayloadCommand {
       builder
         .setName(this.name)
         .setDescription(descriptionLocalizations.localizations["en-US"]!)
-        .setContexts(InteractionContextType.BotDM)
+        .setContexts([InteractionContextType.BotDM, InteractionContextType.Guild])
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDescriptionLocalizations(descriptionLocalizations.localizations)
         .setNameLocalizations(nameLocalizations.localizations)
     );
+  }
+
+  async #getWebhookByContextId(contextId: string, isUserDm: boolean) {
+    if (isUserDm) {
+      const [userWebhook] = await this.database
+        .select({ value: webhook.value })
+        .from(webhook)
+        .where(eq(webhook.id, contextId));
+
+      return userWebhook;
+    } else {
+      const [{ webhookId }] = await this.database
+        .select({ webhookId: guild.webhookId })
+        .from(guild)
+        .where(eq(guild.id, contextId));
+
+      if (isNullishOrEmpty(webhookId)) {
+        return null;
+      }
+
+      const [guildWebhook] = await this.database
+        .select({ value: webhook.value })
+        .from(webhook)
+        .where(eq(webhook.id, webhookId!));
+
+      return guildWebhook;
+    }
   }
 }

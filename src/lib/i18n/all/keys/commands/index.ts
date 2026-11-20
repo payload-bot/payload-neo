@@ -8,4 +8,3 @@ export * as Language from "./language.ts";
 export * as Link from "./link.ts";
 export * as Profile from "./profile.ts";
 export * as Webhook from "./webhook.ts";
-export * as Webhooks from "./webhooks.ts";

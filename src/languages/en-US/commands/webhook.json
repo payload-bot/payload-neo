@@ -1,14 +1,18 @@
 {
-    "name": "webhook",
-    "description": "Provides a set of actions to work with the Payload webhook integration",
-    "detailedDescription": {
-        "usages": [],
-        "details": "See more on (Github)[https://github.com/payload-bot/payload-logs-plugin]"
-    },
-    "embedTitle": "Your Webhook",
-    "embedDescription": "You can find the plugin and instructions on [Github](https://github.com/payload-bot/payload-logs-plugin).\n\nUse the following value as your webhook secret: {{ secret }}",
-    "noWebhook": "No webhook created yet",
-    "createWebhook": "Create Webhook",
-    "deleteWebhook": "Delete Webhook",
-    "deletedWebhook": "Deleted webhook"
+  "name": "webhook",
+  "description": "Provides a set of actions to work with the Payload webhook integration",
+  "detailedDescription": {
+    "usages": [],
+    "details": "See more on (Github)[https://github.com/payload-bot/payload-logs-plugin]"
+  },
+  "embedTitle": "Your Webhook",
+  "embedDescription": "You can find the plugin and instructions on [Github](https://github.com/payload-bot/payload-logs-plugin).\n\nUse the following value as your webhook secret: {{ secret }}",
+  "noWebhook": "No webhook created yet",
+  "createWebhook": "Create Webhook",
+  "deleteWebhook": "Delete Webhook",
+  "deletedWebhook": "Deleted webhook",
+  "noChannelSelected": "No channel was selected",
+  "modalTitle": "Create Webhook",
+  "channelLabel": "What channel do you want to send previews to?",
+  "channelDescription": "This is the channel that will receive previews"
 }

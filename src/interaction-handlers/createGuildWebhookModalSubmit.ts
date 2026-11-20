@@ -11,7 +11,7 @@ import { webhook } from '#root/db/schema/webhook.ts';
 import { isNullishOrEmpty } from '@sapphire/utilities';
 import { guild } from '#root/db/schema/guild.ts';
 
-export class ModalHandler extends InteractionHandler {
+export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
     super(ctx, {
       ...options,

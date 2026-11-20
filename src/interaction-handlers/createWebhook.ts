@@ -150,7 +150,7 @@ export class ButtonHandler extends InteractionHandler {
       .setTitle("Create Webhook");
 
     const channelInput = new ChannelSelectMenuBuilder()
-      .setCustomId("channel-id")
+      .setCustomId("channelId")
       .setChannelTypes([ChannelType.GuildText])
       .setRequired(true);
 

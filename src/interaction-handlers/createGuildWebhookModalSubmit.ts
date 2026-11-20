@@ -1,10 +1,15 @@
 
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import { fetchT } from '@sapphire/plugin-i18next';
-import { ActionRowBuilder, ButtonStyle, codeBlock, ContainerBuilder, MessageFlags, TextDisplayBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonStyle, ChannelType, codeBlock, ContainerBuilder, EmbedBuilder, MessageFlags, TextDisplayBuilder } from 'discord.js';
 import { ButtonBuilder, ModalSubmitInteraction } from 'discord.js';
 import { generate } from 'generate-password';
 import { LanguageKeys } from '#lib/i18n/all';
+import PayloadColors from '#root/lib/utils/colors.ts';
+import { sendTest } from '#root/lib/utils/webhook-helper.ts';
+import { webhook } from '#root/db/schema/webhook.ts';
+import { isNullishOrEmpty } from '@sapphire/utilities';
+import { guild } from '#root/db/schema/guild.ts';
 
 export class ModalHandler extends InteractionHandler {
   public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {
@@ -23,7 +28,7 @@ export class ModalHandler extends InteractionHandler {
   }
 
   public async run(interaction: ModalSubmitInteraction) {
-    const webhookSecret = generate({ numbers: true, length: 24 });
+    const webhookSecret = await this.#addWebhook(interaction);
     await this.#updateInteractionWithDelete(interaction, webhookSecret);
   }
 
@@ -49,5 +54,82 @@ export class ModalHandler extends InteractionHandler {
       flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
       components: [container],
     });
+  }
+
+  async #addWebhook(interaction: ModalSubmitInteraction) {
+    const t = await fetchT(interaction);
+    const channelOptions = interaction.fields.getSelectedChannels("channelId", true, [ChannelType.GuildText]);
+    const channel = channelOptions.first();
+
+    if (isNullishOrEmpty(channel)) {
+      const embed = new EmbedBuilder({
+        title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
+        description: t(LanguageKeys.Commands.Webhooks.AddFailed),
+        color: PayloadColors.Payload,
+      });
+
+      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+
+      return;
+    }
+
+    const didSucceed = await sendTest(
+      this.container.client,
+      "channels",
+      channel.id,
+    );
+
+    if (!didSucceed) {
+      const embed = new EmbedBuilder({
+        title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
+        description: t(LanguageKeys.Commands.Webhooks.AddFailed),
+        color: PayloadColors.Payload,
+      });
+
+      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+
+      return;
+    }
+
+    const secret = generate({ numbers: true, length: 24 });
+
+    const webhookSecret = await this.container.database.transaction(async (tx) => {
+      const [createdWebhook] = await tx
+        .insert(webhook)
+        .values({
+          id: channel.id,
+          type: "channels",
+          value: secret,
+          createdAt: Temporal.Now.instant().epochMilliseconds.toString(),
+        })
+        .onConflictDoUpdate({
+          set: {
+            id: channel.id,
+          },
+          target: webhook.id,
+        })
+        .returning();
+
+      if (isNullishOrEmpty(createdWebhook)) {
+        tx.rollback();
+      }
+
+      await tx
+        .insert(guild)
+        .values({
+          id: interaction.guildId!,
+          webhookId: createdWebhook!.id,
+        })
+        .onConflictDoUpdate({
+          set: {
+            webhookId: createdWebhook!.id,
+          },
+          target: guild.id,
+        });
+
+      return createdWebhook!.value;
+    });
+
+    return webhookSecret;
   }
 }

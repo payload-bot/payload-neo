@@ -81,7 +81,7 @@ export class UserCommand extends PayloadCommand {
         .setName(this.name)
         .setDescription(descriptionLocalizations.localizations["en-US"]!)
         .setContexts([InteractionContextType.BotDM, InteractionContextType.Guild])
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDescriptionLocalizations(descriptionLocalizations.localizations)
         .setNameLocalizations(nameLocalizations.localizations)
     );

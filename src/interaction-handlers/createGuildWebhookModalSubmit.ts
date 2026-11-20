@@ -1,12 +1,11 @@
 
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import { fetchT } from '@sapphire/plugin-i18next';
-import { ActionRowBuilder, ButtonStyle, ChannelType, codeBlock, ContainerBuilder, EmbedBuilder, MessageFlags, PermissionsBitField, TextDisplayBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonStyle, ChannelType, codeBlock, ContainerBuilder, EmbedBuilder, MessageFlags, PermissionFlagsBits, TextDisplayBuilder } from 'discord.js';
 import { ButtonBuilder, ModalSubmitInteraction } from 'discord.js';
 import { generate } from 'generate-password';
 import { LanguageKeys } from '#lib/i18n/all';
 import PayloadColors from '#root/lib/utils/colors.ts';
-import { sendTest } from '#root/lib/utils/webhook-helper.ts';
 import { webhook } from '#root/db/schema/webhook.ts';
 import { isNullishOrEmpty } from '@sapphire/utilities';
 import { guild } from '#root/db/schema/guild.ts';
@@ -68,11 +67,10 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
     const channelOptions = interaction.fields.getSelectedChannels("channelId", true, [ChannelType.GuildText]);
     const channel = channelOptions.first();
 
-
     if (isNullishOrEmpty(channel)) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhooks.AddFailed),
+        description: t(LanguageKeys.Commands.Webhook.WebhookFailedCreate),
         color: PayloadColors.Payload,
       });
 
@@ -81,12 +79,12 @@ export class CreateGuildWebhookModalSubmitHandler extends InteractionHandler {
       return;
     }
 
-    const hasPermissionToSendMessages = channel?.appPermissions?.has(PermissionsBitField.Flags.SendMessages);
+    const hasPermissionToSendMessages = channel?.appPermissions?.has(PermissionFlagsBits.SendMessages);
 
     if (!hasPermissionToSendMessages) {
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Webhook.EmbedTitle),
-        description: t(LanguageKeys.Commands.Webhooks.AddFailed),
+        description: t(LanguageKeys.Commands.Webhook.WebhookFailedCreate),
         color: PayloadColors.Payload,
       });
 

@@ -18,7 +18,10 @@ export class UserCommand extends PayloadCommand {
     const { client } = this.container;
     const t = await fetchT(interaction);
 
-    const membersServing = client.guilds.cache.reduce((acc, val) => acc + (val.memberCount ?? 0), 0);
+    const membersServing = client.guilds.cache.reduce(
+      (acc, val) => acc + (val.memberCount ?? 0),
+      0,
+    );
 
     const guildsServing = client.guilds.cache.size;
 
@@ -43,7 +46,7 @@ export class UserCommand extends PayloadCommand {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

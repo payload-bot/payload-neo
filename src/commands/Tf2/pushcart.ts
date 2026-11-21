@@ -10,26 +10,29 @@ const PayloadPushResult = {
   SUCCESS: 1,
   COOLDOWN: 2,
   CAP: 3,
-} as const
+} as const;
 
 const SECONDS_COOLDOWN = 30;
 
 export class PushcartCommand extends Command {
   private readonly database = this.container.database;
-  private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
-    super(context, { ...options, description: LanguageKeys.Commands.Pushcart.Description, detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Pushcart.Description,
+      detailedDescription: LanguageKeys.Commands.Pushcart.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.GuildText],
+    });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-    const t = await this.t(interaction);
+    const t = await fetchT(interaction);
 
-    const { result, cooldownExpires } = await this
-      .checkUserPushCooldown(
-        interaction.user.id,
-        interaction.guildId!,
-      );
+    const { result, cooldownExpires } = await this.checkUserPushCooldown(
+      interaction.user.id,
+      interaction.guildId!,
+    );
 
     if (result === PayloadPushResult.COOLDOWN) {
       return await interaction.reply(
@@ -86,37 +89,34 @@ export class PushcartCommand extends Command {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 
   private async checkUserPushCooldown(
     userId: string,
     guildId: string,
-  ): Promise<
-    {
-      result: number;
-      lastPushed: Temporal.Instant;
-      cooldownExpires?: Temporal.Duration;
-    }
-  > {
+  ): Promise<{
+    result: number;
+    lastPushed: Temporal.Instant;
+    cooldownExpires?: Temporal.Duration;
+  }> {
     const now = Temporal.Now.instant();
     const oneDayFromNow = now.add({ hours: 24 });
 
     const result = await this.database
       .select({
         userId: pushcart.userId,
-        lastPushed: max(pushcart.timestamp).mapWith((s) => Temporal.Instant.fromEpochMilliseconds(s)),
+        lastPushed: max(pushcart.timestamp).mapWith((s) =>
+          Temporal.Instant.fromEpochMilliseconds(s),
+        ),
       })
       .from(pushcart)
       .where(
         and(
           eq(pushcart.userId, userId),
           eq(pushcart.guildId, guildId),
-          lte(
-            pushcart.timestamp,
-            oneDayFromNow.epochMilliseconds.toString(),
-          ),
+          lte(pushcart.timestamp, oneDayFromNow.epochMilliseconds.toString()),
         ),
       )
       .groupBy(pushcart.userId, pushcart.guildId);
@@ -129,14 +129,19 @@ export class PushcartCommand extends Command {
     }
 
     const [{ lastPushed }] = result;
-    const secondsSinceLastPushed = lastPushed.until(now, {
-      smallestUnit: "milliseconds",
-    }).round({ smallestUnit: "milliseconds" });
+    const secondsSinceLastPushed = lastPushed
+      .until(now, {
+        smallestUnit: "milliseconds",
+      })
+      .round({ smallestUnit: "milliseconds" });
 
     if (secondsSinceLastPushed.seconds < SECONDS_COOLDOWN) {
-      const cooldownExpires = lastPushed.add({
-        seconds: SECONDS_COOLDOWN,
-      }).until(now, { smallestUnit: "milliseconds" }).abs();
+      const cooldownExpires = lastPushed
+        .add({
+          seconds: SECONDS_COOLDOWN,
+        })
+        .until(now, { smallestUnit: "milliseconds" })
+        .abs();
 
       return {
         result: PayloadPushResult.COOLDOWN,

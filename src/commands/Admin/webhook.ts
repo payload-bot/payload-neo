@@ -1,5 +1,14 @@
 import { Command } from "@sapphire/framework";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, codeBlock, InteractionContextType, MessageFlags, PermissionFlagsBits, TextDisplayBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  codeBlock,
+  InteractionContextType,
+  MessageFlags,
+  PermissionFlagsBits,
+  TextDisplayBuilder,
+} from "discord.js";
 import { isNullishOrEmpty } from "@sapphire/utilities";
 import { PayloadCommand } from "#lib/structs/commands/PayloadCommand.ts";
 import { LanguageKeys } from "#lib/i18n/all";
@@ -26,7 +35,10 @@ export class WebhookCommand extends PayloadCommand {
       return;
     }
 
-    const webhook = await this.#getWebhookByContextId(interactionContextId, interaction.guild == null);
+    const webhook = await this.#getWebhookByContextId(
+      interactionContextId,
+      interaction.guild == null,
+    );
 
     if (isNullishOrEmpty(webhook)) {
       const createWebhookButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -37,8 +49,9 @@ export class WebhookCommand extends PayloadCommand {
         }),
       );
 
-      const description = new TextDisplayBuilder()
-        .setContent(t(LanguageKeys.Commands.Webhook.NoWebhook));
+      const description = new TextDisplayBuilder().setContent(
+        t(LanguageKeys.Commands.Webhook.NoWebhook),
+      );
 
       const container = new ContainerBuilder()
         .addTextDisplayComponents(description)
@@ -59,8 +72,9 @@ export class WebhookCommand extends PayloadCommand {
       }),
     );
 
-    const description = new TextDisplayBuilder()
-      .setContent(t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(webhook.value) }));
+    const description = new TextDisplayBuilder().setContent(
+      t(LanguageKeys.Commands.Webhook.EmbedDescription, { secret: codeBlock(webhook.value) }),
+    );
 
     const container = new ContainerBuilder()
       .addTextDisplayComponents(description)
@@ -83,7 +97,7 @@ export class WebhookCommand extends PayloadCommand {
         .setContexts([InteractionContextType.BotDM, InteractionContextType.Guild])
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
         .setDescriptionLocalizations(descriptionLocalizations.localizations)
-        .setNameLocalizations(nameLocalizations.localizations)
+        .setNameLocalizations(nameLocalizations.localizations),
     );
   }
 

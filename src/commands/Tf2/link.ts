@@ -41,10 +41,7 @@ export class UserCommand extends PayloadCommand {
       return;
     }
 
-    await this.database
-      .update(user)
-      .set({ steamId })
-      .where(eq(user.id, interaction.user.id));
+    await this.database.update(user).set({ steamId }).where(eq(user.id, interaction.user.id));
 
     await interaction.reply({
       flags: MessageFlags.Ephemeral,
@@ -59,7 +56,9 @@ export class UserCommand extends PayloadCommand {
     const rootDescriptionLocalizations = getLocalizedData(this.description);
 
     const steamIdNameLocalizations = getLocalizedData(LanguageKeys.Commands.Link.SteamIdName);
-    const steamIdDescriptionLocalizations = getLocalizedData(LanguageKeys.Commands.Link.SteamIdDescription);
+    const steamIdDescriptionLocalizations = getLocalizedData(
+      LanguageKeys.Commands.Link.SteamIdDescription,
+    );
 
     registry.registerChatInputCommand((builder) =>
       builder
@@ -67,15 +66,14 @@ export class UserCommand extends PayloadCommand {
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
         .setNameLocalizations(rootNameLocalizations.localizations)
-        .addStringOption(
-          (input) =>
-            input
-              .setName("steam-id")
-              .setDescription(steamIdNameLocalizations.localizations["en-US"]!)
-              .setRequired(true)
-              .setNameLocalizations(steamIdNameLocalizations.localizations)
-              .setDescriptionLocalizations(steamIdDescriptionLocalizations.localizations),
-        )
+        .addStringOption((input) =>
+          input
+            .setName("steam-id")
+            .setDescription(steamIdNameLocalizations.localizations["en-US"]!)
+            .setRequired(true)
+            .setNameLocalizations(steamIdNameLocalizations.localizations)
+            .setDescriptionLocalizations(steamIdDescriptionLocalizations.localizations),
+        ),
     );
   }
 }

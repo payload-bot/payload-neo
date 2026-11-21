@@ -1,4 +1,11 @@
-import { ActionRowBuilder, EmbedBuilder, inlineCode, InteractionContextType, PermissionFlagsBits, StringSelectMenuBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  inlineCode,
+  InteractionContextType,
+  PermissionFlagsBits,
+  StringSelectMenuBuilder,
+} from "discord.js";
 import PayloadColors from "#utils/colors.ts";
 import { LanguageKeys } from "#lib/i18n/all";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
@@ -10,7 +17,8 @@ import { guild } from "../../db/schema/guild.ts";
 export class UserCommand extends PayloadCommand {
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, {
-      ...options, description: LanguageKeys.Commands.Language.Description,
+      ...options,
+      description: LanguageKeys.Commands.Language.Description,
       detailedDescription: LanguageKeys.Commands.Language.DetailedDescription,
       runIn: [CommandOptionsRunTypeEnum.GuildText],
     });
@@ -68,7 +76,7 @@ export class UserCommand extends PayloadCommand {
         .setContexts(InteractionContextType.Guild)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

@@ -2,12 +2,8 @@
   "compilerOptions": {
     "module": "nodenext",
     "target": "esnext",
-    "lib": [
-      "ESNext",
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["ESNext", "ESNext.Temporal"],
+    "types": ["node"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -22,11 +18,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true
   },
-  "include": [
-    "src",
-    "src/languages/**/*.json",
-    "src/drizzle.config.ts"
-  ]
+  "include": ["src", "src/languages/**/*.json", "src/drizzle.config.ts"]
 }

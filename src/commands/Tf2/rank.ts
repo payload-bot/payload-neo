@@ -8,10 +8,14 @@ import { sum, eq, sql } from "drizzle-orm";
 
 export class RankCommand extends Command {
   private readonly database = this.container.database;
-  private readonly t = async (interaction: ChatInputCommandInteraction) => await fetchT(interaction);
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
-    super(context, { ...options, description: LanguageKeys.Commands.Rank.Description, detailedDescription: LanguageKeys.Commands.Rank.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Rank.Description,
+      detailedDescription: LanguageKeys.Commands.Rank.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.GuildText],
+    });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
@@ -21,16 +25,17 @@ export class RankCommand extends Command {
     const [data] = await this.database
       .select({
         sum: sum(pushcart.pushed).mapWith(Number).as("sum"),
-        rank: sql`ROW_NUMBER() OVER (ORDER BY pushed DESC)`.mapWith(Number).as(
-          "rank",
-        ),
+        rank: sql`ROW_NUMBER() OVER (ORDER BY pushed DESC)`.mapWith(Number).as("rank"),
         userId: pushcart.userId,
       })
       .from(pushcart)
       .where(eq(pushcart.guildId, interaction.guildId!))
       .groupBy(pushcart.userId);
 
-    let memberNameToDisplay = targetUser instanceof GuildMember ? (targetUser.nickname ?? targetUser.displayName) : targetUser.username;
+    let memberNameToDisplay =
+      targetUser instanceof GuildMember
+        ? (targetUser.nickname ?? targetUser.displayName)
+        : targetUser.username;
 
     memberNameToDisplay ??= "N/A";
 
@@ -64,7 +69,7 @@ export class RankCommand extends Command {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

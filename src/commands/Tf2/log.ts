@@ -49,16 +49,15 @@ export class UserCommand extends PayloadCommand {
     const logID = logs[0].id;
     const logsUrl = `http://logs.tf/${logID}#${steamId}`;
 
-    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
-    const preview = await fetch(
-      `${process.env["PREVIEW_URL"]!}/v1/logstf?url=${logsUrl}`,
-      {
-        method: "GET",
-        headers: {
-          "Authorization": `Basic ${credentials}`,
-        },
-      },
+    const credentials = btoa(
+      `${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`,
     );
+    const preview = await fetch(`${process.env["PREVIEW_URL"]!}/v1/logstf?url=${logsUrl}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    });
 
     const arrayBuffer = await preview.arrayBuffer();
 
@@ -89,7 +88,7 @@ export class UserCommand extends PayloadCommand {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

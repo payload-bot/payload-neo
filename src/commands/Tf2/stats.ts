@@ -10,7 +10,12 @@ export class StatsCommand extends Command {
   private readonly database = this.container.database;
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
-    super(context, { ...options, description: LanguageKeys.Commands.Stats.Description, detailedDescription: LanguageKeys.Commands.Stats.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Stats.Description,
+      detailedDescription: LanguageKeys.Commands.Stats.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.GuildText],
+    });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
@@ -25,8 +30,7 @@ export class StatsCommand extends Command {
       return await interaction.reply(t(LanguageKeys.Commands.Stats.NoPushesYet));
     }
 
-    const [{ totalPushed, totalUnitsPushed, distinctPushers }] = await this
-      .database
+    const [{ totalPushed, totalUnitsPushed, distinctPushers }] = await this.database
       .select({
         totalPushed: count(pushcart.pushed),
         totalUnitsPushed: sum(pushcart.pushed).mapWith(Number),
@@ -54,47 +58,38 @@ export class StatsCommand extends Command {
     const topFiveSortedPushers = userStatisticsQuery.sort((a, b) => b.count - a.count);
     const topFiveSummedPushers = userStatisticsQuery.sort((a, b) => b.sum - a.sum);
 
-    const activePushersLeaderboard = topFiveSortedPushers.map(
-      ({ count, userId }, index) => {
-        const member = userMap.get(userId);
+    const activePushersLeaderboard = topFiveSortedPushers.map(({ count, userId }, index) => {
+      const member = userMap.get(userId);
 
-        const name = escapeMarkdown(
-          member?.nickname ?? member?.user.username ?? "N/A",
-        );
+      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
 
-        const nameToDisplay = interaction.user.id === userId ? bold(escapeMarkdown(name)) : escapeMarkdown(name);
+      const nameToDisplay =
+        interaction.user.id === userId ? bold(escapeMarkdown(name)) : escapeMarkdown(name);
 
-        return t(LanguageKeys.Commands.Stats.RankString, {
-          name: nameToDisplay,
-          rank: index + 1,
-          count: count ?? 0,
-        });
-      },
-    );
+      return t(LanguageKeys.Commands.Stats.RankString, {
+        name: nameToDisplay,
+        rank: index + 1,
+        count: count ?? 0,
+      });
+    });
 
-    const topPushersLeaderboard = topFiveSummedPushers.map(
-      ({ userId, sum }, index) => {
-        const member = userMap.get(userId);
+    const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, sum }, index) => {
+      const member = userMap.get(userId);
 
-        const name = escapeMarkdown(
-          member?.nickname ?? member?.user.username ?? "N/A",
-        );
+      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
 
-        const nameToDisplay = interaction.user.id === userId ? bold(name) : name;
+      const nameToDisplay = interaction.user.id === userId ? bold(name) : name;
 
-        return t(LanguageKeys.Commands.Stats.RankString, {
-          name: nameToDisplay,
-          rank: index + 1,
-          count: sum ?? 0,
-        });
-      },
-    );
+      return t(LanguageKeys.Commands.Stats.RankString, {
+        name: nameToDisplay,
+        rank: index + 1,
+        count: sum ?? 0,
+      });
+    });
 
     const embed = new EmbedBuilder()
       .setColor(PayloadColors.Payload)
-      .setTitle(
-        t(LanguageKeys.Commands.Stats.StatsTitle, { name: interaction.guild!.name }),
-      )
+      .setTitle(t(LanguageKeys.Commands.Stats.StatsTitle, { name: interaction.guild!.name }))
       .addFields(
         {
           name: t(LanguageKeys.Commands.Stats.TotalUnitsPushedTitle),
@@ -143,7 +138,7 @@ export class StatsCommand extends Command {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

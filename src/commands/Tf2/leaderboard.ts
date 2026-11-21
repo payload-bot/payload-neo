@@ -5,20 +5,29 @@ import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { chunk } from "@sapphire/utilities";
-import { EmbedBuilder, Colors, escapeMarkdown, codeBlock, ChatInputCommandInteraction } from "discord.js";
+import {
+  EmbedBuilder,
+  Colors,
+  escapeMarkdown,
+  codeBlock,
+  ChatInputCommandInteraction,
+} from "discord.js";
 import { sum, eq } from "drizzle-orm";
 
 export class LeaderboardCommand extends Command {
   private readonly database = this.container.database;
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
-    super(context, { ...options, description: LanguageKeys.Commands.Leaderboard.Description, detailedDescription: LanguageKeys.Commands.Leaderboard.DetailedDescription, runIn: [CommandOptionsRunTypeEnum.GuildText] });
+    super(context, {
+      ...options,
+      description: LanguageKeys.Commands.Leaderboard.Description,
+      detailedDescription: LanguageKeys.Commands.Leaderboard.DetailedDescription,
+      runIn: [CommandOptionsRunTypeEnum.GuildText],
+    });
   }
 
   public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-    const loadingEmbed = new EmbedBuilder()
-      .setDescription("Loading...")
-      .setColor(Colors.Gold);
+    const loadingEmbed = new EmbedBuilder().setDescription("Loading...").setColor(Colors.Gold);
 
     const t = await fetchT(interaction);
 
@@ -41,7 +50,7 @@ export class LeaderboardCommand extends Command {
       return;
     }
 
-    const userIdsToFetch = userLeaderboard.map(x => x.userId);
+    const userIdsToFetch = userLeaderboard.map((x) => x.userId);
     const userMap = await interaction.guild!.members.fetch({ user: userIdsToFetch });
 
     const CHUNK_AMOUNT = 5;
@@ -61,7 +70,7 @@ export class LeaderboardCommand extends Command {
         title: t(LanguageKeys.Commands.Leaderboard.LeaderboardEmbedTitle),
         description: codeBlock("md", leaderboardString.join("\n")),
         color: PayloadColors.User,
-      })
+      });
 
       paginationEmbed.addPageEmbed(embed);
     }
@@ -82,7 +91,7 @@ export class LeaderboardCommand extends Command {
         .setName(this.name)
         .setDescription(rootDescriptionLocalizations.localizations["en-US"]!)
         .setDescriptionLocalizations(rootDescriptionLocalizations.localizations)
-        .setNameLocalizations(rootNameLocalizations.localizations)
+        .setNameLocalizations(rootNameLocalizations.localizations),
     );
   }
 }

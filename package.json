@@ -2,13 +2,9 @@
   "name": "payload-neo",
   "version": "1.0.0",
   "description": "The TF2 discord bot",
-  "main": "src/index.ts",
-  "type": "module",
   "license": "MIT",
-  "scripts": {
-    "start": "node --max-old-space-size=384 .",
-    "dev": "node --env-file=.env ."
-  },
+  "type": "module",
+  "main": "src/index.ts",
   "imports": {
     "#root/*": "./src/*",
     "#api/*": "./src/lib/api/*",
@@ -18,6 +14,10 @@
     "#lib/models": "./src/lib/models/index.ts",
     "#lib/i18n/all": "./src/lib/i18n/all/index.ts",
     "#utils/*": "./src/lib/utils/*"
+  },
+  "scripts": {
+    "start": "node --max-old-space-size=384 .",
+    "dev": "node --env-file=.env ."
   },
   "dependencies": {
     "@hono/node-server": "^2.1.11",

@@ -16,15 +16,19 @@
 
 Payload is the Discord bot for TF2 players. Features a leaderboard, logs.tf and team preview screenshots, and other useful commands.
 
-## Running
+## Local Development
 
-You can run the service locally using [Deno](https://docs.deno.com/runtime/):
+This project uses node 26. Install dependencies:
 
 ```cmd
-deno task dev
+pnpm install
 ```
 
-This will install all dependencies.
+Then you can run the bot:
+
+```cmd
+pnpm run dev
+```
 
 ### Production
 

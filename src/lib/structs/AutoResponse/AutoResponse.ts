@@ -1,11 +1,10 @@
-import type { LoaderPieceContext, MessageCommandContext } from "@sapphire/framework";
-import type { Message } from "discord.js";
-import { PayloadCommand } from "../commands/PayloadCommand.ts";
+import { Args, Command } from "@sapphire/framework";
+import type { Awaitable, Message } from "discord.js";
 
-export abstract class AutoCommand extends PayloadCommand {
+export abstract class AutoCommand extends Command<Args, AutoCommand.Options> {
   public regex: RegExp;
 
-  constructor(context: LoaderPieceContext<"auto">, options: AutoCommandOptions) {
+  constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
     super(context, { ...options, typing: true });
     this.regex = options.regex;
   }
@@ -36,19 +35,20 @@ export abstract class AutoCommand extends PayloadCommand {
   public getMatches(msg: Message): RegExpMatchArray | null {
     return msg.content.match(this.regex);
   }
+
+  public abstract run(message: Message, context: AutoCommand.LoaderContext): Awaitable<unknown>;
 }
 
-export interface AutoCommandContext extends Pick<MessageCommandContext, "commandName"> {
+export interface AutoCommandContext extends Command.LoaderContext {
   matched: string;
   matches: RegExpMatchArray;
 }
 
-export interface AutoCommandOptions extends PayloadCommand.Options {
+export interface AutoCommandOptions extends Command.Options {
   regex: RegExp;
 }
 
 export namespace AutoCommand {
   export type Options = AutoCommandOptions;
-  export type Args = PayloadCommand.Args;
   export type LoaderContext = AutoCommandContext;
 }

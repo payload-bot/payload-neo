@@ -7,11 +7,10 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { fetchT } from "@sapphire/plugin-i18next";
 
 export default class SteamConnectBase extends AutoCommand {
-  // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matches }: AutoCommand.Context) {
+  async run(msg: Message, { matches }: AutoCommand.LoaderContext) {
     const t = await fetchT(msg);
 
-    const ip = matches.groups!.ip;
+    const ip = matches.groups!.ip!;
     const port = matches.groups!.port ?? "27015";
     const password = matches.groups!.password;
 
@@ -40,7 +39,9 @@ export default class SteamConnectBase extends AutoCommand {
       });
 
       embed.setColor(EmbedColors.Green);
-      embed.setDescription(`${name}\n${players.length}/${maxplayers} ${t(LanguageKeys.Auto.Connect.Players)}`);
+      embed.setDescription(
+        `${name}\n${players.length}/${maxplayers} ${t(LanguageKeys.Auto.Connect.Players)}`,
+      );
     } catch {
       embed.setColor(EmbedColors.Red);
       embed.setDescription(t(LanguageKeys.Auto.Connect.Offline));

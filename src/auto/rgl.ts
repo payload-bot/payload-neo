@@ -7,7 +7,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { Buffer } from "node:buffer";
 import { fetchT } from "@sapphire/plugin-i18next";
 
-export default class UserAutoCommand extends AutoCommand {
+export default class RglAutoCommand extends AutoCommand {
   public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
     super(context, {
       ...options,
@@ -19,27 +19,17 @@ export default class UserAutoCommand extends AutoCommand {
     });
   }
 
-  // @ts-ignore have to do this
-  async messageRun(
-    msg: Message,
-    args: AutoCommand.Args,
-    { matched }: AutoCommand.LoaderContext,
-  ) {
+  async run(msg: Message, { matched }: AutoCommand.LoaderContext) {
     const t = await fetchT(msg);
     return;
 
-    const preview = await fetch(
-      `${process.env["PREVIEW_URL"]!}/v1/rgl/teams?url=${matched}`,
-    );
+    const preview = await fetch(`${process.env["PREVIEW_URL"]!}/v1/rgl/teams?url=${matched}`);
 
     const arrayBuffer = await preview.arrayBuffer();
 
-    const att = new AttachmentBuilder(
-      Buffer.from(arrayBuffer),
-      {
-        name: "team.webp",
-      },
-    );
+    const att = new AttachmentBuilder(Buffer.from(arrayBuffer), {
+      name: "team.webp",
+    });
 
     const embed = new EmbedBuilder({
       color: PayloadColors.Command,

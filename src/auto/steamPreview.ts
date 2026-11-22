@@ -18,7 +18,6 @@ import { MessageFlags } from "discord.js";
 import { getSteamIdFromArgs } from "#utils/getSteamId.ts";
 import { getSteamProfileInformation } from "#utils/steam-api.ts";
 import { isNullish } from "@sapphire/utilities";
-import { fetchT } from "@sapphire/plugin-i18next";
 
 export default class SteamPreviewCommand extends AutoCommand {
   public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
@@ -29,9 +28,7 @@ export default class SteamPreviewCommand extends AutoCommand {
     });
   }
 
-  async run(msg: Message, context: AutoCommand.LoaderContext) {
-    const t = await fetchT(msg);
-
+  async run(msg: Message, _: AutoCommand.RunContext) {
     const allMatches = msg.content.match(this.regex)!;
     const idOrVanityUrl = allMatches.groups?.id;
 

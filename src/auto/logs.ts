@@ -20,7 +20,7 @@ export default class LogsAutoCommand extends AutoCommand {
     });
   }
 
-  async run(msg: Message, { matched }: AutoCommand.LoaderContext) {
+  async run(msg: Message, { matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
     renderCounter.inc({ source: "message" });

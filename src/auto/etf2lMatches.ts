@@ -15,7 +15,7 @@ export default class UserAutoCommand extends AutoCommand {
     });
   }
 
-  async run(msg: Message, { matched }: AutoCommand.LoaderContext) {
+  async run(msg: Message, { matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
     const credentials = btoa(

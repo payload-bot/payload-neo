@@ -1,89 +1,18 @@
+import { messageIgnored } from "#root/lib/metrics.ts";
 import { Events, Listener } from "@sapphire/framework";
-import type { Message } from "discord.js";
-import { commandCounter, messageIgnored, messageProcessed } from "#lib/metrics.ts";
+import { type Message } from "discord.js";
 
-export class UserListener extends Listener<typeof Events.MessageCreate> {
-  public async run(message: Message) {
-    messageProcessed.inc();
+export class MessageCreateListener extends Listener<typeof Events.MessageCreate> {
+  public constructor(context: Listener.LoaderContext) {
+    super(context, { event: Events.MessageCreate });
+  }
 
-    if (message.webhookId !== null) {
-      messageIgnored.inc({ reason: "webhook_null" });
+  public run(message: Message) {
+    if (message.author.bot || message.webhookId) {
+      messageIgnored.inc({ reason: "pre_parse" });
       return;
     }
 
-    if (message.system) {
-      messageIgnored.inc({ reason: "system" });
-      return;
-    }
-    if (message.author.bot) {
-      messageIgnored.inc({ reason: "bot" });
-      return;
-    }
-
-    const { client } = this.container;
-
-    const autoResponses = client.stores.get("auto");
-
-    // Check auto responses
-    // @TODO: Split into listners
-    for (const autoResponse of autoResponses.values()) {
-      const doesMatch = autoResponse.shouldRun(message);
-
-      if (!doesMatch) {
-        continue;
-      }
-
-      const matches = autoResponse.getMatches(message);
-      const match = autoResponse.getMatch(message)!;
-
-      const context = {
-        commandName: autoResponse.name,
-        matches: matches,
-        matched: match,
-        prefix: match,
-        commandPrefix: match,
-      };
-
-      // Run global preconditions:
-      const globalResult = await this.container.stores
-        .get("preconditions")
-        .messageRun(message, autoResponse, { message, command: autoResponse });
-
-      if (globalResult.isErr()) {
-        this.container.client.emit(Events.MessageCommandDenied, globalResult.unwrapErr(), {
-          message,
-          command: autoResponse,
-          context,
-          parameters: "",
-        });
-      }
-
-      // Run command-specific preconditions:
-      const localResult = await autoResponse.preconditions.messageRun(message, autoResponse, {
-        message,
-        command: autoResponse,
-      });
-
-      if (localResult.isErr()) {
-        this.container.client.emit(Events.MessageCommandDenied, localResult.unwrapErr(), {
-          message,
-          command: autoResponse,
-          context,
-          parameters: "",
-        });
-
-        return;
-      }
-
-      if (message.channel.isSendable()) {
-        await message.channel.sendTyping();
-      }
-
-      const args = await autoResponse.messagePreParse(message, message.content, context);
-
-      commandCounter.inc({ command: context.commandName, auto: "true" });
-
-      return await autoResponse.messageRun(message, args, context);
-    }
+    this.container.client.emit(Events.PreMessageParsed, message);
   }
 }

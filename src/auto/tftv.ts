@@ -17,7 +17,7 @@ export default class TftvAutoCommand extends AutoCommand {
     });
   }
 
-  override async run(msg: Message, { matches, matched }: AutoCommand.LoaderContext) {
+  public override async run(msg: Message, { matches, matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
     const baseUrl = matches.groups!.base;

@@ -7,7 +7,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { fetchT } from "@sapphire/plugin-i18next";
 
 export default class SteamConnectBase extends AutoCommand {
-  async run(msg: Message, { matches }: AutoCommand.LoaderContext) {
+  async run(msg: Message, { matches }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
     const ip = matches.groups!.ip!;

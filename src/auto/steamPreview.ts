@@ -28,9 +28,8 @@ export default class SteamPreviewCommand extends AutoCommand {
     });
   }
 
-  async run(msg: Message, _: AutoCommand.RunContext) {
-    const allMatches = msg.content.match(this.regex)!;
-    const idOrVanityUrl = allMatches.groups?.id;
+  async run(msg: Message, { matches }: AutoCommand.RunContext) {
+    const idOrVanityUrl = matches.groups?.id;
 
     if (!idOrVanityUrl) {
       return;

@@ -15,24 +15,18 @@ export default class UserAutoCommand extends AutoCommand {
     });
   }
 
-  // @ts-ignore have to do this
-  async messageRun(
-    msg: Message,
-    args: AutoCommand.Args,
-    { matched }: AutoCommand.LoaderContext,
-  ) {
+  async run(msg: Message, { matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
-    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
-    const preview = await fetch(
-      `${process.env["PREVIEW_URL"]!}/v1/etf2l/matches?url=${matched}`,
-      {
-        method: "GET",
-        headers: {
-          "Authorization": `Basic ${credentials}`,
-        },
-      },
+    const credentials = btoa(
+      `${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`,
     );
+    const preview = await fetch(`${process.env["PREVIEW_URL"]!}/v1/etf2l/matches?url=${matched}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    });
 
     const arrayBuffer = await preview.arrayBuffer();
 

@@ -8,7 +8,7 @@ import { Buffer } from "node:buffer";
 import { renderCounter } from "#lib/metrics.ts";
 import { fetchT } from "@sapphire/plugin-i18next";
 
-export default class UserAutoCommand extends AutoCommand {
+export default class LogsAutoCommand extends AutoCommand {
   public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
     super(context, {
       ...options,
@@ -20,22 +20,20 @@ export default class UserAutoCommand extends AutoCommand {
     });
   }
 
-  // @ts-ignore have to do this
-  async messageRun(msg: Message, args: AutoCommand.Args, { matched }: AutoCommand.Context) {
+  async run(msg: Message, { matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
     renderCounter.inc({ source: "message" });
 
-    const credentials = btoa(`${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`);
-    const preview = await fetch(
-      `${process.env["PREVIEW_URL"]!}/v1/logstf?url=${matched}`,
-      {
-        method: "GET",
-        headers: {
-          "Authorization": `Basic ${credentials}`,
-        },
-      },
+    const credentials = btoa(
+      `${process.env.BASIC_AUTH_USERNAME}:${process.env.BASIC_AUTH_PASSWORD}`,
     );
+    const preview = await fetch(`${process.env["PREVIEW_URL"]!}/v1/logstf?url=${matched}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    });
 
     const arrayBuffer = await preview.arrayBuffer();
 

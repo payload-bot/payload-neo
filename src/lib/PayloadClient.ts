@@ -1,4 +1,9 @@
-import { ApplicationCommandRegistries, container, RegisterBehavior, SapphireClient } from "@sapphire/framework";
+import {
+  ApplicationCommandRegistries,
+  container,
+  RegisterBehavior,
+  SapphireClient,
+} from "@sapphire/framework";
 import { CLIENT_OPTIONS } from "#utils/clientOptions.ts";
 import { AutoResponseStore } from "./structs/AutoResponse/AutoResponseStore.ts";
 import connect from "#utils/database.ts";
@@ -12,16 +17,12 @@ export class PayloadClient extends SapphireClient {
   constructor() {
     super(CLIENT_OPTIONS);
     this.stores.register(
-      new AutoResponseStore().registerPath(
-        join(import.meta.dirname!, "..", "..", "auto"),
-      ),
+      new AutoResponseStore().registerPath(join(import.meta.dirname!, "..", "..", "auto")),
     );
   }
 
   public override async login(token?: string) {
-    ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(
-      RegisterBehavior.BulkOverwrite,
-    );
+    ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
 
     connect();
 
@@ -36,9 +37,19 @@ export class PayloadClient extends SapphireClient {
   }
 
   public override async destroy() {
-    const apiClosePromise = new Promise((resolve, _) => container.api?.close(() => resolve(true)));
-    const metricsClosePromise = new Promise((resolve, _) => container.metrics?.close(() => resolve(true)));
+    const apiClosePromise = new Promise((resolve, _) =>
+      container.api?.close(() => {
+        container.logger.debug("Gracefully cleaned up api server");
+        resolve(true);
+      }),
+    );
+    const metricsClosePromise = new Promise((resolve, _) =>
+      container.metrics?.close(() => {
+        container.logger.debug("Gracefully cleaned up metrics server");
+        resolve(true);
+      }),
+    );
 
-    await Promise.allSettled([apiClosePromise, metricsClosePromise, super.destroy()])
+    await Promise.allSettled([apiClosePromise, metricsClosePromise, super.destroy()]);
   }
 }

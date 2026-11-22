@@ -8,7 +8,7 @@ import { send } from "@sapphire/plugin-editable-commands";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { fetchT } from "@sapphire/plugin-i18next";
 
-export default class UserAutoCommand extends AutoCommand {
+export default class TftvAutoCommand extends AutoCommand {
   public constructor(context: AutoCommand.LoaderContext, options: AutoCommand.Options) {
     super(context, {
       ...options,
@@ -17,17 +17,14 @@ export default class UserAutoCommand extends AutoCommand {
     });
   }
 
-  override async messageRun(msg: Message, args: AutoCommand.Args) {
+  public override async run(msg: Message, { matches, matched }: AutoCommand.RunContext) {
     const t = await fetchT(msg);
 
-    const match = this.getMatch(msg);
-    const allMatches = msg.content.match(this.regex)!;
+    const baseUrl = matches.groups!.base;
 
-    const baseUrl = allMatches.groups!.base;
+    let page = parseInt(matches.groups!.page?.replace("/?page=", "") ?? "0", 10);
 
-    let page = parseInt(allMatches.groups!.page?.replace("/?page=", "") ?? "0", 10);
-
-    const post = parseInt(allMatches.groups!.post?.replace("#", ""), 10);
+    const post = parseInt(matches.groups!.post?.replace("#", ""), 10);
 
     if (!page && post > 30) {
       page = Math.floor(post / 30) + 1;
@@ -41,7 +38,7 @@ export default class UserAutoCommand extends AutoCommand {
 
     const title = $(".thread-header-title").text().trim();
 
-    const needFindChild = !!match.split("#")?.[1];
+    const needFindChild = !!matched.split("#")?.[1];
 
     let $post = $(`#thread-container > .post:nth-child(1)`);
 
@@ -62,7 +59,7 @@ export default class UserAutoCommand extends AutoCommand {
     let author = $post.find(".post-header .post-author").text().trim();
 
     if (needFindChild) {
-      const postNumber = match.split("#")[1];
+      const postNumber = matched.split("#")[1];
       $post = $(`#thread-container > .post > a#${postNumber}`).parent();
 
       if (!$post.children().length && page > 1) {

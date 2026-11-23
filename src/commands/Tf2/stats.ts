@@ -3,8 +3,8 @@ import { LanguageKeys } from "#root/lib/i18n/all/index.ts";
 import PayloadColors from "#root/lib/utils/colors.ts";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
-import { bold, ChatInputCommandInteraction, EmbedBuilder, escapeMarkdown } from "discord.js";
-import { eq, sum, countDistinct, desc, count } from "drizzle-orm";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { count, countDistinct, desc, eq, sum } from "drizzle-orm";
 
 export class StatsCommand extends Command {
   private readonly database = this.container.database;
@@ -61,10 +61,9 @@ export class StatsCommand extends Command {
     const activePushersLeaderboard = topFiveSortedPushers.map(({ count, userId }, index) => {
       const member = userMap.get(userId);
 
-      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
+      const name = member?.toString() ?? "N/A";
 
-      const nameToDisplay =
-        interaction.user.id === userId ? bold(escapeMarkdown(name)) : escapeMarkdown(name);
+      const nameToDisplay = interaction.user.id === userId ? name : name;
 
       return t(LanguageKeys.Commands.Stats.RankString, {
         name: nameToDisplay,
@@ -76,9 +75,9 @@ export class StatsCommand extends Command {
     const topPushersLeaderboard = topFiveSummedPushers.map(({ userId, sum }, index) => {
       const member = userMap.get(userId);
 
-      const name = escapeMarkdown(member?.nickname ?? member?.user.username ?? "N/A");
+      const name = member?.toString() ?? "N/A";
 
-      const nameToDisplay = interaction.user.id === userId ? bold(name) : name;
+      const nameToDisplay = interaction.user.id === userId ? name : name;
 
       return t(LanguageKeys.Commands.Stats.RankString, {
         name: nameToDisplay,
@@ -126,7 +125,7 @@ export class StatsCommand extends Command {
         },
       );
 
-    return await interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed], allowedMentions: { users: [] } });
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {

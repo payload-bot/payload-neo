@@ -5,14 +5,8 @@ import { PaginatedMessage } from "@sapphire/discord.js-utilities";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { chunk } from "@sapphire/utilities";
-import {
-  EmbedBuilder,
-  Colors,
-  escapeMarkdown,
-  codeBlock,
-  ChatInputCommandInteraction,
-} from "discord.js";
-import { sum, eq } from "drizzle-orm";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
+import { eq, sum } from "drizzle-orm";
 
 export class LeaderboardCommand extends Command {
   private readonly database = this.container.database;
@@ -60,22 +54,27 @@ export class LeaderboardCommand extends Command {
     for (const page of chunk(sorted, CHUNK_AMOUNT)) {
       const leaderboardString = page.map(({ userId, pushed }, index) => {
         const user = userMap.get(userId) ?? null;
+        const rank = index + 1;
 
         return interaction.user.id === userId
-          ? `> ${index + 1}: ${escapeMarkdown(user?.user.username ?? "N/A")} (${pushed})`
-          : `${index + 1}: ${escapeMarkdown(user?.user.username ?? "N/A")} (${pushed})`;
+          ? `${rank}: ${user?.user.toString() ?? "N/A"} (${pushed})`
+          : `${rank}: ${user?.user.toString() ?? "N/A"} (${pushed})`;
       });
 
       const embed = new EmbedBuilder({
         title: t(LanguageKeys.Commands.Leaderboard.LeaderboardEmbedTitle),
-        description: codeBlock("md", leaderboardString.join("\n")),
+        description: leaderboardString.join("\n"),
         color: PayloadColors.User,
       });
 
       paginationEmbed.addPageEmbed(embed);
     }
 
-    const response = await interaction.reply({ embeds: [loadingEmbed], withResponse: true });
+    const response = await interaction.reply({
+      embeds: [loadingEmbed],
+      withResponse: true,
+      allowedMentions: { users: [] },
+    });
 
     await paginationEmbed.run(response.resource!.message!, interaction.user);
 

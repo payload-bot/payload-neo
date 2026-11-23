@@ -3,8 +3,8 @@ import { LanguageKeys } from "#root/lib/i18n/all/index.ts";
 import { Command, CommandOptionsRunTypeEnum } from "@sapphire/framework";
 import { fetchT, getLocalizedData } from "@sapphire/plugin-i18next";
 import { isNullOrUndefinedOrEmpty } from "@sapphire/utilities";
-import { ChatInputCommandInteraction, codeBlock, escapeMarkdown, GuildMember } from "discord.js";
-import { sum, eq, sql } from "drizzle-orm";
+import { ChatInputCommandInteraction } from "discord.js";
+import { eq, sql, sum } from "drizzle-orm";
 
 export class RankCommand extends Command {
   private readonly database = this.container.database;
@@ -32,32 +32,25 @@ export class RankCommand extends Command {
       .where(eq(pushcart.guildId, interaction.guildId!))
       .groupBy(pushcart.userId);
 
-    let memberNameToDisplay =
-      targetUser instanceof GuildMember
-        ? (targetUser.nickname ?? targetUser.displayName)
-        : targetUser.username;
-
-    memberNameToDisplay ??= "N/A";
+    const memberNameToDisplay = targetUser?.toString() ?? "N/A";
 
     if (isNullOrUndefinedOrEmpty(data)) {
       return await interaction.reply(
         t(LanguageKeys.Commands.Rank.RankString, {
-          name: escapeMarkdown(memberNameToDisplay),
+          name: memberNameToDisplay,
           count: 0,
         }),
       );
     }
 
-    return await interaction.reply(
-      codeBlock(
-        "md",
-        t(LanguageKeys.Commands.Rank.RankString, {
-          name: memberNameToDisplay,
-          rank: data?.rank ?? "-",
-          count: data?.sum ?? 0,
-        }),
-      ),
-    );
+    return await interaction.reply({
+      content: t(LanguageKeys.Commands.Rank.RankString, {
+        name: memberNameToDisplay,
+        rank: data?.rank ?? "-",
+        count: data?.sum ?? 0,
+      }),
+      allowedMentions: { users: [] },
+    });
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {

@@ -15,6 +15,7 @@ import {
 } from "discord.js";
 import { GameDig } from "gamedig";
 import { EmbedColors } from "./utils/colors.ts";
+import { getSdrServerInformation } from "./utils/steam-api.ts";
 
 const MAP_PREVIEW_URL = "https://mapthumbnails.tf2pickup.org/unsafe/280x280/";
 const STEAM_REDIRECT_URL = "https://api.payload.tf/api/steam";
@@ -60,25 +61,24 @@ export default class SteamConnectBase extends AutoCommand {
     });
 
     try {
-      const { name, players, maxplayers, map, raw } = await GameDig.query({
-        type: "teamfortress2",
-        host: ip,
-        port: parseInt(port),
+      const { name, players, map, stvPort } = await this.#fetchServerInformation({
+        ip,
+        port: parseInt(port, 10),
       });
 
       const containerName = `## [${name}](${steamUrl})`;
 
-      if ((raw as any).sourcetvport) {
+      if (stvPort) {
         const joinStvButton = new ButtonBuilder({
           label: t(LanguageKeys.Auto.Connect.JoinStvButton),
           style: ButtonStyle.Link,
-          url: `${STEAM_REDIRECT_URL}?ip=${ip}:${(raw as any).sourcetvport}`,
+          url: `${STEAM_REDIRECT_URL}?ip=${ip}:${stvPort}`,
         });
 
         buttons.addComponents(joinStvButton);
       }
       const serverData = new TextDisplayBuilder().setContent(
-        `${containerName}\n${players.length}/${maxplayers} ${t(LanguageKeys.Auto.Connect.Players)}`,
+        `${containerName}\n${players} ${t(LanguageKeys.Auto.Connect.Players)}`,
       );
 
       let thumbnail = null;
@@ -102,5 +102,27 @@ export default class SteamConnectBase extends AutoCommand {
     }
 
     await connectInfoEmbed.edit({ components: [container], flags: MessageFlags.IsComponentsV2 });
+  }
+
+  async #fetchServerInformation({
+    ip,
+    port,
+  }: {
+    ip: string;
+    port: number;
+  }): Promise<{ name: string; map: string; players: string; stvPort: number }> {
+    if (ip.startsWith("169.254")) {
+      return await getSdrServerInformation({ ip, port });
+    }
+
+    const { name, numplayers, maxplayers, map, raw } = await GameDig.query({
+      type: "teamfortress2",
+      host: ip,
+      port: port,
+    });
+
+    const players = `${numplayers}/${maxplayers}`;
+
+    return { name, players, map, stvPort: (raw as any).sourcetvport };
   }
 }

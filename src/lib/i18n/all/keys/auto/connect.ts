@@ -4,3 +4,6 @@ export const Description = T<string>("auto/connect:description");
 export const LinkDescription = T<string>("auto/connect:descriptionLink");
 export const Players = T<string>("auto/connect:players");
 export const Offline = T<string>("auto/connect:offline");
+
+export const JoinServerButton = T<string>("auto/connect:joinServerButton");
+export const JoinStvButton = T<string>("auto/connect:joinStvButton");

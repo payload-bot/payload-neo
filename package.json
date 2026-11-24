@@ -51,6 +51,7 @@
     "i18next": "^27.2.2"
   },
   "devDependencies": {
+    "@types/gamedig": "^5.0.3",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^26.6.6",
     "drizzle-kit": "1.0.0-rc.5",

@@ -1,2 +1,4 @@
 minimumReleaseAgeExclude:
   - '@hono/node-server@2.1.11'
+  - '@types/node@26.6.11'
+  - i18next@27.2.9

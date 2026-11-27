@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^2.1.11
-        version: 2.1.11(hono@4.13.22)
+        version: 2.1.11(hono@4.13.23)
       '@hono/standard-validator':
         specifier: ^0.4.1
-        version: 0.4.1(@standard-schema/spec@1.1.0)(hono@4.13.22)
+        version: 0.4.1(@standard-schema/spec@1.1.0)(hono@4.13.23)
       '@node-steam/id':
         specifier: ^1.2.0
         version: 1.2.0
@@ -87,14 +87,14 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       hono:
-        specifier: ^4.13.22
-        version: 4.13.22
+        specifier: ^4.13.23
+        version: 4.13.23
       html-to-text:
         specifier: ^10.0.1
         version: 10.0.1
       i18next:
-        specifier: ^27.2.9
-        version: 27.2.9(typescript@7.0.2)
+        specifier: ^27.2.10
+        version: 27.2.10(typescript@7.0.2)
     devDependencies:
       '@types/gamedig':
         specifier: ^5.0.3
@@ -798,8 +798,8 @@ packages:
     resolution: {integrity: sha512-XfBk1CxOOScDcMr9O1yKkNaQyy865NbYs+F7dr4H0LZMVgCj2Le59k6PqbNHoL5ToeaEQUYh6c6yMfVcc6SJxA==}
     engines: {node: '>=16'}
 
-  hono@4.13.22:
-    resolution: {integrity: sha512-wncKd5/40Pj8grx0RZ2fgNIicFEmVFwIHT5UFLTnphR8I6AQWFf9c2JoM6ZJ9g8y4pMzg3sNlCVNe0m2Yclg0Q==}
+  hono@4.13.23:
+    resolution: {integrity: sha512-OS90dj7dcsftEEWCOef8jRbnHE5lbrOq0hNRqjSyPsOnaGZvvfof1KS05hQNb4kUOCfDq1mG3PmHoX37DMnHQg==}
     engines: {node: '>=16.9.0'}
 
   html-to-text@10.0.1:
@@ -824,8 +824,8 @@ packages:
       typescript:
         optional: true
 
-  i18next@27.2.9:
-    resolution: {integrity: sha512-GOWWofCGYPSPEzUKJnRLJSoHrSUDa/NzYWqAOJJDZUaM7faLPd9VABlbHDZ+jv8uadu/fq1wsHFfZP6+0tFPkg==}
+  i18next@27.2.10:
+    resolution: {integrity: sha512-v2hQPOZ4yvfhK5CNyXevVjneTX85rDxgTKSV96tftmp89yrF1MEFIDV0i6jYKEnzR3lnWDe62HktDFy6624/UQ==}
     engines: {node: '>=22'}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
@@ -1104,14 +1104,14 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hono/node-server@2.1.11(hono@4.13.22)':
+  '@hono/node-server@2.1.11(hono@4.13.23)':
     dependencies:
-      hono: 4.13.22
+      hono: 4.13.23
 
-  '@hono/standard-validator@0.4.1(@standard-schema/spec@1.1.0)(hono@4.13.22)':
+  '@hono/standard-validator@0.4.1(@standard-schema/spec@1.1.0)(hono@4.13.23)':
     dependencies:
       '@standard-schema/spec': 1.1.0
-      hono: 4.13.22
+      hono: 4.13.23
 
   '@jsr/std__fmt@1.0.10': {}
 
@@ -1564,7 +1564,7 @@ snapshots:
       p-cancelable: 3.0.0
       responselike: 3.0.0
 
-  hono@4.13.22: {}
+  hono@4.13.23: {}
 
   html-to-text@10.0.1:
     dependencies:
@@ -1594,7 +1594,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  i18next@27.2.9(typescript@7.0.2):
+  i18next@27.2.10(typescript@7.0.2):
     optionalDependencies:
       typescript: 7.0.2
 
